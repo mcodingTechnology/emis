@@ -1,0 +1,162 @@
+<form buijs_formcheck>
+	<section class="bui_p_32 bui_row_p_24">
+
+		<div>
+			<com-title :title="hash.id?'编辑会员资料':'新增会员'"></com-title>
+		</div>
+		<div>
+			<div class="bui_bds_1 bui_bdc_silver_l bui_p_48 bui_fs_12 bui_media">
+				<div class="bui_row_p_24">
+					<!--头像-->
+					<div class="bui_col_12">
+						<com-img :src="formData.data.headimgurl" width="12rem" class="bui_radius bui_m_6_t"></com-img>
+					</div>
+					<!--头像-->
+
+					<!--姓名-->
+					<div class="bui_col_12">
+						<p>会员姓名：</p>
+						<div buijs_formcheck_type="length,1,999">
+							<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+								<input type="text" placeholder="请输入 会员姓名" v-model="formData.data.fullName" />
+							</div>
+						</div>
+					</div>
+					<!--姓名-->
+
+					<!--手机号码-->
+					<div class="bui_col_6_sm">
+						<p>手机号码</p>
+						<div buijs_formcheck_type="mobile">
+							<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+								<input type="text" placeholder="请输入 手机号码" v-model="formData.data.mobilePhone" />
+							</div>
+						</div>
+					</div>
+					<!--手机号码-->
+					<!--性别-->
+					<div class="bui_col_6_sm">
+						<p>性别</p>
+						<div buijs_formcheck_type="select">
+							<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+								<select v-model="formData.data.gender">
+									<option value="null" class="bui_fc_silver">未选择</option>
+									<option value="男">男</option>
+									<option value="女">女</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<!--性别-->
+
+					<!--所属地区-->
+					<div class="bui_col_12_sm">
+						<p>所在地区</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block" onclick="public.setRegion()">
+							<div class="bui_ipt_icon_r"><i class="bi bi_arrow_drop_down"></i></div>
+							<input type="text" placeholder="请选择所在地区" readonly="readonly" />
+						</div>
+					</div>
+					<!--所属地区-->
+
+					<!--所在省份-->
+					<div class="bui_col_4_sm">
+						<p>所在省份</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+							<input type="text" placeholder="请输入 所在省份" v-model="formData.data.regionProvince" />
+						</div>
+					</div>
+					<!--所在省份-->
+					<!--所在城市-->
+					<div class="bui_col_4_sm">
+						<p>所在城市</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+							<input type="text" placeholder="请输入 所在城市" v-model="formData.data.regionCity" />
+						</div>
+					</div>
+					<!--所在城市-->
+					<!--区/街道-->
+					<div class="bui_col_4_sm">
+						<p>区/街道</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+							<input type="text" placeholder="请输入 区/街道" v-model="formData.data.regionDistrict" />
+						</div>
+					</div>
+					<!--区/街道-->
+					<!--详细地址-->
+					<div class="bui_col_12_sm">
+						<p>详细地址</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+							<textarea placeholder="请输入 详细地址" v-model="formData.data.address" rows="4"></textarea>
+						</div>
+					</div>
+					<!--详细地址-->
+					<!--是否启用-->
+					<div class="bui_col_12_sm">
+						<p>是否启用</p>
+						<label class="bui_switch bui_m_6_t"><input type="checkbox" v-bind:true-value="1" v-bind:false-value="0" v-model="formData.data.isEnable" /></label>
+					</div>
+					<!--是否启用-->
+
+				</div>
+			</div>
+		</div>
+		<!--button-->
+		<div>
+			<div class="bui_inline bui_vm bui_ta_c">
+				<a href="javascript:window.history.go(-1);" class="bui_btn bui_btn_48 bui_bgc_silver"><i class="bi bi_navigate_before"></i>返回</a>
+				<button type="submit" class="bui_btn bui_btn_48 bui_bgc_turquoise"><i class="bi bi_save"></i> 保存</button>
+			</div>
+		</div>
+		<!--button-->
+
+	</section>
+</form>
+
+<script type="text/javascript">
+	if(vueData.hash.id) {
+		global_vueGetJson({
+			url: workSpace.jsonUrl + '/merriplusApi/getMemberDetail',
+			data: {
+				id: vueData.hash.id
+			},
+			vueName: 'formData'
+		});
+	} else {
+		vm.$set('formData', null);
+	};
+
+	buijs.formcheck.add($("[buijs_formcheck]"), {
+		error: function() {
+			buijs.alert.add({
+				boxClass: 'bui_bgc_red bui_fc_white',
+				content: '填写未完成'
+			})
+		},
+		success: function() {
+			var postUrl = '';
+			//编辑
+			if(vueData.hash.id) {
+				postUrl = workSpace.jsonUrl + '/member/service/edit'
+			}
+			//新增
+			else {
+				postUrl = workSpace.jsonUrl + '/member/service/create'
+			};
+			global_vuePostJson({
+				url: postUrl,
+				data: JSON.stringify(vueData.formData.data),
+				success: function(data) {
+					buijs.alert.add({
+						content: data.msg
+					});
+					if(data.status == '00') {
+						setTimeout(function() {
+							window.history.go(-1);
+						}, 300)
+					}
+				}
+			})
+		}
+	});
+</script>

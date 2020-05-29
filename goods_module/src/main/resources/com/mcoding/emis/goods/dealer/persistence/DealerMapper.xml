@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.dealer.persistence.DealerMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.dealer.bean.Dealer" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="dealerName" property="dealername" jdbcType="VARCHAR" />
+    <result column="dealerNo" property="dealerno" jdbcType="VARCHAR" />
+    <result column="dealerStoreName" property="dealerstorename" jdbcType="VARCHAR" />
+    <result column="dealerStoreUrl" property="dealerstoreurl" jdbcType="VARCHAR" />
+    <result column="brandCode" property="brandcode" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, dealerName, dealerNo, dealerStoreName, dealerStoreUrl, brandCode, createTime, 
+    updateTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.dealer.bean.DealerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from dealer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from dealer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dealer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.goods.dealer.bean.DealerExample" >
+    delete from dealer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.dealer.bean.Dealer" >
+    insert into dealer (id, dealerName, dealerNo, 
+      dealerStoreName, dealerStoreUrl, brandCode, 
+      createTime, updateTime)
+    values (#{id,jdbcType=INTEGER}, #{dealername,jdbcType=VARCHAR}, #{dealerno,jdbcType=VARCHAR}, 
+      #{dealerstorename,jdbcType=VARCHAR}, #{dealerstoreurl,jdbcType=VARCHAR}, #{brandcode,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.dealer.bean.Dealer" >
+    insert into dealer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dealername != null" >
+        dealerName,
+      </if>
+      <if test="dealerno != null" >
+        dealerNo,
+      </if>
+      <if test="dealerstorename != null" >
+        dealerStoreName,
+      </if>
+      <if test="dealerstoreurl != null" >
+        dealerStoreUrl,
+      </if>
+      <if test="brandcode != null" >
+        brandCode,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dealername != null" >
+        #{dealername,jdbcType=VARCHAR},
+      </if>
+      <if test="dealerno != null" >
+        #{dealerno,jdbcType=VARCHAR},
+      </if>
+      <if test="dealerstorename != null" >
+        #{dealerstorename,jdbcType=VARCHAR},
+      </if>
+      <if test="dealerstoreurl != null" >
+        #{dealerstoreurl,jdbcType=VARCHAR},
+      </if>
+      <if test="brandcode != null" >
+        #{brandcode,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.goods.dealer.bean.DealerExample" resultType="java.lang.Integer" >
+    select count(*) from dealer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update dealer
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dealername != null" >
+        dealerName = #{record.dealername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dealerno != null" >
+        dealerNo = #{record.dealerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dealerstorename != null" >
+        dealerStoreName = #{record.dealerstorename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dealerstoreurl != null" >
+        dealerStoreUrl = #{record.dealerstoreurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brandcode != null" >
+        brandCode = #{record.brandcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null" >
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update dealer
+    set id = #{record.id,jdbcType=INTEGER},
+      dealerName = #{record.dealername,jdbcType=VARCHAR},
+      dealerNo = #{record.dealerno,jdbcType=VARCHAR},
+      dealerStoreName = #{record.dealerstorename,jdbcType=VARCHAR},
+      dealerStoreUrl = #{record.dealerstoreurl,jdbcType=VARCHAR},
+      brandCode = #{record.brandcode,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.dealer.bean.Dealer" >
+    update dealer
+    <set >
+      <if test="dealername != null" >
+        dealerName = #{dealername,jdbcType=VARCHAR},
+      </if>
+      <if test="dealerno != null" >
+        dealerNo = #{dealerno,jdbcType=VARCHAR},
+      </if>
+      <if test="dealerstorename != null" >
+        dealerStoreName = #{dealerstorename,jdbcType=VARCHAR},
+      </if>
+      <if test="dealerstoreurl != null" >
+        dealerStoreUrl = #{dealerstoreurl,jdbcType=VARCHAR},
+      </if>
+      <if test="brandcode != null" >
+        brandCode = #{brandcode,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.dealer.bean.Dealer" >
+    update dealer
+    set dealerName = #{dealername,jdbcType=VARCHAR},
+      dealerNo = #{dealerno,jdbcType=VARCHAR},
+      dealerStoreName = #{dealerstorename,jdbcType=VARCHAR},
+      dealerStoreUrl = #{dealerstoreurl,jdbcType=VARCHAR},
+      brandCode = #{brandcode,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 非自动生成 -->
+  
+  <!-- 经销商列表查询 自动数据分页，必须以byPage结尾-->
+  <select id="queryDealerByPage" parameterType="map" resultType="com.mcoding.emis.goods.dealer.bean.Dealer">
+        select * from dealer
+        <!-- <trim prefix="where" suffix=" " suffixOverrides="and" >
+	        <if test="questionTitle != null and questionTitle != ''">
+	        	questionTitle =#{questionTitle} and
+	        </if>
+        </trim> -->
+        ORDER BY id DESC
+   </select>
+</mapper>

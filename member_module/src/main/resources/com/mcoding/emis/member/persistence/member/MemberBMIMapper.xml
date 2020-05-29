@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.member.persistence.member.MemberBMIMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.member.bean.member.MemberBMI" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="form_id" property="formId" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="VARCHAR" />
+    <result column="height" property="height" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="sport_type" property="sportType" jdbcType="VARCHAR" />
+    <result column="wrist_circumference" property="wristCircumference" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, form_id, openid, age, height, weight, gender, sport_type, wrist_circumference, 
+    create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.member.bean.member.MemberBMIExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from mr_member_bmi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from mr_member_bmi
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mr_member_bmi
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.member.bean.member.MemberBMIExample" >
+    delete from mr_member_bmi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.member.bean.member.MemberBMI" useGeneratedKeys="true" keyProperty="id" >
+    insert into mr_member_bmi (form_id, openid, age, 
+      height, weight, gender, 
+      sport_type, wrist_circumference, create_time
+      )
+    values (#{formId,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, 
+      #{height,jdbcType=VARCHAR}, #{weight,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{sportType,jdbcType=VARCHAR}, #{wristCircumference,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.member.bean.member.MemberBMI" useGeneratedKeys="true" keyProperty="id" >
+    insert into mr_member_bmi
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="formId != null" >
+        form_id,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="sportType != null" >
+        sport_type,
+      </if>
+      <if test="wristCircumference != null" >
+        wrist_circumference,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="formId != null" >
+        #{formId,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="sportType != null" >
+        #{sportType,jdbcType=VARCHAR},
+      </if>
+      <if test="wristCircumference != null" >
+        #{wristCircumference,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.member.bean.member.MemberBMIExample" resultType="java.lang.Integer" >
+    select count(*) from mr_member_bmi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update mr_member_bmi
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.formId != null" >
+        form_id = #{record.formId,jdbcType=INTEGER},
+      </if>
+      <if test="record.openid != null" >
+        openid = #{record.openid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null" >
+        age = #{record.age,jdbcType=VARCHAR},
+      </if>
+      <if test="record.height != null" >
+        height = #{record.height,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null" >
+        weight = #{record.weight,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sportType != null" >
+        sport_type = #{record.sportType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wristCircumference != null" >
+        wrist_circumference = #{record.wristCircumference,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update mr_member_bmi
+    set id = #{record.id,jdbcType=INTEGER},
+      form_id = #{record.formId,jdbcType=INTEGER},
+      openid = #{record.openid,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=VARCHAR},
+      height = #{record.height,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=VARCHAR},
+      sport_type = #{record.sportType,jdbcType=VARCHAR},
+      wrist_circumference = #{record.wristCircumference,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.member.bean.member.MemberBMI" >
+    update mr_member_bmi
+    <set >
+      <if test="formId != null" >
+        form_id = #{formId,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="sportType != null" >
+        sport_type = #{sportType,jdbcType=VARCHAR},
+      </if>
+      <if test="wristCircumference != null" >
+        wrist_circumference = #{wristCircumference,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.member.bean.member.MemberBMI" >
+    update mr_member_bmi
+    set form_id = #{formId,jdbcType=INTEGER},
+      openid = #{openid,jdbcType=VARCHAR},
+      age = #{age,jdbcType=VARCHAR},
+      height = #{height,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      sport_type = #{sportType,jdbcType=VARCHAR},
+      wrist_circumference = #{wristCircumference,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleByPage" resultMap="BaseResultMap" parameterType="com.mcoding.emis.member.bean.member.MemberBMIExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from mr_member_bmi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>营养冷知识 - 极智构</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../baidiui/css/baidiui.css" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script type="text/javascript" src="../baidiui/js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="../baidiui/js/baidiui.js"></script>
+
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js">
+		</script>
+		<script type="text/javascript" src="public.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$.getJSON(url + "merriplusApi/checkMemberResult.html?gameid=" + _gameid, function(data) {
+					if (data.data == null) {
+					} else {
+						var _islottery = data.data.islottery;
+						var _subscribe = data.data.subscribe;
+						//判断是否可抽奖
+						$('.btn_1').addClass('active');//comment.html?gameid=1
+						$('.btn_1').click(function() {
+							window.location.href = 'comment.html?gameid='+_gameid;
+						});	
+						if (_islottery == null || _islottery == 0) {
+						} else {
+							$('.btn_2').addClass('active');
+							//判断是否关注
+							$('.btn_2').click(function() {
+								if (_subscribe == 1) {
+									window.location.href = 'shake.html?gameid='+_gameid;
+								} else {
+									wm_alert_show('follow');
+								}
+							});
+						}
+					}
+				});
+			});
+			 //弹出弹窗
+			function wm_alert_show(id) {
+				$('.wm_alert').show(0, function() {
+					_id = $(this).find('#' + id).show();
+					$(this).addClass('active');
+					//关闭弹窗
+					$('.wm_alert .wm_mask').click(function() {
+						$('.wm_alert').removeClass('active');
+						setTimeout(function() {
+							$('.wm_alert,.wm_mask > *').hide();
+						}, 300);
+					});
+				});
+			};
+		</script>
+
+	</head>
+
+	<body class="wm_index_body wm_index_bg">
+		<div class="wm_index_btn">
+			<li><a href="javascript:;" class="btn_1 active"><i>开始答题</i></a></li>
+			<li><a href="javascript:;" class="btn_2"><i>中奖信息</i></a></li>
+		</div>
+		<!--提示关注/分享-->
+		<div class="wm_alert" id="wm_complete_mask">
+			<div class="wm_mask">
+				<div style="padding: 48px; color: #fff; display: none;" id="follow">
+					<img src="images/code.jpg" style="width: 100%; height: auto;" />
+					<p style="font-size: 18px;">啊？原来你还没关注我们？</p>
+					<p style="font-size: 14px; opacity: 0.72; margin-top: 12px;">长按二维码（或搜索“极智构”）加关注，抽奖机会马上到手！</p>
+				</div>
+				<div style="padding: 6px; color: #fff; display: none;" id="share">
+					<img src="images/share.png" style="width: 100%;" />
+				</div>
+			</div>
+		</div>
+		<!--提示关注/分享-->
+	</body>
+
+</html>

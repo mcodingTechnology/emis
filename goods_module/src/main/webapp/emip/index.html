@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>佰悦企业信息系统 - EMIP</title>
+		<script src="js/workSpace.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="bui_wrap">
+			<!--页头-->
+			<header class="bui_bgc_turquoise bui_fc_white bui_fc_white_a bui_media bui_vm" id="header">
+				<div class="bui_media_l">
+					<div class="bui_p_12_lr bui_inline bui_vm"> <i class="bi bi_camera bui_fs_48"></i>
+						<p class="bui_fs_16">佰悦EMIP系统 </p>
+					</div>
+				</div>
+				<div class="bui_media_b"></div>
+				<div class="bui_media_r">
+					<div class="bui_inline bui_p_12_lr">
+						<a href="javascript:;" class="bui_btn bui_btn_48 bui_btn_sq">
+							<i class="bi bi_account_circle"></i>
+						</a>
+						<a href="javascript:;" class="bui_btn bui_btn_48 bui_btn_sq">
+							<i class="bi bi_chat"></i>
+						</a>
+						<a href="javascript:;" class="bui_btn bui_btn_48 bui_btn_sq">
+							<i class="bi bi_power_settings_new"></i>
+						</a>
+						<a href="javascript:index.showJson();" class="bui_btn bui_btn_48 bui_btn_sq">
+							<i class="bi bi_code"></i>
+						</a>
+					</div>
+				</div>
+			</header>
+			<!--页头-->
+			<!--页面-->
+			<div style="height: {{index.bodyHeight}}px;" class="bui_media">
+				<!--左侧菜单-->
+				<div class="bui_media_l bui_p_0 bui_at_noline bui_bgc_silver_l bui_bds_1_r bui_bdc_silver_f bui_fc_black_a">
+					<div data-buijs_scrollbar id="side" style="width: 16rem;height:100%;overflow: hidden;">
+						<div bui_accordion id="sideNav">
+
+							<template v-if="sideNavData[0].children">
+								<div bui_accordion_item v-for="top in sideNavData[0].children" class="bui_bds_1_b bui_bdc_silver_f bui_bgc_white_f_h" :class="hash.menuCode == top.menuCode?'bui_bgc_white_f active':''">
+									<!--一级菜单-->
+									<a :href="top.menuURL!='#'?'#menuCode='+top.menuCode+'#menuURL='+top.menuURL.split('/')[0]:'javascript:;'" bui_accordion_item_title class="bui_p_12 bui_media bui_fc_black_a">
+										<div class="bui_media_l">
+											<i class="bi bi_view_agenda" :class="hash.menuCode == top.menuCode?'bui_fc_turquoise':'bui_fc_silver_d'"></i>
+										</div>
+										<div class="bui_media_b">
+											<p class="bui_fs_16">{{top.menuName}}</p>
+										</div>
+										<div class="bui_media_r">
+											<i class="bi bi_navigate_next"></i>
+										</div>
+									</a>
+									<!--一级菜单-->
+									<!--二级菜单-->
+									<div bui_accordion_item_content v-if="top.children.length>0">
+										<template v-for="small in top.children">
+											<a href="#menuCode={{top.menuCode}}#menuURL={{small.menuURL.split('/')[0]}}" class="bui_p_48_l bui_p_12 bui_media bui_bgc_white_f_h bui_fc_turquoise_h" :class="small.menuURL.split('/')[0] == hash.menuURL?'bui_fc_turquoise':''">
+
+												<div class="bui_media_b bui_fs_14">{{small.menuName}}</div>
+											</a>
+										</template>
+
+									</div>
+									<!--二级菜单-->
+								</div>
+							</template>
+						</div>
+					</div>
+
+				</div>
+				<!--左侧菜单-->
+
+				<div class="bui_media_b bui_bgc_white">
+					<!--路径-->
+					<div class="bui_bds_1_b bui_bdc_silver_l bui_fs_12 bui_fc_black_a bui_fc_turquoise_a" id="pagePosition">
+						<div class="bui_p_12">
+							<div class="bui_row_p_6 bui_inline bui_vm">
+								<p><i class="bi bi_label"></i></p>
+								<p>
+									<a href="#menuCode=index#menuURL=main.html">首页</a>
+								</p>
+								<template v-for="top in sideNavData[0].children" v-if="top.menuCode==hash.menuCode">
+									<p>
+										<i class="bi bi_navigate_next"></i>
+									</p>
+									<p>
+										{{top.menuName}}
+									</p>
+
+									<template v-if="top.children.length>0" v-for="small in top.children">
+										<template v-if="small.menuURL.split('/')[0] == hash.menuURL">
+											<p>
+												<i class="bi bi_navigate_next"></i>
+											</p>
+											<p>
+												{{small.menuName}}
+											</p>
+										</template>
+									</template>
+								</template>
+
+							</div>
+						</div>
+					</div>
+					<!--路径-->
+					<!--主体内容-->
+					<div style="position: relative;overflow-y:auto;overflow-x:hidden;height: {{index.bodyHeight-index.positionHeight}}px;" id="pageHtml">
+
+					</div>
+					<!--主体内容-->
+				</div>
+				<div id="json" class="bui_media_r bui_bgc_silver_l bui_bds_1_l">
+					<div class="bui_p_12 bui_fs_12" style="width:24rem;height: 100%;overflow: hidden;overflow-y: auto;">
+						<pre v-if="tableData">{{hash|json}}</pre>
+						<pre v-if="tableData">{{tableData|json}}</pre>
+						<pre v-if="formData">{{formData|json}}</pre>
+					</div>
+				</div>
+			</div>
+			<!--页面-->
+			<!--页脚-->
+			<footer class="bui_bgc_turquoise bui_fc_white" id="footer">
+				<div class="bui_p_12 bui_fs_12">
+					版权所有 广东佰悦网络科技有限公司 © Copyright 2017 byeond. All Rights Reserved.
+				</div>
+			</footer>
+			<!--页脚-->
+
+		</div>
+	</body>
+	<script type="text/javascript">
+		buijs.ready(function() {
+			//根据hash读取页面
+			index.getHash();
+
+			//高度响应
+			index.autoHeight();
+
+			//获取菜单
+			global_vuePostJson({
+				url: workSpace.jsonUrl + 'queryMenuTreeData',
+				vueName: 'sideNavData',
+				error: function() {
+					window.location.href = 'login.html'
+				},
+				success: function(data) {
+					if(data.length == 0 || data.status) {
+						window.location.href = 'login.html'
+					} else {
+						setTimeout(function() {
+							//菜单手风琴
+							buijs.accordion.add($("#sideNav"));
+							//菜单虚拟滚动条
+							buijs.scrollbar.set($("#side"));
+							setTimeout(function() {
+								$("#side [buijs-scrollbar-box]").animate({
+									'scrollTop': $("#side .active").offset().top - $("#sideNav").offset().top
+								})
+							}, 300);
+						}, 0);
+					}
+				}
+			});
+		});
+
+		$(window).resize(function() {
+			//高度响应
+			index.autoHeight();
+			return false;
+		});
+
+		window.onhashchange = function() {
+			index.getHash();
+			return false;
+		};
+
+		var index = {
+			getHash: function() {
+				//清理页面弹窗
+				$("[bui_modal]").remove();
+				$("[bui_modal_mask]").remove();
+				//清理数据
+				tablePublic.clearData();
+				buijs.hash.get(function(data) {
+					vm.$set('hash', data);
+					setTimeout(function() {
+						buijs.accordion.add($("#sideNav"));
+						$("#side [buijs-scrollbar-box]").animate({
+							'scrollTop': $("#side .active").offset().top - $("#sideNav").offset().top
+						})
+					}, 300);
+					buijs.ajax.get({
+						url: vueData.hash.menuURL,
+						beforeSend: function(data) {
+							$("#pageHtml").html('<div class="bui_p_64 bui_ta_c bui_fc_silver"><i class="fa fa-circle-o-notch fa-spin bui_fs_64"></i><p class="bui_m_12_t bui_fs_24">loading</p></div>');
+							return false;
+						},
+						error: function(data) {
+							setTimeout(function() {
+								$("#pageHtml").html('<div class="bui_p_64 bui_ta_c bui_fc_silver"><i class="fa fa-unlink bui_fs_64"></i><p class="bui_m_12_t bui_fs_24">not found</p></div>');
+								return false;
+							}, 300);
+						},
+						success: function(data) {
+							setTimeout(function() {
+								$("#pageHtml").html(data);
+								//时间日期插件
+								buijs.datetimepicker.set($("[buijs-datetimepicker]"));
+								public_vue();
+								return false;
+							}, 300)
+						},
+						complete: function() {}
+					});
+				});
+
+			},
+			autoHeight: function() {
+				vm.$set('index', {
+					bodyHeight: $(window).height() - $("header").height() - $('footer').height(),
+					contentWidth: $(window).width() - $("#side").width(),
+					positionHeight: $("#pagePosition").height()
+				});
+			},
+			showJson: function() {
+				$("#json").toggle();
+			}
+		}
+	</script>
+
+</html>

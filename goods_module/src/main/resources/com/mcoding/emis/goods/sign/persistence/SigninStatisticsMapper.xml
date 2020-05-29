@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.sign.persistence.SigninStatisticsMapper" >
+  <select id="selectByPrimaryKey" resultType="com.mcoding.emis.goods.sign.bean.SigninStatistics" parameterType="java.lang.Integer" >
+    select *
+    from signin_statistics
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getLatelyRecodeByOpenid" resultType="com.mcoding.emis.goods.sign.bean.SigninStatistics" parameterType="string" >
+     SELECT * from signin_statistics 
+     where openid = #{openid,jdbcType=VARCHAR}  order by updateTime desc LIMIT 0,1
+  </select>
+  <select id="queryAllMemberSigninByPage" parameterType="map" resultType="com.mcoding.emis.goods.sign.bean.SigninStatistics">
+        select * from signin_statistics
+        <trim prefix="where" suffix=" " suffixOverrides="and" >
+	        <if test="openid != null and openid != ''">
+	        	openid =#{openid} and
+	        </if>
+            <if test="memberName != null and memberName != ''">
+                memberName like '%${memberName}%' and
+            </if>
+	        <if test="signnum != null">
+	        	signnum >=#{signnum} and
+	        </if>
+        </trim>
+        ORDER BY id DESC
+    </select>
+  <select id="countIntegralByOpenid" resultType="java.lang.Integer" parameterType="string" >
+     SELECT sum(signIntegralSum) allSignintegralsum 
+     from signin_statistics where openid = #{openid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from signin_statistics
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByParam" parameterType="map" >
+    delete from signin_statistics
+    where openid = '${openid}' and updateTime BETWEEN  '${starttime}' AND  '${endtime}'
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.sign.bean.SigninStatistics"  useGeneratedKeys="true" keyProperty="id">
+    insert into signin_statistics (id, openid, memberName, 
+      memberId, signNum, signIntegralSum, 
+      createTime, updateTime, brandCode
+      )
+    values (#{id,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{membername,jdbcType=VARCHAR}, 
+      #{memberid,jdbcType=INTEGER}, #{signnum,jdbcType=INTEGER}, #{signintegralsum,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=DATE}, #{updatetime,jdbcType=DATE}, #{brandcode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.sign.bean.SigninStatistics"  useGeneratedKeys="true" keyProperty="id">
+    insert into signin_statistics
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="membername != null" >
+        memberName,
+      </if>
+      <if test="memberid != null" >
+        memberId,
+      </if>
+      <if test="signnum != null" >
+        signNum,
+      </if>
+      <if test="signintegralsum != null" >
+        signIntegralSum,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+      <if test="brandcode != null" >
+        brandCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="membername != null" >
+        #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="signnum != null" >
+        #{signnum,jdbcType=INTEGER},
+      </if>
+      <if test="signintegralsum != null" >
+        #{signintegralsum,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=DATE},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=DATE},
+      </if>
+      <if test="brandcode != null" >
+        #{brandcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.sign.bean.SigninStatistics" >
+    update signin_statistics
+    <set >
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="membername != null" >
+        memberName = #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        memberId = #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="signnum != null" >
+        signNum = #{signnum,jdbcType=INTEGER},
+      </if>
+      <if test="signintegralsum != null" >
+        signIntegralSum = #{signintegralsum,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=DATE},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=DATE},
+      </if>
+      <if test="brandcode != null" >
+        brandCode = #{brandcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.sign.bean.SigninStatistics" >
+    update signin_statistics
+    set openid = #{openid,jdbcType=VARCHAR},
+      memberName = #{membername,jdbcType=VARCHAR},
+      memberId = #{memberid,jdbcType=INTEGER},
+      signNum = #{signnum,jdbcType=INTEGER},
+      signIntegralSum = #{signintegralsum,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=DATE},
+      updateTime = #{updatetime,jdbcType=DATE},
+      brandCode = #{brandcode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

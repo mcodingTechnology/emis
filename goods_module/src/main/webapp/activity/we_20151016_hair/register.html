@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="workspace.js"></script>
+		<script type="text/javascript" src="register.js"></script>
+		<script type="text/javascript" src="../baidiui/js/laydate.js"></script>
+
+		<title>注册</title>
+	</head>
+	<body class="bui_at_noline">
+		<!--登录界面-->
+		
+		<!--登录界面-->
+		<!--登记界面-->
+		<div class="bui_wrap" style="" id="register">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_media bui_vm bui_tc_white bui_atc_white bui_fac_white">
+					<div class="bui_media_l bui_p_0">
+						<a href="javascript:history.go(-1);" class="bui_btn_32 bui_btnsq bui_m_8 bui_bgc_black_64 bui_round"><i class="fa fa-angle-left "></i></a>
+					</div>
+					<div class="bui_media_b">
+					</div>
+				</div>
+				<!--页头-->
+				<!--主体-->
+				<div class="bui_mo_b">
+					<div class="content">
+						<!--必填-->
+						<div class="logoPict">
+							<p>必填信息</p>
+						</div>
+						<div class="commonBox border_register">
+							<input type="text" id="name" placeholder="请输入姓名"/>
+						</div>
+						<div class="commonBox border_register">
+							<input id="number" maxlength="11" placeholder="手机号码" type="tel"  style="padding-left: 5px;" />
+                			<span  class="validate_num_btn">获取验证码</span>
+						</div>
+						<div class="commonBox border_register">
+							<li style="position: relative" id="validate_number_li">
+					            <span style="display: inline-block;">
+					                <input type="tel" id="validate_number" maxLength="6" placeholder="验证码" style="padding-left: 5px;"/>
+					            </span>
+					        </li>
+						</div>
+						<div class="">
+							<li style="position: relative;text-align: center" id="validate_number_li">
+					            <span style="display: inline-block;font-size: 12px;color: red">
+					            	没收到验证码？ 请联系微信客服
+					            </span>
+					        </li>
+						</div>
+						<!--必填-->
+						<!--选填-->
+						<div class="blank">
+							<p>选填信息</p>
+						</div>
+						<div class="commonBox border_register">
+							<span>性别</span>
+							<p class="commonBox-right sex">
+								<span class="sexSelect" id="boy"><i class="fa fa-mars"></i> 男</span>
+								<span class="sexSelect" id="girl"><i class="fa fa-venus"></i> 女</span>
+							</p>
+						</div>
+						<div class="commonBox border_register r" id="number1" >
+							<span>身高(cm)</span>
+							<input type="tel" type="text" id="height" maxlength="5" />
+						</div>
+						<div class="commonBox border_register r" id="number2">
+							<span>体重(kg)</span>
+							<input type="tel" type="text" id="weight" maxlength="5"/>
+						</div>
+						<div class="commonBox r demo1" id="number3">
+							<span>生日</span>
+							<input  type="date"  id="birthday" placeholder="格式：yyyy-mm-dd" maxlength="10"/>
+						</div>
+						<!--选填-->
+					</div>
+					<div class="floor">
+						<div class="submit">提交</div>
+					</div>
+					<div class="loading" style="display:none">
+						<p><i class="fa fa-spinner fa-spin"></i></p>
+					</div>
+				</div>
+				<!--主体-->
+			</div>
+		</div>
+		<!--登记界面-->
+	</body>
+</html>

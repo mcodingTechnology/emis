@@ -1,0 +1,192 @@
+<div class="bui_wrap bui_tc_black bui_tc_black_a">
+	<!--页头-->
+	<div class="bui_mo_h">
+		<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:buijs_modal_close('modal_cart');" righticon="fa-trash-o" rightlink="javascript:cart_removeCart();" :title="'我的'+ modalCartData.cartType"></tp-header>
+	</div>
+	<!--页头-->
+	<!--购物车无商品-->
+	<div class="bui_mo_b bui_mo_b_h" v-if="modalCartData.cartData.length==0">
+		<tp-emptypage></tp-emptypage>
+	</div>
+	<!--购物车无商品-->
+	<!--购物车有商品-->
+	<template v-if="modalCartData.cartData.length>0">
+		<!--页面-->
+		<div class="bui_mo_b bui_mo_b_h bui_mo_b_f bui_ts_14">
+			<div class="bui_p_12">
+				<div class="bui_row_p_12">
+					<div v-for="data in modalCartData.cartData">
+						<div class="bui_media bui_vt bui_bgc_white bui_p_12">
+							<div class="bui_media_l">
+								<tp-img :src="data.productImg" width="4rem" height="4rem"></tp-img>
+							</div>
+							<div class="bui_media_b">
+								<p>{{data.productName||'null'}}</p>
+								<!--积分商城兑换价格-->
+								<p class="bui_ts_12 bui_tc_white_d64">
+									<!--购买-->
+									<template v-if="data.type==0">
+										{{data.product.priceList.length!=0?data.product.priceList[0].sceneName:'无价格'}}：<span class="bui_tc_red">￥{{data.product.priceList.length!=0?data.product.priceList[0].value/100:0}}</span></template>
+									<!--购买-->
+									<!--积分兑换-->
+									<template v-if="data.type==1">
+										积分：<span class="bui_tc_red">{{data.product.priceList[0].productPoint.exchangePoint}}</span>
+									</template>
+									<!--积分兑换-->
+									<!--j加钱购-->
+									<template v-if="data.type==2">
+										积分：<span class="bui_tc_red">{{data.product.priceList[0].productPoint.plusPricePoint}}</span>+<span class="bui_tc_red">￥{{data.product.priceList[0].value/100}}</span>
+									</template>
+									<!--j加钱购-->
+								</p>
+								<!--积分商城兑换价格-->
+								<hr class="bui_mtb_6" />
+								<div class="bui_ta_r">
+									<button class="bui_btn bui_btn_sq" v-on:click="data.nums>1?data.nums--:'';" onclick="setTimeout(function(){cart_total()},0)"><i class="fa fa-minus"></i></button>
+									<input type="tel" v-model="data.nums" size="3" class="bui_ipt_32 bui_plr_6 bui_ta_c" v-on:input="data.nums<1?data.nums=1:data.nums>999?data.nums=999:null" oninput="this.value = this.value.replace(/\D/g,'');" onkeydown="setTimeout(function(){cart_total()},0)" />
+									<button class="bui_btn bui_btn_sq" v-on:click="data.nums<999?data.nums++:''" onclick="setTimeout(function(){cart_total()},0)"><i class="fa fa-plus"></i></button>
+
+									<button class="bui_btn bui_bgc_red bui_btn_sq" onclick="cart_removeCart({{data.id}})"><i class="fa fa-trash-o"></i></button>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--页面-->
+		<!--页脚-->
+		<div class="bui_mo_f bui_bgc_white bui_bds_1_t">
+			<div class="bui_p_8">
+				<div class="bui_media bui_vm">
+					<div class="bui_media_l">
+						<div class="bui_ts_12 bui_tc_white_d64 bui_ta_c bui_plr_24">
+							<p>共<span class="bui_tc_red">{{modalCartData.cartTotal.num}}</span>件商品</p>
+							<p>合计：
+								<template v-if="modalCartData.cartTotal.point">
+									<span class="bui_tc_red">{{modalCartData.cartTotal.point}}积分</span> +
+								</template>
+								<span class="bui_tc_red">￥{{modalCartData.cartTotal.price/100||0}}</span>
+							</p>
+						</div>
+
+					</div>
+					<div class="bui_media_b"><button class="bui_btn_48 bui_ts_16 bui_tc_white bui_bgc_red bui_block" onclick="cartUpdataAndBuy()"><i class="fa fa-rmb fa-fw"></i> 结算</button></div>
+				</div>
+			</div>
+		</div>
+		<!--页脚-->
+	</template>
+	<!--购物车有商品-->
+
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		global_vue({
+			data: vueData
+		});
+		//更新购物车信息
+		global_checkCart(function() {
+			cart_buyOrexchange();
+			cart_total();
+		});
+	});
+
+	//判断购物车,礼品车
+	function cart_buyOrexchange() {
+		vm.$set('modalCartData.cartType', $("#modal_cart").attr('prop'));
+		if(vueData.modalCartData.cartType == '购物车') {
+			vm.$set('modalCartData.cartData', vueData.global.cartData.product.data)
+		} else if(vueData.modalCartData.cartType == '礼品车') {
+			vm.$set('modalCartData.cartData', vueData.global.cartData.gift.data)
+		}
+
+	}
+
+	//数据统计
+	function cart_total() {
+		vm.$set('modalCartData.cartTotal.num', 0);
+		vm.$set('modalCartData.cartTotal.point', 0);
+		vm.$set('modalCartData.cartTotal.price', 0);
+		var num = 0,
+			price = 0,
+			point = 0
+		$.map(vueData.modalCartData.cartData, function(data) {
+			num += Number(data.nums ? data.nums : 0);
+			if(data.type == 0 || data.type == 2) {
+				price += Number(data.nums ? data.nums : 0) * Number(data.product.priceList.length != 0 ? data.product.priceList[0].value : 0);
+			}
+
+			if(data.type == 1) {
+				point += Number(data.nums ? data.nums : 0) * Number(data.product.priceList.length != 0 ? data.product.priceList[0].productPoint.exchangePoint : 0);
+			} else if(data.type == 2) {
+				point += Number(data.nums ? data.nums : 0) * Number(data.product.priceList.length != 0 ? data.product.priceList[0].productPoint.plusPricePoint : 0);
+			}
+		});
+		vm.$set('modalCartData.cartTotal.num', Number(num));
+		vm.$set('modalCartData.cartTotal.price', Number(price));
+		vm.$set('modalCartData.cartTotal.point', Number(point));
+	};
+
+	//删除购物车
+	function cart_removeCart(cartid) {
+		var _tips;
+		//删除单个产品
+		if(cartid) {
+			_tips = '<div class="bui_ta_c bui_p_24">是否删除该商品？</div>'
+		}
+		//清空购物车
+		else {
+			_tips = '<div class="bui_ta_c bui_p_24">是否清空购物车？</div>'
+		};
+		global_intercept(null, _tips, function() {
+			buijs_mask({
+				type: 'loadingFull'
+			});
+			global_vueGetJson({
+				url: workSpace.jsonUrl + '/shoppingCart/front/deleteById',
+				data: {
+					ids: cartid || 0,
+					sceneCode: vueData.modalCartData.cartType == '购物车' ? 'metrxmall' : vueData.modalCartData.cartType == '礼品车' ? 'metrxgiftmall' : null
+				},
+				success: function() {
+					buijs_mask_close();
+					//更新购物车信息
+					global_checkCart(function() {
+						cart_buyOrexchange();
+						cart_total();
+					});
+				}
+			})
+		});
+	};
+
+	//更新购物车并结算
+	function cartUpdataAndBuy() {
+		global_vuePostJson({
+			url: workSpace.jsonUrl + '/shoppingCart/front/updateAll',
+			data: vueData.modalCartData.cartData,
+			beforeSend: function(data) {
+				buijs_mask({
+					type: 'loading'
+				})
+			},
+			complete: function(data) {
+				buijs_mask_close();
+			},
+			success: function(data) {
+				buijs_alert({
+					content: data.msg
+				});
+				if(data.status == '00') {
+
+					window.location.href = 'order_add.html?urlJson=' + JSON.stringify({
+						type: 'cart',
+						sceneCode: vueData.modalCartData.cartType == '购物车' ? 'metrxmall' : vueData.modalCartData.cartType == '礼品车' ? 'metrxgiftmall' : null
+					});
+				};
+			}
+		})
+	}
+</script>

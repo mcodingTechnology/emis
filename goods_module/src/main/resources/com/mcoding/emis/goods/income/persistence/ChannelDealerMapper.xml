@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.mcoding.emis.goods.income.persistence.ChannelDealerMapper" >
+	 
+	  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.income.bean.ChannelDealer" >
+		    <id column="id" property="id" jdbcType="INTEGER" />
+		    <result column="dealer_name" property="dealerName" jdbcType="VARCHAR" />
+		    <result column="dealer_state" property="dealerState" jdbcType="VARCHAR" />
+		    <result column="dealer_type" property="dealerType" jdbcType="VARCHAR" />
+		    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+		     <result column="member_id" property="memberId" jdbcType="INTEGER" />
+	  </resultMap>
+ 
+ 
+	<!-- 非自动生成 -->
+	<!-- 自动数据分页，必须以ByPage结尾 -->
+   <select id="queryChannelListByPage" parameterType="map" resultMap="BaseResultMap">
+  		select * from t_channel_dealer t inner join mr_member m on t.member_id = m.memberid where  
+      	 t.dealer_state!="x"  
+      	  <if test="dealerName != null and dealerName != ''">
+      	 	and t.dealer_name like #{dealerName}
+      	 </if>
+       ORDER BY t.id DESC 
+  </select>
+  
+  
+  
+  
+   <insert id="addChannel" parameterType="com.mcoding.emis.goods.income.bean.ChannelDealer" >
+       insert into t_channel_dealer (dealer_name,dealer_state,dealer_type,create_time,last_update_time,member_id)
+   	  values (#{dealerName,jdbcType=VARCHAR},#{dealerState,jdbcType=VARCHAR},#{dealerType,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{lastUpdateTime,jdbcType=TIMESTAMP},#{memberId,jdbcType=INTEGER})
+  </insert>
+  
+  
+  <!-- 根据id查询标签 -->
+  <select id="selectChannelById"  parameterType="java.lang.Integer" resultType="com.mcoding.emis.goods.income.bean.ChannelDealer">
+      select 
+       id as id,
+       dealer_name as dealerName,
+       dealer_state as dealerState,
+       dealer_type as dealerType,
+       create_time as createTime,
+       last_update_time as lastUpdateTime
+       from t_channel_dealer where id = #{id,jdbcType=INTEGER}
+       
+  </select>
+  
+  
+  <update id="updateChannel" parameterType="com.mcoding.emis.goods.income.bean.ChannelDealer" >
+	    update t_channel_dealer
+		    <set >
+		      <if test="dealerName != null" >
+		        dealer_name = #{dealerName,jdbcType=VARCHAR},
+		      </if>
+		      
+		      <if test="dealerState != null" >
+		        dealer_state = #{dealerState,jdbcType=VARCHAR},
+		      </if>
+		      
+		      <if test="dealerType != null" >
+		        dealer_type = #{dealerType,jdbcType=VARCHAR},
+		      </if>
+		      
+		       <if test="lastUpdateTime != null" >
+		        last_update_time = #{lastUpdateTime,jdbcType=VARCHAR},
+		      </if>
+		    </set>
+	   where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <update id="deleteChannelById" parameterType="com.mcoding.emis.goods.income.bean.ChannelDealer" >
+	    update t_channel_dealer
+		    <set>
+			    dealer_state = 'x'
+		    </set>
+	   where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+	<!-- 自动数据分页，必须以ByPage结尾 -->
+ <select id="queryMemberListByPage" parameterType="map" resultType="com.mcoding.emis.member.bean.member.Member">
+  		select * from mr_member   
+      	 <if test="fullName != null and fullName != ''">
+      	 	where fullName like #{fullName}
+      	 </if>
+  </select>
+  
+</mapper>

@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.healthCriteria.persistence.HealthCriteriaMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteria" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="testItem" property="testitem" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="INTEGER" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="VARCHAR" />
+    <result column="analysis" property="analysis" jdbcType="LONGVARCHAR" />
+    <result column="ext1" property="ext1" jdbcType="VARCHAR" />
+    <result column="ext2" property="ext2" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteria" extends="BaseResultMap" >
+    <result column="analysis" property="analysis" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, testItem, weight, result, score,analysis, ext1, ext2
+  </sql>
+  <sql id="Blob_Column_List" >
+    analysis
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteriaExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from health_criteria
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteriaExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from health_criteria
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectGroupBy" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteriaExample" >
+    select * from health_criteria group by testItem
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from health_criteria
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+   <!-- 检测评分标准列表查询 -->
+  <select id="queryHealthCriteriaByPage" parameterType="map" resultType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteria">
+        select * from health_criteria
+        <trim prefix="where" suffix=" " suffixOverrides="and" >
+	        <if test="testitem != null and testitem != ''">
+	        	testitem like '%${testitem}%' and
+	        </if>
+        </trim>
+        ORDER BY id DESC
+   </select>
+   
+  <!-- 根据评分标准名称查找检测项目 -->
+  <select id="queryResultByTestitem" parameterType="map" resultType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteria">
+        select * from health_criteria
+        <trim prefix="where" suffix=" " suffixOverrides="and" >
+	        <if test="testitem != null and testitem != ''">
+	        	testitem =#{testitem} and
+	        </if>
+        </trim>
+        ORDER BY id ASC
+   </select>
+   
+  <!-- 根据ids查找检测项目 -->
+  <select id="queryResultByIds" parameterType="map" resultType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteria">
+        select * from health_criteria
+        <trim prefix="where" suffix=" " suffixOverrides="and" >
+	        <if test="ids != null and ids != ''">
+	        	id in(${ids}) and
+	        </if>
+        </trim>
+        ORDER BY id ASC
+   </select>
+   
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from health_criteria
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteriaExample" >
+    delete from health_criteria
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteria" >
+    insert into health_criteria (id, testItem, weight, 
+      result, score, ext1, 
+      ext2, analysis)
+    values (#{id,jdbcType=INTEGER}, #{testitem,jdbcType=VARCHAR}, #{weight,jdbcType=INTEGER}, 
+      #{result,jdbcType=VARCHAR}, #{score,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR}, 
+      #{ext2,jdbcType=VARCHAR}, #{analysis,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteria" >
+    insert into health_criteria
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="testitem != null" >
+        testItem,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="result != null" >
+        result,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="ext1 != null" >
+        ext1,
+      </if>
+      <if test="ext2 != null" >
+        ext2,
+      </if>
+      <if test="analysis != null" >
+        analysis,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="testitem != null" >
+        #{testitem,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="analysis != null" >
+        #{analysis,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteriaExample" resultType="java.lang.Integer" >
+    select count(*) from health_criteria
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update health_criteria
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.testitem != null" >
+        testItem = #{record.testitem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null" >
+        weight = #{record.weight,jdbcType=INTEGER},
+      </if>
+      <if test="record.result != null" >
+        result = #{record.result,jdbcType=VARCHAR},
+      </if>
+      <if test="record.score != null" >
+        score = #{record.score,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext1 != null" >
+        ext1 = #{record.ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext2 != null" >
+        ext2 = #{record.ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.analysis != null" >
+        analysis = #{record.analysis,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update health_criteria
+    set id = #{record.id,jdbcType=INTEGER},
+      testItem = #{record.testitem,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=INTEGER},
+      result = #{record.result,jdbcType=VARCHAR},
+      score = #{record.score,jdbcType=VARCHAR},
+      ext1 = #{record.ext1,jdbcType=VARCHAR},
+      ext2 = #{record.ext2,jdbcType=VARCHAR},
+      analysis = #{record.analysis,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update health_criteria
+    set id = #{record.id,jdbcType=INTEGER},
+      testItem = #{record.testitem,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=INTEGER},
+      result = #{record.result,jdbcType=VARCHAR},
+      score = #{record.score,jdbcType=VARCHAR},
+      ext1 = #{record.ext1,jdbcType=VARCHAR},
+      ext2 = #{record.ext2,jdbcType=VARCHAR},
+      analysis = #{record.analysis,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteria" >
+    update health_criteria
+    <set >
+      <if test="testitem != null" >
+        testItem = #{testitem,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="result != null" >
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        ext2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="analysis != null" >
+        analysis = #{analysis,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteria" >
+    update health_criteria
+    set testItem = #{testitem,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=INTEGER},
+      result = #{result,jdbcType=VARCHAR},
+      score = #{score,jdbcType=VARCHAR},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      ext2 = #{ext2,jdbcType=VARCHAR},
+      analysis = #{analysis,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteria" >
+    update health_criteria
+    set testItem = #{testitem,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=INTEGER},
+      result = #{result,jdbcType=VARCHAR},
+      score = #{score,jdbcType=VARCHAR},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      ext2 = #{ext2,jdbcType=VARCHAR},
+      analysis = #{analysis,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

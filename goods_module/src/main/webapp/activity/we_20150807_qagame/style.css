@@ -1,0 +1,109 @@
+.we_index_bg {
+	background-image: url(images/bg.png);
+	background-position: top center;
+	background-size: 100% auto;
+	background-color: #f5f5f5;
+}
+/*对话框*/
+
+.wm_comment {
+	display: block;
+	overflow: hidden;
+	clear: both;
+	padding: 12px;
+	font-size: 14px;
+	color: #333;
+}
+.wm_comment>* {
+	display: table-cell;
+	vertical-align: top;
+}
+/*对话框——头像*/
+
+.wm_comment_face h2 {
+	width: 64px;
+	height: 64px;
+	padding: 6px;
+	background-color: #fff;
+	border-radius: 10000px;
+}
+.wm_comment_face span {
+	display: block;
+	width: 52px;
+	height: 52px;
+	border-radius: 10000px;
+	overflow: hidden;
+}
+.wm_comment_face img {
+	width: 100%;
+	height: 100%;
+}
+.wm_comment_face h5 {
+	width: 64px;
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align: center;
+	font-size: 12px;
+	color: #666;
+}
+/*对话框——内容*/
+
+.wm_comment_content {
+	width: 100000px;
+}
+.wm_comment_content_box {
+	border-radius: 6px;
+	padding: 12px;
+	margin: 0 12px;
+	position: relative;
+}
+.wm_comment_content_box:before {
+	content: '';
+	width: 12px;
+	height: 12px;
+	position: absolute;
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+}
+.wm_comment_left .wm_comment_content_box {
+	background-color: #fff;
+}
+.wm_comment_left .wm_comment_content_box:before {
+	background-color: #fff;
+	left: -6px;
+}
+.wm_comment_right .wm_comment_content_box {
+	background-color: #fc0;
+}
+.wm_comment_right .wm_comment_content_box:before {
+	background-color: #fc0;
+	right: -6px;
+}
+/*对话框——选项*/
+
+.wm_comment_select {
+	display: block;
+}
+.wm_comment_select a {
+	text-decoration: none;
+	display: none;
+	background-color: #f60;
+	color: #fff;
+	padding: 6px;
+	margin-top: 6px;
+	border-radius: 6px;
+	opacity: 1;
+}
+.wm_comment_select a:hover,
+.wm_comment_select a.hit {
+	opacity: 0.48;
+}
+.wm_comment_select a.active {
+	background-color: #fff;
+	border: 1px #f60 solid;
+	color: #f60;
+	opacity: 1;
+}

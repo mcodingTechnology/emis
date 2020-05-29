@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>{{global.brandName}}</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/gift_product_detail.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body class="gym-body bui_at_noline">
+
+		<!--主体-->
+		<div class="bui_wrap">
+			<!--提示关注公众号-->
+			<tp-plug-follow v-if="isSubscribe.data==0"></tp-plug-follow>
+			<!--提示关注公众号-->
+			<div class="bui_mo" style="top:{{isSubscribe.data==0?'48px':'0'}}">
+				<!--页头-->
+				<div class="bui_mo_h">
+
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:window.history.go(-1);" righticon="fa-home" rightlink="index.html" title="礼品详情"></tp-header>
+				</div>
+				<!--页头-->
+				<template v-if="!productDetail||!productDetail.data">
+					<div class="bui_mo_b bui_mo_b_h">
+						<!--loadingbar-->
+						<tp-loadingbar type="loading" v-if="!productDetail||!productDetail.data"></tp-loadingbar>
+						<tp-emptypage v-else></tp-emptypage>
+						<!--loadingbar-->
+					</div>
+				</template>
+				<template v-else>
+
+					<!--页面-->
+					<div class="bui_mo_b bui_mo_b_h bui_mo_b_f gym_mo_b">
+						<!--产品幻灯片-->
+						<div id="productDetailSwiper" class="bui_bgc_white " :style="{'height':+global.screenSize/1*1+'px','position':'relative','overflow':'hidden'}">
+							<tp-loading-mask :hidden="loadData.banner"></tp-loading-mask>
+							<div class="box">
+								<li class="item" v-if="productDetail.data.coverImg">
+									<tp-img :src="productDetail.data.coverImg" class="bui_block"></tp-img>
+								</li>
+								<template v-for="data in productDetail.data.imgList">
+									<li class="item">
+										<tp-img :src="data.url" class="bui_block"></tp-img>
+									</li>
+								</template>
+
+							</div>
+						</div>
+						<!--产品幻灯片-->
+
+						<!--摘要-->
+						<div class="bui_bgc_white bui_bds_1">
+							<div class="bui_ts_20 bui_p_12">{{productDetail.data.productName}}</div>
+							<div class="bui_p_12 bui_bds_1_t bui_ts_12 bui_tc_white_d64">
+								<div class="bui_inline ">
+									<span>兑换积分</span>
+									<p><span class="bui_ts_24 bui_tc_red">{{productDetail.data.priceList[0].productPoint.exchangePoint}}</span></p>
+								</div>
+								<div class="bui_inline ">
+									<span>加钱购</span>
+									<p class="bui_ts_16 bui_tc_red">
+										{{productDetail.data.priceList[0].productPoint.plusPricePoint}} <span class="bui_ts_12">积分</span> <span class="bui_ts_12 bui_tc_white_d64">+</span> {{productDetail.data.priceList[0].value/100}}<span class="bui_ts_12">元</span>
+									</p>
+
+								</div>
+							</div>
+
+						</div>
+						<!--摘要-->
+						<!--详情-->
+						<div class="bui_bgc_white bui_bds_1 bui_mtb_12">
+							<div class="bui_avg_1" id="productDetailTab">
+								<button class="bui_ptb_12 bui_ts_14 bui_bds_2_b">商品介绍</button>
+								<!--<button class="bui_ptb_12 bui_ts_16 bui_bds_2_b">商品详情</button>-->
+							</div>
+							<div buijs_tab_box="productDetailTabBox">
+								<div>{{{productDetail.data.content}}}</div>
+								<div>
+									<div class="bui_p_24 bui_ts_14">{{{productDetail.data.summary}}}</div>
+								</div>
+							</div>
+						</div>
+						<!--详情-->
+						<tp-copyright></tp-copyright>
+					</div>
+					<!--页面-->
+					<!--页脚-->
+					<div class="bui_mo_f bui_bgc_white bui_bds_1_t">
+						<div class="bui_media bui_vm bui_p_8 bui_ts_16_i">
+							<div class="bui_media_l">
+								<button class="bui_btn bui_btn_48 bui_ts_14 bui_bgc_white bui_block bui_vm" onclick="giftDetail_exchange('cart')">
+									<i class="fa fa-cart-plus fa-fw bui_tc_black_l48"></i>
+									<span>加入礼品车</span>
+								</button>
+							</div>
+							<div class="bui_media_b">
+								<button class="bui_btn bui_btn_48 bui_ts_14 bui_bgc_red bui_block bui_vm" onclick="giftDetail_exchange('buy')">
+										<i class="fa fa-check-square-o"></i>
+										<span>立即兑换</span>
+									</button>
+							</div>
+						</div>
+					</div>
+					<!--页脚-->
+					<!--模态对话框 选择兑换方式-->
+					<div id="modal_exchange" buijs_modal_isremove='false' style="display: none;">
+						<div class="bui_p_24 bui_row_p_12 bui_tc_white_d64_i bui_tc_black_a">
+							<div>
+								<a href="javascript:;" id="modal_exchange_point" class="bui_media bui_vm bui_bds_1 bui_radius bui_p_12">
+									<div class="bui_media_l">
+										<span class="bui_ts_12">积分兑换</span>
+									</div>
+									<div class="bui_media_b bui_ta_r bui_vm">
+										<span class="bui_ts_24 bui_tc_red">{{productDetail.data.priceList[0].productPoint.exchangePoint}}</span>
+										<span class=" bui_ts_12 bui_tc_white_d64">积分</span>
+									</div>
+									<div class="bui_media_r"><i class="fa fa-angle-right fa-fw"></i></div>
+								</a>
+							</div>
+							<div>
+								<a href="javascript:;" id="modal_exchange_pointmoney" class="bui_media bui_vm bui_bds_1 bui_radius bui_p_12">
+									<div class="bui_media_l">
+										<span class="bui_ts_12">加钱购</span>
+									</div>
+									<div class="bui_media_b bui_ta_r bui_vm">
+										<span class="bui_ts_14 bui_tc_red">{{productDetail.data.priceList[0].productPoint.plusPricePoint}}</span>
+										<span class="bui_ts_12 bui_tc_white_d64">积分 + </span> <span class="bui_ts_14 bui_tc_red">{{productDetail.data.priceList[0].value/100}}</span>
+										<span class="bui_ts_12 bui_tc_white_d64">元</span>
+									</div>
+									<div class="bui_media_r"><i class="fa fa-angle-right fa-fw"></i></div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<!--模态对话框 选择兑换方式-->
+				</template>
+			</div>
+		</div>
+		<!--主体-->
+		<!--购物车挂件-->
+		<tp-plug-cart name="礼品车" :cartsize="global.cartData.gift.size"></tp-plug-cart>
+		<!--购物车挂件-->
+	</body>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>积分商城</title>
+		<script type="text/javascript" src="workspace.js"></script>
+		<script src="mp_js/index.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.mp_msg_body {
+				padding: 2px;
+				position: absolute;
+				top: 45%;
+				width: 100%;
+				z-index: 99999;
+				color: white;
+			}
+		</style>
+	</head>
+
+	<body class="bui_at_noline">
+		<!--礼品车插件-->
+		<div id="cartPlug"></div>
+		<!--礼品车插件-->
+		<div class="bui_wrap">
+			<!--框架-->
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_bsd_6">
+					<div class="bui_media bui_vm">
+						<div class="bui_media_l bui_p_0 bui_atc_black">
+							<img src="./pic/logo.png" class="bui_m_12 bui_fl" style="width: 24px; height: 24px;" />
+						</div>
+						<div class="bui_media_b">
+							<p class="bui_ts_14">{{brandName}} <span class="bui_ts_12 {{style.tcFalse}}">积分商城</span></p>
+						</div>
+						<div class="bui_media_r bui_plr_8">
+							<a href="{{MallPath}}personal_center.html?malltype={{mallType}}" class="bui_btn_32 bui_btnsq fa fa-user {{style.facFalse}}"></a>
+							<button class="bui_btn_32 bui_btnsq fa fa-search {{style.facFalse}}" onclick="gm_showSearchPanel();"></button>
+						</div>
+					</div>
+				</div>
+				<!--页头-->
+				<!--主体-->
+				<div class="bui_mo_b bui_mo_b_h bui_bgc_white_d6">
+					<!--幻灯片-->
+					<div style="height: 192px;" id="gm_banner_index">
+						<div class="box"></div>
+					</div>
+					<!--幻灯片-->
+					<!--导航-->
+					<div class="bui_avg_3 bui_bgc_white bui_ta_c bui_atc_black bui_bds_1_t">
+						<a href="{{MallPath}}personal_center.html?malltype={{mallType}}" class="bui_bds_1_r bui_p_12">
+							<div class="bui_round bui_bds_4 bui_btn_48 bui_btnsq " id="headimg">
+
+							</div>
+							<h2 class="bui_ts_12 bui_mt_6">{{memberDetail.fullName}}</h2>
+							<h5 class="bui_ts_10 {{style.facTrue}}"><i class="fa fa-database fa-fw"></i> <span class="point">{{memberDetail.pointSum}}</span></h5>
+						</a>
+						<a href="gift_list.html" class="bui_bds_1_r bui_p_12">
+							<div class="bui_btn_48 bui_btnsq {{style.bgc}} bui_round fa fa-gift bui_fas_24"></div>
+							<h2 class="bui_ts_12 bui_mt_6">全部礼品</h2>
+							<h5 class="bui_ts_10 {{style.tcFalse}}">乐兑享不停</h5>
+						</a>
+						<a href="../activity/game_public/game_list.html?brandCode={{brandCode}}" class="bui_bds_1_r bui_p_12">
+							<div class="bui_btn_48 bui_btnsq bui_bgc_blue bui_round fa fa-gamepad  bui_fas_24"></div>
+							<h2 class="bui_ts_12 bui_mt_6">积分活动</h2>
+							<h5 class="bui_ts_10 {{style.tcFalse}}">大奖等你来</h5>
+						</a>
+					</div>
+					<hr />
+					<!--导航-->
+					<!--火爆兑换-->
+					<div class="bui_bgc_white bui_mt_12 bui_at_noline bui_atc_black">
+						<hr />
+						<div class="bui_media bui_fas_16 {{style.facTrue}} bui_plr_24 bui_ptb_12">
+							<div class="bui_media_l">
+								<i class="fa fa-thumbs-up"></i>
+							</div>
+							<div class="bui_media_b">
+								<p>火爆兑换</p>
+							</div>
+						</div>
+						<hr />
+						<div id="gm_gift_list" class="bui_ta_c bui_atc_black bui_at_noline">
+							{{{listLoading}}}
+						</div>
+
+						<a href="gift_list.html" class="bui_btn_48 bui_bgc_white bui_block bui_bds_1"> 更多 <i class="fa fa-ellipsis-v"></i></a>
+
+						<!--版权信息-->
+						<p class="bui_p_32 bui_ta_c bui_ts_12 {{style.tcFalse}}">版权所有 © {{brandName}}</p>
+						<!--版权信息-->
+					</div>
+					<!--火爆兑换-->
+				</div>
+				<!--主体-->
+			</div>
+			<!--框架-->
+		</div>
+
+	</body>
+
+</html>

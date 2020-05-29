@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" src="workspace.js"></script>
+		<script type="text/javascript">
+			var game_rote = buijs_geturl('rate');
+			var game_gift = buijs_geturl('gift');
+			var game_rand = parseInt(Math.random() * 9999);
+			$(document).ready(function() {
+				//模拟游戏状态 on进行中|off已结束
+				if (game_rote == 'on') {
+					$("#stake_detail_time").html('倒计时：71:59:59');
+					$("#stake_detail_rand_bar").animate({
+						'width': (game_rand / 10000) * 100 + '%'
+					}, 1000);
+					$("#stake_detail_rand_score").html(game_rand);
+					$("#stake_detail_rand_percent").html(((game_rand / 10000) * 100).toFixed(2));
+					$("#stake_detail_user").remove();
+					$(".bui_mo_b").addClass('bui_mo_b_f');
+					$(".bui_mo_f").show();
+					//押宝
+					$("#stake_detail_btn").click(function() {
+						buijs_modal({
+							positions: 'bottom',
+							title: '押多少？',
+							content: '<div class="bui_avg_2 bui_row_p_12 bui_ta_c"><li><p class="bui_ts_12">您的余额:</p><p class="bui_tc_orange bui_ts_24">45124</p></li><li><p class="bui_ts_12">奖池剩余:</p><p class="bui_tc_orange bui_ts_24">' + (10000 - game_rand) + '</p></li></div><hr class="bui_mtb_12"/><p class="bui_ts_12 bui_ta_c">你已经押 <span class="bui_tc_orange">700</span> 积分，当前中奖率为<span class="bui_tc_orange">7%</span><br/>每<span class="bui_tc_orange">100</span>积分可增加中奖率<span class="bui_tc_orange">1%</span></p><hr class="bui_mtb_12"/><input id="stake_input" type="text" val="" placeholder="最多可押' + (10000 - game_rand) + '积分" class="bui_ipt_48 bui_block"/><div class="bui_avg_2 bui_row_p_12 bui_mt_12"><li><a href="javascript:;" class="bui_btn_48 bui_block bui_bgc_black bui_modal_close">再想想</a></li><li><a href="javascript:;" class="bui_btn_48 bui_block bui_bgc_orange bui_modal_true">押宝！</a></li></div>'
+						});
+						$(".bui_modal_true").click(function() {
+							var _input = $("#stake_input");
+							if (!_input.val()) {
+								buijs_alert({
+									content: '数值不可为空',
+									positions: 'center'
+								});
+							} else if (_input.val() > 45124) {
+								buijs_alert({
+									content: '您的积分余额不足',
+									positions: 'center'
+								});
+							} else if (_input.val() > (10000 - game_rand)) {
+								buijs_alert({
+									content: '超出奖池余额了',
+									positions: 'center'
+								});
+							} else {
+								buijs_alert({
+									content: '押宝成功',
+									positions: 'center'
+								});
+								buijs_modal_close();
+								setTimeout(function() {
+									window.location.reload()
+								}, 1000)
+							}
+						});
+					});
+				}
+				if (game_rote == 'off') {
+					$("#stake_detail_time").html('游戏已结束');
+					$("#stake_detail_rand_bar").animate({
+						'width': '100%'
+					}, 1000);
+					$("#stake_detail_rand_score").html(10000);
+					$("#stake_detail_rand_percent").html(100);
+					$("#stake_detail_user").show(0, function() {
+						$("#stake_detail_user [data-bui_img]").buijs_img();
+					});
+					$(".bui_mo_b").removeClass('bui_mo_b_f');
+					$(".bui_mo_f").remove();
+				}
+				//模拟加载产品
+				if (game_gift == 1) {
+					$("#stake_detail_img img").attr('src', 'http://v.merryplus.com/resources/uploads/product/20150916104430_590.jpg');
+					$("#stake_detail_name").html("每日每 加玲珑宝礼盒")
+				}
+				if (game_gift == 2) {
+					$("#stake_detail_img img").attr('src', 'http://v.merryplus.com/resources/uploads/product/20150923164710_3131.png');
+					$("#stake_detail_name").html("极智构  乳清蛋白")
+				}
+				if (game_gift == 3) {
+					$("#stake_detail_img img").attr('src', 'http://v.merryplus.com/resources/uploads/product/20150923164647_4148.png');
+					$("#stake_detail_name").html("极智构 蛋白营养粉（女士型）")
+				}
+				if (game_gift == 4) {
+					$("#stake_detail_img img").attr('src', 'http://v.merryplus.com/resources/uploads/product/20150923164534_1987.png');
+					$("#stake_detail_name").html("极智构 多种维生素矿物质片（女士型）")
+				}
+				if (game_gift == 5) {
+					$("#stake_detail_img img").attr('src', 'http://v.merryplus.com/resources/uploads/product/20150923163851_6439.png');
+					$("#stake_detail_name").html("极智构 蛋白帮（黑巧克力芒果味）")
+				}
+				//用户序号
+				$("#stake_detail_userlist li").map(function(n, key) {
+					var _t = $(this);
+					var _bgc
+					if ((n + 1) == 1) {
+						_bgc = 'bui_bgc_red'
+					} else if ((n + 1) == 2) {
+						_bgc = 'bui_bgc_orange'
+					} else if ((n + 1) == 3) {
+						_bgc = 'bui_bgc_green'
+					} else if ((n + 1) == 4) {
+						_bgc = 'bui_bgc_blue'
+					} else if ((n + 1) == 5) {
+						_bgc = 'bui_bgc_lblue'
+					} else {
+						_bgc = 'bui_bgc_black'
+					}
+					_t.find('.bui_media_l').css('position', 'relative');
+					_t.find('.bui_media_l').append('<div class="' + _bgc + ' bui_round bui_fl bui_btn_24 bui_btnsq" style="position: absolute; z-index: 10000; left: 0; top: 0;">' + (n + 1) + '</div>');
+				});
+			});
+		</script>
+	</head>
+
+	<body class="stake_bg bui_at_noline">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_media bui_vm bui_tc_white bui_atc_white bui_fac_white">
+					<div class="bui_media_l bui_p_0">
+						<a href="index.html" class="bui_btn_32 bui_btnsq bui_m_8 bui_bgc_black_64 bui_round"><i class="fa fa-angle-left "></i></a>
+					</div>
+					<div class="bui_media_b">
+
+					</div>
+					<div class="bui_media_r bui_p_0">
+						<a href="../game_public/game_help.html" class="bui_btn_32 bui_m_8 bui_bgc_black_64 bui_round bui_ts_12">活动说明</a>
+					</div>
+				</div>
+				<!--页头-->
+				<!--主体-->
+				<div class="bui_mo_b">
+					<!--宝贝-->
+					<div class="bui_mt_48 bui_inline bui_ta_c">
+
+						<div class="bui_bgc_white bui_bds_4 bui_bdc_orange bui_round bui_p_12" data-bui_img='' style="width: 144px; height: 144px;" id="stake_detail_img">
+							<img src="http://v.merryplus.com/resources/uploads/product/20150923164710_3131.png" />
+						</div>
+						<br />
+						<p class="bui_tc_white" id="stake_detail_name">...</p>
+						<br />
+						<p class="bui_tc_orange bui_ts_14" id="stake_detail_time">...</p>
+					</div>
+					<!--宝贝-->
+					<!--进度条-->
+					<div class="bui_ptb_12 bui_plr_24">
+						<div class="bui_bgc_orange_48 bui_bdc_orange bui_bds_6 bui_radius" style="position: relative;">
+							<!--柱形-->
+							<div class="stake_bar bui_bgc_orange" id="stake_detail_rand_bar" style="width: 0%; height: 48px;"></div>
+							<!--柱形-->
+							<!--数据-->
+							<div class="bui_tc_white bui_inline bui_vm bui_ta_r" style="position: absolute; height: 48px; line-height: 48px; top: 0px; right: 12px;">
+								<div class="bui_ts_12 bui_tc_o48"><span id="stake_detail_rand_score">...</span>/10000</div>
+								<div class="bui_ts_16 bui_ml_6"><span id='stake_detail_rand_percent'>...</span>%</div>
+							</div>
+							<!--数据-->
+						</div>
+					</div>
+					<!--进度条-->
+
+					<!--中奖名单-->
+					<div class="bui_bgc_orange bui_radius bui_p_12 bui_mlr_24 bui_media bui_vm bui_tc_white" id="stake_detail_user" style="display: none;">
+						<div class="bui_media_l" style="position: relative;">
+							<div class="bui_bgc_red bui_round bui_fl bui_btn_32 bui_btnsq" style="position: absolute; z-index: 10000; left: 0; top: 0;"><i class="fa fa-trophy"></i></div>
+							<div class="bui_round bui_ml_12" data-bui_img='' style="width: 64px; height: 64px;">
+								<img src="../game_public/pic/demo_face/face_040.jpg" />
+							</div>
+						</div>
+						<div class="bui_media_b">
+							<h5>罗曦在**的女朋友</h5>
+							<p class="bui_ts_12 bui_tc_o48">爆吼一声，抽中了</p>
+							<p class="bui_ts_10">押<span class="bui_tc_yellow">1065</span>分，排第<span class="bui_tc_yellow">3</span>名</p>
+						</div>
+						<div class="bui_media_r bui_ta_c">
+							<h5 class="bui_tc_o64 bui_ts_12">中奖率</h5>
+							<h5 class="">0.34%</h5>
+						</div>
+					</div>
+					<!--中奖名单-->
+
+					<!--我的状态-->
+					<p class="bui_ta_c bui_tc_white bui_ptb_12">你押 <span class="bui_tc_orange">700</span> 积分，中奖率为<span class="bui_tc_orange">7%</span></p>
+					<!--我的状态-->
+
+					<!--押宝排名-->
+					<div class="bui_plr_24 bui_row_p_12" id="stake_detail_userlist">
+						<li>
+							<div class="bui_media bui_vm bui_bgc_white bui_radius bui_p_12">
+								<div class="bui_media_l">
+									<div class="bui_round bui_ml_12" data-bui_img='' style="width: 48px; height: 48px;">
+										<img src="../game_public/pic/demo_face/face_001.jpg" />
+									</div>
+								</div>
+								<div class="bui_media_b bui_ts_14">
+									<h5 class="bui_tc_o64">大堂***爱伦·杨</h5>
+									<h5>押<span class="bui_tc_red">3040</span>积分</h5>
+								</div>
+								<div class="bui_media_r bui_ta_c">
+									<h5 class="bui_tc_o64 bui_ts_10">中奖率</h5>
+									<h5 class="bui_tc_orange">0.34%</h5>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="bui_media bui_vm bui_bgc_white bui_radius bui_p_12">
+								<div class="bui_media_l">
+									<div class="bui_round bui_ml_12" data-bui_img='' style="width: 48px; height: 48px;">
+										<img src="../game_public/pic/demo_face/face_002.jpg" />
+									</div>
+								</div>
+								<div class="bui_media_b bui_ts_14">
+									<h5 class="bui_tc_o64">大堂***爱伦·杨</h5>
+									<h5>押<span class="bui_tc_red">3040</span>积分</h5>
+								</div>
+								<div class="bui_media_r bui_ta_c">
+									<h5 class="bui_tc_o64 bui_ts_10">中奖率</h5>
+									<h5 class="bui_tc_orange">0.34%</h5>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="bui_media bui_vm bui_bgc_white bui_radius bui_p_12">
+								<div class="bui_media_l">
+									<div class="bui_round bui_ml_12" data-bui_img='' style="width: 48px; height: 48px;">
+										<img src="../game_public/pic/demo_face/face_003.jpg" />
+									</div>
+								</div>
+								<div class="bui_media_b bui_ts_14">
+									<h5 class="bui_tc_o64">大堂***爱伦·杨</h5>
+									<h5>押<span class="bui_tc_red">3040</span>积分</h5>
+								</div>
+								<div class="bui_media_r bui_ta_c">
+									<h5 class="bui_tc_o64 bui_ts_10">中奖率</h5>
+									<h5 class="bui_tc_orange">0.34%</h5>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="bui_media bui_vm bui_bgc_white bui_radius bui_p_12">
+								<div class="bui_media_l">
+									<div class="bui_round bui_ml_12" data-bui_img='' style="width: 48px; height: 48px;">
+										<img src="../game_public/pic/demo_face/face_004.jpg" />
+									</div>
+								</div>
+								<div class="bui_media_b bui_ts_14">
+									<h5 class="bui_tc_o64">大堂***爱伦·杨</h5>
+									<h5>押<span class="bui_tc_red">3040</span>积分</h5>
+								</div>
+								<div class="bui_media_r bui_ta_c">
+									<h5 class="bui_tc_o64 bui_ts_10">中奖率</h5>
+									<h5 class="bui_tc_orange">0.34%</h5>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="bui_media bui_vm bui_bgc_white bui_radius bui_p_12">
+								<div class="bui_media_l">
+									<div class="bui_round bui_ml_12" data-bui_img='' style="width: 48px; height: 48px;">
+										<img src="../game_public/pic/demo_face/face_005.jpg" />
+									</div>
+								</div>
+								<div class="bui_media_b bui_ts_14">
+									<h5 class="bui_tc_o64">大堂***爱伦·杨</h5>
+									<h5>押<span class="bui_tc_red">3040</span>积分</h5>
+								</div>
+								<div class="bui_media_r bui_ta_c">
+									<h5 class="bui_tc_o64 bui_ts_10">中奖率</h5>
+									<h5 class="bui_tc_orange">0.34%</h5>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="bui_media bui_vm bui_bgc_white bui_radius bui_p_12">
+								<div class="bui_media_l">
+									<div class="bui_round bui_ml_12" data-bui_img='' style="width: 48px; height: 48px;">
+										<img src="../game_public/pic/demo_face/face_006.jpg" />
+									</div>
+								</div>
+								<div class="bui_media_b bui_ts_14">
+									<h5 class="bui_tc_o64">大堂***爱伦·杨</h5>
+									<h5>押<span class="bui_tc_red">3040</span>积分</h5>
+								</div>
+								<div class="bui_media_r bui_ta_c">
+									<h5 class="bui_tc_o64 bui_ts_10">中奖率</h5>
+									<h5 class="bui_tc_orange">0.34%</h5>
+								</div>
+							</div>
+						</li>
+						<li>
+							<p class="bui_tc_white bui_ta_c bui_ptb_24">
+								<i class="fa fa-circle-o-notch fa-spin"></i> 正在加载更多
+							</p>
+
+						</li>
+					</div>
+					<!--押宝排名-->
+				</div>
+				<!--主体-->
+				<!--底部按钮-->
+				<div class="bui_mo_f" style="display: none;">
+					<a href="javascript:;" class="bui_btn_64 bui_block bui_bgc_orange" id="stake_detail_btn"><i class="fa fa-hand-pointer-o fa-fw bui_fas_24"></i> 马上押宝</a>
+				</div>
+				<!--底部按钮-->
+			</div>
+
+		</div>
+	</body>
+
+</html>

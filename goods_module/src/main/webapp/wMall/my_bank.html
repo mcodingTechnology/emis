@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<!--工作空间-->
+		<script type="text/javascript" src="workspace_v2.0.1.js"></script>
+		<!--工作空间-->
+		<script src="./mp_js/my_bank.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+
+	<body class="bui_at_noline bui_bgc_white_d12">
+		<!--主屏幕-->
+		<div class="bui_wrap">
+			<form id="mp_myBank">
+				<div class="bui_mo">
+					<!--页头-->
+					<div class="bui_mo_h bui_bgc_white bui_tc_black bui_fac_black bui_ahtc_black bui_bsd_6">
+						<div class="bui_media bui_vm">
+							<div class="bui_media_l bui_p_0">
+								<a href="personal_center.html" class="bui_btn_32 bui_btnsq fa fa-angle-left bui_m_8 {{style.facFalse}}"></a>
+							</div>
+							<div class="bui_media_b">绑定银行卡</div>
+							<div class="bui_media_r bui_pr_12">
+
+							</div>
+						</div>
+					</div>
+					<!--页头-->
+					<!--页面-->
+					<div class="bui_mo_b bui_mo_b_h bui_mo_b_f">
+						<div class="bui_bgc_white bui_mt_24">
+							<hr />
+							<li class="bui_media bui_vm">
+								<div class="bui_media_l bui_p_0">
+									<p style="width: 72px;" class="bui_ts_10 bui_tc_white_d48 bui_ta_r">银行：</p>
+								</div>
+								<div class="bui_media_b">
+									<input type="text" name="bankname" id="" value="" placeholder="银行名称" class="bui_ipt_48 bui_block bui_ipc_basic" readonly="readonly" onfocus="javascript:mp_select_bank();" />
+								</div>
+							</li>
+							<hr />
+							<li class="bui_media bui_vm">
+								<div class="bui_media_l bui_p_0">
+									<p style="width: 72px;" class="bui_ts_10 bui_tc_white_d48 bui_ta_r">所在地：</p>
+								</div>
+								<div class="bui_media_b">
+									<input type="text" name="loaction" id="" value="" placeholder="开户行所在地" class="bui_ipt_48 bui_block bui_ipc_basic" readonly="readonly" onclick="javascript:mp_selectRegson($(this),1,0);" />
+									<input type="hidden" name="address_province" id="" value="" placeholder="省" />
+									<input type="hidden" name="address_city" id="" value="" placeholder="市" />
+									<input type="hidden" name="address_area" id="" value="" placeholder="区" />
+									<input type="hidden" name="address_street" id="" value="" placeholder="街道" />
+								</div>
+							</li>
+							<hr />
+							<li class="bui_media bui_vm">
+								<div class="bui_media_l bui_p_0">
+									<p style="width: 72px;" class="bui_ts_10 bui_tc_white_d48 bui_ta_r">开户行：</p>
+								</div>
+								<div class="bui_media_b">
+									<input type="text" name="subbranch" id="" value="" placeholder="开户行名称" class="bui_ipt_48 bui_block bui_ipc_basic" />
+								</div>
+							</li>
+							<hr />
+						</div>
+						<div class="bui_bgc_white bui_mt_12">
+							<hr />
+							<li class="bui_media bui_vm">
+								<div class="bui_media_l bui_p_0">
+									<p style="width: 72px;" class="bui_ts_10 bui_tc_white_d48 bui_ta_r">卡号：</p>
+								</div>
+								<div class="bui_media_b">
+									<input type="text" name="bankCardNum" id="" value="" placeholder="银行卡号" maxlength="19" class="bui_ipt_48 bui_block bui_ipc_basic" />
+								</div>
+							</li>
+							<hr />
+							<li class="bui_media bui_vm">
+								<div class="bui_media_l bui_p_0">
+									<p style="width: 72px;" class="bui_ts_10 bui_tc_white_d48 bui_ta_r">持卡人：</p>
+								</div>
+								<div class="bui_media_b">
+									<input type="text" name="realname" id="" value="" placeholder="持卡人姓名" maxlength="20" class="bui_ipt_48 bui_block bui_ipc_basic" />
+								</div>
+							</li>
+							<hr />
+							<li class="bui_media bui_vm">
+								<div class="bui_media_l bui_p_0">
+									<p style="width: 72px;" class="bui_ts_10 bui_tc_white_d48 bui_ta_r">身份证：</p>
+								</div>
+								<div class="bui_media_b">
+									<input type="text" name="identity" id="" value="" placeholder="身份证号码" maxlength="18" class="bui_ipt_48 bui_block bui_ipc_basic" />
+								</div>
+							</li>
+							<hr />
+						</div>
+						<p class="bui_p_24 bui_ts_12 bui_ta_c bui_tc_red" id="mp_tips">...</p>
+					</div>
+					<!--页面-->
+					<!--页脚-->
+					<div class="bui_mo_f bui_bgc_white bui_bsd_6">
+						<div class="bui_p_8" name="btn">
+
+						</div>
+					</div>
+					<!--页脚-->
+				</div>
+			</form>
+		</div>
+	</body>
+
+</html>

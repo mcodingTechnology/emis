@@ -1,0 +1,132 @@
+<div class="bui_wrap bui_tc_black bui_tc_black_a">
+	<!--基本信息-->
+	<form id="memberDetailAdv">
+		<!--页头-->
+		<div class="bui_mo_h">
+			<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:buijs_modal_close('modal_memberdetailedit_advance');" title="我的详细资料"></tp-header>
+		</div>
+		<!--页头-->
+		<!--页面-->
+		<div class="bui_mo_b bui_mo_b_h bui_mo_b_f">
+			<div class="bui_tc_red_i bui_p_12">
+				<div class="bui_row_p_12">
+					<!--问题1-->
+					<div>
+						<div class="bui_bgc_white bui_bds_1" buijs_form_item_type="checkbox" buijs_form_item_length="1,999">
+							<tp-titleitem title="问题1:您的健身方式是？（可多选）"></tp-titleitem>
+							<div class="bui_ipg_48 bui_block bui_bgc_white">
+								<label v-for="data in ['户外运动','在家运动','健身房自己运动','健身房私教陪练','不怎么运动']" class="bui_iprc_16 bui_block bui_p_12 bui_bds_1_t"><input type="checkbox" class="bui_tc_green" :value="data" v-model="memberDetailAdv.array1" /> <span class="bui_ts_14">{{data}}</span></label>
+							</div>
+							<div class="buijs_form_item_tips"></div>
+						</div>
+
+					</div>
+					<!--问题1-->
+					<!--问题2-->
+					<div>
+						<div class="bui_bgc_white bui_bds_1" buijs_form_item_type="checkbox" buijs_form_item_length="1,999">
+							<tp-titleitem title="问题2:您的健身目的是？（可多选）"></tp-titleitem>
+							<div class="bui_ipg_48 bui_block bui_bgc_white">
+								<label v-for="data in ['减肥','个人爱好（释放压力）','健美（专业）','强身健体','产后恢复','运动损伤后回复']" class="bui_iprc_16 bui_block bui_p_12 bui_bds_1_t"><input type="checkbox" class="bui_tc_green" :value="data" v-model="memberDetailAdv.array2" /> <span class="bui_ts_14">{{data}}</span></label>
+							</div>
+							<div class="buijs_form_item_tips"></div>
+						</div>
+
+					</div>
+					<!--问题2-->
+				</div>
+			</div>
+		</div>
+		<!--页面-->
+		<!--页脚-->
+		<div class="bui_mo_f bui_bgc_white bui_bds_1_t">
+			<div class="bui_p_8"><button class="bui_btn bui_btn_48 bui_block bui_bgc_red bui_ts_16">保存个人信息</button></div>
+		</div>
+		<!--页脚-->
+	</form>
+	<!--基本信息-->
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		global_vue({
+			data: vueData
+		});
+		modalMemberDetailEdit_getData_advance(); //更新资料
+	});
+
+	//更新资料
+	function modalMemberDetailEdit_getData_advance() {
+		window.localStorage.removeItem('memberDetail');
+		//获取用户信息
+		global_getJsonSetVue(workSpace.jsonUrl + '/merriplusApi/getMemberDetail', 'memberDetailEditAdvance', null, function() {
+			//详细资料数组处理
+			vm.$set('memberDetailAdv.array1', vueData.memberDetailEditAdvance.data.concernsPerson ? vueData.memberDetailEditAdvance.data.concernsPerson.split(',') : []);
+			vm.$set('memberDetailAdv.array2', vueData.memberDetailEditAdvance.data.concerns ? vueData.memberDetailEditAdvance.data.concerns.split(',') : []);
+			//提交详细资料
+			$("form#memberDetailAdv").unbind('submit').buijs_form_check({
+				texterror: '<div class="bui_p_12 bui_bds_1_t bui_ta_c"><span class="bui_tc_red bui_ts_12">最少请选择一项</span></div>',
+				textsuccess: '<div class="bui_p_12 bui_bds_1_t bui_ta_c"><i class="fa fa-check fa-fw bui_tc_green_i"></i></div>',
+				error: function() {
+					buijs_alert({
+						content: '每道题最少请选择一项'
+					})
+				},
+				success: function() {
+					//详细资料数组处理
+					vueData.memberDetailEditAdvance.data.concernsPerson = vueData.memberDetailAdv.array1.join(',');
+					vueData.memberDetailEditAdvance.data.concerns = vueData.memberDetailAdv.array2.join(',');
+
+					global_getVueSetJson(workSpace.jsonUrl + '/front/registerDetailSubmit', $.extend(vueData.memberDetailEditAdvance.data, {
+						brandCode: "JLD"
+					}), ['concernsPerson', 'concerns', 'brandCode'], function(data) {
+						buijs_alert({
+							content: data.msg
+						});
+						if(data.code == 0 || data.code == 2) {
+							//读取个人信息
+							global_getJsonSetVue(workSpace.jsonUrl + '/merriplusApi/getMemberDetail', 'memberDetail', null, function() {
+								buijs_modal_close('modal_memberdetailedit_advance'); //关闭弹窗
+								//判断基础信息是否完成
+								if(vueData.memberDetail.data.fullName && vueData.memberDetail.data.mobilePhone && vueData.memberDetail.data.gender && vueData.memberDetail.data.birthday && vueData.memberDetail.data.ext1 && vueData.memberDetail.data.ext2) {
+									//获取高级资料完成率
+									global_getJsonSetVue(workSpace.jsonUrl + 'front/getMemberInfoPercent', 'getMemberInfoPercent');
+									buijs_modal_close('modal_memberdetailedit_basic'); //关闭弹窗
+								}
+							});
+						};
+					})
+				}
+			})
+
+		}); //获取个人资料
+	};
+
+	//获取验证码
+	function smsGetCode() {
+		//校验手机号
+		if($("[buijs_form_item_type=mobile]").hasClass('buijs_form_item_success')) {
+			//倒计时
+			vm.$set('smsCodecountDown', null);
+			var i = 60;
+			var int = setInterval(smsCodecountDown, 1000);
+
+			function smsCodecountDown() {
+				if(i > 0) {
+					i--;
+					vueData.smsCodecountDown = i;
+				} else {
+					window.clearInterval(int);
+				};
+				return false;
+			};
+			global_getJsonSetVue(workSpace.jsonUrl + '/merriplusApi/getUpdateSMSCode', 'getUpdateSMSCode', {
+				phone: vueData.memberDetailEditAdvance.data.mobilePhone,
+				brandCode: vueData.global.brandCode
+			})
+		} else {
+			buijs_alert({
+				content: '手机格式不正确'
+			})
+		};
+	};
+</script>

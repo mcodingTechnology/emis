@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>移动商城 - BIG生活</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/product_type.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body id="vueBox" class="gym-body bui_at_noline">
+		<!--主体-->
+		<div class="bui_wrap bui_bgc_white_d12">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h">
+					<!--提示关注公众号-->
+					<template v-if="isWechatUserFocused.code==1">
+						<tp-isfollow></tp-isfollow>
+					</template>
+					<!--提示关注公众号-->
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="https://h5.youzan.com/v2/home/zt5mvapt" title="商品分类"></tp-header>
+				</div>
+				<!--页头-->
+
+				<!--页面-->
+				<div class="bui_mo_b bui_mo_b_h gym_mo_b" style="{{isWechatUserFocused.code==1?'top:6rem':''}}">
+					<!--loadingbar-->
+					<tp-loadingbar type="loading" v-if="!memberDetail||!memberDetail.data||!getCategoryList||!getCategoryList.data"></tp-loadingbar>
+					<!--loadingbar-->
+					<template v-else>
+						<!--搜索栏-->
+						<div class="bui_plr_12 bui_pt_12 bui_pb_0">
+							<div class="bui_ipg_48 bui_block" onclick="global_showSidePanel('modal_search');">
+								<button class="bui_btn bui_btn_48 bui_btn_sq bui_ts_16 bui_fr bui_bds_0" disabled="disabled"><i class="fa fa-search"></i></button>
+								<input type="text" placeholder="商品搜索" value="{{urlData.productName}}" class="bui_ipt_48 bui_bgc_white bui_block bui_ts_14" disabled="disabled" />
+							</div>
+						</div>
+						<!--搜索栏-->
+
+						<div class="bui_m_12 bui_bgc_white bui_bds_1 bui_radius">
+							<div class="bui_avg_{{getCategoryList.data.length}}" id="productType_nav" data-buijs_tab='{"setid":"productType_box","style":"basic","activeClass":"bui_bdc_red bui_tc_red"}'>
+								<button v-for="data in getCategoryList.data" class="bui_p_12 bui_ts_14 bui_bds_4_b">{{data.categoryType}}</button>
+							</div>
+							<div buijs_tab_box="productType_box">
+								<div v-for="data in getCategoryList.data" class="bui_tc_black_a bui_ts_14 bui_ts_16_i">
+									<a v-for="type in data.categoryTypeList" href="product_list.html?categoryId={{type.categoryId}}" :class="['bui_media' ,'bui_vm' ,'bui_ptb_12' ,'bui_plr_24',$index!=0?'bui_bds_1_t':'']">
+										<div class="bui_media_b">{{type.categoryName}}</div>
+										<div class="bui_media_r">
+											<i class="fa fa-angle-right bui_tc_white_d48"></i>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+					</template>
+				</div>
+				<!--页面-->
+			</div>
+		</div>
+		<!--主体-->
+	</body>
+
+</html>

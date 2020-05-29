@@ -1,0 +1,1203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mcoding.emis.goods.product.persistence.ProductMapper">
+
+	<sql id="Base_Column_List">
+		p.productId,p.productName,p.barCode,
+		<!-- originalPrice,discountPrice, -->
+		p.microMallPrice1,p.productCode,p.productPoint,p.createTime,
+		p.updateTime,p.isPointed,p.productLabel,p.productContent,p.productIntroduce,p.slogan,p.productCoverImg,p.productType,p.brandCode,
+		p.productSummary,p.isSale,p.tmallUrl,p.jdUrl,p.yhdUrl,p.microProductCoverImg,p.microProductContent,p.microProductRollImg1,
+		p.microProductRollImg2,p.microProductRollImg3,p.microProductRollImg4,p.microProductRollImg5,p.productNo,p.isGift,
+		p.giftPoint,giftPlusPoint,p.giftPointMoney,p.discountPoint,p.discountGiftPlusPoint,p.discountPointMoney,p.saleNum,
+		p.exchangeNum,p.isOpenDsicountPoint,p.quotaNum,p.ext,p.ext1,p.productAdImg,p.productAdType,p.preferredProductId,p.productSequence,p.isSet,
+		p.isShowInOfficialWeb,p.unit,p.busiScenario,p.presellEndTime,p.presellStartTime,p.presellDownPayment,p.seckillStartTime,
+		p.seckillEndTime,p.timeLimitStartTime,p.timeLimitEndTime,p.bulkNumber,p.bulkDiscountNumber
+	</sql>
+
+    <insert id="add" parameterType="com.mcoding.emis.goods.product.bean.Product" useGeneratedKeys="true" keyProperty="productId">
+  	    insert into mr_product(productName,productLabel, productCode,productNo,productContent,barCode,
+  	     productIntroduce,slogan,productCoverImg,productType,
+  	     productPoint, createTime, updateTime,isPointed,brandCode,originalPrice,
+  	     discountPrice,productSummary,isSale,tmallUrl,jdUrl,yhdUrl, microProductCoverImg, microProductContent, 
+         microProductRollImg1, microProductRollImg2, microProductRollImg3, microProductRollImg4, 
+         microProductRollImg5, isGift, giftPoint, discountPoint, saleNum, exchangeNum,
+          ext, ext1,isOpenDsicountPoint, productAdImg, productAdType, preferredProductId,
+           giftPointMoney, discountPointMoney, isSet,giftPlusPoint,discountGiftPlusPoint)
+  		  values(#{productName},#{productLabel}, #{productCode},#{productNo},#{productContent},#{barCode},
+  		   #{productIntroduce},#{slogan},#{productCoverImg},#{productType},
+  		   #{productPoint}, #{createTime}, #{updateTime},#{isPointed},#{brandCode},#{originalPrice},
+  		   #{discountPrice},#{productSummary},#{isSale},#{tmallUrl},#{jdUrl},#{yhdUrl},
+  		    #{microproductcoverimg,jdbcType=VARCHAR}, #{microproductcontent,jdbcType=VARCHAR}, 
+      #{microproductrollimg1,jdbcType=VARCHAR}, #{microproductrollimg2,jdbcType=VARCHAR}, 
+      #{microproductrollimg3,jdbcType=VARCHAR}, #{microproductrollimg4,jdbcType=VARCHAR}, 
+      #{microproductrollimg5,jdbcType=VARCHAR}, #{isGift,jdbcType=INTEGER}, #{giftPoint,jdbcType=INTEGER}, 
+      #{discountPoint,jdbcType=INTEGER}, #{saleNum,jdbcType=INTEGER}, #{exchangeNum,jdbcType=INTEGER}, 
+      #{ext,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR}, #{isOpenDsicountPoint,jdbcType=INTEGER}
+      , #{productAdImg,jdbcType=VARCHAR}, #{productAdType,jdbcType=VARCHAR}, #{preferredProductId,jdbcType=VARCHAR},
+      #{giftPointMoney,jdbcType=INTEGER}, #{discountPointMoney,jdbcType=INTEGER},
+       #{isSet,jdbcType=VARCHAR},#{giftPlusPoint,jdbcType=INTEGER},#{discountGiftPlusPoint,jdbcType=INTEGER},#{isShowInOfficialWeb,jdbcType=INTEGER})
+    </insert>
+    
+    <insert id="insertSelective" parameterType="com.mcoding.emis.goods.product.bean.Product" useGeneratedKeys="true" keyProperty="productId">
+    insert into mr_product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        productId,
+      </if>
+      <if test="productName != null">
+        productName,
+      </if>
+      <if test="barCode != null">
+        barCode,
+      </if>
+      <if test="originalPrice != null">
+        originalPrice,
+      </if>
+      <if test="discountPrice != null">
+        discountPrice,
+      </if>
+      <if test="productCode != null">
+        productCode,
+      </if>
+      <if test="productPoint != null">
+        productPoint,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="isPointed != null">
+        isPointed,
+      </if>
+      <if test="productLabel != null">
+        productLabel,
+      </if>
+      <if test="productContent != null">
+        productContent,
+      </if>
+      <if test="productIntroduce != null">
+        productIntroduce,
+      </if>
+      <if test="slogan != null">
+        slogan,
+      </if>
+      <if test="productCoverImg != null">
+        productCoverImg,
+      </if>
+      <if test="productType != null">
+        productType,
+      </if>
+      <if test="brandCode != null">
+        brandCode,
+      </if>
+      <if test="productSummary != null">
+        productSummary,
+      </if>
+      <if test="isSale != null">
+        isSale,
+      </if>
+      <if test="tmallUrl != null">
+        tmallUrl,
+      </if>
+      <if test="jdUrl != null">
+        jdUrl,
+      </if>
+      <if test="yhdUrl != null">
+        yhdUrl,
+      </if>
+      <if test="microproductcoverimg != null">
+        microProductCoverImg,
+      </if>
+      <if test="microproductcontent != null">
+        microProductContent,
+      </if>
+      <if test="microproductrollimg1 != null">
+        microProductRollImg1,
+      </if>
+      <if test="microproductrollimg2 != null">
+        microProductRollImg2,
+      </if>
+      <if test="microproductrollimg3 != null">
+        microProductRollImg3,
+      </if>
+      <if test="microproductrollimg4 != null">
+        microProductRollImg4,
+      </if>
+      <if test="microproductrollimg5 != null">
+        microProductRollImg5,
+      </if>
+      <if test="productNo != null">
+        productNo,
+      </if>
+      <if test="isGift != null">
+        isGift,
+      </if>
+      <if test="giftPoint != null">
+        giftPoint,
+      </if>
+      <if test="discountPoint != null">
+        discountPoint,
+      </if>
+      <if test="saleNum != null">
+        saleNum,
+      </if>
+      <if test="exchangeNum != null">
+        exchangeNum,
+      </if>
+      <if test="isOpenDsicountPoint != null">
+        isOpenDsicountPoint,
+      </if>
+      <if test="ext != null">
+        ext,
+      </if>
+      <if test="ext1 != null">
+        ext1,
+      </if>
+      <if test="productAdImg != null">
+        productAdImg,
+      </if>
+      <if test="productAdType != null">
+        productAdType,
+      </if>
+      <if test="preferredProductId != null">
+        preferredProductId,
+      </if>
+      <if test="giftPointMoney != null">
+        giftPointMoney,
+      </if>
+      <if test="discountPointMoney != null">
+        discountPointMoney,
+      </if>
+      <if test="isSet != null">
+        isSet,
+      </if>
+      <if test="giftPlusPoint != null">
+          giftPlusPoint,
+      </if>
+      <if test="discountGiftPlusPoint != null">
+        discountGiftPlusPoint,
+      </if>
+      <if test="isShowInOfficialWeb != null">
+        isShowInOfficialWeb,
+      </if>
+      <if test="quotaNum != null">
+        quotaNum,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="busiScenario != null">
+        busiScenario,
+      </if>
+      <if test="presellStartTime != null">
+        presellStartTime,
+      </if>
+      <if test="presellEndTime != null">
+        presellEndTime,
+      </if>
+      <if test="presellDownPayment != null">
+        presellDownPayment,
+      </if>
+      <if test="seckillStartTime != null">
+        seckillStartTime,
+      </if>
+      <if test="seckillEndTime != null">
+        seckillEndTime,
+      </if>
+      <if test="timeLimitStartTime != null">
+        timeLimitStartTime,
+      </if>
+      <if test="timeLimitEndTime != null">
+        timeLimitEndTime,
+      </if>
+      <if test="bulkNumber != null">
+        bulkNumber,
+      </if>
+      <if test="bulkDiscountNumber != null">
+        bulkDiscountNumber
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="barCode != null">
+        #{barCode,jdbcType=VARCHAR},
+      </if>
+      <if test="originalPrice != null">
+        #{originalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="discountPrice != null">
+        #{discountPrice,jdbcType=INTEGER},
+      </if>
+      <if test="productCode != null">
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="productPoint != null">
+        #{productPoint,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPointed != null">
+        #{isPointed,jdbcType=INTEGER},
+      </if>
+      <if test="productLabel != null">
+        #{productLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="productContent != null">
+        #{productContent,jdbcType=VARCHAR},
+      </if>
+      <if test="productIntroduce != null">
+        #{productIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="slogan != null">
+        #{slogan,jdbcType=VARCHAR},
+      </if>
+      <if test="productCoverImg != null">
+        #{productCoverImg,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null">
+        #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="brandCode != null">
+        #{brandCode,jdbcType=VARCHAR},
+      </if>
+      <if test="productSummary != null">
+        #{productSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="isSale != null">
+        #{isSale,jdbcType=INTEGER},
+      </if>
+      <if test="tmallUrl != null">
+        #{tmallUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="jdUrl != null">
+        #{jdUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="yhdUrl != null">
+        #{yhdUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="microproductcoverimg != null">
+        #{microproductcoverimg,jdbcType=VARCHAR},
+      </if>
+      <if test="microproductcontent != null">
+        #{microproductcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="microproductrollimg1 != null">
+        #{microproductrollimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="microproductrollimg2 != null">
+        #{microproductrollimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="microproductrollimg3 != null">
+        #{microproductrollimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="microproductrollimg4 != null">
+        #{microproductrollimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="microproductrollimg5 != null">
+        #{microproductrollimg5,jdbcType=VARCHAR},
+      </if>
+      <if test="productNo != null">
+        #{productNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isGift != null">
+        #{isGift,jdbcType=INTEGER},
+      </if>
+      <if test="giftPoint != null">
+        #{giftPoint,jdbcType=INTEGER},
+      </if>
+      <if test="discountPoint != null">
+        #{discountPoint,jdbcType=INTEGER},
+      </if>
+      <if test="saleNum != null">
+        #{saleNum,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeNum != null">
+        #{exchangeNum,jdbcType=INTEGER},
+      </if>
+      <if test="isOpenDsicountPoint != null">
+        #{isOpenDsicountPoint,jdbcType=INTEGER},
+      </if>
+      <if test="ext != null">
+        #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null">
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="productAdImg != null">
+        #{productAdImg,jdbcType=VARCHAR},
+      </if>
+      <if test="productAdType != null">
+        #{productAdType,jdbcType=VARCHAR},
+      </if>
+      <if test="preferredProductId != null">
+        #{preferredProductId,jdbcType=VARCHAR},
+      </if>
+      <!-- <if test="giftPointMoney != null">
+        #{giftPointMoney,jdbcType=INTEGER},
+      </if>
+      <if test="discountPointMoney != null">
+        #{discountPointMoney,jdbcType=INTEGER}
+      </if> -->
+      <if test="giftPointMoney != null" >
+		    	<choose> 
+					<when test="giftPointMoney == 0"> 
+						giftPointMoney = NULL,
+					</when> 
+					<otherwise> 
+						giftPointMoney = #{giftPointMoney,jdbcType=INTEGER},
+					</otherwise> 
+				</choose> 
+		    </if>
+		    <if test="discountPointMoney != null" >
+		    	<choose>
+					<when test="discountPointMoney == 0">
+						discountPointMoney = NULL,
+					</when>
+					<otherwise>
+						discountPointMoney = #{discountPointMoney,jdbcType=INTEGER},
+					</otherwise> 
+				</choose> 
+		   </if>
+      <if test="isSet != null">
+        #{isSet,jdbcType=VARCHAR},
+      </if>
+        <if test="giftPlusPoint != null" >
+            <choose>
+                <when test="giftPlusPoint == 0">
+                    giftPlusPoint = NULL,
+                </when>
+                <otherwise>
+                    giftPlusPoint = #{giftPlusPoint,jdbcType=INTEGER},
+                </otherwise>
+            </choose>
+        </if>
+        <if test="discountGiftPlusPoint != null" >
+            <choose>
+                <when test="discountGiftPlusPoint == 0">
+                    discountGiftPlusPoint = NULL,
+                </when>
+                <otherwise>
+                    discountGiftPlusPoint = #{discountGiftPlusPoint,jdbcType=INTEGER},
+                </otherwise>
+            </choose>
+        </if>
+        <if test="isShowInOfficialWeb != null">
+        #{isShowInOfficialWeb,jdbcType=INTEGER},
+      </if>
+       <if test="quotaNum != null">
+        #{quotaNum,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="busiScenario != null">
+        #{busiScenario,jdbcType=VARCHAR},
+      </if>
+      <if test="presellStartTime != null">
+        #{presellStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="presellEndTime != null">
+        #{presellEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="presellDownPayment != null">
+        #{presellDownPayment,jdbcType=INTEGER},
+      </if>
+      <if test="seckillStartTime != null">
+        #{seckillStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="seckillEndTime != null">
+        #{seckillEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeLimitStartTime != null">
+        #{timeLimitStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeLimitEndTime != null">
+        #{timeLimitEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bulkNumber != null">
+        #{bulkNumber,jdbcType=INTEGER},
+      </if>
+      <if test="bulkDiscountNumber != null">
+        #{bulkDiscountNumber,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+    
+     <!-- 查询会员数 -->
+   	 <select id="countProductNum" resultType="int">
+    		select count(*) from mr_product
+  	 </select>
+
+    <delete id="delete" parameterType="String">
+    	DELETE from mr_product where productId = #{productId}
+    </delete>
+    
+      <update id="update" parameterType="com.mcoding.emis.goods.product.bean.Product" >
+    update mr_product
+    set productName = #{productName,jdbcType=VARCHAR},
+        productLabel = #{productLabel,jdbcType=VARCHAR},
+        productCode = #{productCode,jdbcType=VARCHAR},
+        productNo = #{productNo,jdbcType=VARCHAR},
+        barCode = #{barCode,jdbcType=VARCHAR},
+        productIntroduce = #{productIntroduce,jdbcType=VARCHAR},
+        slogan = #{slogan,jdbcType=VARCHAR},
+        productCoverImg = #{productCoverImg,jdbcType=VARCHAR},
+        productType = #{productType,jdbcType=VARCHAR},
+        productContent = #{productContent,jdbcType=VARCHAR},
+        productPoint = #{productPoint,jdbcType=INTEGER},
+        isPointed = #{isPointed,jdbcType=INTEGER},
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+        brandCode = #{brandCode,jdbcType=VARCHAR},
+        originalPrice = #{originalPrice,jdbcType=INTEGER},
+        discountPrice = #{discountPrice,jdbcType=INTEGER},
+        productSummary = #{productSummary,jdbcType=VARCHAR},
+        tmallUrl = #{tmallUrl,jdbcType=VARCHAR},
+        jdUrl = #{jdUrl,jdbcType=VARCHAR},
+        yhdUrl = #{yhdUrl,jdbcType=VARCHAR},
+        isSale = #{isSale,jdbcType=INTEGER},
+        microProductCoverImg = #{microproductcoverimg,jdbcType=VARCHAR},
+        microProductContent = #{microproductcontent,jdbcType=VARCHAR},
+        microProductRollImg1 = #{microproductrollimg1,jdbcType=VARCHAR},
+        microProductRollImg2 = #{microproductrollimg2,jdbcType=VARCHAR},
+        microProductRollImg3 = #{microproductrollimg3,jdbcType=VARCHAR},
+        microProductRollImg4 = #{microproductrollimg4,jdbcType=VARCHAR},
+        microProductRollImg5 = #{microproductrollimg5,jdbcType=VARCHAR},
+	    isGift = #{isGift,jdbcType=INTEGER},
+	    giftPoint = #{giftPoint,jdbcType=INTEGER},
+	    discountPoint = #{discountPoint,jdbcType=INTEGER},
+	    saleNum = #{saleNum,jdbcType=INTEGER},
+	    exchangeNum = #{exchangeNum,jdbcType=INTEGER},
+	    quotaNum = #{quotaNum,jdbcType=INTEGER},
+	    ext = #{ext,jdbcType=VARCHAR},
+	    ext1 = #{ext1,jdbcType=VARCHAR},
+        isOpenDsicountPoint = #{isOpenDsicountPoint,jdbcType=INTEGER}
+	    productAdImg = #{productAdImg,jdbcType=VARCHAR},
+        productAdType = #{productAdType,jdbcType=VARCHAR},
+        preferredProductId = #{preferredProductId,jdbcType=VARCHAR},
+        giftPointMoney = #{giftPointMoney,jdbcType=INTEGER},
+        discountPointMoney = #{discountPointMoney,jdbcType=INTEGER},
+        isSet = #{isSet,jdbcType=VARCHAR},
+        giftPlusPoint = #{giftPlusPoint,jdbcType=INTEGER},
+        discountGiftPlusPoint = #{discountGiftPlusPoint,jdbcType=INTEGER},
+        isShowInOfficialWeb = #{isShowInOfficialWeb,jdbcType=INTEGER}
+    where productId = #{productId,jdbcType=INTEGER}
+  </update>
+
+    <update id="updateBySelect" parameterType="com.mcoding.emis.goods.product.bean.Product">
+        update mr_product
+        <set>
+            <if test="productName != null and productName != ''">
+                productName = #{productName},
+            </if>
+            <if test="productLabel != null and productLabel != ''">
+                productLabel = #{productLabel},
+            </if>
+            <if test="productCode != null and productCode != ''">
+                productCode = #{productCode},
+            </if>
+            <if test="productNo != null and productNo != ''">
+                productNo = #{productNo},
+            </if>
+            <if test="barCode != null and barCode != ''">
+                barCode = #{barCode},
+            </if>
+            <if test="productIntroduce != null and productIntroduce != ''">
+                productIntroduce = #{productIntroduce},
+            </if>
+            <if test="slogan != null and slogan != ''">
+                slogan = #{slogan},
+            </if>
+            <if test="productCoverImg != null and productCoverImg != ''">
+                productCoverImg = #{productCoverImg},
+            </if>
+            <if test="productType != null and productType != ''">
+                productType = #{productType},
+            </if>
+            <if test="productContent != null and productContent != ''">
+                productContent = #{productContent},
+            </if>
+            <if test="productPoint != null and productPoint != ''">
+                productPoint = #{productPoint},
+            </if>
+            <if test="isPointed != null and isPointed != ''">
+                isPointed = #{isPointed},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="brandCode != null and brandCode != ''">
+                brandCode = #{brandCode},
+            </if>
+            <if test="originalPrice != null and originalPrice != ''">
+                originalPrice = #{originalPrice},
+            </if>
+            <if test="discountPrice != null and discountPrice != ''">
+                discountPrice = #{discountPrice},
+            </if>
+            <if test="productSummary != null and productSummary != ''">
+                productSummary = #{productSummary},
+            </if>
+            <if test="tmallUrl != null and tmallUrl != ''">
+                tmallUrl = #{tmallUrl},
+            </if>
+            <if test="jdUrl != null and jdUrl != ''">
+                jdUrl = #{jdUrl},
+            </if>
+            <if test="yhdUrl != null and yhdUrl != ''">
+                yhdUrl = #{yhdUrl},
+            </if>
+            <if test="isSale != null">
+                isSale = #{isSale},
+            </if>
+            <if test="microproductcoverimg != null" >
+		        microProductCoverImg = #{microproductcoverimg,jdbcType=VARCHAR},
+	        </if>
+	        <if test="microproductcontent != null" >
+	        	microProductContent = #{microproductcontent,jdbcType=VARCHAR},
+	        </if>
+	        <if test="microproductrollimg1 != null" >
+	        	microProductRollImg1 = #{microproductrollimg1,jdbcType=VARCHAR},
+	        </if>
+	      	<if test="microproductrollimg2 != null" >
+	        	microProductRollImg2 = #{microproductrollimg2,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="microproductrollimg3 != null" >
+	        	microProductRollImg3 = #{microproductrollimg3,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="microproductrollimg4 != null" >
+	        	microProductRollImg4 = #{microproductrollimg4,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="microproductrollimg5 != null" >
+	        	microProductRollImg5 = #{microproductrollimg5,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="isGift != null" >
+		        isGift = #{isGift,jdbcType=INTEGER},
+		    </if>
+		    <if test="giftPoint != null" >
+		        giftPoint = #{giftPoint,jdbcType=INTEGER},
+		    </if>
+		    <if test="discountPoint != null" >
+		        discountPoint = #{discountPoint,jdbcType=INTEGER},
+		    </if>
+		    <if test="saleNum != null" >
+		        saleNum = #{saleNum,jdbcType=INTEGER},
+		    </if>
+		    <if test="exchangeNum != null" >
+		        exchangeNum = #{exchangeNum,jdbcType=INTEGER},
+		    </if>
+		    <if test="quotaNum != null" >
+		        quotaNum = #{quotaNum,jdbcType=INTEGER},
+		    </if>
+		    <if test="ext != null" >
+		        ext = #{ext,jdbcType=VARCHAR},
+		    </if>
+		    <if test="ext1 != null" >
+		        ext1 = #{ext1,jdbcType=VARCHAR},
+		    </if>
+		    <if test="isOpenDsicountPoint != null" >
+		        isOpenDsicountPoint = #{isOpenDsicountPoint,jdbcType=VARCHAR},
+		    </if>
+		    <if test="productAdImg != null and productAdImg != ''" >
+		        productAdImg = #{productAdImg,jdbcType=VARCHAR},
+		    </if>
+		    <if test="productAdType != null" >
+		        productAdType = #{productAdType,jdbcType=VARCHAR},
+		    </if>
+		    <if test="productSequence != null" >
+		        productSequence = #{productSequence,jdbcType=INTEGER},
+		    </if>
+		    <if test="preferredProductId != null" >
+		        preferredProductId = #{preferredProductId,jdbcType=VARCHAR},
+		    </if>
+		    <if test="giftPointMoney != null" >
+		    	<choose> 
+					<when test="giftPointMoney == 0"> 
+						giftPointMoney = NULL,
+					</when> 
+					<otherwise> 
+						giftPointMoney = #{giftPointMoney,jdbcType=INTEGER},
+					</otherwise> 
+				</choose> 
+		    </if>
+		    <if test="discountPointMoney != null" >
+		    	<choose>
+					<when test="discountPointMoney == 0"> 
+						discountPointMoney = NULL,
+					</when>
+					<otherwise>
+						discountPointMoney = #{discountPointMoney,jdbcType=INTEGER},
+					</otherwise> 
+				</choose> 
+		   </if>
+		    <if test="isSet != null" >
+		        isSet = #{isSet,jdbcType=VARCHAR},
+		    </if>
+            <if test="giftPlusPoint != null" >
+                <choose>
+                    <when test="giftPlusPoint == 0">
+                        giftPlusPoint = NULL,
+                    </when>
+                    <otherwise>
+                        giftPlusPoint = #{giftPlusPoint,jdbcType=INTEGER},
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="discountGiftPlusPoint != null" >
+                <choose>
+                    <when test="discountGiftPlusPoint == 0">
+                        discountGiftPlusPoint = NULL,
+                    </when>
+                    <otherwise>
+                        discountGiftPlusPoint = #{discountGiftPlusPoint,jdbcType=INTEGER},
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="isShowInOfficialWeb != null" >
+		        isShowInOfficialWeb = #{isShowInOfficialWeb,jdbcType=INTEGER},
+		    </if>
+		    <if test="unit != null" >
+		        unit = #{unit,jdbcType=VARCHAR},
+		    </if>
+		    <if test="busiScenario != null" >
+		        busiScenario = #{busiScenario,jdbcType=VARCHAR},
+		    </if>
+		    <if test="presellStartTime != null" >
+		        presellStartTime = #{presellStartTime,jdbcType=TIMESTAMP},
+		    </if>
+		    <if test="presellEndTime != null" >
+		        presellEndTime = #{presellEndTime,jdbcType=TIMESTAMP},
+		    </if>
+		    <if test="presellDownPayment != null" >
+		        presellDownPayment = #{presellDownPayment,jdbcType=INTEGER},
+		    </if>
+		    <if test="seckillStartTime != null" >
+		        seckillStartTime = #{seckillStartTime,jdbcType=TIMESTAMP},
+		    </if>
+		    <if test="seckillEndTime != null" >
+		        seckillEndTime = #{seckillEndTime,jdbcType=TIMESTAMP},
+		    </if>
+		    <if test="timeLimitStartTime != null" >
+		        timeLimitStartTime = #{timeLimitStartTime,jdbcType=TIMESTAMP},
+		    </if>
+		    <if test="timeLimitEndTime != null" >
+		        timeLimitEndTime = #{timeLimitEndTime,jdbcType=TIMESTAMP},
+		    </if>
+		    <if test="unit != null" >
+		        unit = #{unit,jdbcType=VARCHAR},
+		    </if>
+		    <if test="unit != null" >
+		        unit = #{unit,jdbcType=VARCHAR},
+		    </if>
+		    <if test="unit != null" >
+		        unit = #{unit,jdbcType=VARCHAR},
+		    </if>
+        </set>
+        where productId = #{productId}
+    </update>
+
+    <select id="queryAll" resultType="com.mcoding.emis.goods.product.bean.Product">
+        select * from mr_product
+    </select>
+    
+    <select id="queryAllProductByPage" parameterType="map" resultType="com.mcoding.emis.goods.product.bean.Product">
+    	<bind name="_openid" value="@com.mcoding.emis.goods.common.utils.GetOpenidUtil@getOpenid()"/>
+        select 
+        	<include refid="Base_Column_List" />
+	        <if test="_openid !=null and _openid !=''">
+		        ,ps.retail_price * 100 originalPrice,
+		  		ps.agent_price * 100 discountPrice,
+		  		ps.minimum_quantity minimumQuantity 
+	        </if>
+        from mr_product p
+        <if test="_openid !=null and _openid !=''">
+        INNER JOIN ( select * from mr_member m, mr_price_set s 
+			where IFNULL(m.channelsId,5) = s.dealer_id
+			and m.openid = #{_openid}
+			AND s.status = '1' ) ps on ps.product_id = p.productId
+	    </if>
+        <trim prefix="where" suffix=" " suffixOverrides="and" >
+	        <if test="productName != null and productName != ''">
+	        	p.productName like'%${productName}%' and
+	        </if>
+	        <if test="productType != null and productType != ''">
+	        	p.productType = '${productType}' and
+	        </if>
+	        <if test="brandCode != null and brandCode != ''">
+	        	p.brandCode = '${brandCode}' and
+	        </if>
+	        <if test="isSale != null and isSale != ''">
+	        	p.isSale = '${isSale}' and
+	        </if>
+	        <if test="isGift != null and isGift != ''">
+	        	p.isGift = '${isGift}' and
+	        </if>
+	        <if test="isOpenDsicountPoint != null and isOpenDsicountPoint != ''">
+	        	p.isOpenDsicountPoint = '${isOpenDsicountPoint}' and
+	        </if>
+	        <if test="isSet != null and isSet != ''">
+	        	p.isSet = '${isSet}' and
+	        </if>
+        </trim>
+        ORDER BY p.productId DESC
+    </select>
+
+    <select id="queryById" parameterType="int" resultType="com.mcoding.emis.goods.product.bean.Product">
+    <bind name="_openid" value="@com.mcoding.emis.goods.common.utils.GetOpenidUtil@getOpenid()"/>
+        SELECT 
+        	<include refid="Base_Column_List" />
+	        <if test="_openid !=null and _openid !=''">
+		        ,ps.retail_price * 100 originalPrice,
+		  		ps.agent_price * 100 discountPrice,
+		  		ps.minimum_quantity minimumQuantity 
+	        </if>
+        FROM mr_product p 
+        <if test="_openid !=null and _openid !=''">
+        INNER JOIN ( select * from mr_member m, mr_price_set s 
+			where IFNULL(m.channelsId,5) = s.dealer_id
+			and m.openid = #{_openid}
+			AND s.status = '1' ) ps on ps.product_id = p.productId
+	    </if>
+		WHERE p.productId = #{productId}  
+    </select>
+    
+    <select id="queryByChannelsId" parameterType="map" resultType="com.mcoding.emis.goods.product.bean.Product">
+    	<bind name="_openid" value="@com.mcoding.emis.goods.common.utils.GetOpenidUtil@getOpenid()"/>
+        SELECT 
+	        <include refid="Base_Column_List" />
+	        <if test="_openid !=null and _openid !=''">
+		        ,ip.microMallPrice as microMallPrice,
+		        ps.retail_price * 100 originalPrice,
+			  	ps.agent_price * 100 discountPrice ,
+			  	ps.minimum_quantity minimumQuantity 
+			</if>
+        from 
+        	income_product ip ,
+	        mr_product p
+	        <if test="_openid !=null and _openid !=''">
+		        ,( select * from mr_member m, mr_price_set s 
+					where IFNULL(m.channelsId,5) = s.dealer_id
+					and m.openid = #{_openid} 
+					AND s.status = '1' ) ps  
+			</if>
+        WHERE ip.productId = p.productId 
+             and ip.productId = #{param1} and ip.channelsId = #{param2}
+             <if test="_openid !=null and _openid !=''">
+             	and ps.product_id = p.productId
+             </if>
+    </select>
+    
+    <select id="queryByProductCode" parameterType="string" resultType="com.mcoding.emis.goods.product.bean.Product">
+    	<bind name="_openid" value="@com.mcoding.emis.goods.common.utils.GetOpenidUtil@getOpenid()"/>
+        SELECT 
+        	<include refid="Base_Column_List" />
+	        <if test="_openid !=null and _openid !=''">
+		        ,ps.retail_price * 100 originalPrice,
+		  		ps.agent_price * 100 discountPrice,
+		  		ps.minimum_quantity minimumQuantity 
+	        </if>
+        FROM mr_product p
+	        <if test="_openid !=null and _openid !=''">
+	        INNER JOIN ( select * from mr_member m, mr_price_set s 
+				where IFNULL(m.channelsId,5) = s.dealer_id
+				and m.openid = #{_openid}
+				AND s.status = '1' ) ps on ps.product_id = p.productId
+		    </if>
+         WHERE p.productCode = #{productCode}
+    </select>
+    
+    <select id="queryByBarCode" parameterType="string" resultType="com.mcoding.emis.goods.product.bean.Product">
+    	<bind name="_openid" value="@com.mcoding.emis.goods.common.utils.GetOpenidUtil@getOpenid()"/>
+        SELECT 
+        	<include refid="Base_Column_List" />
+	        <if test="_openid !=null and _openid !=''">
+		        ,ps.retail_price * 100 originalPrice,
+		  		ps.agent_price * 100 discountPrice,
+		  		ps.minimum_quantity minimumQuantity 
+	        </if> 
+        FROM mr_product p 
+	        <if test="_openid !=null and _openid !=''">
+	        INNER JOIN ( select * from mr_member m, mr_price_set s 
+				where IFNULL(m.channelsId,5) = s.dealer_id
+				and m.openid = #{_openid}
+				AND s.status = '1' ) ps on ps.product_id = p.productId
+		    </if>
+        WHERE p.barCode = #{barCode}
+    </select>
+    <select id="queryByCategoryId" parameterType="int" resultType="com.mcoding.emis.goods.product.bean.Product">
+    	<bind name="_openid" value="@com.mcoding.emis.goods.common.utils.GetOpenidUtil@getOpenid()"/>
+        select 
+        	<include refid="Base_Column_List" />
+	        <if test="_openid !=null and _openid !=''">
+		        ,ps.retail_price * 100 originalPrice,
+		  		ps.agent_price * 100 discountPrice,
+		  		ps.minimum_quantity minimumQuantity 
+	        </if>
+        from 
+        	mr_product p inner join mr_product_category pc on pc.categoryId = #{categoryId} and pc.productId = p.productId
+        	<if test="_openid !=null and _openid !=''">
+	        	INNER JOIN ( select * from mr_member m, mr_price_set s 
+				where IFNULL(m.channelsId,5) = s.dealer_id
+				and m.openid = #{_openid}
+				AND s.status = '1' ) ps on ps.product_id = p.productId
+		    </if>
+    </select>
+    <select id="getProductListBySearch" parameterType="map" resultType="com.mcoding.emis.goods.product.bean.Product">
+    	<bind name="_openid" value="@com.mcoding.emis.goods.common.utils.GetOpenidUtil@getOpenid()"/>
+        select 
+		<include refid="Base_Column_List" />
+        <if test="_openid !=null and _openid !=''">
+	        ,ps.retail_price * 100 originalPrice,
+	  		ps.agent_price * 100 discountPrice,
+	  		ps.minimum_quantity minimumQuantity 
+        </if>
+        <if test="channelsId !=null">
+          ,ip.microMallPrice
+        </if>
+       <!--  <if test="productAdType !=null">
+          , ps.productAdType,ps.sequence
+        </if> -->
+        from 
+        mr_product p
+        <if test="channelsId !=null">
+        inner join income_product ip
+        on
+          ip.productId = p.productId and
+          ip.channelsId = #{channelsId}
+        </if>
+        <if test="_openid !=null and _openid !=''">
+        INNER JOIN ( select * from mr_member m, mr_price_set s 
+			where IFNULL(m.channelsId,5) = s.dealer_id
+			and m.openid = #{_openid}
+			AND s.status = '1' ) ps on ps.product_id = p.productId
+	    </if>
+       <!--  <if test="productAdType !=null">
+        inner join mr_product_sequence ps
+        on
+          p.productId = ps.productId
+	 	  AND ps.productAdType = #{productAdType}
+        </if> -->
+        <trim>
+        	<if test="categoryId !=null and categoryId!=''">
+        		,mr_product_category pc
+        	</if>
+        </trim> 
+        <trim prefix="where " suffix=" " suffixOverrides="and">
+        	<if test="categoryId !=null and categoryId!=''">
+        	    pc.productId = p.productId
+             	and pc.categoryId = #{categoryId} and
+            </if>
+         	<if test="productName !=null and productName!=''">
+             	 p.productName like "%"#{productName}"%" and 
+            </if>
+            <if test="isGift !=null">
+            	p.isGift = #{isGift} and 
+            </if>
+            <!-- 过滤提交 -->
+            <if test="productType !=null and productType !=''">
+            	p.productType != #{productType} and 
+            </if>
+            <if test="isSale !=null and isSale !=''">
+            	p.isSale != #{isSale} and
+            </if>
+            <if test="isSet !=null and isSet !=''">
+            	p.isSet = #{isSet} and
+            </if>
+            p.brandCode=#{brandCode}
+            order by
+         	<!-- <if test="productAdType !=null">
+	          ps.sequence asc,
+	        </if> -->
+	        <!-- productSequence is null,productSequence asc,
+         	updateTime DESC  --> 
+         	productId DESC
+         	<if test="limit !=null and limit !=''">
+            	limit #{limit}
+            </if>
+        </trim> 
+    </select>
+    
+    <select id="getProductListOrderByPlusgoByPage" parameterType="map" resultType="com.mcoding.emis.goods.product.bean.Product">
+    <bind name="_openid" value="@com.mcoding.emis.goods.common.utils.GetOpenidUtil@getOpenid()"/>
+        select 
+        <include refid="Base_Column_List" />
+        <if test="channelsId !=null">
+          ,ip.microMallPrice microMallPrice
+        </if>
+        <if test="_openid !=null and _openid !=''">
+	        ,ps.retail_price * 100 originalPrice,
+	  		ps.agent_price * 100 discountPrice,
+	  		ps.minimum_quantity minimumQuantity 
+        </if>
+        from
+        mr_product p
+        <if test="channelsId !=null">
+        inner join income_product ip
+        on
+          ip.productId = p.productId and
+          ip.channelsId = #{channelsId}
+        </if>
+        <if test="_openid !=null and _openid !=''">
+        	INNER JOIN ( select * from mr_member m, mr_price_set s 
+			where s.dealer_id = #{channelsId} 
+			and m.openid = #{_openid}
+			AND s.status = '1' ) ps on ps.product_id = p.productId
+        </if>
+        <trim>
+        	<if test="categoryId !=null and categoryId!=''">
+        		,mr_product_category pc
+        	</if>
+        </trim> 
+        <trim prefix="where " suffix=" " suffixOverrides="and">
+        	<if test="categoryId !=null and categoryId!=''">
+        	    pc.productId = p.productId
+             	and pc.categoryId = #{categoryId} and
+            </if>
+         	<if test="productName !=null and productName!=''">
+             	 p.productName like "%"#{productName}"%" and 
+            </if>
+            <if test="isGift !=null">
+            	p.isGift = #{isGift} and 
+            </if>
+            <!-- 过滤提交 -->
+            <if test="productType !=null and productType !=''">
+            	p.productType != #{productType} and 
+            </if>
+            <if test="isSale !=null and isSale !=''">
+            	p.isSale != #{isSale} and
+            </if>
+            <if test="productLabel !=null and productLabel !=''">
+                p.productLabel = #{productLabel} and
+            </if>
+            <if test="productLabel ==null or productLabel ==''">
+                (p.productLabel != '内购商品' and p.productLabel != '个人内购商品' and p.productLabel != '限购商品') 
+            </if>
+            order by
+	        productSequence is null,productSequence asc,
+         	updateTime DESC  
+        </trim>
+    </select>
+
+    <select id="getGiftMallProductListByPage" parameterType="map" resultType="com.mcoding.emis.goods.product.bean.Product">
+    	<bind name="_openid" value="@com.mcoding.emis.goods.common.utils.GetOpenidUtil@getOpenid()"/>
+        select 
+        	<include refid="Base_Column_List" />
+	        <if test="_openid !=null and _openid !=''">
+		        ,ps.retail_price * 100 originalPrice,
+		  		ps.agent_price * 100 discountPrice,
+		  		ps.minimum_quantity minimumQuantity 
+	        </if>
+        from mr_product p
+        <if test="_openid !=null and _openid !=''">
+        INNER JOIN ( select * from mr_member m, mr_price_set s 
+			where IFNULL(m.channelsId,5) = s.dealer_id
+			and m.openid = #{_openid}
+			AND s.status = '1' ) ps on ps.product_id = p.productId
+	    </if>
+        <trim>
+            <if test="categoryId !=null and categoryId!=''">
+                ,mr_product_category pc
+            </if>
+        </trim>
+        <trim prefix="where " suffix=" " suffixOverrides="and">
+            <if test="categoryId !=null and categoryId!=''">
+                pc.productId = p.productId
+                and pc.categoryId = #{categoryId} and
+            </if>
+            <if test="productName !=null and productName!=''">
+                p.productName like "%"#{productName}"%" and
+            </if>
+            <if test="isGift !=null">
+                p.isGift = #{isGift} and
+            </if>
+            <!-- 过滤提交 -->
+            <if test="productType !=null and productType !=''">
+                p.productType != #{productType} and
+            </if>
+            <if test="isSale !=null and isSale !=''">
+                p.isSale != #{isSale} and
+            </if>
+            p.brandCode=#{brandCode}
+            order by
+            productSequence is null,productSequence asc,
+            updateTime DESC
+            <if test="limit !=null and limit !=''">
+                limit #{limit}
+            </if>
+        </trim>
+    </select>
+    
+    <select id="getProductsByAdType" parameterType="map" resultType="com.mcoding.emis.goods.product.bean.Product">
+    	<bind name="_openid" value="@com.mcoding.emis.goods.common.utils.GetOpenidUtil@getOpenid()"/>
+        SELECT <include refid="Base_Column_List" />
+	        ,ps.productAdType as productAdType,ps.sequence as sequence
+	        <if test="_openid !=null and _openid !=''">
+		        ,t.retail_price * 100 originalPrice,
+		  		t.agent_price * 100 discountPrice,
+		  		ps.minimum_quantity minimumQuantity 
+	        </if>
+		  FROM  mr_product p
+		  inner JOIN mr_product_sequence ps 
+		    ON p.productId = ps.productId
+		   AND ps.productAdType = #{productAdType}
+		   <if test="_openid !=null and _openid !=''">
+	        INNER JOIN ( select * from mr_member m, mr_price_set s 
+				where IFNULL(m.channelsId,5) = s.dealer_id
+				and m.openid = #{_openid}
+				AND s.status = '1' ) t on t.product_id = p.productId
+		    </if>
+        <trim prefix="where " suffix=" " suffixOverrides="and">
+           <if test="productType !=null and productType !=''">
+            	productType != #{productType} and 
+            </if>
+             <if test="isSale !=null and isSale !=''">
+            	isSale != #{isSale} and
+            </if>
+            p.brandCode=#{brandCode}
+        </trim> 
+         ORDER BY ps.sequence IS NULL ,ps.sequence asc
+    </select>
+    
+    <!--根据ids获取产品列表-->
+    <select id="queryResultByIds" parameterType="map" resultType="com.mcoding.emis.goods.product.bean.Product">
+    	<bind name="_openid" value="@com.mcoding.emis.goods.common.utils.GetOpenidUtil@getOpenid()"/>
+        select 
+        	<include refid="Base_Column_List" />
+	        <if test="_openid !=null and _openid !=''">
+		        ,ps.retail_price * 100 originalPrice,
+		  		ps.agent_price * 100 discountPrice,
+		  		ps.minimum_quantity minimumQuantity 
+	        </if> 
+        from mr_product p
+        <if test="_openid !=null and _openid !=''">
+        INNER JOIN ( select * from mr_member m, mr_price_set s 
+			where IFNULL(m.channelsId,5) = s.dealer_id
+			and m.openid = #{_openid}
+			AND s.status = '1' ) ps on ps.product_id = p.productId
+	    </if>
+         <trim prefix="where" suffix=" " suffixOverrides="and" >
+	        <if test="ids != null and ids != ''">
+	        	p.productId in(${ids}) and
+	        </if>
+        </trim>
+        ORDER BY p.productId ASC
+    </select>
+    
+	<select id="getProductListByParam" parameterType="map" resultType="com.mcoding.emis.goods.product.bean.Product">
+	<bind name="_openid" value="@com.mcoding.emis.goods.common.utils.GetOpenidUtil@getOpenid()"/>
+        select 
+        	<include refid="Base_Column_List" />
+	        <if test="_openid !=null and _openid !=''">
+		        ,ps.retail_price * 100 originalPrice,
+		  		ps.agent_price * 100 discountPrice,
+		  		ps.minimum_quantity minimumQuantity 
+	        </if>
+        from mr_product p
+        <if test="_openid !=null and _openid !=''">
+        INNER JOIN ( select * from mr_member m, mr_price_set s 
+			where IFNULL(m.channelsId,5) = s.dealer_id
+			and m.openid = #{_openid}
+			AND s.status = '1' ) ps on ps.product_id = p.productId
+	    </if>
+        <where>
+        	<if test="brandCode !=null and brandCode != ''">
+            	p.brandCode = #{brandCode} and 
+            </if>
+        	<if test="isSet !=null and isSet != ''">
+            	p.isSet = #{isSet} and 
+            </if>
+        </where>
+            order by
+	        productSequence is null,productSequence asc,
+         	updateTime DESC  
+    </select>
+
+    <select id="getProductsByOrderId" parameterType="int" resultType="com.mcoding.emis.goods.product.bean.Product">
+    <bind name="_openid" value="@com.mcoding.emis.goods.common.utils.GetOpenidUtil@getOpenid()"/>
+        select 
+        	<include refid="Base_Column_List" />
+	        <if test="_openid !=null and _openid !=''">
+		        ,ps.retail_price * 100 originalPrice,
+		  		ps.agent_price * 100 discountPrice,
+		  		ps.minimum_quantity minimumQuantity 
+	        </if>
+        from mr_product p, mr_order_products op
+        <if test="_openid !=null and _openid !=''">
+        , ( select * from mr_member m, mr_price_set s 
+			where IFNULL(m.channelsId,5) = s.dealer_id
+			and m.openid = #{_openid}
+			AND s.status = '1' ) ps 
+	    </if>
+        where op.productId = p.productId  and op.orderId = #{orderId}
+        and op.productId in (SELECT `value` from t_base_dic_group_item where group_id = 18)
+        <if test="_openid !=null and _openid !=''">
+        	and ps.product_id = p.productId
+        </if>
+    </select>
+    
+    <select id="queryProduct" parameterType="com.mcoding.emis.goods.product.bean.Product" resultType = "com.mcoding.emis.goods.product.bean.Product">
+    <bind name="_openid" value="@com.mcoding.emis.goods.common.utils.GetOpenidUtil@getOpenid()"/>
+    	select 
+    		<include refid="Base_Column_List" />
+	        <if test="_openid !=null and _openid !=''">
+		        ,ps.retail_price * 100 originalPrice,
+		  		ps.agent_price * 100 discountPrice,
+		  		ps.minimum_quantity minimumQuantity 
+	        </if>
+        FROM mr_product p 
+        <if test="_openid !=null and _openid !=''">
+        INNER JOIN ( select * from mr_member m, mr_price_set s 
+			where IFNULL(m.channelsId,5) = s.dealer_id
+			and m.openid = #{_openid}
+			AND s.status = '1' ) ps on ps.product_id = p.productId
+	    </if>
+        <trim prefix="where" suffix=" " suffixOverrides="and" >
+	        <if test="productName != null and productName != ''">
+	        	p.productName = '${productName}' and
+	        </if>
+	        <if test="productType != null and productType != ''">
+	        	p.productType = '${productType}' and
+	        </if>
+	        <if test="brandCode != null and brandCode != ''">
+	        	p.brandCode = '${brandCode}' and
+	        </if>
+	        <if test="isSale != null and isSale != ''">
+	        	p.isSale = '${isSale}' and
+	        </if>
+	        <if test="isGift != null and isGift != ''">
+	        	p.isGift = '${isGift}' and
+	        </if>
+	        <if test="isOpenDsicountPoint != null and isOpenDsicountPoint != ''">
+	        	p.isOpenDsicountPoint = '${isOpenDsicountPoint}' and
+	        </if>
+	        <if test="isSet != null and isSet != ''">
+	        	p.isSet = '${isSet}' and
+	        </if>
+        </trim>
+        ORDER BY p.productId DESC limit 1
+    </select>
+    
+    <update id="updateProductQuotaNum" parameterType="com.mcoding.emis.goods.product.bean.Product">
+    	update mr_product set quotaNum = quotaNum-(${quotaNum}-1) where productId = #{ProductId}
+    </update>
+    <select id="queryProductSeqCount" parameterType="map" resultType="java.lang.Integer">
+    	select count(1) from mr_product where productSequence = #{productSequence}
+    </select>
+</mapper>

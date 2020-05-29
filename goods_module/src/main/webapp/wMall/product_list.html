@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="cache-control" content="max-age=0" />
+		<meta http-equiv="cache-control" content="no-cache" />
+		<meta http-equiv="expires" content="0" />
+		<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+		<meta http-equiv="pragma" content="no-cache" />
+		<!--工作空间-->
+		<script type="text/javascript" src="workspace_v2.0.1.js?v1.0.0"></script>
+		<!--工作空间-->
+		<script type="text/javascript" src="mp_js/product_list.js?v1.0.0"></script>
+		<title></title>
+	</head>
+
+	<body class="bui_at_noline bui_bgc_white_d12">
+		<!--购物车组件-->
+		<div id="cartPlug"></div>
+		<!--购物车组件-->
+		<div class="bui_wrap">
+			<!--主屏幕-->
+			<div class="bui_mo">
+				<!--主屏幕_页头-->
+				<div class="bui_mo_h bui_bgc_white bui_tc_black bui_atc_black bui_fac_black bui_bsd_6">
+					<div class="bui_media bui_vm">
+						<div class="bui_media_l bui_p_0">
+							<button class="bui_btn_32 bui_btnsq fa fa-angle-left bui_m_8 {{style.facFalse}}" onclick="javascript:window.history.go(-1);"></button>
+						</div>
+						<div class="bui_media_b">
+							<div class="bui_ipg_32 bui_block bui_bds_1_b" onclick="javascript:showSide_search();">
+								<button class="fa fa-search bui_fr {{style.facTrue}}"></button>
+								<input type="text" name="" id="" value="" placeholder="牛奶" readonly="readonly" class="bui_ipt_32 bui_bds_0 navIpt bui_ts_14" />
+							</div>
+						</div>
+						<div class="bui_media_r">
+
+						</div>
+					</div>
+
+				</div>
+				<!--主屏幕_页头-->
+				<!--主屏幕_主体-->
+				<div class="bui_mo_b bui_mo_b_h">
+					<div class="bui_p_12 bui_ta_c bui_bgc_white bui_bds_1">
+						<i class="fa fa-bell-o fa-fw {{style.facTrue}}"></i>产品列表
+					</div>
+					<!--产品列表-->
+					<div class="bui_avg_2 bui_bgc_white" id="listContent"></div>
+					<!--产品列表-->
+					<!--加载提示-->
+					<div class="bui_p_12 bui_ta_c {{style.tcFalse}} active" id="listTips"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i> 加载中...</div>
+					<!--加载提示-->
+				</div>
+				<!--主屏幕_主体-->
+			</div>
+			<!--主屏幕-->
+
+		</div>
+	</body>
+
+</html>

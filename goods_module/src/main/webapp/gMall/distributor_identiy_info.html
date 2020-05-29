@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>移动商城 - BIG生活</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/distributor_identiy_info.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body id="vueBox" class="gym-body bui_at_noline">
+		<!--主体-->
+		<div class="bui_wrap bui_tc_white">
+
+			<div class="bui_mo ">
+				<!--页头-->
+				<div class="bui_mo_h">
+					<!--提示关注公众号-->
+					<template v-if="isWechatUserFocused.code==1">
+						<tp-isfollow></tp-isfollow>
+					</template>
+					<!--提示关注公众号-->
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="https://h5.youzan.com/v2/home/zt5mvapt" title="完善身份信息"></tp-header>
+				</div>
+				<!--页头-->
+				<form id="" buijs_form_check>
+					<!--页面-->
+					<div class="bui_mo_b bui_mo_b_h bui_mo_b_f gym_mo_b" style="{{isWechatUserFocused.code==1?'top:6rem':''}}">
+						<template v-if="!memberDetail||!memberDetail.data||!getBankerInfo||!getBankerInfo.data">
+							<!--loadingbar-->
+							<tp-loadingbar type="loading"></tp-loadingbar>
+							<!--loadingbar-->
+						</template>
+						<template v-else>
+							<div class=" bui_p_48 bui_row_p_12">
+								<div class="bui_ta_c">
+									<tp-img :src="memberDetail.data.headimgurl" width="9rem" height="9rem" class="bui_round bui_bds_8 bui_bdc_red"></tp-img>
+									<p class="bui_ts_20 bui_tc_yellow">{{memberDetail.data.fullName}}</p>
+									<p>请完善以下资料</p>
+								</div>
+
+								<div buijs_form_item_type="length" buijs_form_item_length="2,999" buijs_form_item_error="请输入您的真实姓名" buijs_form_item_success=" ">
+									<div class="bui_ipg bui_ipg_48 bui_block">
+										<i class="fa fa-user fa-fw bui_fl bui_tc_white_d64"></i>
+										<input type="text" placeholder="请输入您的真实姓名" v-model="getBankerInfo.data.realname" class="bui_ipt_48 bui_ts_14 bui_bds_2 bui_bgc_white" />
+									</div>
+									<div class="buijs_form_item_tips bui_ts_12 bui_ta_r"></div>
+								</div>
+
+								<div buijs_form_item_type="select" buijs_form_item_error="请选择您的证件类型" buijs_form_item_success=" ">
+									<div class="bui_ipg bui_ipg_48 bui_block">
+										<i class="fa fa-credit-card fa-fw bui_fl bui_tc_white_d64"></i>
+										<select class="bui_ipt_48 bui_ts_14 bui_bds_2 bui_bgc_white" v-model="getBankerInfo.data.type">
+											<option>身份证</option>
+											<option>港澳通行证</option>
+											<option>台湾通行证</option>
+											<option>护照</option>
+										</select>
+									</div>
+									<div class="buijs_form_item_tips bui_ts_12 bui_ta_r"></div>
+								</div>
+
+								<div buijs_form_item_type="length" buijs_form_item_length="1,999" buijs_form_item_error="请输入您的证件号码" buijs_form_item_success=" ">
+									<div class="bui_ipg bui_ipg_48 bui_block">
+										<i class="fa fa-credit-card fa-fw bui_fl bui_tc_white_d64"></i>
+										<input type="text" placeholder="请输入您的证件号码" v-model="getBankerInfo.data.identity" class="bui_ipt_48 bui_ts_14 bui_bds_2 bui_bgc_white" />
+									</div>
+									<div class="buijs_form_item_tips bui_ts_12 bui_ta_r"></div>
+								</div>
+
+							</div>
+
+						</template>
+
+					</div>
+					<!--页面-->
+					<!--页脚-->
+					<template v-if="memberDetail&&memberDetail.data&&getBankerInfo&&getBankerInfo.data">
+						<div class="bui_mo_f bui_p_8">
+							<button class="bui_btn bui_block bui_btn_48 bui_bgc_red bui_ts_16">提交资料 <i class="fa fa-angle-right fa-fw"></i></button>
+						</div>
+					</template>
+					<!--页脚-->
+				</form>
+			</div>
+
+		</div>
+		<!--主体-->
+	</body>
+
+</html>

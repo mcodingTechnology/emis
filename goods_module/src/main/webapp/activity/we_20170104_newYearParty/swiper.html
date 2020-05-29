@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="../game_public/workspace_v2.0.3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../resources/baidiui_v2.0.3/js/swiper3.08.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/swiper.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="bui_wrap" style="background-color: #333;">
+			<div id="swiperV" style="height: 100%;">
+				<div class="box">
+					<div v-for="i in [1,2,3,4]" class="item bg bg-{{sexData.data.ext}}-{{i}}" v-bind:onclick="i==3?'showModal();':null"></div>
+				</div>
+			</div>
+			<div v-if="swiperActiveIndex&&swiperActiveIndex<4" style="position: fixed;bottom: 0;right:0;left:0" class="bui_ta_c bui_p_24" onclick="swiperV.slideNext();"><i class="fa fa-angle-down bui_ts_24 bui_tc_white am-up-down"></i></div>
+		</div>
+
+		<div id="showModal" buijs_modal_isRemove='false' class="bg-{{sexData.data.ext}}-modal" style="display: none;">
+			<div class="bui_ptb_64">
+				<img src="images/modal-title.png" class="bui_block" />
+				<div class="bui_inline bui_ta_c bui_vm bg-modal-line bui_ptb_12">
+					<img src="images/gift-{{sexData.data.ext}}-{{sexData.data.prizeid}}.png" style="width:6rem;" /></div>
+				<img src="images/modal-infos.png" class="bui_block" />
+
+				<form class="bui_plr_48 bui_ptb_12 bui_row_p_12 bui_ts_12 bui_tc_white">
+					<div>
+						<div class="bui_media bui_vm">
+							<div class="bui_media_l">姓名</div>
+							<div class="bui_media_b" buijs_form_item_type="length" buijs_form_item_length="1,999"><input type="text" class="bui_ipt_24 bui_block bui_bgc_white bui_bds_0" v-model="sexData.data.membername" /></div>
+
+						</div>
+					</div>
+					<div>
+						<div class="bui_media bui_vm">
+							<div class="bui_media_l">尺码</div>
+							<div class="bui_media_b" buijs_form_item_type="select" v-if="!sexData.data.ext1">
+								<select class="bui_ipt_24 bui_block bui_bgc_white bui_bds_0" v-model="size">
+									<!--这里是放尺寸的列表-->
+									<option v-for="data in ['150-155/XXS', '155-160/XS', '160-165/S','165-170/M','170-175/L','175以上/XL']">{{data}}</option>
+									<!--这里是放尺寸的列表-->
+								</select>
+
+							</div>
+							<div class="bui_media_b" v-else>
+								您已经选择了 <span>{{sexData.data.ext1}}</span> 码
+							</div>
+						</div>
+					</div>
+					<div class="bui_ta_c">
+						<button class="bui_btn bui_btn_24 bui_bgc_orange bui_plr_32">提交</button>
+					</div>
+				</form>
+
+				<img src="images/modal-footer.png" class="bui_block bui_mt_24" />
+			</div>
+		</div>
+	</body>
+
+</html>

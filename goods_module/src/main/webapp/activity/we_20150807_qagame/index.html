@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>极智构</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../baidiui/css/baidiui.css" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script type="text/javascript" src="../baidiui/js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="../baidiui/js/baidiui.js"></script>
+
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js">
+		</script>
+		<script type="text/javascript" src="public.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				//垂直居中
+				_vm();
+				$.getJSON(url + "merriplusApi/checkMemberResult.html?gameid=" + _gameid, function(data) {
+					if (data.data.id == null) {
+						//没有玩过
+						$('#we_vmbox').html('<img src="images/logo.png" style="width: 60%;" /><p class="bui_tc_gray">' + data.data.gamename + '</p><p class="bui_mt_24 bui_block"><img src="images/index_pic_01.png" style="height: 96px;" /></p><a href="comment.html?gameid=' + _gameid + '" class="bui_btn_48 bui_bgc_orange bui_block bui_radius">开始答题</a>');
+						_vm();
+					} else {
+						//没奖品
+						if (data.data.prizeid == null) {
+							var _msg
+							if (data.data.islottery == 1) {
+								//全对没奖品
+								_msg = '礼品已被领完，请继续加油'
+							} else {
+								//答错没奖品
+								_msg = '您没有完成答题，没有获得礼品，请继续加油'
+							}
+							$('#we_vmbox').html('<img src="images/logo.png" style="width: 60%;" /><p class="bui_tc_orange bui_ts_24">很遗憾...</p><p class="bui_tc_gray bui_ts_12">' + _msg + '</p>');
+							_vm();
+						} else {
+							//玩过中奖
+							$('#we_vmbox').html('<img src="images/logo.png" style="width: 60%;" /><p class="bui_tc_orange bui_ts_24">恭喜您！</p><p class="bui_tc_gray">在本次考试中成绩优异！获得了：</p><p class="bui_ts_20">' + data.data.prizename + '</p>');
+							_vm();
+						}
+					}
+				});
+			});
+			 //弹出弹窗
+			function wm_alert_show(id) {
+				$('.wm_alert').show(0, function() {
+					_id = $(this).find('#' + id).show();
+					$(this).addClass('active');
+					//关闭弹窗
+					$('.wm_alert .wm_mask').click(function() {
+						$('.wm_alert').removeClass('active');
+						setTimeout(function() {
+							$('.wm_alert,.wm_mask > *').hide();
+						}, 300);
+					});
+				});
+			};
+			 //垂直居中
+			function _vm() {
+				var _b = $('#we_vmbox');
+				var _bh = _b.height();
+				var _wh = $(window).height();
+				if (_wh > _bh) {
+					_b.css({
+						'padding-top': [_wh - _bh] / 2,
+					})
+				} else {
+					_b.css({
+						'padding-top': 0
+					})
+				}
+			};
+			$(window).resize(function() {
+				_vm();
+			});
+		</script>
+
+	</head>
+
+	<body class="we_index_bg">
+		<div class="bui_ta_c bui_plr_24" id="we_vmbox"></div>
+	</body>
+
+</html>

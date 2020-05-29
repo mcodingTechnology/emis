@@ -1,0 +1,55 @@
+@charset "UTF-8";
+/*全局变量——颜色*/
+body.gym-body {
+  /*background-color: #0f0f0f;*/ }
+
+.gym_mo_b {
+  transition: top 0.3s;
+  -webkit-transition: top 0.3s;
+  -moz-transition: top 0.3s; }
+
+.gym-type {
+  background-size: 100% auto;
+  position: relative;
+  overflow: hidden; }
+
+.gym-type:before {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  left: 50%;
+  background-color: #dd514c;
+  bottom: -4px;
+  transform: rotate(45deg); }
+
+.gym-hide {
+  display: none !important; }
+
+[buijs_tab_box='productDetailTabBox'] img {
+  display: block;
+  max-width: 100%; }
+
+/*项目自定背景色*/
+.mr_bgc_red {
+  background-color: #690000; }
+
+.mr-nav-home,
+a.mr-nav-home {
+  padding: 10%;
+  display: inline-block;
+  background-color: #fff;
+  background: -webkit-linear-gradient(left, #e7e7e7, #fff, #fff, #fff, #e7e7e7);
+  background: -o-linear-gradient(right, #e7e7e7, #fff, #fff, #fff, #e7e7e7);
+  background: -moz-linear-gradient(right, #e7e7e7, #fff, #fff, #fff, #e7e7e7);
+  background: linear-gradient(to right, #e7e7e7, #fff, #fff, #fff, #e7e7e7);
+  margin-top: -0.8rem;
+  box-shadow: 0 4px 0 #666, 0 0 12px #666; }
+  .mr-nav-home > div,
+  a.mr-nav-home > div {
+    width: 50px;
+    height: 50px;
+    display: block; }
+
+/*# sourceMappingURL=style.css.map */

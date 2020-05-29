@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>移动商城 - BIG生活</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/member_interest.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body id="vueBox" class="gym-body bui_at_noline">
+		<!--主体-->
+		<div class="bui_wrap bui_tc_black bui_tc_black_a bui_bgc_black_l72">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h">
+					<!--提示关注公众号-->
+					<template v-if="isWechatUserFocused.code==1">
+						<tp-isfollow></tp-isfollow>
+					</template>
+					<!--提示关注公众号-->
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="https://h5.youzan.com/v2/home/zt5mvapt" title="天猫会员权益"></tp-header>
+				</div>
+				<!--页头-->
+				<!--页面-->
+				<div class="bui_mo_b bui_mo_b_h gym_mo_b" style="{{isWechatUserFocused.code==1?'top:6rem':''}}">
+					<tp-loadingbar v-if="!memberDetail||!memberDetail.data" type="loading" bgc=""></tp-loadingbar>
+					<template v-else>
+						<!--会员面板-->
+						<div class="bui_media bui_vm bui_p_12 bui_bgc_black bui_tc_white">
+							<div class="bui_media_l">
+								<tp-img :src="memberDetail.data.headimgurl" class="bui_round bui_bds_4 bui_bdc_white" width="3rem" height="3rem"></tp-img>
+							</div>
+							<div class="bui_media_b">
+								<div>
+									<span class="bui_ts_14">{{memberDetail.data.fullName}}</span>
+									<span v-if="getTmallMemberRight&&getTmallMemberRight.data&&getTmallMemberRight.data.levelName" class="bui_bgc_red bui_ts_8 bui_plr_6 bui_round">{{getTmallMemberRight.data.levelName}}</span>
+								</div>
+
+								<div class="bui_tc_white_f64 bui_ts_8 bui_row_p_6 bui_inline">
+									<li><span>积分:</span><span class="bui_tc_yellow bui_ts_12">{{memberDetail.data.pointSum}}</span></li>
+									<li v-if="getTmallMemberRight&&getTmallMemberRight.data&&getTmallMemberRight.data.consumption"><span>天猫消费额:</span><span class="bui_tc_yellow bui_ts_12">￥{{getTmallMemberRight.data.consumption}}</span></li>
+								</div>
+							</div>
+							<div class="bui_media_r">
+								<a href="../GiftMall_GMX/" class="bui_btn bui_btn_24 bui_bgc_red bui_ts_8 bui_tc_white_a">去兑换 <i class="fa fa-angle-right fa-fw"></i></a>
+							</div>
+						</div>
+						<!--会员面板-->
+						<template v-if="!memberDetail.data.mobilePhone">
+							<div class="bui_p_24 bui_ta_c">
+								<button onclick="global_showSidePanel('modal_memberdetailedit_basic','right','100%');" class="bui_btn bui_btn_48 bui_ts_14 bui_round bui_bgc_red">请先完善个人信息 <i class="fa fa-angle-right fa-fw"></i></button>
+							</div>
+						</template>
+						<template v-else>
+							<!--领取按钮组-->
+							<div class="bui_row_p_12 bui_p_24">
+								<div v-for="data in memberInterest_btn">
+									<div class="bui_media bui_vm bui_bgc_{{data.bgc}} bui_tc_white bui_radius bui_p_12">
+										<div class="bui_media_l">
+											<div class="bui_btn bui_btn_48 bui_bds_0 bui_btn_sq bui_bgc_white bui_round">
+												<i class="fa fa-diamond bui_tc_{{data.bgc}}_i"></i>
+											</div>
+										</div>
+										<div class="bui_media_b">
+
+											<p><span class="bui_tc_yellow bui_ts_16"><i class="fa fa-database fa-fw bui_tc_yellow_i"></i>{{data.point}}</span>积分</p>
+											<p class="bui_ts_8 bui_tc_white">天猫消费额满<span class="bui_tc_yellow">￥{{data.money}}</span>元</p>
+										</div>
+										<div class="bui_media_r">
+
+											<template v-if="data.success==0">
+												<button class="bui_btn bui_bgc_black_f24 bui_tc_{{data.bgc}} bui_bds_0 bui_radius bui_ts_8">未达成</button>
+											</template>
+											<template v-if="data.success == 1"><button onclick="memberInterest_getPoint({{data.level}})" class="bui_btn bui_bgc_white bui_tc_{{data.bgc}} bui_bds_0 bui_radius bui_ts_8">领取 <i class="fa fa-angle-right"></i></button></template>
+											<template v-if="data.success==2">
+												<button class="bui_btn bui_bgc_white_f48 bui_tc_{{data.bgc}} bui_bds_0 bui_radius bui_ts_8">已领取</button>
+											</template>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--领取按钮组-->
+							<p class="bui_ta_c bui_ts_12 bui_tc_white_f72" onclick="memberInterest_showInfo();">消费金额不对？点这里</p>
+							<div class="bui_ta_c bui_vm bui_inline bui_mt_12">
+								<a href="../GiftMall_GMX/" class="bui_btn bui_btn_48 bui_bgc_red bui_tc_white_a bui_ts_14 bui_round">去积分商城 <i class="fa fa-angle-right fa-fw"></i></a>
+							</div>
+						</template>
+
+						<!--版权信息-->
+						<div class="bui_p_24 bui_ta_c bui_tc_white bui_ts_8">
+							<p>版权所有 @BIG生活</p>
+							<p class="bui_tc_white_f48">本公司产品为膳食营养补充剂，不能代替药物使用</p>
+						</div>
+						<!--版权信息-->
+					</template>
+
+				</div>
+				<!--页面-->
+
+			</div>
+		</div>
+		<!--主体-->
+	</body>
+
+</html>

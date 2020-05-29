@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.income.persistence.IncomeProductMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.income.bean.IncomeProduct" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="productId" property="productid" jdbcType="INTEGER" />
+    <result column="channelsId" property="channelsid" jdbcType="INTEGER" />
+    <result column="microMallPrice" property="micromallprice" jdbcType="INTEGER" />
+    <result column="level1" property="level1" jdbcType="INTEGER" />
+    <result column="level2" property="level2" jdbcType="INTEGER" />
+    <result column="level3" property="level3" jdbcType="INTEGER" />
+    <result column="level4" property="level4" jdbcType="INTEGER" />
+    <result column="level1Point" property="level1point" jdbcType="INTEGER" />
+    <result column="level2Point" property="level2point" jdbcType="INTEGER" />
+    <result column="level3Point" property="level3point" jdbcType="INTEGER" />
+    <result column="level4Point" property="level4point" jdbcType="INTEGER" />
+    <result column="level5" property="level5" jdbcType="INTEGER" />
+    <result column="level6" property="level6" jdbcType="INTEGER" />
+    <result column="level7" property="level7" jdbcType="INTEGER" />
+    <result column="level8" property="level8" jdbcType="INTEGER" />
+    <result column="level9" property="level9" jdbcType="INTEGER" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, productId, channelsId, microMallPrice, level1, level2, level3, level4, level1Point,
+    level2Point, level3Point, level4Point, level5, level6, level7, level8, level9, createTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.income.bean.IncomeProductExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from income_product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from income_product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from income_product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.goods.income.bean.IncomeProductExample" >
+    delete from income_product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.income.bean.IncomeProduct" useGeneratedKeys="true" keyProperty="id" >
+    insert into income_product (productId, channelsId, microMallPrice,
+    level1, level2, level3,
+    level4, level1Point, level2Point,
+    level3Point, level4Point, level5,
+    level6, level7, level8,
+    level9, createTime)
+    values (#{productid,jdbcType=INTEGER}, #{channelsid,jdbcType=INTEGER}, #{micromallprice,jdbcType=INTEGER},
+    #{level1,jdbcType=INTEGER}, #{level2,jdbcType=INTEGER}, #{level3,jdbcType=INTEGER},
+    #{level4,jdbcType=INTEGER}, #{level1point,jdbcType=INTEGER}, #{level2point,jdbcType=INTEGER},
+    #{level3point,jdbcType=INTEGER}, #{level4point,jdbcType=INTEGER}, #{level5,jdbcType=INTEGER},
+    #{level6,jdbcType=INTEGER}, #{level7,jdbcType=INTEGER}, #{level8,jdbcType=INTEGER},
+    #{level9,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.income.bean.IncomeProduct" useGeneratedKeys="true" keyProperty="id" >
+    insert into income_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productid != null" >
+        productId,
+      </if>
+      <if test="channelsid != null" >
+        channelsId,
+      </if>
+      <if test="micromallprice != null" >
+        microMallPrice,
+      </if>
+      <if test="level1 != null" >
+        level1,
+      </if>
+      <if test="level2 != null" >
+        level2,
+      </if>
+      <if test="level3 != null" >
+        level3,
+      </if>
+      <if test="level4 != null" >
+        level4,
+      </if>
+      <if test="level1point != null" >
+        level1Point,
+      </if>
+      <if test="level2point != null" >
+        level2Point,
+      </if>
+      <if test="level3point != null" >
+        level3Point,
+      </if>
+      <if test="level4point != null" >
+        level4Point,
+      </if>
+      <if test="level5 != null" >
+        level5,
+      </if>
+      <if test="level6 != null" >
+        level6,
+      </if>
+      <if test="level7 != null" >
+        level7,
+      </if>
+      <if test="level8 != null" >
+        level8,
+      </if>
+      <if test="level9 != null" >
+        level9,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productid != null" >
+        #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="channelsid != null" >
+        #{channelsid,jdbcType=INTEGER},
+      </if>
+      <if test="micromallprice != null" >
+        #{micromallprice,jdbcType=INTEGER},
+      </if>
+      <if test="level1 != null" >
+        #{level1,jdbcType=INTEGER},
+      </if>
+      <if test="level2 != null" >
+        #{level2,jdbcType=INTEGER},
+      </if>
+      <if test="level3 != null" >
+        #{level3,jdbcType=INTEGER},
+      </if>
+      <if test="level4 != null" >
+        #{level4,jdbcType=INTEGER},
+      </if>
+      <if test="level1point != null" >
+        #{level1point,jdbcType=INTEGER},
+      </if>
+      <if test="level2point != null" >
+        #{level2point,jdbcType=INTEGER},
+      </if>
+      <if test="level3point != null" >
+        #{level3point,jdbcType=INTEGER},
+      </if>
+      <if test="level4point != null" >
+        #{level4point,jdbcType=INTEGER},
+      </if>
+      <if test="level5 != null" >
+        #{level5,jdbcType=INTEGER},
+      </if>
+      <if test="level6 != null" >
+        #{level6,jdbcType=INTEGER},
+      </if>
+      <if test="level7 != null" >
+        #{level7,jdbcType=INTEGER},
+      </if>
+      <if test="level8 != null" >
+        #{level8,jdbcType=INTEGER},
+      </if>
+      <if test="level9 != null" >
+        #{level9,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.goods.income.bean.IncomeProductExample" resultType="java.lang.Integer" >
+    select count(*) from income_product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update income_product
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.productid != null" >
+        productId = #{record.productid,jdbcType=INTEGER},
+      </if>
+      <if test="record.channelsid != null" >
+        channelsId = #{record.channelsid,jdbcType=INTEGER},
+      </if>
+      <if test="record.micromallprice != null" >
+        microMallPrice = #{record.micromallprice,jdbcType=INTEGER},
+      </if>
+      <if test="record.level1 != null" >
+        level1 = #{record.level1,jdbcType=INTEGER},
+      </if>
+      <if test="record.level2 != null" >
+        level2 = #{record.level2,jdbcType=INTEGER},
+      </if>
+      <if test="record.level3 != null" >
+        level3 = #{record.level3,jdbcType=INTEGER},
+      </if>
+      <if test="record.level4 != null" >
+        level4 = #{record.level4,jdbcType=INTEGER},
+      </if>
+      <if test="record.level1point != null" >
+        level1Point = #{record.level1point,jdbcType=INTEGER},
+      </if>
+      <if test="record.level2point != null" >
+        level2Point = #{record.level2point,jdbcType=INTEGER},
+      </if>
+      <if test="record.level3point != null" >
+        level3Point = #{record.level3point,jdbcType=INTEGER},
+      </if>
+      <if test="record.level4point != null" >
+        level4Point = #{record.level4point,jdbcType=INTEGER},
+      </if>
+      <if test="record.level5 != null" >
+        level5 = #{record.level5,jdbcType=INTEGER},
+      </if>
+      <if test="record.level6 != null" >
+        level6 = #{record.level6,jdbcType=INTEGER},
+      </if>
+      <if test="record.level7 != null" >
+        level7 = #{record.level7,jdbcType=INTEGER},
+      </if>
+      <if test="record.level8 != null" >
+        level8 = #{record.level8,jdbcType=INTEGER},
+      </if>
+      <if test="record.level9 != null" >
+        level9 = #{record.level9,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update income_product
+    set id = #{record.id,jdbcType=INTEGER},
+    productId = #{record.productid,jdbcType=INTEGER},
+    channelsId = #{record.channelsid,jdbcType=INTEGER},
+    microMallPrice = #{record.micromallprice,jdbcType=INTEGER},
+    level1 = #{record.level1,jdbcType=INTEGER},
+    level2 = #{record.level2,jdbcType=INTEGER},
+    level3 = #{record.level3,jdbcType=INTEGER},
+    level4 = #{record.level4,jdbcType=INTEGER},
+    level1Point = #{record.level1point,jdbcType=INTEGER},
+    level2Point = #{record.level2point,jdbcType=INTEGER},
+    level3Point = #{record.level3point,jdbcType=INTEGER},
+    level4Point = #{record.level4point,jdbcType=INTEGER},
+    level5 = #{record.level5,jdbcType=INTEGER},
+    level6 = #{record.level6,jdbcType=INTEGER},
+    level7 = #{record.level7,jdbcType=INTEGER},
+    level8 = #{record.level8,jdbcType=INTEGER},
+    level9 = #{record.level9,jdbcType=INTEGER},
+    createTime = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.income.bean.IncomeProduct" >
+    update income_product
+    <set >
+      <if test="productid != null" >
+        productId = #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="channelsid != null" >
+        channelsId = #{channelsid,jdbcType=INTEGER},
+      </if>
+      <if test="micromallprice != null" >
+        microMallPrice = #{micromallprice,jdbcType=INTEGER},
+      </if>
+      <if test="level1 != null" >
+        level1 = #{level1,jdbcType=INTEGER},
+      </if>
+      <if test="level2 != null" >
+        level2 = #{level2,jdbcType=INTEGER},
+      </if>
+      <if test="level3 != null" >
+        level3 = #{level3,jdbcType=INTEGER},
+      </if>
+      <if test="level4 != null" >
+        level4 = #{level4,jdbcType=INTEGER},
+      </if>
+      <if test="level1point != null" >
+        level1Point = #{level1point,jdbcType=INTEGER},
+      </if>
+      <if test="level2point != null" >
+        level2Point = #{level2point,jdbcType=INTEGER},
+      </if>
+      <if test="level3point != null" >
+        level3Point = #{level3point,jdbcType=INTEGER},
+      </if>
+      <if test="level4point != null" >
+        level4Point = #{level4point,jdbcType=INTEGER},
+      </if>
+      <if test="level5 != null" >
+        level5 = #{level5,jdbcType=INTEGER},
+      </if>
+      <if test="level6 != null" >
+        level6 = #{level6,jdbcType=INTEGER},
+      </if>
+      <if test="level7 != null" >
+        level7 = #{level7,jdbcType=INTEGER},
+      </if>
+      <if test="level8 != null" >
+        level8 = #{level8,jdbcType=INTEGER},
+      </if>
+      <if test="level9 != null" >
+        level9 = #{level9,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.income.bean.IncomeProduct" >
+    update income_product
+    set productId = #{productid,jdbcType=INTEGER},
+    channelsId = #{channelsid,jdbcType=INTEGER},
+    microMallPrice = #{micromallprice,jdbcType=INTEGER},
+    level1 = #{level1,jdbcType=INTEGER},
+    level2 = #{level2,jdbcType=INTEGER},
+    level3 = #{level3,jdbcType=INTEGER},
+    level4 = #{level4,jdbcType=INTEGER},
+    level1Point = #{level1point,jdbcType=INTEGER},
+    level2Point = #{level2point,jdbcType=INTEGER},
+    level3Point = #{level3point,jdbcType=INTEGER},
+    level4Point = #{level4point,jdbcType=INTEGER},
+    level5 = #{level5,jdbcType=INTEGER},
+    level6 = #{level6,jdbcType=INTEGER},
+    level7 = #{level7,jdbcType=INTEGER},
+    level8 = #{level8,jdbcType=INTEGER},
+    level9 = #{level9,jdbcType=INTEGER},
+    createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleByPage" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.income.bean.IncomeProductExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from income_product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+    <select id="sumIncomeProductProfitForOrder" parameterType="map" resultType="map">
+     SELECT
+      p.orderId orderId,
+      sum(i.level1 *  p.nums) level1Sum,
+      sum(i.level2 *  p.nums) level2Sum,
+      sum(i.level3 *  p.nums) level3Sum,
+      sum(i.level4 *  p.nums) level4Sum,
+      sum(i.level5 *  p.nums) level5Sum,
+      sum(i.level6 *  p.nums) level6Sum,
+      sum(i.level7 *  p.nums) level7Sum,
+      sum(i.level8 *  p.nums) level8Sum,
+      sum(i.level9 *  p.nums) level9Sum
+    FROM
+      mr_order_products  p
+    LEFT JOIN 
+      income_product i
+    ON
+      p.productId =  i.productId 
+    WHERE
+      p.orderId = #{orderId,jdbcType=INTEGER} and i.channelsId =#{channelsId,jdbcType=INTEGER}
+    GROUP BY p.orderId
+  
+  </select>
+  
+  <select id="queryListByPage" parameterType="map" resultType="com.mcoding.emis.goods.income.bean.IncomeProduct">
+        <!-- select i.*,p.productName from income_product i INNER join mr_product p on i.productId = p.productId -->
+        
+         select i.*,p.productName,t.dealer_name as dealerName from income_product i inner join mr_product p 
+         on i.productId = p.productId inner join t_channel_dealer t on t.id=i.channelsId
+        
+        <if test="channelsid !=null and channelsid !=''">
+            and i.channelsid = #{channelsid} 
+        </if>
+        <if test="productName !=null and productName !=''">
+            and p.productName like '%${productName}%'  
+        </if>
+        <if test="productId !=null and productId !=''">
+            and p.productId = #{productId}   
+        </if>
+        ORDER BY i.id DESC
+    </select>
+
+  <select id="sumIncomeProductPointForOrder" parameterType="map" resultType="map">
+    SELECT
+    p.orderId orderId,
+    sum(i.level1Point *  p.nums) level1Sum,
+    sum(i.level2Point *  p.nums) level2Sum,
+    sum(i.level3Point *  p.nums) level3Sum,
+    sum(i.level4Point *  p.nums) level4Sum
+    FROM
+    mr_order_products  p
+    LEFT JOIN
+    income_product i
+    ON
+    p.productId =  i.productId
+    WHERE
+    p.orderId = #{orderId,jdbcType=INTEGER} and i.channelsId =#{channelsId,jdbcType=INTEGER}
+    GROUP BY p.orderId
+
+  </select>
+   <!-- 查询渠道商 -->
+   <select id="selectUserTagsListById" parameterType="map" resultType="com.mcoding.emis.goods.income.bean.ChannelDealer">
+  		select 
+  		id as id,
+  		dealer_name as dealerName,
+  		dealer_state as dealerState,
+  		dealer_type as dealerType,
+  		member_id as memberId
+  		 from t_channel_dealer where dealer_state!="x" 
+  </select>
+  
+  
+</mapper>

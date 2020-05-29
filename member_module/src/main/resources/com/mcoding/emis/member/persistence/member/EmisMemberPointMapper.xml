@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.member.persistence.member.EmisMemberPointMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.member.bean.member.MemberPoint" >
+    <id column="memberPointId" property="memberPointId" jdbcType="INTEGER" />
+    <result column="fullName" property="fullName" jdbcType="VARCHAR" />
+    <result column="mobilePhone" property="mobilePhone" jdbcType="VARCHAR" />
+    <result column="pointsType" property="pointsType" jdbcType="VARCHAR" />
+    <result column="fakeCheckCode" property="fakeCheckCode" jdbcType="VARCHAR" />
+    <result column="points" property="points" jdbcType="INTEGER" />
+    <result column="relatedTransactionNo" property="relatedTransactionNo" jdbcType="VARCHAR" />
+    <result column="addDate" property="addDate" jdbcType="TIMESTAMP" />
+    <result column="brandCode" property="brandCode" jdbcType="VARCHAR" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="deal" property="deal" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    memberPointId, fullName, mobilePhone, pointsType, fakeCheckCode, points, relatedTransactionNo,
+    addDate, brandCode, openid, deal
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.member.bean.member.MemberPointExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from mr_member_point
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from mr_member_point
+    where memberPointId = #{memberPointId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="Integer" >
+    delete from mr_member_point
+    where memberPointId = #{memberPointId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.member.bean.member.MemberPointExample" >
+    delete from mr_member_point
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.member.bean.member.MemberPoint" useGeneratedKeys="true" keyProperty="memberPointId" >
+    insert into mr_member_point (fullName, mobilePhone, pointsType,
+      fakeCheckCode, points, relatedTransactionNo,
+      addDate, brandCode, openid, deal
+      )
+    values (#{fullName,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, #{pointsType,jdbcType=VARCHAR},
+      #{fakeCheckCode,jdbcType=VARCHAR}, #{points,jdbcType=INTEGER}, #{relatedTransactionNo,jdbcType=VARCHAR},
+      #{addDate,jdbcType=TIMESTAMP}, #{brandCode,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, #{deal,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.member.bean.member.MemberPoint" useGeneratedKeys="true" keyProperty="memberPointId" >
+    insert into mr_member_point
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fullName != null" >
+        fullName,
+      </if>
+      <if test="mobilePhone != null" >
+        mobilePhone,
+      </if>
+      <if test="pointsType != null" >
+        pointsType,
+      </if>
+      <if test="fakeCheckCode != null" >
+        fakeCheckCode,
+      </if>
+      <if test="points != null" >
+        points,
+      </if>
+      <if test="relatedTransactionNo != null" >
+        relatedTransactionNo,
+      </if>
+      <if test="addDate != null" >
+        addDate,
+      </if>
+      <if test="brandCode != null" >
+        brandCode,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="deal != null" >
+        deal
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fullName != null" >
+        #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null" >
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="pointsType != null" >
+        #{pointsType,jdbcType=VARCHAR},
+      </if>
+      <if test="fakeCheckCode != null" >
+        #{fakeCheckCode,jdbcType=VARCHAR},
+      </if>
+      <if test="points != null" >
+        #{points,jdbcType=INTEGER},
+      </if>
+      <if test="relatedTransactionNo != null" >
+        #{relatedTransactionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="addDate != null" >
+        #{addDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandCode != null" >
+        #{brandCode,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="deal != null" >
+        #{deal,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.member.bean.member.MemberPointExample" resultType="java.lang.Integer" >
+    select count(*) from mr_member_point
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update mr_member_point
+    <set >
+      <if test="record.memberPointId != null" >
+        memberPointId = #{record.memberPointId,jdbcType=INTEGER},
+      </if>
+      <if test="record.fullName != null" >
+        fullName = #{record.fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobilePhone != null" >
+        mobilePhone = #{record.mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pointsType != null" >
+        pointsType = #{record.pointsType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fakeCheckCode != null" >
+        fakeCheckCode = #{record.fakeCheckCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.points != null" >
+        points = #{record.points,jdbcType=INTEGER},
+      </if>
+      <if test="record.relatedTransactionNo != null" >
+        relatedTransactionNo = #{record.relatedTransactionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addDate != null" >
+        addDate = #{record.addDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.brandCode != null" >
+        brandCode = #{record.brandCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openid != null" >
+        openid = #{record.openid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deal != null" >
+        openid = #{record.deal,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update mr_member_point
+    set memberPointId = #{record.memberPointId,jdbcType=INTEGER},
+      fullName = #{record.fullName,jdbcType=VARCHAR},
+      mobilePhone = #{record.mobilePhone,jdbcType=VARCHAR},
+      pointsType = #{record.pointsType,jdbcType=VARCHAR},
+      fakeCheckCode = #{record.fakeCheckCode,jdbcType=VARCHAR},
+      points = #{record.points,jdbcType=INTEGER},
+      relatedTransactionNo = #{record.relatedTransactionNo,jdbcType=VARCHAR},
+      addDate = #{record.addDate,jdbcType=TIMESTAMP},
+      brandCode = #{record.brandCode,jdbcType=VARCHAR},
+      openid = #{record.openid,jdbcType=VARCHAR},
+      deal = #{record.deal,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.member.bean.member.MemberPoint" >
+    update mr_member_point
+    <set >
+      <if test="fullName != null" >
+        fullName = #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null" >
+        mobilePhone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="pointsType != null" >
+        pointsType = #{pointsType,jdbcType=VARCHAR},
+      </if>
+      <if test="fakeCheckCode != null" >
+        fakeCheckCode = #{fakeCheckCode,jdbcType=VARCHAR},
+      </if>
+      <if test="points != null" >
+        points = #{points,jdbcType=INTEGER},
+      </if>
+      <if test="relatedTransactionNo != null" >
+        relatedTransactionNo = #{relatedTransactionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="addDate != null" >
+        addDate = #{addDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandCode != null" >
+        brandCode = #{brandCode,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="deal != null" >
+        deal = #{deal,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where memberPointId = #{memberPointId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.member.bean.member.MemberPoint" >
+    update mr_member_point
+    set fullName = #{fullName,jdbcType=VARCHAR},
+      mobilePhone = #{mobilePhone,jdbcType=VARCHAR},
+      pointsType = #{pointsType,jdbcType=VARCHAR},
+      fakeCheckCode = #{fakeCheckCode,jdbcType=VARCHAR},
+      points = #{points,jdbcType=INTEGER},
+      relatedTransactionNo = #{relatedTransactionNo,jdbcType=VARCHAR},
+      addDate = #{addDate,jdbcType=TIMESTAMP},
+      brandCode = #{brandCode,jdbcType=VARCHAR},
+      openid = #{openid,jdbcType=VARCHAR},
+      deal = #{deal,jdbcType=VARCHAR}
+    where memberPointId = #{memberPointId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleByPage" resultMap="BaseResultMap" parameterType="com.mcoding.emis.member.bean.member.MemberPointExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from mr_member_point
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="sumMemberPointByMobileAndBrandCode" parameterType="map" resultType="java.lang.Integer" >
+    select SUM(mp.points)
+    from mr_member_point mp where mp.mobilePhone = #{mobilePhone,jdbcType=VARCHAR} and mp.brandCode = #{brandCode,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据手机和品牌删除会员积分 -->
+  <delete id="deleteByPhone" parameterType="map" >
+    delete from mr_member_point
+    where mobilePhone = #{param1} and brandCode = #{param2}
+  </delete>
+
+  <select id="getClearAndMemberPoints" parameterType="map" resultType="com.mcoding.emis.member.bean.member.MemberPoint" >
+    SELECT sump.giftpoint,SUM(points) facecodepoint from mr_member_point ,
+    (SELECT SUM(points) giftpoint from mr_member_point where points &lt; 0 and brandCode = #{brandCode} and openid = #{openid}) as sump
+     where year(addDate) = year(curdate())-1 and pointsType = 'A' and brandCode = #{brandCode} and mobilePhone = #{mobilePhone}
+  </select>
+
+  <delete id="deleteByParam" parameterType="map" >
+    delete from mr_member_point
+    where openid = '${openid}' and addDate BETWEEN  '${starttime}' AND  '${endtime}' and relatedTransactionNo = '${relatedTransactionNo}'
+  </delete>
+
+</mapper>

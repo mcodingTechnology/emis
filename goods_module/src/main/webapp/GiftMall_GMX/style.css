@@ -1,0 +1,65 @@
+/*
+* @Author: anchen
+* @Date:   2016-01-05 12:24:46
+* @Last Modified by:   anchen
+* @Last Modified time: 2016-01-13 14:21:56
+*/
+.bui_money{
+    color: #f37b1d;
+}
+#biaozhi{
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 2rem;
+    border-radius: 20px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    animation: fun2 0.8s linear 0.8s infinite alternate ;
+    -moz-animation: fun2 0.8s linear 0.8s infinite alternate ;
+    -webkit-animation: fun2 0.8s linear 0.8s infinite alternate ;
+     -o-animation: fun2 0.8s linear 0.8s infinite alternate ;
+     -ms-animation: fun2 0.8s linear 0.8s infinite alternate ;
+}
+@keyframes fun2 {
+            from{
+                top: 10px;
+                }
+            to{
+                top: 16px;
+                 }
+        }
+@-moz-keyframes fun2 {
+            from{
+                top: 10px;
+                }
+            to{
+                top: 16px;
+                 }
+        }
+@-webkit-keyframes fun2 {
+            from{
+                top: 10px;
+                }
+            to{
+                top: 16px;
+                 }
+        }
+@-o-keyframes fun2 {
+            from{
+                top: 10px;
+                }
+            to{
+                top: 16px;
+                 }
+        }
+@-ms-keyframes fun2 {
+            from{
+                top: 10px;
+                }
+            to{
+                top: 16px;
+                 }
+        }

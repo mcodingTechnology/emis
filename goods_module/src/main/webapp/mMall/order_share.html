@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>{{global.brandName}}</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/order_share.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body class="gym-body bui_at_noline">
+
+		<!--主体-->
+		<div class="bui_wrap bui_bgc_white_d12 bui_tc_black bui_tc_black_a">
+			<!--提示关注公众号-->
+			<tp-plug-follow v-if="isSubscribe.data==0"></tp-plug-follow>
+			<!--提示关注公众号-->
+			<div class="bui_mo" style="top:{{isSubscribe.data==0?'48px':'0'}}">
+				<!--页头-->
+				<div class="bui_mo_h">
+
+					<tp-header bgc="bui_bgc_red" righticon="fa-home" rightlink="index.html" title="领取礼品"></tp-header>
+
+				</div>
+				<!--页头-->
+				<template v-if="!memberDetail||!memberDetail.data||!orderShare_orderDetail||!orderShare_orderDetail.data||!orderShare_shareMemberDetail||!orderShare_shareMemberDetail.data">
+					<div class="bui_mo_b bui_mo_b_h">
+
+						<!--loadingbar-->
+						<tp-loadingbar type="loading"></tp-loadingbar>
+						<!--loadingbar-->
+				</template>
+				<template v-else>
+					<!--页面-->
+					<div class="bui_mo_b bui_mo_b_h gym_mo_b" :class="orderShare_orderDetail.data.presentStatus==1?'bui_mo_b_f':''">
+
+						<!--分享用户信息-->
+						<div class="bui_p_24 bui_bgc_red bui_tc_white bui_ta_c bui_ts_16">
+							<div class="bui_inline">
+								<tp-img :src="orderShare_shareMemberDetail.data.headImgUrl" width="8rem" height="8rem" class="bui_round bui_bds_8 bui_bdc_black_f24"></tp-img>
+							</div>
+							<p class="bui_ts_24">{{orderShare_shareMemberDetail.data.name}}</p>
+							<p>给你送来了价值<span class="bui_tc_yellow bui_ts_16">￥{{orderShare_orderDetail.data.amountTotal/100}}</span>的大礼~</p>
+							<p class="bui_tc_white_f48">快去领取吧~</p>
+						</div>
+						<!--分享用户信息-->
+						<div class="bui_p_12">
+							<div class="bui_row_p_12">
+								<!--礼品列表-->
+								<div>
+									<div class="bui_bgc_white bui_bds_1 bui_radius">
+										<tp-titleitem title="礼品详情"></tp-titleitem>
+										<template v-for="data in orderShare_orderDetail.data.orderProductList">
+											<com-order-product-item :title='data.productName' :price="data.productPrice/100" :imgurl="data.productImg" :nums='data.nums'></com-order-product-item>
+										</template>
+
+									</div>
+								</div>
+								<!--礼品列表-->
+
+								<!--收货信息-->
+								<div v-if="orderShare_orderDetail.data.presentStatus==1">
+									<div class="bui_bgc_white bui_bds_1 bui_radius">
+										<tp-titleitem title="您的收货信息"></tp-titleitem>
+										<div class="bui_p_24 bui_bds_1_t bui_tc_red_i bui_ts_14">
+											<template v-if="!orderAddress||!orderAddress.data.receiver||!orderAddress.data.phone||!orderAddress.data.regson||!orderAddress.data.address">
+												<div class="bui_tc_white_d48 bui_tc_white_d48_i bui_ta_c" onclick="global_showSidePanel('modal_address_list')">
+													<i class="fa fa-plus-square-o bui_ts_48_i fa-fw"></i>
+													<p>请先完善您的收货信息</p>
+												</div>
+											</template>
+											<template v-else>
+												<div onclick="global_showSidePanel('modal_address_list')">
+													<div class="bui_inline bui_vm bui_row_p_12">
+														<li class="bui_fr bui_tc_white_d64 bui_tc_white_d64_i"><i class="fa fa-edit fa-fw"></i> 编辑</li>
+														<li><i class="fa fa-user fa-fw"></i> {{orderAddress.receiver}}</li>
+														<li><i class="fa fa-phone fa-fw"></i> {{orderAddress.phone}}</li>
+													</div>
+													<hr class="bui_mtb_6" />
+													<div>
+														<i class="fa fa-map-marker fa-fw"></i> {{orderAddress.regson}}{{orderAddress.address}}
+													</div>
+												</div>
+											</template>
+										</div>
+
+									</div>
+								</div>
+								<!--收货信息-->
+								<div v-if="orderShare_orderDetail.data.presentStatus==2">
+									<div class="bui_bgc_white bui_bds_1 bui_radius">
+										<tp-titleitem title="礼品状态"></tp-titleitem>
+										<div class="bui_p_24 bui_bds_1_t bui_tc_red_i bui_ts_14">
+											<p class="bui_ta_c">该礼品已被 <span class="bui_ts_16 bui_tc_red">{{orderShare_orderDetail.data.addressReveiver}}</span> 领取</p>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!--页面-->
+					<!--页脚-->
+					<div class="bui_mo_f bui_bgc_white bui_bds_1_t" v-if="orderShare_orderDetail.data.presentStatus==1">
+						<div class="bui_p_8" v-if="orderAddress">
+							<button onclick="orderShare_accept();" class="bui_btn bui_btn_48 bui_block bui_bgc_red bui_ts_16 bui_vm bui_ta_c bui_tc_white_a">马上领取 <i class="fa fa-angle-right fa-fw"></i>
+								</button>
+						</div>
+						<div class="bui_p_8" v-else>
+							<button onclick="global_showSidePanel('modal_address_list')" class="bui_btn bui_btn_48 bui_block bui_bgc_white_d12 bui_ts_16 bui_vm bui_ta_c bui_tc_white_a">请先完善收货信息 <i class="fa fa-angle-right fa-fw"></i>
+								</button>
+						</div>
+					</div>
+					</div>
+					<!--页脚-->
+				</template>
+			</div>
+		</div>
+		<!--主体-->
+	</body>
+
+</html>

@@ -1,0 +1,44 @@
+.wightCaculate{
+  background-image: url('../image/weightCal_bg.png');
+  background-size: 100% 100%;
+  min-height: 100vh;
+  padding-top:8%;
+  position: relative;
+  .box1,.box2,.box3{
+    height:1px;
+    background-color:#202020;
+  }
+  .box2{
+    background-color:#292c31;
+    width:5%;
+  }
+  .box3{
+    margin-bottom: 8%;
+  }
+  .content{
+    color: #BABBBF;
+    padding: 10px 0px 10px 10px;
+    width: 90%;
+    margin-left: 5%;
+    background-color: #35383D;
+    .red{
+      color:#E1382A;
+    }
+  }
+  .resultImg,.resultMsg{
+    width:90%;
+    margin-left:5%;
+    margin-top:10%;
+  }
+  .resultMsg{
+    color:#7D7D7E;
+    font-size: 1.1em;
+  }
+  .footer{
+    margin-bottom: 0;
+    position: initial;
+    padding: 35px 0;
+    width:100%;
+  }
+}
+

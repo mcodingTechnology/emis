@@ -1,0 +1,34 @@
+{
+	"data": {
+		"startTime": "2015-11-19 12:11:00",
+		"userName": "nanquan",
+		"userGoodsPoint": "6000",
+		"userPoint": "348",
+		"goodsId": "10",
+		"goodsImg": "http://v.merryplus.com/resources/uploads/product/20150512102639_8090.jpg",
+		"goodsName": "极智构 鱼油软胶囊",
+		"needPoint": "25000",
+		"nowPoint": "12000",
+		"listCount": null,
+		"list": [
+			{
+				"userName": "nanquan",
+				"userPoint": "6000",
+				"userImg": null,
+				"isStake": "0"
+			}, {
+				"userName": "Benson張本富",
+				"userPoint": "6000",
+				"userImg": null,
+				"isStake": "0"
+			}, {
+				"userName": "永远的小白哥",
+				"userPoint": "0",
+				"userImg": null,
+				"isStake": "0"
+			}
+		]
+	},
+	"code": 0,
+	"msg": "成功"
+}

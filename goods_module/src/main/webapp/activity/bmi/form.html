@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>健身指数检测工具 - BIG生活</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="../game_public/workspace_v2.0.3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/form.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+
+		<div class="bui_wrap bg-{{urlData.formId}}">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_media bui_vm bui_bgc_black_f64">
+					<div class="bui_media_l bui_p_0">
+						<a href="index.html" class="bui_btn_32 bui_btn_sq bui_block bui_ta_c bui_m_8"><i class="fa fa-angle-left"></i></a>
+					</div>
+					<div class="bui_media_b">
+						<template v-for="data in navData | filterBy  urlData.formId in 'id'">{{data.title}}</template>
+					</div>
+				</div>
+				<!--页头-->
+				<!--页面-->
+				<div class="bui_mo_b">
+					<!--BMI-->
+					<form id="form_{{urlData.formId}}" class="bui_row_p_12 bui_mlr_12 bui_mtb_64">
+						<div>
+							<div v-input v-if="urlData.formId==3||urlData.formId==4" data-title="年龄" data-icon="fa fa-graduation-cap" buijs_form_item_type="select">
+								<div class="bui_media_b">
+									<select v-model="formData.data.age">
+										<option class="bui_tc_black" v-for="i in 101" v-if="i >=18" :value="i">{{i}}</option>
+									</select>
+								</div>
+							</div>
+							<div v-input v-if="urlData.formId==1||urlData.formId==3||urlData.formId==5||urlData.formId==6||urlData.formId==8" data-title="身高" data-icon="fa fa-child" buijs_form_item_type="select">
+								<div class="bui_media_b">
+									<select v-model="formData.data.height">
+										<option class="bui_tc_black" v-for="i in 251" v-if="i>=150" :value="i">{{i}}CM</option>
+									</select>
+								</div>
+							</div>
+							<div v-input v-if="urlData.formId==1||urlData.formId==2||urlData.formId==3||urlData.formId==5||urlData.formId==6" data-title="体重" data-icon="fa fa-dashboard" buijs_form_item_type="select">
+								<div class="bui_media_b">
+									<select v-model="formData.data.weight">
+										<option class="bui_tc_black" v-for="i in 201" v-if="i>=30" :value="i">{{i}}KG</option>
+									</select>
+								</div>
+							</div>
+							<div v-input v-if="urlData.formId==2||urlData.formId==3" data-title="性别" data-icon="fa fa-venus-mars" buijs_form_item_type="select">
+								<div class="bui_media_b">
+									<select v-model="formData.data.gender">
+										<option class="bui_tc_black" v-for="i in ['男','女']" :value="$index+1">{{i}}</option>
+									</select>
+								</div>
+							</div>
+							<div v-input v-if="urlData.formId==2" data-title="运动类型" data-icon="fa fa-soccer-ball-o" buijs_form_item_type="select">
+								<div class="bui_media_b">
+									<select v-model="formData.data.sportType">
+										<option class="bui_tc_black" v-for="i in ['不运动','健美增肌','其他运动']" :value="$index+1">{{i}}</option>
+									</select>
+								</div>
+							</div>
+							<div v-input v-if="urlData.formId==7" data-title="腕围" data-icon="fa fa-hand-grab-o" buijs_form_item_type="select">
+								<div class="bui_media_b">
+									<select v-model="formData.data.wristCircumference">
+										<option class="bui_tc_black" v-for="i in 51" v-if="i >=20" :value="i">{{i}}CM</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div>
+							<button type="submit" class="bui_btn bui_btn_48 bui_block bui_ts_14 bui_bgc_red bui_radius">查询 <i class="fa fa-search fa-fw"></i></button>
+						</div>
+					</form>
+
+					<!--BMI-->
+					<!--<pre>{{formData|json}}</pre>-->
+				</div>
+				<!--页面-->
+			</div>
+		</div>
+		<!--loadingbar-->
+		<div id="loadingMask" class="bui_bgc_black_l72 bui_inline bui_ta_c bui_vm bui_tc_white_d64 bui_tc_white_d64_i" style="position: fixed;top: 0;left: 0;right: 0;bottom: 0;z-index: 10;">
+			<i style="height: 100%;width: 0;"></i>
+			<div>
+				<i class="fa fa-circle-o-notch fa-spin bui_ts_32_i "></i>
+				<p class="bui_ts_12 bui_mt_12">loading...</p>
+			</div>
+			<i style="height: 100%;width: 0;"></i>
+		</div>
+		<!--loadingbar-->
+	</body>
+
+</html>

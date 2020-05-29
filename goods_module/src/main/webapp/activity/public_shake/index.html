@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>{{shakeTitle}} - {{brandName}}</title>
+		<meta charset="utf-8">
+		<script src="../game_public/workspace_v2.0.2.js" type="text/javascript" charset="utf-8"></script>
+		<script src="public.js"></script>
+		<!--微信分享-->
+		<script src="../../resources/js/common/wechatShare.js" type="text/javascript" charset="utf-8"></script>
+		<!--微信分享-->
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script type="text/javascript">
+			$(document).ready(function() {
+				console.log(vueData)
+			});
+		</script>
+	</head>
+
+	<body class="bui_at_noline {{style.pageBg}}">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<!--页头-->
+
+				<!--页头-->
+				<!--页面-->
+				<div class="bui_mo_b">
+					<div class="bui_pt_48 bui_plr_48">
+						<img src="{{shakeLogo}}" class="bui_mt_48" style="width: 100%;" />
+					</div>
+					<div class="bui_p_32 bui_ta_c bui_tc_white">
+						<p class="bui_ts_16">{{shakeTitle}}</p>
+						<p class="bui_ts_12 {{style.tcTrue}}">{{shakeInfo}}</p>
+						<p class="bui_mt_24">
+							<a href="shake.html?brandCode={{urlData.brandCode}}&gameId={{urlData.gameId}}&gameType={{urlData.gameType}}" class="bui_btn3d bui_btn_64 bui_btnsq bui_round bui_ts_24 {{style.btnTrue}}">GO!</a>
+						</p>
+
+						<p class="bui_mt_24 bui_ts_12 bui_tc_white_f64">活动最终解释权归 {{brandName}} 所有</p>
+					</div>
+
+				</div>
+				<!--页面-->
+			</div>
+
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,163 @@
+.gp_bg {
+	background-color: #F84B47;
+}
+.gp_tc_yellow {
+	color: #FFFF00;
+}
+/*封面*/
+
+.gp_index {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background-image: url(images/index_box.gif);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	background-size: 100% auto;
+}
+.gp_index .gp_index_btn {
+	position: absolute;
+	left: 50%;
+	bottom: 64px;
+	width: 160px;
+	height: 64px;
+	line-height: 64px;
+	text-align: center;
+	margin-left: -80px;
+	background-image: url(images/index_btn.png);
+	background-size: 100% 100%;
+	color: #F84B47;
+}
+/*翻牌区九宫格*/
+
+.gp_panel {
+	display: inline-block;
+	padding: 6px;
+	width: 70px;
+	height: 90px;
+	overflow: hidden;
+	background-image: url(images/game_panel.png);
+	background-size: 300% auto;
+	transition: transform 0.3s;
+	-webkit-transition: -webkit-transform 0.3s;
+	-moz-transition: -moz-transform 0.3s;
+}
+.gp_panel.close {
+	background-position: 0 0;
+}
+.gp_panel.open {
+	background-position: 50% 0;
+}
+.gp_panel.openon {
+	background-position: 100% 0;
+}
+.gp_panel.active {
+	transform: scaleX(0);
+	-webkit-transform: scaleX(0);
+	-moz-transform: scaleX(0);
+}
+.gp_panel >*,
+.gp_panel.close >* {
+	width: 100%;
+	overflow: hidden;
+	opacity: 0;
+	-webkit-opacity: 0;
+	-moz-opacity: 0;
+}
+.gp_panel.open >*,
+.gp_panel.openon >* {
+	opacity: 1;
+	-webkit-opacity: 1;
+	-moz-opacity: 1;
+}
+.gp_panel img {
+	height: auto;
+}
+.gp_panel .score {
+	line-height: 1.2;
+	padding: 6px 0;
+	font-size: 12px;
+	color: #fff;
+	border-width: 0px 2px;
+	border-color: #FAC76B;
+	border-style: dotted;
+}
+.gp_panel .score h5 {
+	font-size: 18px;
+}
+/*中奖提示*/
+
+.gp_alert {
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: -100%;
+	background-image: url(images/game_alert_bg.png);
+	background-position: center;
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+	display: none;
+	transform: scale(5);
+	-webkit-transform: scale(5);
+	-moz-transform: scale(5);
+	transition: transform 0.3s;
+	-webkit-transition: -webkit-transform 0.3s;
+	-moz-transition: -moz-transform 0.3s;
+}
+.gp_alert.active {
+	transform: scale(1);
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+}
+.gp_alert_img >* {
+	display: inline-block;
+}
+.gp_alert_img img {
+	width: 128px;
+	height: 128px;
+}
+.gp_alert_img .score {
+	line-height: 1.2;
+	padding: 12px 48px;
+	font-size: 12px;
+	color: #fff;
+	border-width: 0px 4px;
+	border-color: rgba(0, 0, 0, 0.24);
+	border-style: dotted;
+}
+.gp_alert_img .score h5 {
+	font-size: 48px;
+}
+/*中奖名单*/
+
+.gp_gift_name {
+	height: 1.2em;
+	line-height: 1.2em;
+	position: relative;
+	overflow: hidden;
+}
+.gp_gift_name h5 {
+	width: 100%;
+	left: 0;
+	top: 0;
+	position: absolute;
+	transition: transform 0.3s;
+	-webkit-transition: -webkit-transform 0.3s;
+	-moz-transition: -moz-transform 0.3s;
+}
+.gp_gift_name h5.top {
+	transform: translateY(-100%);
+	-webkit-transform: translateY(-100%);
+	-moz-transform: translateY(-100%)
+}
+.gp_gift_name h5.bottom {
+	transform: translateY(100%);
+	-webkit-transform: translateY(100%);
+	-moz-transform: translateY(100%)
+}
+.gp_gift_name h5.active {
+	transform: translateY(0);
+	-webkit-transform: translateY(0);
+	-moz-transform: translateY(0)
+}

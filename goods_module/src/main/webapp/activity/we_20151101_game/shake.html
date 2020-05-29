@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>极智构</title>
+		<!--workspace-->
+		<script type="text/javascript" src="workspace.js"></script>
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script type="text/javascript">
+			 //判断中奖状态
+			var _isruning;
+			var dataGiftType, dataGiftName, dataGiftPic, dataGiftBtn, dataGiftId;
+
+			function checkGameState() {
+				//判断中奖是否未处理
+				$.ajax({
+					type: "get",
+					url: _jsonUrl + "/merriplusApi/getMemberResultInfo.html",
+					async: true,
+					cache: false,
+					dataType: 'json',
+					data: {
+						"gameid": gameid
+					},
+					error: function(data) {
+						_jsonError();
+					},
+					success: function(data) {
+						//未抽过
+						if (data.data == null) {
+							checkGmaeNum();
+						}
+						//已抽过
+						else {
+							//最新礼品为实物
+							if (data.data.prizeid != 3) {
+								//上一条未填写收货人信息
+								if (data.data.memberaddress == null || data.data.memberphone == null || data.data.membername == null || data.data.memberaddress == "" || data.data.memberphone == "" || data.data.membername == "") {
+									dataGiftId = data.data.id;
+									dataGiftType = '您有奖品未处理';
+									dataGiftBtn = 1;
+									if (data.data.prizeid == 1) {
+										dataGiftName = 'Apple Watch';
+										dataGiftPic = './images/watch.png';
+									};
+									if (data.data.prizeid == 2) {
+										dataGiftName = '多维大礼包';
+										dataGiftPic = './images/product.png';
+									}
+									modalShow(dataGiftType, dataGiftName, dataGiftPic, dataGiftBtn, dataGiftId);
+									_isruning = 0;
+								} else {
+									checkGmaeNum();
+								};
+							}
+							//最新礼品为虚拟物品
+							else {
+								checkGmaeNum();
+							}
+						};
+					}
+				});
+				//判断抽将次数是否用完
+				function checkGmaeNum() {
+					$.ajax({
+						type: "get",
+						url: _jsonUrl + "/merriplusApi/getWxuserInfo.html",
+						async: true,
+						cache: false,
+						dataType: 'json',
+						data: {
+							"brandCode": "MRMJ"
+						},
+						error: function(data) {
+							_jsonError();
+						},
+						success: function(data) {
+							var gameNum = [data.data.gameResidueNum - data.data.gameLotteryNum];
+							$("#gameNum").text(gameNum);
+							if (gameNum <= 0) {
+								dataGiftType = '~没有抽奖机会~';
+								dataGiftName = '+小加+偷偷跟你说<br/>活动期间到微商城每消费100元可增加一次抽奖机会哟';
+								dataGiftPic = './images/nothing.jpg';
+								dataGiftBtn = 3;
+								modalShow(dataGiftType, dataGiftName, dataGiftPic, dataGiftBtn, dataGiftId);
+								_isruning = 0;
+							} else {
+								_isruning = 1;
+							}
+						}
+					});
+				};
+				//关闭loading图标
+				$("#public_loading").hide();
+			};
+			 //摇一摇
+			var SHAKE_THRESHOLD = 3000;
+			var last_update = 0;
+			var x = y = z = last_x = last_y = last_z = 0;
+
+			function init() {
+				if (window.DeviceMotionEvent) {
+					window.addEventListener('devicemotion', deviceMotionHandler, false);
+				} else {
+					alert('换个手机吧，亲，你的手机不支持摇一摇');
+				}
+			};
+
+			function deviceMotionHandler(eventData) {
+				var acceleration = eventData.accelerationIncludingGravity;
+				var curTime = new Date().getTime();
+				if ((curTime - last_update) > 100) {
+					var diffTime = curTime - last_update;
+					last_update = curTime;
+					x = acceleration.x;
+					y = acceleration.y;
+					z = acceleration.z;
+					var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+					if (speed > SHAKE_THRESHOLD) {
+						_action();
+					}
+					last_x = x;
+					last_y = y;
+					last_z = z;
+				}
+			};
+			 //抽奖
+			function _action(data) {
+				if (_isruning == 1) {
+					_isruning = 0;
+					$("#public_loading").show();
+					$.ajax({
+						type: "get",
+						url: _jsonUrl + "/merriplusApi/shakeDraw.html",
+						async: true,
+						cache: false,
+						dataType: 'json',
+						data: {
+							"gameid": gameid,
+							"flag": "0"
+						},
+						error: function(data) {
+							$("#public_loading").hide();
+							_jsonError();
+						},
+						success: function(data) {
+							if (data.code == 0) {
+								dataGiftType = '~猴赛雷！中了~';
+								dataGiftId = data.data.id;
+								if (data.data.prizeid == 1) {
+									dataGiftName = 'Apple Watch';
+									dataGiftPic = './images/watch.png';
+									dataGiftBtn = 1;
+								}
+								if (data.data.prizeid == 2) {
+									dataGiftName = '多维大礼包';
+									dataGiftPic = './images/product.png';
+									dataGiftBtn = 1;
+								}
+								if (data.data.prizeid == 3) {
+									dataGiftName = '极智构微商城 无门槛20元优惠券';
+									dataGiftPic = './images/card.png';
+									dataGiftBtn = 2;
+								}
+							};
+							if (data.code == 2) {
+								dataGiftType = '您的抽奖次数不足';
+								dataGiftName = '小加偷偷跟你说<br/>活动期间到微商城每消费100元可增加一次抽奖机会哟';
+								dataGiftPic = './images/nothing.jpg';
+								dataGiftBtn = 3;
+							};
+							modalShow(dataGiftType, dataGiftName, dataGiftPic, dataGiftBtn, dataGiftId);
+							$("#public_loading").hide();
+						}
+					});
+				}
+			};
+			 //展开弹窗
+			function modalShow(dataGiftType, dataGiftName, dataGiftPic, dataGiftBtn, dataGiftId) {
+				$('#kaca')[0].play();
+				var giftTypeHtml, giftNameHtml, giftPicHtml, giftBtnHtml
+				giftTypeHtml = '<p class="bui_ts_32">' + dataGiftType + '</p>'
+				giftNameHtml = '<p class="bui_ts_12">' + dataGiftName + '</p>';
+				giftPicHtml = '<div style="width: 192px;height: 192px;" class="bui_round bui_bds_4 bui_bdc_orange bui_bgc_white bui_m_12 bui_p_12" data-bui_img=""><img src="' + dataGiftPic + '"/></div>';
+				if (dataGiftBtn == 1) {
+					giftBtnHtml = '<div class="bui_plr_32 bui_block"><a href="javascript:formContact(' + dataGiftId + ');" class="bui_btn_48 bui_bgc_orange bui_block bui_radius">马上领取</a></div>';
+				} else if (dataGiftBtn == 2) {
+					giftBtnHtml = '<div class="bui_plr_32 bui_block"><a href="javascript:showCupon();" class="bui_btn_48 bui_bgc_orange bui_block bui_radius">马上领取</a></div>';
+				} else if (dataGiftBtn == 3) {
+					giftBtnHtml = '<div class="bui_plr_32 bui_block"><a href="http://v.merryplus.com/wMall/" class="bui_btn_48 bui_bgc_orange bui_block bui_radius">买买买！~~</a></div>';
+				} else {
+					giftBtnHtml = ''
+				}
+				var _modal = '<div class="wm_modal bui_bgc_black_72">' +
+					'<img src="images/mask_shake.png" class="wm_modal_flash" />' +
+					'<br />' +
+					'<div class="wm_modal_detail bui_inline bui_tc_white bui_ta_c">' +
+					giftTypeHtml +
+					'<br/>' +
+					giftNameHtml +
+					'<br/>' +
+					giftPicHtml +
+					'<br/>' +
+					giftBtnHtml +
+					'</div>' +
+					'</div>';
+				$(".bui_wrap").append(_modal);
+				$(".wm_modal_detail").css('top', [$('.wm_modal').height() - $(".wm_modal_detail").height()] / 2);
+				$(".wm_modal [data-bui_img]").buijs_img();
+				setTimeout(function() {
+					$("#public_loading").hide();
+					$(".wm_modal").addClass('active');
+				}, 300);
+			};
+			 //领取优惠券
+			function showCupon() {
+					$("#cupon").addClass('active');
+				}
+				//收货地址
+
+			function formContact(dataGiftId) {
+				$("#formContact").addClass('active');
+				//光标滚动
+				$(".bui_mo input,.bui_mo textarea").focus(function() {
+					var _box = $(this).parents('.bui_mo_b');
+					var _ot = $(this).parents('li').position().top;
+					_box.animate({
+						'scrollTop': _box.scrollTop() + _ot
+					}, 300);
+				});
+				//表单验证
+				$("#formContact").submit(function(e) {
+					e.preventDefault();
+					var _t = $(this);
+					var _name = _t.find('[name = userName]');
+					var _tel = _t.find('[name = userTel]');
+					var _area = _t.find('[name = userArea]');
+					var _contact = _t.find('[name = userContact]');
+					if (_name.val().length < 2 || _name.val().length > 10) {
+						buijs_alert({
+							content: '姓名没填好，请你认真点~'
+						})
+					} else if (_tel.val().length != 11) {
+						buijs_alert({
+							content: '手机号码没填好，请你认真点~'
+						})
+					} else if (_area.val().length == 0) {
+						buijs_alert({
+							content: '没有选择区域，请你认真点~'
+						})
+					} else if (_contact.val().length == 0) {
+						buijs_alert({
+							content: '详细地址没填好，请你认真点~'
+						})
+					} else {
+						buijs_modal({
+							title: '劳烦您老再确认一次...',
+							content: '<div class="bui_row_p_12 bui_p_24"><li><p class="bui_ts_12 bui_tc_o48">姓名：</p><p class="bui_ts_14">' + _name.val() + '</p></li><li><p class="bui_ts_12 bui_tc_o48">电话：</p><p class="bui_ts_14">' + _tel.val() + '</p></li><li><p class="bui_ts_12 bui_tc_o48">省市区：</p><p class="bui_ts_14">' + _area.val() + '</p></li><li><p class="bui_ts_12 bui_tc_o48">详细地址：</p><p class="bui_ts_14">' + _contact.val() + '</p></li></div><hr/><div class="bui_avg_sm_2 bui_row_p_12 bui_mt_12"><li><a href="javascript:;" class="bui_btn_48 bui_bgc_black bui_block bui_radius bui_modal_close">返回</a></li><li><a href="javascript:;" class="bui_btn_48 bui_bgc_orange bui_block bui_radius bui_modal_close bui_modal_true">提交</a></li></div>'
+						});
+						$(".bui_modal_true").click(function() {
+							$.ajax({
+								type: "post",
+								url: _jsonUrl + "/merriplusApi/updateMemberAddressInfo.html",
+								async: true,
+								cache: false,
+								dataType: 'json',
+								data: {
+									"id": dataGiftId,
+									"membername": _name.val(),
+									"memberphone": _tel.val(),
+									"memberaddress": _area.val() + _contact.val()
+								},
+								error: function(data) {
+									_jsonError();
+								},
+								success: function(data) {
+									$(".bui_mo input,.bui_mo textarea").prop('disabled', true);
+									buijs_alert({
+										content: '提交完成！'
+									});
+									setTimeout(function() {
+										window.location.reload();
+									}, 1000);
+								}
+							});
+						})
+					}
+				});
+				//省市县
+				$('[name = userArea]').click(function() {
+					formArea(0);
+				});
+			};
+			 //省市县
+			function formArea(id) {
+				if (id == 0) {
+					$("#userArea").val('');
+				}
+				$.ajax({
+					type: "get",
+					url: _jsonUrl + "/queryRegionByParentId?parentRegionId=" + id,
+					async: true,
+					cache: false,
+					dataType: 'json',
+					error: function(data) {
+						buijs_alert({
+							content: '数据获取失败，请检查网络设置'
+						})
+					},
+					success: function(data) {
+						if (data.length != 0) {
+							$("#formArea").addClass('active');
+							$("#formAreaSelect").html('');
+							$("#formAreaSelect").append('<hr/>');
+							$.map(data, function(data) {
+								$("#formAreaSelect").append('<a href="javascript:;" srv="' + data.id + '" class="bui_block bui_bgc_white bui_ptb_12 bui_plr_24 bui_media bui_vm">' +
+									'<div class="bui_media_b">' + data.name + '</div>' +
+									'<div class="bui_media_r"><i class="fa fa-angle-right bui_tc_o24"></i></div>' +
+									'</a>' +
+									'<hr/>')
+							});
+							$("#formArea .bui_mo_b").scrollTop('0px');
+							$("#formAreaSelect a").click(function() {
+								var _val = $("#userArea").val();
+								var _id = $(this).attr('srv');
+								var _name = $(this).find('.bui_media_b').text();
+								$("#userArea").val(_val + _name + ' ');
+								formArea(_id);
+							});
+						} else {
+							_complete = true;
+							$("#formArea").removeClass('active');
+						}
+					}
+				});
+				$("#formArea .bui_mo_h .bui_media_l a").click(function() {
+					$("#formArea").removeClass('active');
+					$("#userArea").val('');
+				});
+			}
+			$(document).ready(function() {
+				//判断状态
+				checkGameState();
+				//测试用
+				$('.wm_shake_am').click(function() {
+					_action();
+				});
+			});
+		</script>
+	</head>
+
+	<body class="wm_index_bg" onload="init();">
+		<div class="bui_wrap">
+			<!--bui_mo-->
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_media bui_vm bui_ts_12 bui_fas_16 bui_tc_white bui_atc_white bui_fac_white ">
+					<div class="bui_media_l bui_p_0">
+						<a href="javascript:;" class="bui_btn_32 bui_btnsq bui_m_8 bui_bgc_red_48 bui_radius" gameUrl="gameIndex"><i class="fa fa-angle-left fa-fw"></i></a>
+					</div>
+					<div class="bui_media_b">
+
+					</div>
+					<div class="bui_media_r bui_p_0"><a href="javascript:;" class="bui_btn_32 bui_mtb_8 bui_bgc_black_64 bui_radius" gameUrl="gameHelp">活动说明</a>
+						<a href="javascript:;" class="bui_btn_32 bui_mtb_8 bui_mr_8 bui_bgc_green_64 bui_radius" gameUrl="gameLog">中奖纪录</a></div>
+				</div>
+				<!--页头-->
+				<!--内容-->
+				<div class="bui_mo_b">
+					<div class="bui_inline bui_ta_c bui_pt_48">
+						<!--logo-->
+						<img src="images/logo.png" style="height: 32px;" class="bui_mtb_12" />
+						<br />
+						<!--logo-->
+						<!--摇一摇动画-->
+						<div class="bui_bgc_black_72 bui_round" style="width: 256px; height: 256px;">
+							<div class="wm_shake_am" style="width: 100%; height: 100%;">
+								<img src="images/shake.png" class="am_hand" />
+								<i class="am_bgflash"></i>
+							</div>
+						</div>
+						<br />
+						<!--摇一摇动画-->
+						<!--说明-->
+						<div class="bui_ptb_12 bui_plr_24 bui_ta_c bui_inline">
+
+							<p class="bui_bgc_black_48 bui_tc_white bui_round bui_ts_12 bui_ptb_6 bui_block">剩余抽奖次数：<span class="bui_tc_yellow bui_ts_16 bui_plr_6" id="gameNum">...</span>次</p>
+							<br />
+							<p class="bui_ts_12 bui_tc_orange">“摇一摇”不好使？直接点击屏幕也能抽奖哦。</p>
+						</div>
+						<!--说明-->
+					</div>
+				</div>
+				<!--内容-->
+			</div>
+			<!--bui_mo-->
+
+			<!--领取优惠券-->
+			<div class="bui_mo bui_mo_r" id="cupon" style="z-index: 1000;">
+				<!--页头-->
+				<div class="bui_mo_h bui_bgc_orange bui_tc_white bui_fac_white">
+					<p class="bui_ta_c bui_vm" style="line-height: 48px;"><i class="fa fa-qrcode bui_fac_white bui_fas_16 fa-fw"></i> 领取优惠券</p>
+				</div>
+				<!--页头-->
+				<!--内容-->
+				<div class="bui_mo_b bui_mo_b_h bui_bgc_orange">
+					<div class="bui_plr_48 bui_ptb_24 bui_tc_white bui_atc_white bui_ta_c">
+						<img src="images/20cupon.jpg" style="width: 100%;" />
+						<p class="bui_mt_12 bui_ts_12">手指长按上图识别二维码
+							<br/>获取<span class="bui_ts_16 bui_tc_yellow">20</span>元无门槛优惠券！</p>
+						<p class="bui_mt_12"><a href="javascript:window.location.reload();" class="bui_btn_48 bui_bgc_black_48  bui_block bui_radius">再玩一次</a></p>
+					</div>
+				</div>
+				<!--内容-->
+			</div>
+			<!--领取优惠券-->
+
+			<!--填写地址-->
+			<form class="bui_mo bui_mo_r" name="formContact" id="formContact" style="z-index: 1000;">
+				<!--页头-->
+				<div class="bui_mo_h bui_bgc_orange bui_tc_white bui_fac_white">
+					<p class="bui_ta_c bui_vm" style="line-height: 48px;"><i class="fa fa-map-marker bui_fac_white bui_fas_16 fa-fw"></i> 收货信息</p>
+				</div>
+				<!--页头-->
+				<!--内容-->
+				<div class="bui_mo_b bui_mo_b_h bui_mo_b_f bui_bgc_lgray">
+					<div class="bui_p_24 bui_row_p_12">
+						<li>
+							<div class="bui_ipg_48 bui_block">
+								<i class="fa fa-user bui_fas_16 bui_tc_o24 bui_fl"></i>
+								<input type="text" name="userName" id="userName" value="" placeholder="请输入您的真实姓名" maxlength="10" class="bui_ipt_48 bui_bgc_white bui_radius bui_ts_16" />
+							</div>
+						</li>
+						<li>
+							<p class="bui_ts_12 bui_tc_o48">物流实名制进行中，建议您填写真实姓名</p>
+						</li>
+						<li>
+							<div class="bui_ipg_48 bui_block">
+								<i class="fa fa-mobile bui_fas_24 bui_tc_o24 bui_fl"></i>
+								<input type="tel" name="userTel" id="userTel" value="" placeholder="请输入您的手机号码" maxlength="11" class="bui_ipt_48 bui_bgc_white bui_radius bui_ts_16" />
+							</div>
+						</li>
+						<li>
+							<div class="bui_ipg_48 bui_block">
+								<i class="fa fa-map-marker bui_fas_24 bui_tc_o24 bui_fl"></i>
+								<input type="tel" name="userArea" id="userArea" value="" placeholder="省/市/县" readonly="readonly" class="bui_ipt_48 bui_bgc_white bui_radius bui_ts_16" />
+							</div>
+						</li>
+						<li>
+							<textarea name="userContact" id="userContact" rows="6" cols="" class="bui_ipt_48 bui_block bui_bgc_white bui_radius bui_ts_16 bui_ptb_12" placeholder="请输入你的详细地址" maxlength="255"></textarea>
+						</li>
+					</div>
+				</div>
+				<!--内容-->
+				<!--页脚-->
+				<div class="bui_mo_f">
+					<button class="bui_btn_64 bui_bgc_orange bui_block bui_ts_16">提交信息</button>
+				</div>
+				<!--页脚-->
+			</form>
+			<!--填写地址-->
+			<!--省市县-->
+			<div class="bui_mo bui_mo_r" id="formArea" style="z-index: 1001;">
+				<!--页头-->
+				<div class="bui_mo_h bui_bgc_orange bui_tc_white bui_fac_white bui_media bui_vm">
+					<div class="bui_media_l">
+						<a href="javascript:;" class="bui_btn_48 bui_btnsq"><i class="fa fa-angle-left"></i></a>
+					</div>
+					<div class="bui_media_b">请选择您的区域</div>
+				</div>
+				<!--页头-->
+				<!--内容-->
+				<div class="bui_mo_b bui_mo_b_h bui_bgc_lgray">
+					<div class="bui_ptb_24 bui_atc_black bui_ahbgc_black_6 bui_at_noline" id="formAreaSelect"></div>
+				</div>
+				<!--内容-->
+			</div>
+			<!--省市县-->
+			<!--loading-->
+			<div class="bui_btn_64 bui_btnsq bui_bgc_black_64 bui_fas_24 bui_fac_white bui_radius" style="position: absolute; left: 50%;top: 50%;margin: -32px 0 0 -32px;" id="public_loading">
+				<i class="fa fa-circle-o-notch fa-spin"></i>
+			</div>
+			<!--loading-->
+		</div>
+
+		<!--声音-->
+		<audio src="images/kaca.mp3" controls="controls" hidden="true" id="kaca" style="opacity: 0;">
+		</audio>
+		<!--声音-->
+	</body>
+
+</html>

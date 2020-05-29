@@ -1,0 +1,32 @@
+.wall-item {
+  display: block;
+  overflow: hidden;
+}
+.wall-item .wall-item-chatbox {
+  padding: 0 14rem;
+  position: relative;
+}
+.wall-item .wall-item-chatbox:after {
+  content: '';
+  width: 4rem;
+  height: 4rem;
+  position: absolute;
+  top: 4rem;
+  background: #fff;
+  border: #e7e7e7 solid;
+  transform: rotate(45deg);
+}
+.wall-item.wall-item-left .wall-item-head {
+  float: left;
+}
+.wall-item.wall-item-left .wall-item-chatbox:after {
+  border-width: 0 0 0.5rem 0.5rem;
+  left: 12rem;
+}
+.wall-item.wall-item-right .wall-item-head {
+  float: right;
+}
+.wall-item.wall-item-right .wall-item-chatbox:after {
+  border-width: 0.5rem 0.5rem 0 0;
+  right: 12rem;
+}

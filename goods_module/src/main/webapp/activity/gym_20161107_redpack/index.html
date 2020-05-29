@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>开箱抽奖 - 【BIG生活 - 专业运动营养品牌】</title>
+		<script src="../game_public/workspace_v2.0.3.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var vueData = {}
+			$(document).ready(function() {
+				global_vue({
+					data: vueData
+				});
+
+				//获取用户信息
+				global_getMemberDetail({
+					domain: workSpace.jsonUrl,
+					getLocalStorage: false,
+					error: function() {
+						buijs_modal({
+							positions: 'center',
+							isclose: false,
+							content: '<p class="bui_p_24 bui_ta_c">数据访问失败</p>',
+							footer: '<div class="bui_p_8"><button class="bui_btn bui_btn_48 bui_ts_16 bui_block bui_bgc_red" onclick="window.location.reload();">重试</button></div>'
+						});
+					},
+					success: function(data) {
+						vm.$set('memberDetail', data);
+					}
+				});
+
+				//获取高级资料完成率
+				global_getJsonSetVue(workSpace.jsonUrl + 'front/getMemberInfoPercent', 'getMemberInfoPercent');
+
+				//表单提交
+				$("#form").unbind('submit').buijs_form_check({
+					error: function() {
+						buijs_alert({
+							content: '填写未完成'
+						})
+					},
+					success: function() {
+						buijs_mask({
+							type: 'loading'
+						});
+						global_getVueSetJson(workSpace.jsonUrl + '/merriplusApi/updateMemberWithSMSCode', vueData.memberDetail.data, ['mobilePhone', 'smsCode'],
+							function(data) {
+								if(data.code == 0) {
+									global_getJsonSetVue(workSpace.jsonUrl + '/merriplusApi/getMemberDetail', 'memberDetail'); //读取个人信息
+									//资料未完善
+									if(vueData.getMemberInfoPercent.data != '100%') {
+										buijs_mask_close();
+										buijs_modal({
+											setid: 'memberDetail_advan',
+											positions: 'center',
+											width: '86%',
+											height: '86%',
+											title: '完善个人信息',
+											ajaxload: 'modal_memberdetailedit_advance.html',
+											footer: null
+										})
+									}
+									//资料已完善
+									else {
+										buijs_mask_close();
+										getRedPack(); //获取红包接口
+									};
+								};
+							});
+					}
+				})
+			});
+
+			//获取验证码
+			function smsGetCode() {
+				//校验手机号
+				if(/1[3-8]+\d{9}/.test($("[buijs_form_item_type=mobile] input").val())) {
+					//倒计时
+					vm.$set('smsCodecountDown', null);
+					var i = 60;
+					var int = setInterval(smsCodecountDown, 1000);
+
+					function smsCodecountDown() {
+						if(i > 0) {
+							i--;
+							vueData.smsCodecountDown = i;
+						} else {
+							window.clearInterval(int);
+						};
+						return false;
+					};
+					global_getJsonSetVue(workSpace.jsonUrl + '/merriplusApi/getUpdateSMSCode', 'getUpdateSMSCode', {
+						phone: vueData.memberDetail.data.mobilePhone,
+						brandCode: 'JLD'
+					}, function() {
+						buijs_alert({
+							content: '验证码已经发送<br/>请注意查看手机信息'
+						})
+					})
+				} else {
+					buijs_alert({
+						content: '手机格式不正确'
+					})
+				};
+			};
+
+			//获取红包接口
+			function getRedPack() {
+				buijs_mask({
+					type: 'loading'
+				});
+				setTimeout(function() {
+					window.location.reload();
+				});
+			};
+		</script>
+	</head>
+
+	<body>
+		<div class="bui_wrap bui_bgc_black_l64 bui_tc_white bui_atc_white bui_at_noline" style="background-image: url(images/bg.png); background-size: cover; background-position: center center;">
+
+			<div class="bui_inline bui_vm bui_ta_c" style="height: 100%;">
+				<i style="width: 0rem;height: 100%;"></i>
+				<div style="width: 80%;">
+					<form id="form">
+						<div class="bui_inline">
+							<img src="images/logo.png" style="width: 60%;" />
+						</div>
+						<p class="bui_ts_24 bui_mt_32">请输入手机号</p>
+						<div class="bui_mt_12" buijs_form_item_type="mobile">
+							<input type="tel" value="" placeholder="请输入手机号码" class="bui_ipt_48 bui_bgc_white bui_block bui_bds_2  bui_radius  bui_ts_16" v-model="memberDetail.data.mobilePhone" :disabled="memberDetail.data.mobilePhone?true:false" />
+						</div>
+						<template v-if="!memberDetail.data.mobilePhone">
+							<div class="bui_media bui_mt_12">
+								<div class="bui_media_b" buijs_form_item_type="length" buijs_form_item_length="6,6">
+									<input type="tel" value="" placeholder="请输入验证码" class="bui_ipt_48 bui_bgc_white bui_block bui_bds_2  bui_radius  bui_ts_16" v-model="memberDetail.data.smsCode" />
+								</div>
+								<div class="bui_media_r">
+									<button type="button" class="bui_btn_48 bui_bgc_red bui_ts_14 bui_radius bui_tc_white" onclick="smsGetCode();">{{smsCodecountDown?smsCodecountDown:'点击获取'}}</button>
+								</div>
+							</div>
+						</template>
+						<p class="bui_mt_12 bui_tc_white_f48">请务必填写收货手机号<br/>不然可能会错过红包哦</p>
+						<button type="submit" class="bui_mt_32"><img src="images/button.png" style="width: 60%;" /></button>
+					</form>
+				</div>
+
+				<i style="width: 0rem;height: 100%;"></i>
+			</div>
+
+		</div>
+	</body>
+
+</html>

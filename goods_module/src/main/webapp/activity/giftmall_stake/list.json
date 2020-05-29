@@ -1,0 +1,43 @@
+{
+  "userName":"你好",
+  "userGoodsPoint":"1000",
+  "userPoint":"7000",
+  "goodsId":"1111",
+  "goodsImg":"http://v.merryplus.com/resources/uploads/product/20150916104430_590.jpg",
+  "goodsName":"极智构 蛋白帮（黑巧克力芒果味）",
+  "startTime":"2015-10-17 09:35:00",
+  "needPoint":"10000",
+  "nowPoint":"5000",
+  "listCount":"12",
+  "list":[{
+  "userName":"剪了个超帅的光头",
+  "userPoint":"1500",
+  "userImg":"../game_public/pic/demo_face/face_001.jpg",
+  "isStake":"1"
+},{
+  "userName":"剪了个超",
+  "userPoint":"5000",
+  "isStake":"0",
+  "userImg":"../game_public/pic/demo_face/face_002.jpg"
+},{
+  "userName":"剪",
+  "userPoint":"500",
+   "isStake":"0",
+  "userImg":"../game_public/pic/demo_face/face_003.jpg"
+},{
+  "userName":"剪了",
+  "userPoint":"500",
+   "isStake":"0",
+  "userImg":"../game_public/pic/demo_face/face_004.jpg"
+},{
+  "userName":"剪了个",
+  "userPoint":"500",
+   "isStake":"0",
+  "userImg":"../game_public/pic/demo_face/face_005.jpg"
+},{
+  "userName":"剪了个超帅",
+  "userPoint":"500",
+   "isStake":"0",
+  "userImg":"../game_public/pic/demo_face/face_006.jpg"
+}]
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>极限穿越赛 - 汤臣倍健</title>
+		<script type="text/javascript" src="workspace.js"></script>
+		<script type="text/javascript">
+			function postTrue(name) {
+				$('body').append('<div class="bui_bgc_black_72" id="postMask" style="position:fixed;top:0;right:0;bottom:0;left:0;">' +
+					'<div class="bui_ptb_64 bui_ta_c bui_tc_white">' +
+					'<p class="bui_ts_32 bui_ptb_12" style="font-weight: bold;">英雄名字不错<br/>我们1028见<p>' +
+					'</div>' +
+					'</div>');
+			};
+			$(document).ready(function() {
+				$("form#postName").submit(function(e) {
+					e.preventDefault();
+					var _input = $(this).find('input');
+					if (_input.val().length == 0) {
+						buijs_alert({
+							content: '英雄还是写点什么吧~'
+						});
+					} else {
+						if (_input.val().length < 2 || _input.val().length > 10) {
+							buijs_alert({
+								content: '英雄的名字格式怪怪的，认真点吧~'
+							});
+						} else {
+							_input.blur();
+							postTrue(_input.val());
+						}
+					}
+				});
+			});
+		</script>
+	</head>
+
+	<body class="hiking_bg">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<div class="bui_mo_b">
+					<!--logo-->
+					<div class="bui_pt_48">
+						<img src="images/hiking_index_logo.png" / style="width: 100%; height: auto;">
+					</div>
+					<!--logo-->
+					<form id="postName">
+						<div class="bui_p_24">
+							<input type="text" name="playerName" id="" value="" placeholder="请输入您的名字" class="bui_btn_48 bui_bgc_white bui_block bui_radius bui_btn_noline" />
+						</div>
+						<p class="bui_plr_24 bui_tc_white">
+							请输入您的全名，以便在徒步当天记录您的成绩。
+						</p>
+						<p class="bui_p_24">
+							<button class="bui_btn_48 bui_bgc_black_48 bui_block bui_radius bui_tc_white">提交</button>
+						</p>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

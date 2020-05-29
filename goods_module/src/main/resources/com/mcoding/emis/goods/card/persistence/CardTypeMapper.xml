@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.card.persistence.CardTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.card.bean.CardType" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cardId" property="cardid" jdbcType="VARCHAR" />
+    <result column="cardType" property="cardtype" jdbcType="VARCHAR" />
+    <result column="cardQuantity" property="cardquantity" jdbcType="INTEGER" />
+    <result column="cardCount" property="cardcount" jdbcType="INTEGER" />
+    <result column="isValid" property="isvalid" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="encrypt_code" property="encryptCode" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="timeType" property="timetype" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="beginTime" property="begintime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="fixedTerm" property="fixedterm" jdbcType="INTEGER" />
+    <result column="fixedBeginTime" property="fixedbegintime" jdbcType="TIMESTAMP" />
+    <result column="leastCost" property="leastcost" jdbcType="INTEGER" />
+    <result column="reduceCost" property="reducecost" jdbcType="INTEGER" />
+    <result column="discount" property="discount" jdbcType="INTEGER" />
+    <result column="productId" property="productid" jdbcType="INTEGER" />
+    <result column="productName" property="productname" jdbcType="VARCHAR" />
+    <result column="default_detail" property="defaultDetail" jdbcType="VARCHAR" />
+    <result column="ext1" property="ext1" jdbcType="VARCHAR" />
+    <result column="ext2" property="ext2" jdbcType="VARCHAR" />
+    <result column="ext3" property="ext3" jdbcType="VARCHAR" />
+    <result column="ext4" property="ext4" jdbcType="VARCHAR" />
+    <result column="ext5" property="ext5" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="CardTypeAndProductMap" type="com.mcoding.emis.goods.card.bean.CardType" extends="BaseResultMap">
+    <collection property="productList" column="id" javaType="List" ofType="com.mcoding.emis.goods.card.bean.CardTypeProductRef" select="com.mcoding.emis.goods.card.persistence.CardTypeProductRefMapper.selectCardTypeAndProductById" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, cardId, cardType, cardQuantity, cardCount, isValid, code, encrypt_code, name, 
+    timeType, createTime, beginTime, endTime, fixedTerm, fixedBeginTime, leastCost, reduceCost, 
+    discount, productId, productName, default_detail, ext1, ext2, ext3, ext4, ext5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.card.bean.CardTypeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from card_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByCardCode" resultMap="CardTypeAndProductMap" parameterType="java.lang.String" >
+    select card_type.*
+    FROM
+      card ,card_type
+    WHERE
+      card.cardTypeId =  card_type.id AND
+      card.cardCode =  #{cardCode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByExampleByPage" resultMap="CardTypeAndProductMap" parameterType="com.mcoding.emis.goods.card.bean.CardTypeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from card_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="CardTypeAndProductMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from card_type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from card_type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.goods.card.bean.CardTypeExample" >
+    delete from card_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.card.bean.CardType"  useGeneratedKeys="true" keyProperty="id">
+    insert into card_type (id, cardId, cardType, 
+      cardQuantity, cardCount, isValid, 
+      code, encrypt_code, name, 
+      timeType, createTime, beginTime, 
+      endTime, fixedTerm, fixedBeginTime, 
+      leastCost, reduceCost, discount, 
+      productId, productName, default_detail, 
+      ext1, ext2, ext3, ext4, 
+      ext5)
+    values (#{id,jdbcType=INTEGER}, #{cardid,jdbcType=VARCHAR}, #{cardtype,jdbcType=VARCHAR}, 
+      #{cardquantity,jdbcType=INTEGER}, #{cardcount,jdbcType=INTEGER}, #{isvalid,jdbcType=INTEGER}, 
+      #{code,jdbcType=VARCHAR}, #{encryptCode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{timetype,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{begintime,jdbcType=TIMESTAMP}, 
+      #{endtime,jdbcType=TIMESTAMP}, #{fixedterm,jdbcType=INTEGER}, #{fixedbegintime,jdbcType=TIMESTAMP}, 
+      #{leastcost,jdbcType=INTEGER}, #{reducecost,jdbcType=INTEGER}, #{discount,jdbcType=INTEGER}, 
+      #{productid,jdbcType=INTEGER}, #{productname,jdbcType=VARCHAR}, #{defaultDetail,jdbcType=VARCHAR}, 
+      #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{ext4,jdbcType=VARCHAR}, 
+      #{ext5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.card.bean.CardType"  useGeneratedKeys="true" keyProperty="id">
+    insert into card_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cardid != null" >
+        cardId,
+      </if>
+      <if test="cardtype != null" >
+        cardType,
+      </if>
+      <if test="cardquantity != null" >
+        cardQuantity,
+      </if>
+      <if test="cardcount != null" >
+        cardCount,
+      </if>
+      <if test="isvalid != null" >
+        isValid,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="encryptCode != null" >
+        encrypt_code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="timetype != null" >
+        timeType,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="begintime != null" >
+        beginTime,
+      </if>
+      <if test="endtime != null" >
+        endTime,
+      </if>
+      <if test="fixedterm != null" >
+        fixedTerm,
+      </if>
+      <if test="fixedbegintime != null" >
+        fixedBeginTime,
+      </if>
+      <if test="leastcost != null" >
+        leastCost,
+      </if>
+      <if test="reducecost != null" >
+        reduceCost,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="productid != null" >
+        productId,
+      </if>
+      <if test="productname != null" >
+        productName,
+      </if>
+      <if test="defaultDetail != null" >
+        default_detail,
+      </if>
+      <if test="ext1 != null" >
+        ext1,
+      </if>
+      <if test="ext2 != null" >
+        ext2,
+      </if>
+      <if test="ext3 != null" >
+        ext3,
+      </if>
+      <if test="ext4 != null" >
+        ext4,
+      </if>
+      <if test="ext5 != null" >
+        ext5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cardid != null" >
+        #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="cardtype != null" >
+        #{cardtype,jdbcType=VARCHAR},
+      </if>
+      <if test="cardquantity != null" >
+        #{cardquantity,jdbcType=INTEGER},
+      </if>
+      <if test="cardcount != null" >
+        #{cardcount,jdbcType=INTEGER},
+      </if>
+      <if test="isvalid != null" >
+        #{isvalid,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="encryptCode != null" >
+        #{encryptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="timetype != null" >
+        #{timetype,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="begintime != null" >
+        #{begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fixedterm != null" >
+        #{fixedterm,jdbcType=INTEGER},
+      </if>
+      <if test="fixedbegintime != null" >
+        #{fixedbegintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leastcost != null" >
+        #{leastcost,jdbcType=INTEGER},
+      </if>
+      <if test="reducecost != null" >
+        #{reducecost,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="productid != null" >
+        #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null" >
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultDetail != null" >
+        #{defaultDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="ext4 != null" >
+        #{ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="ext5 != null" >
+        #{ext5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.goods.card.bean.CardTypeExample" resultType="java.lang.Integer" >
+    select count(*) from card_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update card_type
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cardid != null" >
+        cardId = #{record.cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardtype != null" >
+        cardType = #{record.cardtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardquantity != null" >
+        cardQuantity = #{record.cardquantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.cardcount != null" >
+        cardCount = #{record.cardcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.isvalid != null" >
+        isValid = #{record.isvalid,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.encryptCode != null" >
+        encrypt_code = #{record.encryptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timetype != null" >
+        timeType = #{record.timetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.begintime != null" >
+        beginTime = #{record.begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endtime != null" >
+        endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.fixedterm != null" >
+        fixedTerm = #{record.fixedterm,jdbcType=INTEGER},
+      </if>
+      <if test="record.fixedbegintime != null" >
+        fixedBeginTime = #{record.fixedbegintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.leastcost != null" >
+        leastCost = #{record.leastcost,jdbcType=INTEGER},
+      </if>
+      <if test="record.reducecost != null" >
+        reduceCost = #{record.reducecost,jdbcType=INTEGER},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=INTEGER},
+      </if>
+      <if test="record.productid != null" >
+        productId = #{record.productid,jdbcType=INTEGER},
+      </if>
+      <if test="record.productname != null" >
+        productName = #{record.productname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.defaultDetail != null" >
+        default_detail = #{record.defaultDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext1 != null" >
+        ext1 = #{record.ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext2 != null" >
+        ext2 = #{record.ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext3 != null" >
+        ext3 = #{record.ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext4 != null" >
+        ext4 = #{record.ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext5 != null" >
+        ext5 = #{record.ext5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update card_type
+    set id = #{record.id,jdbcType=INTEGER},
+      cardId = #{record.cardid,jdbcType=VARCHAR},
+      cardType = #{record.cardtype,jdbcType=VARCHAR},
+      cardQuantity = #{record.cardquantity,jdbcType=INTEGER},
+      cardCount = #{record.cardcount,jdbcType=INTEGER},
+      isValid = #{record.isvalid,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=VARCHAR},
+      encrypt_code = #{record.encryptCode,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      timeType = #{record.timetype,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      beginTime = #{record.begintime,jdbcType=TIMESTAMP},
+      endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      fixedTerm = #{record.fixedterm,jdbcType=INTEGER},
+      fixedBeginTime = #{record.fixedbegintime,jdbcType=TIMESTAMP},
+      leastCost = #{record.leastcost,jdbcType=INTEGER},
+      reduceCost = #{record.reducecost,jdbcType=INTEGER},
+      discount = #{record.discount,jdbcType=INTEGER},
+      productId = #{record.productid,jdbcType=INTEGER},
+      productName = #{record.productname,jdbcType=VARCHAR},
+      default_detail = #{record.defaultDetail,jdbcType=VARCHAR},
+      ext1 = #{record.ext1,jdbcType=VARCHAR},
+      ext2 = #{record.ext2,jdbcType=VARCHAR},
+      ext3 = #{record.ext3,jdbcType=VARCHAR},
+      ext4 = #{record.ext4,jdbcType=VARCHAR},
+      ext5 = #{record.ext5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.card.bean.CardType" >
+    update card_type
+    <set >
+      <if test="cardid != null" >
+        cardId = #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="cardtype != null" >
+        cardType = #{cardtype,jdbcType=VARCHAR},
+      </if>
+      <if test="cardquantity != null" >
+        cardQuantity = #{cardquantity,jdbcType=INTEGER},
+      </if>
+      <if test="cardcount != null" >
+        cardCount = #{cardcount,jdbcType=INTEGER},
+      </if>
+      <if test="isvalid != null" >
+        isValid = #{isvalid,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="encryptCode != null" >
+        encrypt_code = #{encryptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="timetype != null" >
+        timeType = #{timetype,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="begintime != null" >
+        beginTime = #{begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        endTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fixedterm != null" >
+        fixedTerm = #{fixedterm,jdbcType=INTEGER},
+      </if>
+      <if test="fixedbegintime != null" >
+        fixedBeginTime = #{fixedbegintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leastcost != null" >
+        leastCost = #{leastcost,jdbcType=INTEGER},
+      </if>
+      <if test="reducecost != null" >
+        reduceCost = #{reducecost,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="productid != null" >
+        productId = #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null" >
+        productName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultDetail != null" >
+        default_detail = #{defaultDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        ext2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        ext3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="ext4 != null" >
+        ext4 = #{ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="ext5 != null" >
+        ext5 = #{ext5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.card.bean.CardType" >
+    update card_type
+    set cardId = #{cardid,jdbcType=VARCHAR},
+      cardType = #{cardtype,jdbcType=VARCHAR},
+      cardQuantity = #{cardquantity,jdbcType=INTEGER},
+      cardCount = #{cardcount,jdbcType=INTEGER},
+      isValid = #{isvalid,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      encrypt_code = #{encryptCode,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      timeType = #{timetype,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      beginTime = #{begintime,jdbcType=TIMESTAMP},
+      endTime = #{endtime,jdbcType=TIMESTAMP},
+      fixedTerm = #{fixedterm,jdbcType=INTEGER},
+      fixedBeginTime = #{fixedbegintime,jdbcType=TIMESTAMP},
+      leastCost = #{leastcost,jdbcType=INTEGER},
+      reduceCost = #{reducecost,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=INTEGER},
+      productId = #{productid,jdbcType=INTEGER},
+      productName = #{productname,jdbcType=VARCHAR},
+      default_detail = #{defaultDetail,jdbcType=VARCHAR},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      ext2 = #{ext2,jdbcType=VARCHAR},
+      ext3 = #{ext3,jdbcType=VARCHAR},
+      ext4 = #{ext4,jdbcType=VARCHAR},
+      ext5 = #{ext5,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="addQuantityForCardById" parameterType="java.lang.Integer" >
+    update card_type
+    set cardQuantity = 1 + cardquantity
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectProductByCardTypeId" resultType="com.mcoding.emis.goods.product.bean.Product" parameterType="java.lang.Integer">
+    select p.* from mr_product p , card_type_product_ref r
+    where r.cardTypeId = #{id,jdbcType=INTEGER}
+    and  p.productId = r.productId
+  </select>
+</mapper>

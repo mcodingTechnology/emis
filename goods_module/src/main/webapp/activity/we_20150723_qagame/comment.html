@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../baidiui/css/baidiui.css" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script type="text/javascript" src="../baidiui/js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="public.js"></script>
+		<script type="text/javascript" src="../baidiui/js/baidiui.js"></script>
+		<title>营养冷知识 - 极智构</title>
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js">
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				//间隔时间
+				var _delay = 1000;
+				$('.wm_comment_select a').on({
+					'touchstart': function(e) {
+						e.preventDefault();
+						$(this).addClass('hit');
+					},
+					'touchend': function(e) {
+						$(this).removeClass('hit');
+					}
+				});
+				var _scroll = function() {
+					var _t = $('.wm_comment:last-child');
+					var _b = _t.offset().top
+					$('body,html').animate({scrollTop:_b})
+					_t.addClass('on');
+				}
+
+				function ask(_c, _q) {
+					$('body').append('<div class="wm_comment wm_comment_left"><div class="wm_comment_face"><h2><span><img src="images/face_gebu.png" /></span></h2><h5>学姐</h5></div><div class="wm_comment_content"><div class="wm_comment_content_box"><p>' + _c + '</p></div></div></div>');
+					_scroll();
+				};
+
+				function answer(_c) {
+					$('body').append('<div class="wm_comment wm_comment_right"><div class="wm_comment_content"><div class="wm_comment_content_box">' + _c + '</div></div><div class="wm_comment_face"><h2><span><img src="' + headimgurl + '" /></span></h2><h5>' + nickname + '</h5></div></div>');
+					_scroll();
+				};
+
+				function question(data) {
+					if (data != null) {
+						$('body').append('<div class="wm_comment wm_comment_left" id="question_' + i + '" style="position:relative"><div class="wm_comment_face"><h2><span><img src="images/face_gebu.png" /></span></h2><h5>学姐</h5></div><div class="wm_comment_content"><div class="wm_comment_content_box"><p>' + data.questiontitle + '</p><div class="wm_comment_select"><a>' + data.option1 + '</a><a>' + data.option2 + '</a><a>' + data.option3 + '</a></div></div></div></div>');
+						_scroll();
+						$('.wm_comment:last-child a').click(function() {
+							var _t = $(this);
+							var _text = $(this).text();
+							answer(_text);
+							$(this).addClass('active');
+							$('#question_' + i + '').append('<div style="position: absolute;z-index: 9999;width: 100%;height: 100%;top: 0px;"></div>');
+							setTimeout(function() {
+								if (_t.index() + 1 == data.answer) {
+									rightnum++;
+									ask(data.rightreply);
+									var _score = parseInt($('#wm_score').val());
+									$('#wm_score').val(_score + 20);
+								} else {
+									ask(data.wrongreply);
+								}
+								setTimeout(function() {
+									i++;
+									question(qArr[i]);
+								}, _delay);
+							}, _delay);
+						});
+					} else {
+						end();
+						ask('问题已经回答完了。<div class="wm_comment_select"><a href="complete.html?gameid=' + _gameid + '" class="hit">快去看看你的成绩吧 &gt;</a></div>');
+					}
+				};
+				getQuestion();
+				ask('准备好见识最有营养的冷知识了吗？挑战学姐在今朝，小加豪礼已备好！');;
+				setTimeout(function() {
+					answer('额滴学姐~\(≥▽≤)/~让我来和你大战三百回合吧！！！');
+					setTimeout(function() {
+						question(qArr[i]);
+					}, _delay);
+				}, _delay);
+			});
+			var qArr = [];
+			var i = 0;
+			var rightnum = 0;
+			var gaintitle = '3';
+			var headimgurl = '';
+			var nickname = '';
+
+			function getQuestion() {
+				$.getJSON(url + "merriplusApi/getRandomQuestion.html?gameid=" + _gameid, function(data) {
+					qArr = data.data.gameQuestionList;
+					headimgurl = data.data.headimgurl;
+					nickname = data.data.nickname;
+				});
+			}
+
+			function end() {
+				var islottery = 0;
+				var ext = '';
+				if (rightnum == 5) {
+					islottery = 1;
+				}
+				if (rightnum == 5) {
+					gaintitle = '1'
+				} else if (rightnum == 4) {
+					gaintitle = '2'
+				}
+				$.ajax({
+					type: "post",
+					url: url + "merriplusApi/updateGameMemberResult.html",
+					async: true,
+					global: false,
+					dateType: 'json',
+					contentType: 'application/json',
+					data: JSON.stringify({
+						rightnum: rightnum,
+						gaintitle: gaintitle,
+						brandcode: 'MRMJ',
+						ext: ext,
+						islottery: islottery,
+						gameid : _gameid
+					}),
+					success: function(data) {}
+				});
+			}
+		</script>
+	</head>
+
+	<body class="wm_index_body" style="overflow: auto;">
+		<input type="hidden" value="0" id="wm_score" />
+	</body>
+
+</html>

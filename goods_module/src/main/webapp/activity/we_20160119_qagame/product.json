@@ -1,0 +1,20 @@
+{
+	"code":"00",
+	"data":[
+		{
+			"name":"每日没加β胡萝卜素软胶",
+			"info":"维生素A有维持皮肤粘膜层的完整。",
+			"img" :"images/produce_01.png"
+		},
+		{
+			"name":"每日没加钙镁片",
+			"info":"有效减低因年龄增长而造成的骨质流失情况。",
+			"img" :"images/produce_02.png"
+		},
+		{
+			"name":"每日没加维生素矿物质片",
+			"info":"维持正常生理功能必须元素。",
+			"img" :"images/produce_03.png"
+		}
+	]
+}

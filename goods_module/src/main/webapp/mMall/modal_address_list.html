@@ -1,0 +1,134 @@
+<div class="bui_wrap bui_tc_black bui_tc_black_a">
+	<!--页头-->
+	<div class="bui_mo_h">
+		<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:buijs_modal_close('modal_address_list');" title="我的收货信息"></tp-header>
+	</div>
+	<!--页头-->
+	<!--页面-->
+	<div class="bui_mo_b bui_mo_b_h bui_mo_b_f">
+
+		<div class="bui_p_12 bui_row_p_12">
+			<template v-if="addressList.queryResult.length==0">
+				<tp-emptypage></tp-emptypage>
+			</template>
+			<template v-else>
+				<div v-for="data in addressList.queryResult">
+					<div class="bui_bgc_white bui_bds_1 bui_p_12">
+						<div onclick="addressList_select({{data|json}});">
+							<div class="bui_media bui_vm bui_ts_16">
+								<div class="bui_media_b">
+									<p>{{data.receiver}}</p>
+								</div>
+								<div class="bui_media_r">
+									<p>{{data.phone}}</p>
+								</div>
+							</div>
+							<div class="bui_ts_14 bui_mtb_6">{{data.regson}} {{data.address}}</div>
+						</div>
+						<div class="bui_pt_6 bui_media bui_vm bui_bds_1_t">
+							<div class="bui_media_b">
+								<button class="bui_ts_14 bui_tc_red" v-if="data.isDefault==1"><i class="fa fa-check-square-o fa-fw"></i>默认地址</button>
+								<button class="bui_ts_14" v-else onclick="addressSetDefault({{data.id}});"><i class="fa fa-square-o fa-fw"></i>设为默认</button>
+							</div>
+							<div class="bui_media_r">
+								<button class="bui_btn_24 bui_bgc_green bui_tc_white bui_round bui_btn_sq" onclick="addressEdit({{data.id}})"><i class="fa fa-edit fa-fw"></i></button>
+								<button class="bui_btn_24 bui_bgc_red bui_tc_white bui_round bui_btn_sq" onclick="addressDel({{data.id}})"><i class="fa fa-close fa-fw"></i></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</template>
+		</div>
+	</div>
+	<!--页面-->
+	<!--页脚-->
+	<div class="bui_mo_f bui_bgc_white bui_bds_1_t">
+		<div class="bui_p_8"><button class="bui_btn bui_btn_48 bui_block bui_bgc_red bui_ts_16" onclick="addressEdit();">新增 <i class="fa fa-plus"></i></button></div>
+	</div>
+	<!--页脚-->
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		global_vue({
+			data: vueData
+		});
+		setTimeout(function() {
+			//获取地址列表
+			addressUpdataList();
+		}, 300)
+	});
+	//获取地址列表
+	function addressUpdataList(callback) {
+		global_vueGetJson({
+			url: workSpace.jsonUrl + '/memberAddress/front/findByCurrentMember',
+			vueName: 'addressList',
+			success: function(data) {
+				callback ? callback() : null;
+			}
+		})
+	};
+	//切换默认地址
+	function addressSetDefault(id) {
+		global_vuePostJson({
+			url: workSpace.jsonUrl + '/memberAddress/front/edit',
+			data: {
+				id: id,
+				isDefault: 1
+			},
+			beforeSend: function(data) {
+				buijs_mask({
+					type: 'loading'
+				});
+			},
+			success: function(data) {
+				setTimeout(function() {
+					buijs_mask_close();
+					addressUpdataList();
+				}, 300)
+			}
+		})
+	};
+	//删除地址
+	function addressDel(id) {
+		global_intercept('提示', '是否删除该地址', function() {
+			global_vueGetJson({
+				url: workSpace.jsonUrl + '/memberAddress/front/deleteById',
+				data: {
+					id: id
+				},
+				beforeSend: function(data) {
+					buijs_mask({
+						type: 'loading'
+					});
+				},
+				success: function(data) {
+					setTimeout(function() {
+						buijs_mask_close();
+						addressUpdataList(function() {
+							//订单预览页
+							if(window.location.pathname.indexOf('order_add.html') != -1 || window.location.pathname.indexOf('order_share.html') != -1) {
+								vm.$set('orderAddress', vueData.addressList.queryResult.length != 0 ? vueData.addressList.queryResult[0] : null);
+							}
+						});
+					}, 300)
+				}
+			})
+		})
+	};
+
+	//新增/编辑地址
+	function addressEdit(id) {
+		global_showSidePanel('modal_address_detail', 'right', '86%', function() {
+			$("#modal_address_detail").attr('addressDetailId', id);
+		});
+	};
+
+	//选中地址
+	function addressList_select(data) {
+		//订单预览页
+		if(window.location.pathname.indexOf('order_add.html') != -1 || window.location.pathname.indexOf('order_share.html') != -1) {
+			vm.$set('orderAddress', data);
+			buijs_modal_close('modal_address_list');
+		}
+	};
+</script>

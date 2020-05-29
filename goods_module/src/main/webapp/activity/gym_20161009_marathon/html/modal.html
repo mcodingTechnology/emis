@@ -1,0 +1,148 @@
+<script type="text/javascript">
+	vm.$set('pageLoaded', false);
+	global_vue();
+	//插入奖品列表
+	vm.$set('giftQuery', null);
+	vm.$set('giftQuery', [{
+		title: '1-5名',
+		name: '杭马名额一个'
+	}, {
+		title: '6~10名',
+		name: '专业跑鞋一双'
+	}, {
+		title: '11~20名',
+		name: '运动礼包一个'
+	}, {
+		title: '21~40名',
+		name: '液体钙软胶囊一瓶'
+	}]);
+	//插入帮过我的人列表
+	//插入帮过我的人
+	if(vueData.modalType == 'help') {
+		vm.$set('helpArray', []);
+		appendHelpArray(1);
+
+		function appendHelpArray(pageNo) {
+			vm.$set('pageLoaded', false);
+			global_getJsonSetVue('qrCodeUser/invitedUserList/101', 'invitedUserList', {
+				pageNo: pageNo,
+				pageSize: 10
+			}, function() {
+				if(pageNo > vueData.invitedUserList.data.pageCount) {
+					vm.$set('pageLoaded', true);
+				} else {
+					$.map(vueData.invitedUserList.data.queryResult, function(data) {
+						vueData.helpArray.push(data);
+					});
+					setTimeout(function() {
+						vm.$set('pageLoaded', true);
+						$("#mt_modal_help .bui_modal_b").buijs_scrollTobottom(function() {
+							if(vueData.pageLoaded == true && pageNo < vueData.invitedUserList.data.pageCount) {
+								pageNo++;
+								appendHelpArray(pageNo);
+							};
+						});
+					}, 300);
+				}
+			});
+		};
+	}
+	//插入排行榜
+	else if(vueData.modalType == 'ranking') {
+		vm.$set('rankingArray', []);
+		appendRankingArray(1);
+
+		function appendRankingArray(pageNo) {
+			vm.$set('pageLoaded', false);
+			global_getJsonSetVue('qrCodeUser/ranking/101', 'ranking', {
+				pageNo: pageNo,
+				pageSize: 10
+			}, function() {
+				if(pageNo > vueData.ranking.data.pageCount) {
+					vm.$set('pageLoaded', true);
+				} else {
+					$.map(vueData.ranking.data.queryResult, function(data) {
+						vueData.rankingArray.push(data);
+					});
+					setTimeout(function() {
+						vm.$set('pageLoaded', true);
+						$("#mt_modal_ranking .bui_modal_b").buijs_scrollTobottom(function() {
+							if(vueData.pageLoaded == true) {
+								pageNo++;
+								appendRankingArray(pageNo);
+							};
+						});
+					}, 300);
+				}
+			});
+		}
+	}
+</script>
+<!--分享提示-->
+<template v-if="modalType=='share'">
+	<div style="height: 100%;width: 100%; background-image: url(../images/sharebg.png);background-size: 100% auto;background-position: top center;" buijs_modal_close>
+		<div class="bui_pt_96">
+			<div class="bui_ts_14 bui_ta_c">
+				<p>邀请好友关注</p>
+				<p>【BIG生活公众号】</p>
+			</div>
+			<div class="bui_mt_12 bui_mlr_48 bui_bgc_red bui_radius bui_shadow_24 bui_ta_c bui_ptb_12">
+				<div :class="['bui_p_6',$index==0?'':'bui_bds_1_t','bui_bdc_black_f12']" v-for="data in giftQuery">
+					<p class="bui_ts_12">{{data.title}}</p>
+					<p class="bui_ts_16">{{data.name}}</p>
+				</div>
+			</div>
+			<div class="bui_mt_12 bui_ta_c">点击右上角，马上分享给肌友</div>
+		</div>
+	</div>
+</template>
+<!--分享提示-->
+<!--帮助列表-->
+<template v-if="modalType=='help'">
+	<div class="bui_bds_1_t bui_bdc_white_f12">
+		<div class="bui_p_12 bui_bds_1_b bui_bdc_white_f12 bui_ta_c" v-if="!helpArray||helpArray.length==0">
+			还没有任何数据
+		</div>
+		<div class="bui_media bui_vm bui_p_12 bui_bds_1_b bui_bdc_white_f12" v-else v-for="data in helpArray">
+			<div class="bui_media_l">
+				<img src="{{data.headimgurl}}" style="width: 3rem;height: 3rem;" class="bui_bds_2 bui_bdc_red bui_round" />
+			</div>
+			<div class="bui_media_b">
+				<p class="bui_ts_20">{{data.nickname}}</p>
+				<p class="bui_tc_white_f48 bui_vm bui_ts_12"><span class="bui_ts_12 bui_tc_white_f64">{{data.city}}</span></p>
+			</div>
+		</div>
+
+		<div class="bui_p_12 bui_ta_c">
+			<template v-if="pageLoaded"><i class="fa fa-check fa-fw"></i> 加载完成</template>
+			<template v-else><i class="fa fa-circle-o-notch fa-spin fa-fw"></i> 加载中</template>
+		</div>
+	</div>
+</template>
+<!--帮助列表-->
+<!--排行榜-->
+<template v-if="modalType=='ranking'">
+	<div class="bui_bds_1_t bui_bdc_white_f12">
+		<div class="bui_p_12 bui_bds_1_b bui_bdc_white_f12 bui_ta_c" v-if="!rankingArray||rankingArray.length==0">
+			还没有任何数据
+		</div>
+		<div class="bui_media bui_vm bui_p_12 bui_bds_1_b bui_bdc_white_f12" v-else v-for="data in rankingArray">
+			<div class="bui_media_l">
+				<img src="{{data.headimgurl}}" style="width: 3rem;height: 3rem;" class="bui_bds_2 bui_bdc_red bui_round" />
+			</div>
+			<div class="bui_media_b">
+				<p class="bui_ts_20">{{data.nickName}}</p>
+				<p class="bui_tc_white_f48 bui_vm bui_ts_12">邀请数：<span class="bui_ts_16 bui_tc_red">{{data.ext}}</span></p>
+			</div>
+			<div class="bui_media_r">
+				<div :class="['bui_ts_16','bui_tc_white','bui_round','bui_plr_12',$index==0?'bui_bgc_red':$index==1?'bui_bgc_orange':$index==2?'bui_bgc_green':$index==3?'bui_bgc_blue':$index==4?'bui_bgc_purple':'bui_bgc_white_d64']">{{$index+1}}</div>
+			</div>
+		</div>
+
+		<div class="bui_p_12 bui_ta_c">
+			<template v-if="pageLoaded"><i class="fa fa-check fa-fw"></i> 加载完成</template>
+			<template v-else><i class="fa fa-circle-o-notch fa-spin fa-fw"></i> 加载中</template>
+		</div>
+	</div>
+</template>
+<!--排行榜-->

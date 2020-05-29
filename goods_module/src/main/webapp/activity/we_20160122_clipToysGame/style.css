@@ -1,0 +1,302 @@
+/* 游戏主页面 */
+.indexBg {
+	width: 100%;
+	min-height: 100%;
+	background-image: url(./images/indexBg.png);
+	background-size: 100%;
+	background-color: #CD1C39;
+}
+.index_Bt {
+	text-align: center;
+	font-family: '黑体';
+	font-size: 23px;
+	position: absolute;
+	bottom: 32px;
+	font-weight: bold;
+}
+.index_Bt .startBt {
+	background-image: url(./images/Bt_red.png);
+	display: inline-block;
+	background-size: 100%;
+	padding: 0 35px;
+	height: 47px;
+	line-height: 47px;
+	color: white;
+	margin:0 50px 5px;
+}
+.index_Bt .ruleBt {
+	background-image: url(./images/Bt_yellow.png);
+	display: inline-block;
+	background-size: 100%;
+	padding: 0 35px;
+	height: 47px;
+	line-height: 47px;
+	color: #724D09;
+	margin:0 50px 5px;
+}
+.ruleBt_my {
+	background-image: url(./images/Bt_yellow.png);
+	display: inline-block;
+	background-size: 100%;
+	padding: 0 35px;
+	height: 47px;
+	line-height: 47px;
+	color: #724D09;
+	margin:0 50px 5px;
+}
+.index_Bt .rankBt {
+	background-image: url(./images/Bt_orange.png);
+	display: inline-block;
+	background-size: 100%;
+	padding: 0 35px;
+	height: 47px;
+	line-height: 47px;
+	color: white;
+	margin:0 50px 5px;
+}
+
+
+/* 自己挑战页面 */
+.selfChallengeBg {
+	width: 100%;
+	min-height: 100%;
+	background-image: url(./images/gameBg.png);
+	background-size: 100%;
+	background-color: #CD1C39;
+	color: white;
+}
+.selfChallengeBg .scoreWarp {
+	width: 82%;
+	height: 100%;
+	margin: 0 auto;
+	min-width: 245px;
+}
+.selfChallengeBg .scoreWarp img {
+	width: 100%;
+	display: block;
+}
+.selfChallengeBg .scoreWarp .scoreContent {
+	background-image: url(./images/score_02.png);
+	background-repeat: repeat;
+	background-size: 100%;
+	text-align: center;
+}
+.scoreContent .callHelp {
+	background-image: url(./images/Bt_yellow.png);
+	background-size: 100%;
+	width: 105px;
+	margin: 5px auto;
+	height: 31px;
+	line-height: 30px;
+	color: #92310B;
+}
+.scoreContent .btCommon {
+	display: inline-block;
+	width: 100px;
+	line-height: 30px;
+}
+.yellowBtScorll {
+	height: 25px;
+	width: 25px;
+	display: inline-block;
+	border-right: 2px solid yellow;
+	border-bottom: 2px solid yellow;
+	transform:rotate(45deg);
+	-o-transform:rotate(45deg);
+	-webkit-transform:rotate(45deg);
+	-ms-transform:rotate(45deg);
+	-moz-transform:rotate(45deg);
+}
+
+/* 帮助朋友界面 */
+.helpFriend {
+	width: 100%;
+	min-height: 100%;
+	background-size: 100%;
+	background-image: url(./images/gameBg.png);
+	background-color: #CD1C39;
+}
+.helpFriend .scoreWarp {
+	width: 82%;
+	height: 100%;
+	margin: 0 auto;
+	min-width: 245px;
+}
+.helpFriend .scoreWarp img {
+	width: 100%;
+	display: block;
+}
+.helpFriend .scoreWarp .scoreContent {
+	background-image: url(./images/result_02.png);
+	background-repeat: repeat;
+	background-size: 100%;
+	text-align: center;
+}
+.scoreContent_info {
+	background-image: url(./images/wrap_02.png);
+	background-repeat: repeat;
+	background-size: 100%;
+	text-align: center;
+}
+.helpFriend .scroeText {
+	text-indent: 10px;
+	line-height: 35px;
+	height: 55px;
+}
+.helpFriend .Bt_helpFriend {
+	display: inline-block;
+	width: 125px;
+	height: 40px;
+	line-height: 33px;
+	margin: 18px 0 45px;
+}
+.helpFriend .meWantBt {
+	color: #92310B;
+	display: inline-block;
+	width: 165px;
+	height: 50px;
+	line-height: 42px;
+	margin: 18px 0 45px;
+}
+.helpFriend .meToBt {
+	display: inline-block;
+	width: 115px;
+	height: 33px;
+	line-height: 33px;
+	margin: 18px 2px 45px;
+}
+.helpFriend .table_p {
+	padding: 0 28px;
+	text-align: left;
+}
+.helpFriend .input {
+	width: 220px;
+	background-color: #5B0013;
+	color: white;
+	text-indent: 8px;
+	margin: 10px auto;
+	line-height: 25px;
+	font-size: 16px;
+	border-radius: 6px;
+}
+.helpFriend .input input {
+	color: white;
+	font-size: 16px;
+	text-indent: 5px;
+}
+.helpFriend .table_sbmit {
+	display: inline-block;
+	width: 160px;
+	height: 50px;
+	line-height: 45px;
+	margin: 18px 10px 0;
+}
+.ranking {
+	color: white;
+}
+.ranking li{
+	padding: 10px 0;
+}
+.ranking .img {
+	width: 40px;
+	height: 40px;
+	float: left;
+	margin-left: 20px;
+}
+.ranking .scoreContent_info img {
+	width: 100%;
+	border-radius: 50%;
+}
+.ranking .userInfo {
+	margin:0 65px 0 64px;
+	height: 40px;
+	line-height: 40px;
+	text-align: left;
+	font-size: 14px;
+}
+.ranking .rankNum {
+	float: right;
+	margin-top: 11px;
+	margin-right: 12px;
+	border-radius: 5px;
+	background-color: #5B0013; 
+	font-size: 13px;
+	padding: 0px 5px;
+}
+.first {
+	width: 20px;
+	height: 20px;
+	background-size: 100%;
+	position: absolute;
+	top:0px;
+	left: 16px;
+}
+.first_0 {
+	background-image: url(./images/first_01.png);
+}
+.first_1 {
+	background-image: url(./images/first_02.png);
+}
+.first_2 {
+	background-image: url(./images/first_03.png);
+}
+
+
+/* 公共小样式 */
+.tc_92310B {
+	color: #92310B;
+}
+.tc_bold {
+	font-weight: bold;
+}
+
+.bui_ts_13 {
+	font-size: 13px;
+}
+.bui_ts_30 {
+	font-size: 30px;
+}
+.bui_ts_46 {
+	font-size: 46px; 
+}
+
+.mr_t_5 {
+	margin-top: 5px;
+}
+
+.t_indent_20 {
+	text-indent: 20px;
+}
+
+.mr_l_20 {
+	margin-left: 20px;
+}
+.bg_red {
+	background-image: url(./images/Bt_red.png);
+	background-size: 100%;
+}
+.bg_yellow {
+	background-image: url(./images/Bt_yellow.png);
+	background-size: 100%;
+}
+.line_h_50 {
+	line-height: 50px !important; 
+}
+#shradow {
+	display: none;
+	height: 100%;
+	width: 100%;
+	background-color: black;
+	opacity: 0.6;
+	-webkit-opacity:0.6;
+	-o-opacity:0.6;
+	z-index: 6;
+	position: absolute;
+	top: 0;
+}
+#shradow img {
+	width: 100%;
+}
+#shradow p {
+	text-align: center;
+}

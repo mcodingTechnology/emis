@@ -1,0 +1,29 @@
+<com-loadingbar v-if="!quickDetail">
+</com-loadingbar>
+<template v-else>
+	<div class="bui_p_24 bui_row_p_12 bui_fs_14">
+		<div>
+			<div class="bui_ta_c bui_p_24_b">
+				<com-img :src="quickDetail.data.productCoverImg" class="bui_bds_8 bui_round bui_bdc_turquoise" width="12rem" height="12rem"></com-img>
+				<p class="bui_fs_24">{{quickDetail.data.productName}}</p>
+				<p></p>
+			</div>
+		</div>
+		<div>
+			<com-objtable :datas='quickDetail.data' :hidenull='true'></com-objtable>
+		</div>
+	</div>
+</template>
+
+<script type="text/javascript">
+	var detailId = $("[bui_modal]#quickDetail").attr('bui_modal_url').split('id=')[1];
+	setTimeout(function() {
+		global_vueGetJson({
+			url: workSpace.jsonUrl + 'merriplusApi/getProductById',
+			data: {
+				productId: detailId
+			},
+			vueName: 'quickDetail'
+		})
+	}, 600);
+</script>

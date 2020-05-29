@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<!--工作空间-->
+		<script type="text/javascript" src="workspace_v2.0.1.js"></script>
+		<!--工作空间-->
+		<script src="mp_js/product_content.js" type="text/javascript"></script>
+		<title></title>
+		<style type="text/css">
+			.productPic img {
+				width: 100%;
+			}
+
+			.productSummary li {
+				font-size: 14px !important;
+				color: #666 !important;
+			}
+		</style>
+	</head>
+
+	<body class="bui_at_noline bui_bgc_white_d12">
+		<!--购物车组件-->
+		<div id="cartPlug"></div>
+		<!--购物车组件-->
+		<div class="bui_wrap">
+			<input type="hidden" value="1" size="4" id="productnum2" />
+			<!--主屏幕-->
+			<div class="bui_mo">
+				<!--主屏幕_页头-->
+				<div class="bui_mo_h bui_bgc_white bui_atc_black bui_fac_black bui_tc_black bui_bsd_6">
+					<div class="bui_media bui_vm">
+						<div class="bui_media_l bui_p_0">
+							<button class="bui_btn_32 bui_btnsq fa fa-angle-left bui_m_8 {{style.facFalse}}" onclick="javascript:pageBack();"></button>
+						</div>
+
+						<div class="bui_media_b">
+							<p>产品详情</p>
+						</div>
+						<div class="bui_media_r bui_pr_8 bui_pl_0">
+							<!--收藏图标-->
+							<div id="save"></div>
+							<!--收藏图标-->
+						</div>
+					</div>
+				</div>
+				<hr />
+				<!--主屏幕_页头-->
+				<!--主屏幕_主体-->
+				<div class="bui_mo_b bui_mo_b_h bui_mo_b_f">
+					<!--幻灯片-->
+					<div class="bui_bgc_white bui_bsd_6" id="HomeBanner"></div>
+
+					<!--幻灯片-->
+					<div class="bui_bgc_white bui_mtb_12 bui_bsd_6">
+						<div class="bui_media bui_vm bui_p_12">
+							<div class="bui_media_b"><i class="fa fa-list fa-fw {{style.facTrue}}"></i> 商品详情</div>
+							<div class="bui_media_r">
+								<!--生成我的海报-->
+								<div id="createPic"></div>
+								<!--生成我的海报-->
+							</div>
+						</div>
+						<hr />
+						<!--商品详情-->
+						<div>
+							<div class="bui_p_12 bui_mb_0 bui_ts_14">
+								<div class="money"></div>
+								<p id="productName"></p>
+								<p id="productSummary" class="productSummary bui_ts_14"></p>
+
+								<p class="bui_ta_c moreDetail bui_mtb_12"><a href="javascript:;" class="bui_btn_48 {{style.btnFalse}}">点击查看更多<i class="fa fa-angle-down"></i></a>
+								</p>
+							</div>
+
+							<!--商品彩页-->
+							<div class="productPic" style="display: none;" id="productContentPic"></div>
+							<!--商品彩页-->
+						</div>
+						<!--商品详情-->
+					</div>
+				</div>
+				<!--主屏幕_主体-->
+				<div class="bui_mo_f bui_bgc_white bui_bsd_6"></div>
+			</div>
+			<!--主屏幕-->
+		</div>
+	</body>
+
+</html>

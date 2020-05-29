@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<!--工作空间-->
+		<script type="text/javascript" src="workspace_v2.0.1.js"></script>
+		<!--工作空间-->
+		<script src="mp_js/weixinJsUtilsDemo.js" type="text/javascript" charset="utf-8"></script>
+		<script src="mp_js/order.js?v1.0.1" type="text/javascript"></script>
+		<script src="mp_js/order_public.js" type="text/javascript"></script>
+		<title></title>
+	</head>
+
+	<body class="bui_at_noline bui_bgc_white_d12">
+		<div class="bui_wrap">
+			<!--主屏幕-->
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_bgc_white bui_tc_black bui_fac_black bui_ahtc_black bui_bsd_6">
+					<div class="bui_media bui_vm">
+						<div class="bui_media_l bui_p_0">
+							<button class="bui_btn_32 bui_btnsq fa fa-angle-left bui_m_8 {{style.facFalse}}" onclick="javascript:window.history.go(-1);"></button>
+						</div>
+						<div class="bui_media_b">确认订单</div>
+						<div class="bui_media_r bui_pr_12"></div>
+					</div>
+				</div>
+				<!--页头-->
+				<!--主屏幕_主体-->
+				<div class="bui_mo_b bui_mo_b_h bui_mo_b_f">
+					<!--收货地址-->
+					<div class="bui_p_12" id="addressContent">
+						<!--收货地址不完善-->
+						<template v-if="orderObj.addressInfo==null||orderObj.addressInfo.name==null||orderObj.addressInfo.phone==null||orderObj.addressInfo.regson==null||orderObj.addressInfo.address==null||orderObj.addressInfo.name==''||orderObj.addressInfo.phone==''||orderObj.addressInfo.regson==''||orderObj.addressInfo.address==''">
+							<div class="bui_p_12 bui_bgc_white bui_ts_14 bui_ta_c bui_tc_white_d48" style="border:4px #ccc dotted" onclick="{{orderObj.addressEdit}}">
+								<p><i class="fa fa-plus-square bui_fas_48"></i></p>
+								<p>选择您的收货地址</p>
+							</div>
+						</template>
+						<!--收货地址完善-->
+						<template v-else>
+							<div class="bui_p_12 bui_bgc_white bui_ts_14" style="border:4px #54a82c dotted" onclick="{{orderObj.addressEdit}}">
+								<div class="bui_media bui_vm">
+									<div class="bui_media_b">
+										<p class="bui_vm">
+											<i class="fa fa-user fa-fw {{style.facTrue}}"></i>
+											<span id="addressInfo_name">{{orderObj.addressInfo.name}}</span>
+											<i class="fa fa-mobile-phone fa-fw bui_fas_16 {{style.facTrue}}"></i>
+											<span id="addressInfo_phone">{{orderObj.addressInfo.phone}}</span>
+										</p>
+									</div>
+									<div class="bui_media_r">
+										<p class="bui_ts_12 bui_tc_white_d48"><i class="fa fa-edit fa-fw"></i> 编辑</p>
+									</div>
+								</div>
+								<hr class="bui_mtb_6" />
+								<div class="bui_media">
+									<div class="bui_media_l"><i class="fa fa-map-marker {{style.facTrue}}"></i></div>
+									<div class="bui_media_b">
+										<p>
+											<span id="addressInfo_regson">{{orderObj.addressInfo.regson}}</span>
+											<span id="addressInfo_address">{{orderObj.addressInfo.address}}</span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</template>
+					</div>
+					<!--收货地址-->
+					<div class="bui_bgc_white bui_bds_1_t">
+						<!--非企业内购-->
+						<template v-if="orderObj.productLabel==null">
+							<li class="bui_bds_1_b" id="isShare" onclick="order_changeAddress($(this),'isShare')">
+								<div class="bui_media bui_vm bui_ptb_12 bui_plr_24">
+									<div class="bui_media_l">
+										<p class="bui_ts_12 bui_tc_white_d96">赠送好友</p>
+									</div>
+									<div class="bui_media_b"></div>
+									<div class="bui_media_r">
+										<i class="fa fa-square-o bui_tc_white_d96 fa-fw"></i>
+									</div>
+								</div>
+							</li>
+							<!--<li class="bui_bds_1_b" id="isCompany" onclick="order_changeAddress($(this),'isCompany')">
+								<div class="bui_media bui_vm bui_ptb_12 bui_plr_24">
+									<div class="bui_media_l">
+										<p class="bui_ts_12 bui_tc_white_d96">公司收货</p>
+									</div>
+									<div class="bui_media_b"></div>
+									<div class="bui_media_r">
+										<i class="fa fa-square-o fa-fw bui_tc_white_d96"></i>
+									</div>
+								</div>
+							</li>-->
+						</template>
+
+						<li class="bui_bds_1_b">
+							<div class="bui_media bui_vm bui_ptb_12 bui_plr_24">
+								<div class="bui_media_l">
+									<p class="bui_ts_12 bui_tc_white_d96">快递类型</p>
+								</div>
+								<div class="bui_media_b"><span id="express_text">普通快递</span></div>
+								<div class="bui_media_r"></div>
+							</div>
+
+						</li>
+						<li class="bui_bds_1_b">
+							<div class="bui_media bui_vm bui_ptb_12 bui_plr_24">
+								<div class="bui_media_l">
+									<p class="bui_ts_12 bui_tc_white_d96">发票抬头 </p>
+								</div>
+								<div class="bui_media_b">
+									<input type="text" name="order_receipt" id="order_receipt" placeholder="请输入您的发票抬头" value="{{memberDetail.nickName}}" class="bui_ipt_32 bui_block bui_ipc_basic bui_ts_16 bui_p_0" />
+								</div>
+								<div class="bui_media_r"><i class="fa fa-angle-right fa-fw bui_tc_white_d96 "></i></div>
+							</div>
+						</li>
+						<li class="bui_bds_1_b" id="chooseCard" style="display: none;">
+							<div class="bui_media bui_vm bui_ptb_12 bui_plr_24">
+								<input type="hidden" id="cardCode" value="" />
+								<div class="bui_media_l">
+									<p class="bui_ts_12 bui_tc_white_d96">选择卡券</p>
+								</div>
+								<div class="bui_media_b"></div>
+								<div class="bui_media_r">
+									<i class="fa fa-plus-square fa-fw bui_tc_white_d96" style="display: none;"></i>
+									<i class="fa fa-close fa-fw bui_tc_white_d96" style="display: none;"></i>
+								</div>
+							</div>
+
+						</li>
+					</div>
+					<!--商品清单-->
+					<div class="bui_bgc_white bui_bds_1 bui_mt_24">
+						<p class="bui_ptb_12 bui_plr_24 bui_ts_14"><i class="fa fa-bars {{style.facTrue}}"></i> 商品清单</p>
+						<div id="productListEasy">
+							<!--loadingIcon-->
+							<div class="bui_p_24 bui_ta_c bui_bds_1_t"><i class="fa fa-circle-o-notch fa-spin bui_fas_24 {{style.facFalse}}"></i></div>
+							<!--loadingIcon-->
+						</div>
+					</div>
+					<!--商品清单-->
+
+					<!--礼品清单-->
+					<div class="bui_bgc_white bui_bds_1 bui_mt_24" id="giftBox" style="display: none;">
+						<p class="bui_ptb_12 bui_plr_24 bui_ts_14"><i class="fa fa-gift {{style.facTrue}}"></i> 礼品清单</p>
+						<div id="giftListEasy">
+							<!--loadingIcon-->
+							<div class="bui_p_24 bui_ta_c bui_bds_1_t"><i class="fa fa-circle-o-notch fa-spin bui_fas_24 {{style.facFalse}}"></i></div>
+							<!--loadingIcon-->
+						</div>
+					</div>
+					<!--礼品清单-->
+
+					<!--金额相关-->
+					<div class="bui_bgc_white bui_bds_1 bui_mtb_24">
+						<p class="bui_ptb_12 bui_plr_24 bui_ts_14"><i class="fa fa-rmb {{style.facTrue}}"></i> 小计</p>
+						<div id="priceDetail">
+							<!--loadingIcon-->
+							<div class="bui_p_24 bui_ta_c bui_bds_1_t"><i class="fa fa-circle-o-notch fa-spin bui_fas_24 {{style.facFalse}}"></i></div>
+							<!--loadingIcon-->
+						</div>
+					</div>
+					<!--金额相关-->
+				</div>
+				<!-- 主体结束-->
+				<!-- 页脚-->
+				<div class="bui_mo_f bui_bsd_6">
+					<div class="bui_avg_2 bui_ta_c bui_bgc_white">
+						<li class="bui_ptb_12 bui_ts_12">
+							<p class="bui_ts_12 bui_white_d64">实付款</p>
+							<p class="bui_ts_16 {{style.tcTrue}}">￥<span id="order_total_price">...</span></p>
+						</li>
+						<li class="bui_p_8" id="commitOrderBtn">
+							<div class="bui_btn_48 bui_block bui_tc_white {{style.btnTrue}}" onclick="javascript:commitOrder();">提交订单 <i class="fa fa-check-square-o fa-fw"></i></div>
+						</li>
+					</div>
+
+				</div>
+				<!-- 页脚-->
+			</div>
+			<!--主屏幕结束-->
+		</div>
+	</body>
+
+</html>

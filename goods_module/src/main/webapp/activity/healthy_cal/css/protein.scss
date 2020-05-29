@@ -1,0 +1,70 @@
+.protein{
+  background-image:url('../image/protein_bg.png');
+}
+.protein_bg1{
+  background-image:url('../image/protein_resultBg1.png');
+}
+.protein_bg2{
+  background-image:url('../image/protein_resultBg2.png');
+}
+.content_body{
+  .protein_result {
+    .chick{
+      background-image: url("../image/p_chick.png");
+    }
+    .egg{
+      background-image: url("../image/p_egg.png");
+    }
+    .cow{
+      background-image: url("../image/p_cow.png");
+    }
+    .rich{
+      background-image: url("../image/p_rich.png");
+      background-position: 1vh 0vh;
+    }
+    .zhengJiNeng {
+      background-image: url("http://v.merryplus.com/resources/uploads/product/20150612171655_6811.png");
+      
+    }
+    .zhongJiNeng {
+      background-image: url("http://v.merryplus.com/resources/uploads/product/20150612171528_2119.png")
+    }
+    .ruQingDanBai {
+      background-image: url("http://v.merryplus.com/resources/uploads/product/20150612173220_4568.png")
+    }
+    .productli {
+      color: white;
+      height: auto;
+      min-height: 50px;
+      margin-top: 10px;
+      line-height: 24px;
+      background-size: 8vh 7vh;
+      background-position: 1vh;
+      padding-left: 23%;
+      .gray{
+        color:#5D5F61;
+        display: inline-block;
+        padding-left:15px;
+      }
+    }
+    li{
+      color: white;
+      height: 9vh;
+      line-height: 8vh;
+      background-size: 8vh 7vh;
+      background-position: 1vh;
+      padding-left: 23%;
+      .gray{
+        color:#5D5F61;
+        display: inline-block;
+        padding-left:15px;
+      }
+    }
+  }
+}
+.productTips {
+  width:90%;
+  margin-left:5%;
+  font-size: 1em;
+  color: #7D7D91;
+}

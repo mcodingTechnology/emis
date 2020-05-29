@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.category.persistence.CategoryMapper" >
+  <select id="selectByPrimaryKey" resultType="com.mcoding.emis.goods.category.bean.Category" parameterType="java.lang.Integer" >
+    select *
+    from mr_category
+    where categoryId = #{categoryId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAllByGoup" resultType="com.mcoding.emis.goods.category.bean.Category">
+    select *
+    from mr_category where brandCode = #{brandCode,jdbcType=VARCHAR}
+     GROUP BY categoryType  ORDER BY updateTime
+  </select>
+  
+   <select id="queryAllCategoryByPage" parameterType="map" resultType="com.mcoding.emis.goods.category.bean.Category">
+        select * from mr_category order by categoryId DESC
+    </select>
+    <!--按条件查找-->
+  <select id="queryCategoryByType" resultType="com.mcoding.emis.goods.category.bean.Category" parameterType="String" >
+    select *
+    from mr_category
+    where categoryType = #{categoryType,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mr_category
+    where categoryId = #{categoryId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.category.bean.Category" useGeneratedKeys="true" keyProperty="categoryId">
+    insert into mr_category (categoryId, categoryName, categoryType, 
+      createTime, updateTime)
+    values (#{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, #{categoryType,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{brandCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.category.bean.Category" useGeneratedKeys="true" keyProperty="categoryId">
+    insert into mr_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="categoryId != null" >
+        categoryId,
+      </if>
+      <if test="categoryName != null" >
+        categoryName,
+      </if>
+      <if test="categoryType != null" >
+        categoryType,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+      <if test="brandCode != null" >
+        brandCode
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryName != null" >
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryType != null" >
+        #{categoryType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandCode != null" >
+        #{brandCode,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.category.bean.Category" >
+    update mr_category
+    <set >
+      <if test="categoryName != null" >
+        categoryName = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryType != null" >
+        categoryType = #{categoryType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandCode != null" >
+        brandCode = #{brandCode,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where categoryId = #{categoryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.category.bean.Category" >
+    update mr_category
+    set categoryName = #{categoryName,jdbcType=VARCHAR},
+      categoryType = #{categoryType,jdbcType=VARCHAR},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      brandCode = #{brandCode,jdbcType=VARCHAR}
+    where categoryId = #{categoryId,jdbcType=INTEGER}
+  </update>
+</mapper>

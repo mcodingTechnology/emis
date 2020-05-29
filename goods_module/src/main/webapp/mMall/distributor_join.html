@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>{{global.brandName}}</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/distributor_join.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body class="gym-body bui_at_noline">
+		<!--主体-->
+		<div class="bui_wrap bui_bgc_black bui_tc_white">
+			<!--提示关注公众号-->
+			<tp-plug-follow v-if="isSubscribe.data==0"></tp-plug-follow>
+			<!--提示关注公众号-->
+			<div class="bui_mo" style="top:{{isSubscribe.data==0?'48px':'0'}}">
+				<!--页头-->
+				<div class="bui_mo_h">
+
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="index.html" title="申请加盟"></tp-header>
+				</div>
+				<!--页头-->
+				<template v-if="!memberDetailEdit||!memberDetailEdit.data||!shareMemberDetail||!shareMemberDetail.data">
+					<div class="bui_mo_b bui_mo_b_h gym_mo_b">
+						<tp-loadingbar type="loading" bgc=""></tp-loadingbar>
+					</div>
+				</template>
+				<template v-else>
+					<form id="form">
+						<!--页面-->
+						<div class="bui_mo_b bui_mo_b_h bui_mo_b_f gym_mo_b">
+							<!--上级用户摘要信息-->
+							<div class="bui_bgc_black bui_tc_white bui_ta_c" style="position: relative; width: 100%; overflow: hidden; height: 10rem;">
+								<div class="bui_blur" style="background-image: url({{shareMemberDetail.data.headimgurl}});background-size: cover;background-position: center center;position: absolute;left:-1rem;top:-1rem;right:-1rem;bottom:-1rem;opacity: 0.48;"></div>
+								<div class="bui_inline bui_vm" style="position: absolute;left:0;top:0;right:0;bottom:0;">
+									<i style="width: 0;height: 100%;"></i>
+									<div class="bui_inline bui_vm">
+										<tp-img :src='shareMemberDetail.data.headimgurl' class="bui_bds_4 bui_bdc_red bui_round bui_bgc_white_d12" width="6rem" height="6rem"></tp-img>
+
+										<div class="bui_ta_l bui_pl_12">
+											<p class="bui_ts_20">{{shareMemberDetail.data.fullName||'MR·G'}}</p>
+											<p>欢迎您成为{{global.brandName}}合伙人</p>
+										</div>
+
+									</div>
+									<i style="width: 0;height: 100%;"></i>
+								</div>
+							</div>
+							<!--上级用户摘要信息-->
+							<!--提交表单-->
+							<div class="bui_p_24 bui_tc_red_i">
+								<div class="bui_row_p_12">
+									<!--手机号-->
+									<div>
+										<div class="bui_ipg_48 bui_block bui_bgc_white " buijs_form_item_type="mobile">
+											<span class="buijs_form_item_tips bui_fr"></span>
+											<i class="fa fa-phone bui_fl"></i>
+											<input type="tel" placeholder="请填写 手机号" v-model="memberDetailEdit.data.mobilePhone" class="bui_ipt_48 bui_bds_0 bui_ts_14" :disabled="isNewUser?false:true" />
+										</div>
+									</div>
+									<!--手机号-->
+									<!--验证码-->
+									<div v-if="isNewUser">
+										<div class="bui_media bui_vm bui_bgc_white">
+											<div class="bui_media_b">
+												<div class="bui_ipg_48 bui_block " buijs_form_item_type="length" buijs_form_item_length="6,6">
+													<span class="buijs_form_item_tips bui_fr"></span>
+													<i class="fa fa-copy bui_fl"></i>
+													<input type="tel" placeholder="验证码" v-model="memberDetailEdit.data.smsCode" class="bui_ipt_48 bui_bds_0 bui_ts_14" />
+												</div>
+											</div>
+											<div class="bui_media_r bui_plr_12">
+												<button type="button" class="bui_btn bui_btn_24 bui_bgc_red" :disabled="smsCodecountDown?true:false" onclick="smsGetCode()"> {{smsCodecountDown?smsCodecountDown:'点击获取'}}</button>
+											</div>
+										</div>
+									</div>
+
+									<!--验证码-->
+									<!--真实姓名-->
+									<div>
+										<div class="bui_ipg_48 bui_block bui_bgc_white " buijs_form_item_type="length" buijs_form_item_length="2,10">
+											<span class="buijs_form_item_tips bui_fr"></span>
+											<i class="fa fa-user bui_fl"></i>
+											<input type="text" placeholder="请填写 真实姓名" v-model="memberDetailEdit.data.fullName" class="bui_ipt_48 bui_bds_0 bui_ts_14" />
+										</div>
+									</div>
+									<!--真实姓名-->
+									<!--所在区域-->
+									<div onclick="global_showPanelRegin('memberDetailEdit.data.regson')">
+										<div class="bui_ipg_48 bui_block bui_bgc_white " buijs_form_item_type="length" buijs_form_item_length="1,999">
+											<span class="buijs_form_item_tips bui_fr"></span>
+											<i class="fa fa-map-marker bui_fl"></i>
+											<input type="text" placeholder="请选择 所在区域" v-model="memberDetailEdit.data.regson" class="bui_ipt_48 bui_bds_0 bui_ts_14" readonly="readonly" />
+										</div>
+									</div>
+									<!--所在区域-->
+									<!--所在健身房名称-->
+									<div v-if="shareMemberDetail.data.levelId!=5">
+										<div class="bui_ipg_48 bui_block bui_bgc_white " buijs_form_item_type="length" buijs_form_item_length="1,999">
+											<span class="buijs_form_item_tips bui_fr"></span>
+											<i class="fa fa-child bui_fl"></i>
+											<input type="text" placeholder="请填写 所在健身房名称" v-model="memberDetailEdit.data.gymroom" class="bui_ipt_48 bui_bds_0 bui_ts_14" />
+										</div>
+									</div>
+									<!--所在健身房名称-->
+								</div>
+							</div>
+							<!--提交表单-->
+						</div>
+						<!--页面-->
+						<div class="bui_mo_f">
+							<div class="bui_p_8 bui_bds_1_t bui_bdc_white_f24">
+								<div class="bui_media bui_vm">
+									<div class="bui_media_l">
+										<a href="javascript:distributor_showPanelClause();" class="bui_ts_12 bui_ta_c bui_block bui_plr_24">
+											<p class="bui_tc_white">点击确认即表示您同意</p>
+											<p class="bui_tc_red">{{global.brandName}}合伙人条款</p>
+										</a>
+									</div>
+									<div class="bui_media_b">
+										<button type="submit" class="bui_btn bui_btn_48 bui_bgc_red bui_block bui_ts_16">提交申请 <i class="fa fa-angle-right fa-fw"></i></button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</template>
+
+			</div>
+
+		</div>
+		<!--主体-->
+	</body>
+
+</html>

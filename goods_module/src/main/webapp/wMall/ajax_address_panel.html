@@ -1,0 +1,163 @@
+<div id="mp_address" class="bui_bgc_white">
+	<li class="bui_plr_12">
+		<div class="bui_ipg_48 bui_block">
+			<i class="fa fa-user bui_fl {{style.facFalse}}"></i>
+			<input type="text" name="address_name" id="address_name" placeholder="收货人姓名" maxlength="20" value="" class="bui_ipt_48 bui_bds_0 bui_ts_14" />
+		</div>
+	</li>
+	<hr />
+	<li class="bui_plr_12">
+		<div class="bui_ipg_48 bui_block">
+			<i class="fa fa-mobile bui_fas_24 bui_fl {{style.facFalse}}"></i>
+			<input type="text" name="address_phone" id="address_phone" placeholder="手机号码" maxlength="11" value="" class="bui_ipt_48 bui_bds_0 bui_ts_14" />
+		</div>
+	</li>
+	<hr />
+	<li class="bui_plr_12">
+		<div class="bui_ipg_48 bui_block">
+			<i class="fa fa-map-marker bui_fl {{style.facFalse}}"></i>
+			<i class="fa fa-angle-right bui_fr {{style.facFalse}}"></i>
+			<textarea type="text" name="address_regson" id="address_regson" placeholder="所在区域" value="" class="bui_ipt_48 bui_bds_0 bui_ts_14" style="line-height: 1.5em !important;" readonly="readonly" onclick="javascript:mp_selectRegson($(this),1,0);"></textarea>
+		</div>
+		<input type="hidden" name="address_province" id="" value="" placeholder="省" />
+		<input type="hidden" name="address_city" id="" value="" placeholder="市" />
+		<input type="hidden" name="address_area" id="" value="" placeholder="区" />
+		<input type="hidden" name="address_street" id="" value="" placeholder="街道" />
+	</li>
+	<hr />
+	<li class="bui_plr_12">
+		<div class="bui_ipg_48 bui_block">
+			<i class="fa fa-truck bui_fl {{style.facFalse}}"></i>
+			<textarea name="address_address" id="address_address" rows="6" cols="" placeholder="详细收货地址" maxlength="255" class="bui_ipt_48 bui_bds_0 bui_ts_14 bui_mtb_6"></textarea>
+		</div>
+	</li>
+	<hr />
+</div>
+
+<script type="text/javascript">
+	var isNewUer = true;
+	$(document).ready(function() {
+		//vue
+		new Vue({
+			el: 'html',
+			data: vueObj
+		});
+		//表单跟随滚动
+		buijs_ipt_scroll();
+		//插入底部按钮
+		$("[id*=mp_addressPanel_] .bui_modal_f").html('<div class="bui_p_8 bui_bgc_white bui_bds_1_t" id="address_btn"><a href="javascript:updataMemberAddress();" class="bui_btn_48 bui_block bui_radius bui_tc_white ' + vueObj.style.btnTrue + '">保存收货地址</a></div>');
+		//读取数据
+		getMemberAddress();
+
+		console.log(isNewUer)
+	});
+	//读取数据
+	function getMemberAddress() {
+		$.ajax({
+			type: "get",
+			url: _jsonUrl + "/merriplusApi/getAddressInfo",
+			async: false,
+			cache: false,
+			dataType: 'json',
+			error: function() {},
+			success: function(data) {
+				if(data.data) {
+					isNewUer = false
+				}
+				if(!data.data) return false;
+				$("#address_name").val(data.data.name);
+				$("#address_phone").val(data.data.phone);
+				$("[name=address_province]").val(data.data.regson.split(' ')[0]);
+				$("[name=address_city]").val(data.data.regson.split(' ')[1]);
+				$("[name=address_area]").val(data.data.regson.split(' ')[2]);
+				$("[name=address_street]").val(data.data.regson.split(' ')[3]);
+				$("#address_regson").val($("[name=address_province]").val() + ' ' + $("[name=address_city]").val() + ' ' + $("[name=address_area]").val() + ' ' + $("[name=address_street]").val());
+				$("#address_address").val(data.data.address);
+			}
+		});
+	};
+	//更新数据
+	function updataMemberAddress() {
+		//前端校验
+		if(buijs_formcheck_length($("#address_name").val(), 20, 2) == false) {
+			buijs_alert({
+				content: '姓名为2-20个字符'
+			});
+			return false;
+		} else if(buijs_formcheck_mobile($("#address_phone").val()) == false) {
+			buijs_alert({
+				content: '手机号码格式不正确'
+			});
+			return false;
+		} else if(buijs_formcheck_length($("#address_regson").val(), 255, 1) == false) {
+			buijs_alert({
+				content: '地区不可为空'
+			});
+			return false;
+		} else if(buijs_formcheck_length($("[name=address_province]").val(), 255, 1) == false) {
+			buijs_alert({
+				content: '收货地区未完善'
+			});
+			return false;
+		} else if(buijs_formcheck_length($("[name=address_city]").val(), 255, 1) == false) {
+			buijs_alert({
+				content: '收货地区未完善'
+			});
+			return false;
+		}
+		//		else if (buijs_formcheck_length($("[name=address_area]").val(), 255, 1) == false) {
+		//			buijs_alert({
+		//				content: '收货地区未完善'
+		//			});
+		//			return false;
+		//		}
+		//后端校验
+		else {
+			buijs_showloading('bui_bgc_black_f72');
+
+			var postUrl = isNewUer == true ? _jsonUrl + '/merriplusApi/addNewAddress' : _jsonUrl + '/merriplusApi/modifyAddress'
+
+			var addressData = {
+				name: $("#address_name").val(),
+				phone: $("#address_phone").val(),
+				regson: $("#address_regson").val(),
+				address: $("#address_address").val()
+			};
+			$.ajax({
+				type: "post",
+				url: postUrl,
+				async: true,
+				cache: false,
+				dataType: 'json',
+				contentType: "application/json; charset=utf-8",
+				data: JSON.stringify(addressData),
+				error: function() {
+					//关闭loading层
+					buijs_closeloading();
+					buijs_alert({
+						content: '数据提交失败'
+					});
+				},
+				success: function(data) {
+					console.log(data)
+					//关闭loading层
+					buijs_closeloading();
+					buijs_modal_close('mp_addressPanel_edit');
+					buijs_alert({
+						content: '收货地址保存成功!'
+					});
+					getMemberAddress();
+					//判断在订单页操作
+					if(window.location.pathname.indexOf('order.html') >= 1) {
+						order_getAddress();
+					};
+					//判断在礼品赠送页
+					if($("#addressForGift").length > 0) {
+						getInsetAddressInfo();
+					};
+
+				}
+			});
+		};
+	};
+</script>

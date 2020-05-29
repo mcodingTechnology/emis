@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<!--工作空间-->
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" />
+		<script type="text/javascript" src="public.js?v1.0"></script>
+		<script type="text/javascript" src="workspace_v2.0.1.js"></script>
+		<!--工作空间-->
+		<script src="mp_js/personal_center.js" type="text/javascript"></script>
+
+		<title></title>
+		<script type="text/javascript">
+		</script>
+	</head>
+
+	<body class="bui_at_noline bui_bgc_white_d12">
+		<!--购物车组件-->
+		<div id="cartPlug"></div>
+		<!--购物车组件-->
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<!--主屏幕_页头-->
+				<div class="bui_mo_h bui_bgc_white bui_tc_black bui_fac_black bui_ahtc_black bui_bsd_6">
+					<div class="bui_media bui_vm">
+						<div class="bui_media_l bui_p_0">
+							<a href="index.html" class="bui_btn_32 bui_btnsq bui_m_8 back">
+								<i class="fa fa-angle-left fa-fw {{style.facFalse}}"></i>
+							</a>
+						</div>
+						<div class="bui_media_b">我的</div>
+						<div class="bui_media_r bui_pr_12"></div>
+					</div>
+				</div>
+				<!--主屏幕_页头-->
+				<hr />
+
+				<!--我的_主体-->
+				<div class="bui_mo_b bui_mo_b_h">
+					<!--头像-->
+					<div class="bui_ptb_24 {{style.bgc}}" id="mp_userPanel">
+						<p class="bui_ptb_48 bui_ta_c bui_fac_white bui_fas_32"><i class="fa fa-circle-o-notch fa-spin"></i></p>
+					</div>
+					<!--头像-->
+
+					<!--vueNav-->
+					<div class="bui_bgc_white bui_avg_3">
+						<template v-for="data in personalNav">
+							<a href="{{data.link}}" class="{{data.isCheckMemberInfo}} {{data.isCheckLevel}} bui_block bui_bds_1_r bui_bds_1_b bui_ta_c bui_p_12" style="display:none !important;">
+								<div class="bui_btn_48 bui_btnsq bui_round {{data.iconbgc}}"><i class="fa {{data.icon}} bui_fac_white bui_fas_24"></i></div>
+								<p class="bui_ts_12 bui_tc_white_d64 bui_mt_6">{{data.title}}</p>
+							</a>
+						</template>
+
+					</div>
+					<!--vueNav-->
+
+					<!--功能列表-->
+					<!--<div class="bui_mtb_24 bui_atc_black">
+						<ul class="bui_bgc_white mp_bsd_b">
+							<hr />
+							<a href="{{signPath}}" class="bui_block bui_ptb_12 bui_plr_24 bui_media bui_vm" checkMemberSuccess>
+								<div class="bui_media_l">
+									<i class="fa fa-pencil fa-fw {{style.facTrue}}"></i> 签到
+								</div>
+								<div class="bui_media_b signIn bui_ta_r">
+
+								</div>
+								<div class="bui_media_r "><i class="fa fa-angle-right fa-fw {{style.facFalse}}"></i>
+								</div>
+							</a>
+
+						</ul>
+						<hr />
+						<ul class="bui_bgc_white mp_bsd_b bui_mt_24">
+							<hr />
+							<a href="javascript:mp_showMemberDetailPanel();" class="bui_block bui_ptb_12 bui_plr_24 bui_media bui_vm">
+								<div class="bui_media_b">
+									<i class="fa fa-street-view fa-fw {{style.facTrue}}"></i> 完善资料
+								</div>
+								<div class="bui_media_r"><i class="fa fa-angle-right fa-fw {{style.facFalse}}"></i>
+								</div>
+							</a>
+							<hr />
+
+							<a href="javascript:mp_showAddressPanel();" class="bui_block bui_ptb_12 bui_plr_24 bui_media bui_vm">
+								<div class="bui_media_b">
+									<i class="fa fa-map-marker fa-fw {{style.facTrue}}"></i> 收货地址
+								</div>
+								<div class="bui_media_r"><i class="fa fa-angle-right fa-fw {{style.facFalse}}"></i>
+								</div>
+							</a>
+							<hr />
+						</ul>
+
+						<ul class="bui_bgc_white mp_bsd_b bui_mt_24">
+							<hr />
+							<a href="order_list_new.html" class="bui_block bui_ptb_12 bui_plr_24 bui_media bui_vm">
+								<div class="bui_media_b">
+									<i class="fa fa-reorder fa-fw {{style.facTrue}}"></i> 订单明细
+								</div>
+								<div class="bui_media_r"><i class="fa fa-angle-right fa-fw {{style.facFalse}}"></i>
+								</div>
+							</a>
+							<hr />
+							<a href="integral.html" class="bui_block bui_ptb_12 bui_plr_24 bui_media bui_vm">
+								<div class="bui_media_l">
+									<i class="fa fa-pencil fa-fw {{style.facTrue}}"></i> 积分明细
+								</div>
+								<div class="bui_media_b integer bui_ta_r">
+
+								</div>
+								<div class="bui_media_r "><i class="fa fa-angle-right fa-fw {{style.facFalse}}"></i>
+								</div>
+							</a>
+							<hr />
+
+							<a href="{{giftMallPath}}order_list.html" class="bui_block bui_ptb_12 bui_plr_24 bui_media bui_vm">
+								<div class="bui_media_b">
+									<i class="fa fa-database fa-fw {{style.facTrue}}"></i> 兑换明细
+								</div>
+								<div class="bui_media_r"><i class="fa fa-angle-right fa-fw {{style.facFalse}}"></i>
+								</div>
+							</a>
+							<hr />
+						</ul>
+
+						<ul class="bui_bgc_white mp_bsd_b bui_mt_24">
+							<hr />
+							<a href="collect.html" class="bui_block bui_ptb_12 bui_plr_24 bui_media bui_vm">
+								<div class="bui_media_b">
+									<i class="fa fa-star-o fa-fw {{style.facTrue}}"></i> 收藏
+								</div>
+								<div class="bui_media_r"><i class="fa fa-angle-right fa-fw {{style.facFalse}}"></i>
+								</div>
+							</a>
+							<hr />
+							<a href="help_list.html" class="bui_block bui_ptb_12 bui_plr_24 bui_media bui_vm">
+								<div class="bui_media_b">
+									<i class="fa fa-question fa-fw {{style.facTrue}}"></i> 帮助中心
+								</div>
+								<div class="bui_media_r"><i class="fa fa-angle-right fa-fw {{style.facFalse}}"></i>
+								</div>
+							</a>
+						</ul>
+
+
+						<ul class="bui_bgc_white mp_bsd_b bui_mt_24" id="ally_before" style="display: none !important;">
+							<hr />
+							<a href="join.html" class="bui_block bui_ptb_12 bui_plr_24 bui_media bui_vm" checkMemberSuccess>
+
+								<div class="bui_media_l">
+									<i class="fa fa-pencil fa-fw {{style.facTrue}}"></i> 申请加盟
+								</div>
+								<div class="bui_media_b join bui_ta_r">
+
+								</div>
+								<div class="bui_media_r "><i class="fa fa-angle-right fa-fw {{style.facFalse}}"></i>
+								</div>
+							</a>
+						</ul>
+
+						<ul class="bui_bgc_white mp_bsd_b bui_mt_24" id="ally_after" style="display: none !important;">
+							<hr />
+							<a href="income2.html" class="bui_block bui_ptb_12 bui_plr_24 bui_media bui_vm">
+								<div class="bui_media_b">
+									<i class="fa fa-rmb fa-fw {{style.facTrue}}"></i> 销量/收入
+								</div>
+								<div class="bui_media_r"><i class="fa fa-angle-right fa-fw {{style.facFalse}}"></i>
+								</div>
+							</a>
+							<hr />
+							<a href="ally_list.html" class="bui_block bui_ptb_12 bui_plr_24 bui_media bui_vm  ">
+								<div class="bui_media_b">
+									<i class="fa fa-users fa-fw {{style.facTrue}}"></i> 我的下线
+								</div>
+								<div class="bui_media_r"><i class="fa fa-angle-right fa-fw {{style.facFalse}}"></i>
+								</div>
+							</a>
+							<hr />
+							<a href="my_bank.html" class="bui_block bui_ptb_12 bui_plr_24 bui_media bui_vm  ">
+								<div class="bui_media_b">
+									<i class="fa fa-credit-card fa-fw {{style.facTrue}}"></i> 绑定银行卡
+								</div>
+								<div class="bui_media_r"><i class="fa fa-angle-right fa-fw {{style.facFalse}}"></i>
+								</div>
+							</a>
+							<hr />
+							<a href="share.html" class="bui_block bui_ptb_12 bui_plr_24 bui_media bui_vm">
+								<div class="bui_media_b">
+									<i class="fa fa-share-alt fa-fw {{style.facTrue}}"></i> 让您的分享更有价值
+								</div>
+								<div class="bui_media_r"><i class="fa fa-angle-right fa-fw {{style.facFalse}}"></i>
+								</div>
+							</a>
+							<hr />
+						</ul>
+
+
+					</div>-->
+					<!--功能列表-->
+
+				</div>
+				<!--我的_主体-->
+			</div>
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>杭马大礼传输中</title>
+		<script src="../js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				vm.$set('jsonUrl', _jsonUrl);
+				vm.$set('shareMemberId', buijs_geturl('memberid'));
+				global_response(); //窗口响应式处理
+				//获取并插入用户信息
+				if(window.localStorage.getItem('memberDetail')) {
+					console.log('获取本地缓存');
+					vm.$set('memberDetail', JSON.parse(window.localStorage.getItem('memberDetail')));
+					//微信分享
+					wechatSharePublic(vueData.memberDetail.data.fullName + '找你帮忙', '我在抢杭马参赛名额和专业跑鞋，来不及解释了，快进来帮我！', 'http://' + _domain + window.location.pathname + '?memberid=' + vueData.memberDetail.data.memberId, false, "", vueData.memberDetail.data.headimgurl);
+				} else {
+					global_getJsonSetVue('merriplusApi/getMemberDetail', 'memberDetail', null, function() {
+						if(!vueData.memberDetail.data) {
+							window.location.href = 'http://' + _domain + '/goods_module/api/wechatAuthorizeUserInfo?fullPath=' + window.location.href;
+						} else {
+							//存到缓存
+							window.localStorage.setItem('memberDetail', JSON.stringify(vueData.memberDetail));
+							//微信分享
+							wechatSharePublic(vueData.memberDetail.data.fullName + '找你帮忙', '我在抢杭马参赛名额和专业跑鞋，来不及解释了，快进来帮我！', 'http://' + _domain + window.location.pathname + '?memberid=' + vueData.memberDetail.data.memberId, false, "", vueData.memberDetail.data.headimgurl);
+						}
+
+					});
+				}
+
+				//获取并插入分享人信息
+				if(vueData.shareMemberId) {
+					//获取并插入用户信息
+					global_getJsonSetVue('merriplusApi/getMemberDetail', 'shareMemberDetail', {
+						id: vueData.shareMemberId
+					});
+
+					//获取分享人二维码
+					global_getJsonSetVue('/qrcode/getMarathonGameQrcode/' + vueData.shareMemberId, 'getMarathonGameQrcode');
+				};
+				//响应式处理
+				$(window).resize(function() {
+					global_response(); //窗口响应式处理
+				});
+				//关闭loading
+				$(window).load(function() {
+					setTimeout(function() {
+						$("#mtLoading").fadeOut(300);
+					}, 300)
+				});
+			});
+
+			function mt_showModal(type) {
+				vm.$set('modalType', null);
+				vm.$set('modalType', type);
+				buijs_modal({
+					setid: 'mt_modal_' + type,
+					title: type == 'help' ? '帮过我的人' : type == 'ranking' ? '排行榜' : '',
+					width: '100%',
+					height: '100%',
+					header: type == 'share' ? '' : 'default',
+					headerClass: '',
+					footerClass: '',
+					boxClass: 'bui_bgc_black_f72',
+					positions: 'center',
+					footer: type == 'share' ? '' : '<div class="bui_p_12"><button class="bui_btn bui_btn_48 bui_ts_16 bui_bgc_red bui_block bui_round" buijs_modal_close>朕知道了</button><div>',
+					ajaxload: 'modal.html?type=' + type
+				})
+			}
+		</script>
+
+	</head>
+
+	<body class="mt bui_tc_white bui_tc_white_i bui_tc_white_a">
+		<!--loading-->
+		<div id="mtLoading" class="bui_bgc_black_l72 bui_inline bui_vm bui_ta_c" style="position: fixed;width: 100%;height: 100%;top: 0;bottom: 0;right: 0;left: 0;z-index: 100;">
+			<i style="width: 0;height: 100%;"></i>
+			<div><i class="fa fa-circle-o-notch fa-spin bui_ts_32_i"></i></div>
+			<i style="width: 0;height: 100%;"></i>
+		</div>
+		<!--loading-->
+		<div class="bui_wrap">
+			<a href="../../../activity/game_public/game_help.html?type=marathon" style="position: fixed;z-index:100;top: 1rem;right: 1rem;" class="bui_btn bui_btn_24 bui_bgc_red bui_radius">活动说明</a>
+			<div style="width: 100%;height: 100%;" data-buijs_swiper='{"setid":"mtSwiper","btn":false,"nav":false,"direction":"v","loop":false,"start":0}'>
+				<div class="box">
+					<!--section1-->
+					<div class="item">
+						<div class="mt-section bui_inline bui_vt bui_ta_c">
+							<i style="width: 0;height: 100%;"></i>
+							<div class="bui_row_p_12 bui_pt_72">
+								<li><img src="../images/logo.png" style="height: 6rem;" /></li>
+
+								<li class="bui_inline bui_ta_c">
+									<div class="bui_bds_4 bui_bdc_red bui_bgc_white bui_round" style="width: 10rem;height: 10rem;" data-buijs_img>
+										<img src="{{shareMemberDetail&&shareMemberDetail.data&&shareMemberDetail.data.headimgurl?shareMemberDetail.data.headimgurl:'../images/mrg.png'}}" />
+									</div>
+								</li>
+								<li>
+									<p class="bui_ts_24">{{shareMemberDetail&&shareMemberDetail.data&&shareMemberDetail.data.fullName?shareMemberDetail.data.fullName:'MR.G'}}</p>
+									<p class="bui_ts_16">找你帮忙</p>
+								</li>
+							</div>
+							<i style="width: 0;height: 100%;"></i>
+							<!--滑动按钮-->
+							<div class="section-bottom" onclick="buijs_swiper.mtSwiper.slideNext();">
+								<div class="bui_p_12 bui_ta_c">
+									<p class="bui_ts_16">进来看看</p>
+									<i class="fa fa-angle-down bui_tc_red_i bui_ts_48_i am-up-down"></i>
+								</div>
+							</div>
+							<!--滑动按钮-->
+						</div>
+					</div>
+					<!--section1-->
+					<!--section2-->
+					<div class="item">
+						<div class="mt-section bui_inline bui_vm bui_ta_c">
+							<i style="width: 0;height: 100%;"></i>
+							<div style="width: 86%;">
+								<div class="bui_tc_red">
+									<p class="bui_ts_24">我的愿望是参加杭马</p>
+									<p class="bui_ts_20">可惜没抢到名额</p>
+									<p class="bui_ts_24">这是我最后的机会</p>
+								</div>
+
+								<div class="bui_mt_12" style="position: relative;height: 17rem;">
+									<div style="position:absolute;width: 10rem;height: 10rem;left:0%;top:0%">
+										<img src="../images/gift-001.png" class="bui_block bui_bgc_white bui_bds_4 bui_bdc_red bui_round" style="height:100%" />
+									</div>
+									<div style="position:absolute;width: 8rem;height: 8rem;right:0%;top:0%">
+										<img src="../images/gift-002.png" class="bui_block bui_bgc_white bui_bds_4 bui_bdc_red bui_round" style="height:100%" />
+									</div>
+									<div style="position:absolute;width: 12rem;height: 12rem;left:30%;bottom:0%">
+										<img src="../images/gift-003.png" class="bui_block bui_bgc_white bui_bds_4 bui_bdc_red bui_round" style="height:100%" />
+									</div>
+								</div>
+
+							</div>
+							<i style="width: 0;height: 100%;"></i>
+							<!--滑动按钮-->
+							<div class="section-bottom" onclick="buijs_swiper.mtSwiper.slideNext();">
+								<div class="bui_p_12 bui_ta_c">
+									<p class="bui_ts_16">我需要你这样帮我</p>
+									<i class="fa fa-angle-down bui_tc_red_i bui_ts_48_i am-up-down"></i>
+								</div>
+
+							</div>
+							<!--滑动按钮-->
+						</div>
+					</div>
+					<!--section2-->
+					<!--section3-->
+					<div class="item">
+						<div class="mt-section bui_inline bui_vm bui_ta_c">
+							<i style="width: 0;height: 100%;"></i>
+							<div class="bui_row_p_24" style="width: 96%;">
+								<div>
+									<p class="bui_ts_24 bui_tc_red">杭马名额，靠你的关注</p>
+									<p class="bui_ts_14 bui_tc_white">长按识别下方二维码，关注【BIG生活公众号】</p>
+								</div>
+								<div>
+									<div class="bui_inline bui_ta_c">
+										<div class="bui_p_12 bui_bgc_white bui_radius" style="width:72%;">
+											<img src="{{jsonUrl}}/{{getMarathonGameQrcode.data}}" class="bui_block" v-if="getMarathonGameQrcode" />
+											<img src="../images/qrcode.png" class="bui_block" v-else />
+
+										</div>
+									</div>
+								</div>
+								<div>
+									<button class="bui_ptb_6 bui_tc_white bui_ts_16 bui_bgc_red bui_block bui_radius" onclick="mt_showModal('share');">我也要跑</button>
+								</div>
+								<div>
+									<div class="bui_avg_2 bui_row_p_24">
+										<div>
+											<button class="bui_ptb_6 bui_ts_16 bui_bgc_black bui_bds_2 bui_bdc_red bui_tc_red bui_block bui_radius" onclick="mt_showModal('help');">看有谁帮过我</button>
+										</div>
+										<div>
+											<button class="bui_ptb_6 bui_ts_16 bui_bgc_black bui_bds_2 bui_bdc_red bui_tc_red bui_block bui_radius" onclick="mt_showModal('ranking');">排行榜</button>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<i style="width: 0;height: 100%;"></i>
+						</div>
+					</div>
+					<!--section3-->
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

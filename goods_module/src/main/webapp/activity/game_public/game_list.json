@@ -1,0 +1,66 @@
+[
+	{
+		"title": "国民游戏汇",
+		"pic": "./pic/games.jpg",
+		"info": "最好玩的游戏都在这里。。。",
+		"stataus": "on",
+		"url": "http://games.mcoding.cn/",
+		"brandCode": "MRMJ"
+	}, {
+		"title": "全民摇呀摇",
+		"pic": "./pic/shake.png",
+		"info": "会员日超值活动，手快有手慢无，还不快来...",
+		"stataus": "off",
+		"url": "./../public_shake/index.html?brandCode=JLD&gameId=54&gameType=1",
+		"brandCode": "MRMJ"
+	}, {
+		"title": "幸运大翻牌",
+		"pic": "./pic/game_pic_s_001.jpg",
+		"info": "10营养币就能过把瘾，运气天天来临，每天限玩2次也能中大奖",
+		"stataus": "off",
+		"url": "./../giftmall_20150921_game/index.html?gameid=1",
+		"brandCode": "MRMJ"
+	}, {
+		"title": "押宝大乐透 ",
+		"pic": "./pic/game_pic_s_003.jpg",
+		"info": "玩的就是心跳，拼人品、拼手气、拼颜值...",
+		"stataus": "off",
+		"url": "./../giftmall_stake/index.html",
+		"brandCode": "MRMJ"
+	}, {
+		"title": "全民秒杀",
+		"pic": "./pic/game_pic_s_002.jpg",
+		"info": "会员日超值活动，手快有手慢无，还不快来...",
+		"stataus": "off",
+		"url": "./../giftmall_20150921_game/index.html?gameid=1",
+		"brandCode": "MRMJ"
+	}, {
+		"title": "幸运大翻牌",
+		"pic": "./pic/game_pic_s_004.jpg",
+		"info": "10能量币就能过把瘾，运气天天来临，每天限玩2次也能中大奖",
+		"stataus": "on",
+		"url": "./../giftmall_gxm_20151117/index.html?gameid=44",
+		"brandCode": "JLD"
+	}, {
+		"title": "押宝大乐透 ",
+		"pic": "./pic/game_pic_s_003.jpg",
+		"info": "玩的就是心跳，拼人品、拼手气、拼颜值...",
+		"stataus": "on",
+		"url": "./../giftmall_stake/index.html",
+		"brandCode": "JLD"
+	}, {
+		"title": "全民摇呀摇",
+		"pic": "./pic/shake.png",
+		"info": "会员日超值活动，手快有手慢无，还不快来...",
+		"stataus": "on",
+		"url": "./../public_shake/index.html?brandCode=JLD&gameId=54&gameType=1",
+		"brandCode": "JLD"
+	}, {
+		"title": "国民游戏汇",
+		"pic": "./pic/games.jpg",
+		"info": "最好玩的游戏都在这里。。。",
+		"stataus": "on",
+		"url": "http://games.mcoding.cn/",
+		"brandCode": "JLD"
+	}
+]

@@ -1,0 +1,10 @@
+[
+	{
+		"goodsName": "1",
+		"time":"2015/10/18",
+		"times": "第二轮",
+		"pict": "http://v.merryplus.com/resources/uploads/product/20150916104430_590.jpg",
+		"goods_winner": [{"name":"大堂","pict":"../game_public/pic/demo_face/face_001.jpg"},{"name":"大A","pict":"../game_public/pic/demo_face/face_002.jpg"},{"name":"大O","pict":"../game_public/pic/demo_face/face_003.jpg"}],
+		"goodsInfo": "10分钟秒杀 极智构维生素C+E咀嚼片（共三份）"
+	}
+]

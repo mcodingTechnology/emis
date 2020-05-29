@@ -1,0 +1,180 @@
+<script type="text/javascript">
+	vm.$set('headerData', {
+		topItem: [{
+			name: '微信有礼',
+			icon: 'fa fa-wechat fa-fw',
+			link: 'javascript:topItemShowPanel("wechat");'
+		}, {
+			name: '微博有奖',
+			icon: 'fa fa-weibo fa-fw',
+			link: 'javascript:topItemShowPanel("weibo");'
+		}, {
+			name: '防伪查询',
+			icon: 'fa fa-qrcode fa-fw',
+			link: 'javascript:;'
+		}],
+		topNav: [{
+			name: '首页',
+			channel: 'Home',
+			link: '#channel=Home/#ajaxPage=home'
+		}, {
+			name: '产品中心',
+			channel: 'Product',
+			link: '#channel=Product/#ajaxPage=product_list',
+			son: [{
+				name: '增肌增重产品',
+				channel: 'Product',
+				link: '#channel=Product/#ajaxPage=product_list/#id=1',
+			}, {
+				name: '减脂塑形产品',
+				channel: 'Product',
+				link: '#channel=Product/#ajaxPage=product_list/#id=2',
+			}, {
+				name: '能量补充产品',
+				channel: 'Product',
+				link: '#channel=Product/#ajaxPage=product_list/#id=3',
+			}]
+		}, {
+			name: '健身学堂',
+			channel: 'BodySchool',
+			link: '#channel=BodySchool/#ajaxPage=bodyschool_list',
+			son: [{
+				name: '身体自测',
+				channel: 'BodySchool',
+				link: '#channel=BodySchool/#ajaxPage=bodyschool_list/#id=1',
+			}, {
+				name: '局部训练',
+				channel: 'BodySchool',
+				link: '#channel=BodySchool/#ajaxPage=bodyschool_list/#id=2',
+			}, {
+				name: '营养食谱',
+				channel: 'BodySchool',
+				link: '#channel=BodySchool/#ajaxPage=bodyschool_list/#id=3',
+			}, {
+				name: '每周一课',
+				channel: 'BodySchool',
+				link: '#channel=BodySchool/#ajaxPage=bodyschool_list/#id=4',
+			}, {
+				name: '私教视频',
+				channel: 'BodySchool',
+				link: '#channel=BodySchool/#ajaxPage=bodyschool_list/#id=5',
+			}]
+		}, {
+			name: '健身论坛',
+			channel: 'BBS',
+			link: '#channel=BBS/#ajaxPage=bbs_list'
+		}, {
+			name: '品牌介绍',
+			channel: 'AboutUs',
+			link: '#channel=AboutUs/#ajaxPage=about_list',
+			son: [{
+				name: '品牌故事',
+				channel: 'AboutUs',
+				link: '#channel=AboutUs/#ajaxPage=about_list/#id=1',
+			}, {
+				name: '新闻中心',
+				channel: 'AboutUs',
+				link: '#channel=AboutUs/#ajaxPage=about_list/#id=2',
+			}, {
+				name: '红人榜',
+				channel: 'AboutUs',
+				link: '#channel=AboutUs/#ajaxPage=about_list/#id=3',
+			}]
+		}]
+	});
+
+	function topItemShowPanel(type) {
+		var panelTitle = '',
+			panelContent = ''
+		if(type == 'wechat') {
+			panelTitle = '微信有礼',
+				panelContent = '<div class="bui_p_24 bui_tc_white bui_ta_c bui_row_p_12">' +
+				'<p><img src="pic/qrcode-wechat.png" class="bui_radius" style="height:240px;width:auto;"/></p>' +
+				'<p>扫面上方二维码关注公众号有惊喜</p>' +
+				'</div>'
+		};
+		if(type == 'weibo') {
+			panelTitle = '微博有奖',
+				panelContent = '<div class="bui_p_24 bui_tc_white bui_ta_c bui_row_p_12">' +
+				'<p><img src="pic/qrcode-weibo.png" class="bui_radius" style="height:240px;width:auto;"/></p>' +
+				'<p>扫面上方二维码关注微博有大奖</p>' +
+				'</div>'
+		};
+		buijs_modal({
+			title: panelTitle,
+			barbgc: 'bui_bgc_black_l72',
+			bgc: 'bui_bgc_black_l72 bui_radius',
+			height: 'auto',
+			content: panelContent
+		});
+	};
+
+	vueReady = function() {
+		$("[data-buijs_tip]").buijs_tip({
+			events: 'hover',
+			positions: 'bottom',
+			bgc: 'bui_bgc_black_f64'
+		});
+	};
+</script>
+<!--topItem-->
+<div class="bui_block bui_at_noline" style="position: relative;">
+	<div style="position: absolute;left: 0px;right: 0px;top: 0px;bottom: 0px;z-index: 1;">
+		<div class="bui_auto_w bui_avg_sm_2">
+			<div class="bui_hide_xs">&nbsp;</div>
+			<div class="bui_inline bui_ta_r">
+				<li v-for="data in headerData.topItem">
+					<a href="{{data.link}}" class="bui_block bui_ts_12 bui_tc_white bui_tc_red_h bui_bgc_white_h bui_round bui_ptb_3 bui_plr_12 bui_mtb_3"><i class="{{data.icon}}"></i> {{data.name}}</a>
+				</li>
+			</div>
+		</div>
+	</div>
+	<div class="bui_avg_sm_2">
+		<div class="bui_hide_xs">&nbsp;</div>
+		<div class="bui_bgc_red bui_ptb_3">&nbsp;</div>
+	</div>
+</div>
+<!--topItem-->
+<!--topNav-->
+<div class="bui_auto_w bui_at_noline">
+	<div class="bui_media bui_vm">
+		<div class="bui_media_l">
+			<img src="img/logo.png" style="height: 64px;" />
+		</div>
+		<div class="bui_media_b">
+			<div class="bui_inline bui_ta_r">
+				<li v-for="data in headerData.topNav">
+					<template v-if="!hash.channel">
+						<a href="{{data.link}}" v-bind:class="['bui_block','bui_tc_white_d48_h','bui_ptb_32','bui_plr_24','bui_tc_white_a','bui_ts_14','bui_bds_2_b',$index==0?'bui_bdc_red':'bui_bdc_black']">{{data.name}}</a>
+					</template>
+					<template v-else>
+						<template v-if="data.son">
+							<a href="{{data.link}}" data-buijs_tip buijs_tip_setid="{{data.channel}}" v-bind:class="['bui_block','bui_tc_white_d48_h','bui_ptb_32','bui_plr_24','bui_tc_white_a','bui_ts_14','bui_bds_2_b',hash.channel==data.channel?'bui_bdc_red':'bui_bdc_black']">{{data.name}}</a>
+						</template>
+						<template v-else>
+							<a href="{{data.link}}" buijs_tip_setid="{{data.channel}}" v-bind:class="['bui_block','bui_tc_white_d48_h','bui_ptb_32','bui_plr_24','bui_tc_white_a','bui_ts_14','bui_bds_2_b',hash.channel==data.channel?'bui_bdc_red':'bui_bdc_black']">{{data.name}}</a>
+						</template>
+					</template>
+					<template v-if="data.son">
+						<div buijs_tip_content="{{data.channel}}" style="display: none;">
+							<template v-for="son in data.son">
+								<li class="bui_ta_c bui_ts_12">
+									<a href="{{son.link}}" v-bind:class="['bui_p_12','bui_block','bui_tc_white_a','bui_bgc_red_f72_h',$index!=0?'bui_bds_1_t':'', 'bui_bdc_white_f12']">{{son.name}}</a>
+								</li>
+							</template>
+						</div>
+					</template>
+				</li>
+			</div>
+		</div>
+		<div class="bui_media_r">
+			<!--search-->
+			<div class="bui_ipg_32  bui_tc_white">
+				<button class="bui_fl bui_tc_white_d48_i bui_ts_12_i"><i class="fa fa-search"></i></button>
+				<input type="text" value="" placeholder="功能/产品/教程" class="bui_ipt_32 bui_bds_0 bui_round bui_bgc_black_l48 bui_tc_white bui_ts_12" />
+			</div>
+			<!--search-->
+		</div>
+	</div>
+</div>
+<!--topNav-->

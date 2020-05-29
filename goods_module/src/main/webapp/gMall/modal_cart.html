@@ -1,0 +1,161 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		global_vue({
+			el: '#vueBox',
+			data: vueData
+		});
+		cartUpdataCart(); //更新购物车信息
+	});
+	//更新购物车信息
+	function cartUpdataCart() {
+		global_getJsonSetVue(workSpace.jsonUrl + '/merriplusApi/getCartList', 'cartData', {
+			malltype: vueData.global.mallType
+		}, function() {
+			setTimeout(function() {
+				cartSetTotal(vueData.cartData.data); //更新统计数据
+				setTimeout(function() {
+					$("#modal_cart input").on('input propertychange', function() {
+						cartSetTotal(vueData.cartData.data); //更新统计数据
+					});
+					$("#modal_cart button").on('click', function() {
+						cartSetTotal(vueData.cartData.data); //更新统计数据
+					});
+				}, 0)
+			}, 300)
+		});
+	};
+
+	//删除购物车
+	function cartRemoveCart(cartid) {
+		var _tips;
+		//删除单个产品
+		if(cartid) {
+			_tips = '<div class="bui_ta_c bui_p_24">是否删除该商品？</div>'
+		}
+		//清空购物车
+		else {
+			_tips = '<div class="bui_ta_c bui_p_24">是否清空购物车？</div>'
+		};
+		global_intercept(null, _tips, function() {
+			$.ajax({
+				type: "get",
+				url: workSpace.jsonUrl + "/merriplusApi/delShoppingCart",
+				async: true,
+				global: false,
+				dataType: "json",
+				data: {
+					cartId: cartid || 0
+				},
+				beforeSend: function() {
+					buijs_mask({
+						type: 'loading'
+					});
+				},
+				complete: function() {
+					buijs_mask_close();
+				},
+				success: function(data) {
+					buijs_modal_close('removeCart');
+					cartUpdataCart(); //更新购物车信息
+				}
+			});
+		})
+	};
+
+	//更新统计数据
+	function cartSetTotal(array) {
+		vm.$set('cartTotal.num', 0);
+		vm.$set('cartTotal.price', 0);
+		var num = 0,
+			price = 0
+		$.map(array, function(data) {
+			num += Number(data.productnum);
+			price += Number(data.productnum) * Number(data.productprice);
+		});
+		vm.$set('cartTotal.num', Number(num));
+		vm.$set('cartTotal.price', Number(price));
+	};
+
+	//更新购物车并结算
+	function cartUpdataAndBuy() {
+		global_getVueSetJson(workSpace.jsonUrl + '/merriplusApi/updateAllProductInCart', JSON.stringify(vueData.cartData.data), null, function(data) {
+			buijs_alert({
+				content: data.msg
+			});
+			if(data.status == '00') {
+				setTimeout(function() {
+					window.location.href = 'order_add.html?type=cart&productLabel=' + vueData.urlData.productLabel;
+				}, 300)
+			}
+		});
+	}
+</script>
+<div class="bui_wrap bui_tc_black bui_tc_black_a">
+	<!--页头-->
+	<div class="bui_mo_h">
+		<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:buijs_modal_close('modal_cart');" righticon="fa-trash-o" rightlink="javascript:cartRemoveCart();" title="我的购物车"></tp-header>
+	</div>
+	<!--页头-->
+	<!--loading-->
+	<div class="bui_mo_b bui_mo_b_h" v-if="!cartData||!cartData.data">
+		<tp-loadingbar type="loading" bgc="bui_bgc_white_d12"></tp-loadingbar>
+	</div>
+	<!--loading-->
+	<!--购物车无商品-->
+	<div class="bui_mo_b bui_mo_b_h" v-if="cartData&&cartData.data&&cartData.data.length==0">
+		<tp-emptypage></tp-emptypage>
+		<div class="bui_ta_c bui_p_12">
+			<a href="product_list.html" class="bui_bgc_red bui_btn bui_btn_48 bui_ts_16"><span class="bui_tc_white">快去选购</span> <i class="fa fa-angle-right fa-fw bui_tc_white"></i></a>
+		</div>
+	</div>
+	<!--购物车无商品-->
+	<!--购物车有商品-->
+	<template v-if="cartData&&cartData.data&&cartData.data.length>0">
+		<!--页面-->
+		<div class="bui_mo_b bui_mo_b_h bui_mo_b_f bui_ts_14">
+			<div class="bui_p_12">
+				<div class="bui_row_p_12">
+					<div v-for="data in cartData.data">
+						<div class="bui_media bui_vm bui_bgc_white bui_p_12">
+							<div class="bui_media_l">
+								<tp-img :src="data.productcoverimg" width="4rem" height="4rem"></tp-img>
+							</div>
+							<div class="bui_media_b">
+								<p>{{data.productname||'null'}}</p>
+								<p><span class="bui_ts_12 bui_tc_white_d64">单价：</span><span class="bui_tc_red">￥{{data.productprice/100||0}}</span></p>
+								<hr class="bui_mtb_6" />
+								<div class="bui_ta_r">
+									<button class="bui_btn bui_btn_sq" v-on:click="data.productnum>1?data.productnum--:'';"><i class="fa fa-minus"></i></button>
+									<input type="tel" v-model="data.productnum" size="3" class="bui_ipt_32 bui_plr_6 bui_ta_c" v-on:input="data.productnum<1?data.productnum=1:data.productnum>999?data.productnum=999:null" oninput="this.value = this.value.replace(/\D/g,'')" />
+									<button class="bui_btn bui_btn_sq" v-on:click="data.productnum<999?data.productnum++:''"><i class="fa fa-plus"></i></button>
+
+									<button class="bui_btn bui_bgc_red bui_btn_sq" onclick="cartRemoveCart({{data.cartid}})"><i class="fa fa-trash-o"></i></button>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--页面-->
+		<!--页脚-->
+		<div class="bui_mo_f bui_bgc_white bui_bds_1_t">
+			<div class="bui_p_8">
+				<div class="bui_media bui_vm">
+					<div class="bui_media_l">
+						<div class="bui_ts_12 bui_tc_white_d64 bui_ta_c bui_plr_24">
+							<p>共<span class="bui_tc_red">{{cartTotal.num||0}}</span>件商品</p>
+							<p>合计：<span class="bui_tc_red">￥{{cartTotal.price/100||0}}</span></p>
+						</div>
+
+					</div>
+					<div class="bui_media_b"><button class="bui_btn_48 bui_ts_16 bui_tc_white bui_bgc_red bui_block" onclick="cartUpdataAndBuy()"><i class="fa fa-rmb fa-fw"></i> 结算</button></div>
+				</div>
+			</div>
+		</div>
+		<!--页脚-->
+	</template>
+	<!--购物车有商品-->
+
+</div>

@@ -1,0 +1,39 @@
+.BMI1 {
+  background-image: url('../image/weightCal_bg.png');
+  height: 100vh;
+  background-size: 100% 100%;
+  padding-top: 8%;
+  position: relative;
+  .commonBox {
+    line-height: 40px;
+    position: relative;
+    height: 40px;
+    background-color:#292c31;
+    padding-left:15%;
+    color:#AAA;
+  }
+  .commonBox-right {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    width: 70%;
+    text-align: right;
+  }
+  .commonBox-right .sexSelect {
+    display: inline-block;
+    margin-right: 5%;
+    padding:0 8%;
+    line-height:25px;
+    border: 1px solid #E9E9E9;
+    border-radius: 15px;
+    color: #E9E9E9;
+  }
+  .sexChoice {
+    background-color: #F39D41;
+    color:white;
+  }
+  .BMI_resultMsg{
+    color:#CECFCF;
+    font-size:1.1em;
+  }
+}

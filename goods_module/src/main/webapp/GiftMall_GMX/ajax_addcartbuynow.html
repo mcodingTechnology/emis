@@ -1,0 +1,128 @@
+<script type="text/javascript">function gm_insetAddCartBuyNow(productId, type, panelObj) {
+	$.ajax({
+		type: "get",
+		url: _jsonUrl + "/merriplusApi/getProductById?time=",
+		async: true,
+		global: true,
+		dataType: 'json',
+		data: {
+			productId: productId
+		},
+		success: function(data) {
+			var productDetail = data.data;
+			var pointMoneyLabel = '';
+			var buyWayLabel = function(id, typename, price) {
+				return '<div class="bui_p_12 bui_bds_1 bui_radius bui_media bui_vm bui_mt_12 submit_addCartBuyNow" srv="' + id + '">' +
+					'<div class="bui_media_l"></div>' +
+					'<div class="bui_media_b">' +
+					'	<span class="bui_ts_14">' + typename + '</span>' +
+					'	<div class="buiWayPrice bui_ts_20 ' + vueObj.style.tcTrue + '">' + price + '</div>' +
+					'</div>' +
+					'<div class="bui_media_r">' +
+					'<i class="fa fa-angle-right fa-fw ' + vueObj.style.facFalse + '"></i>' +
+					'</div>' +
+					'</div>'
+			};
+			panelObj
+			//会员日价格区分
+			var _priceObj = {};
+			//会员日
+			if (productDetail.isOpenDsicountPoint == 1) {
+				_priceObj.giftPoint = productDetail.discountPoint;
+				_priceObj.giftPlusPoint = productDetail.discountGiftPlusPoint;
+				_priceObj.giftPointMoney = productDetail.discountPointMoney;
+			}
+			//非会员日
+			else {
+				_priceObj.giftPoint = productDetail.giftPoint;
+				_priceObj.giftPlusPoint = productDetail.giftPlusPoint;
+				_priceObj.giftPointMoney = productDetail.giftPointMoney;
+			};
+			//加钱购开启
+			if (productDetail.giftPointMoney && productDetail.discountPrice && productDetail.giftPointMoney != 0 && productDetail.discountPrice != 0) {
+				pointMoneyLabel = buyWayLabel('point', '积分兑换', _priceObj.giftPoint + ' <span class="bui_ts_14 ' + vueObj.style.tcFalse + '">积分/份</span>') +
+					buyWayLabel('money', '积分加钱购', _priceObj.giftPlusPoint + ' <span class="bui_ts_14 ' + vueObj.style.tcFalse + '">积分+</span> ' + _priceObj.giftPointMoney / 100 + ' <span class="bui_ts_14 ' + vueObj.style.tcFalse + '">元/份</span>');
+			}
+			//加钱购关闭
+			else {
+				pointMoneyLabel = buyWayLabel('point', '积分兑换', _priceObj.giftPoint + '积分/份');
+			};
+			//插入html
+			$("#gmPanel_addCartBuyNow .bui_modal_f").html('<div class="bui_bds_1_t bui_p_8"><a href="javascript:;" class="bui_btn_48 bui_bgc_green bui_block" id="gm_addCartBuyNow_submit">' + panelObj.btnText + '</a></div>');
+			$("#gmPanel_addCartBuyNow .bui_modal_b").html('<div class="bui_p_12">' +
+				'<div class="bui_media bui_vm">' +
+				'<div class="bui_media_l">' +
+				'<img src="' + productDetail.microproductrollimg1 + '" style="width:64px; height:64px;"/>' +
+				'</div>' +
+				'<div class="bui_media_b">' +
+				'<p class="bui_ts_14">' + productDetail.productName + '</p>' +
+				'<p class="bui_ts_12 ' + vueObj.style.tcFalse + '">' + productDetail.productIntroduce + '</p>' +
+				'</div>' +
+				'</div>' +
+				'<div>' +
+				pointMoneyLabel +
+				'</div>' +
+				'</div>');
+			//提交
+			$(".submit_addCartBuyNow").unbind().bind('click', function() {
+				var buyType = $(this).attr('srv');
+				//提交数据
+				buijs_showloading('bui_bgc_black_f72');
+				//加入礼品车
+				if (type == 'addCart') {
+					//判断不同购买方式插入价格
+					var postDataPrice = {};
+					if (buyType == 'point') {
+						postDataPrice.point = _priceObj.giftPoint
+						postDataPrice.money = 0
+					} else if (buyType == 'money') {
+						postDataPrice.point = _priceObj.giftPlusPoint
+						postDataPrice.money = _priceObj.giftPointMoney
+					};
+					var postData = {
+						productid: Number(productDetail.productId),
+						productname: productDetail.productName,
+						productintroduce: productDetail.productIntroduce,
+						productcoverimg: productDetail.microproductrollimg1,
+						productnum: 1,
+						productprice: postDataPrice.point,
+						plusMoney: postDataPrice.money,
+						giftBuyType: buyType == 'point' ? 0 : 1,
+						malltype: vueObj.mallType
+					};
+					$.ajax({
+						type: "post",
+						contentType: "application/json; charset=utf-8",
+						url: _jsonUrl + "/merriplusApi/addGiftMallProductToCart",
+						async: true,
+						global: false,
+						data: JSON.stringify(postData),
+						dataType: "json",
+						success: function(data) {
+							console.log(data)
+							buijs_closeloading();
+							if (data.status == "00") {
+								gm_cartPlug(); //更新礼品车插件信息
+								buijs_alert({
+									content: '添加到礼品车成功!'
+								});
+								setTimeout(function() {
+									buijs_modal_close();
+								}, 300);
+							} else if (data.status == "02") {
+								buijs_alert({
+									content: '该商品为限购商品，只允许添加一次购物车，如需要修改数量，请到购物车内修改！',
+									'time': 5000
+								});
+							}
+						}
+					});
+				}
+				//立即购买
+				else if (type == 'buyNow') {
+					window.location.href = 'order_add.html?type=single&buyType=' + buyType + '&productId=' + productDetail.productId + '&productNum=1'
+				};
+			});
+		}
+	});
+}</script>

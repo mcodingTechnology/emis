@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<script src="workspace.js"></script>
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script src="../baidiui/js/jQuery.md5.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="public.js"></script>
+
+		<title>极智构 - 摇一摇抽奖</title>
+		<script type="text/javascript">
+//			var type = getUrlString('type');
+			var memberResultId = null;
+			var cpNos;
+			$(document).ready(function() {
+				var _dh = $(document).height();
+				$('.wm_alert').css({
+					'height': _dh + 'px'
+				});
+				//测试用
+				$('.wm_shake_am').click(function() {
+					_gift();
+				});
+			});
+			 //摇一摇
+			var SHAKE_THRESHOLD = 3000;
+			var last_update = 0;
+			var x = y = z = last_x = last_y = last_z = 0;
+			var _isruning = 0;
+
+			function init() {
+				if (window.DeviceMotionEvent) {
+					window.addEventListener('devicemotion', deviceMotionHandler, false);
+				} else {
+					alert('换个手机吧，亲，你的手机不支持摇一摇');
+				}
+			};
+
+			function deviceMotionHandler(eventData) {
+				var acceleration = eventData.accelerationIncludingGravity;
+				var curTime = new Date().getTime();
+				if ((curTime - last_update) > 100) {
+					var diffTime = curTime - last_update;
+					last_update = curTime;
+					x = acceleration.x;
+					y = acceleration.y;
+					z = acceleration.z;
+					var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+					if (speed > SHAKE_THRESHOLD && _isruning == 0) {
+						_gift();
+					}
+					last_x = x;
+					last_y = y;
+					last_z = z;
+				}
+			};
+			 //抽奖
+			function _gift() {
+				if (_isruning == 0) {
+					_isruning = 1;
+					$.ajax({
+						url:url + 'merriplusApi/shakeGetPrize.html?gameid=' + _gameid,
+						cache:false,
+						type:'get',
+						success:function(data){
+
+							if (data.data) {
+								memberResultId = data.data.id;
+								cpNos=data.data.ext1;
+							}
+							if ($('.wm_alert').hasClass('active')) {} else {
+								//声音
+								$('#kaca')[0].play();
+								//demo 1不中|2中
+								var _type = data.code;
+								if (_type == 0 || _type == 4) {
+									var gainTitle = data.data.gaintitle;
+									$("#contact").show();
+									var imgUrl = "images/one.png";
+									if (gainTitle == "2") {
+										imgUrl = "images/two.png";
+										$("#result_img_div").height(114);
+										$("#result_img_div").width(197);
+										$("#result_img_div").css("padding-left", "30px");
+									}
+									$("#contact p").text(data.data.prizename);
+									$(".result_number").text("兑奖序号：" + data.data.rightnum);
+									$("#result_img").attr("src", imgUrl);
+								}
+								if (_type == 1) {
+									$("#contact").show();
+								}
+								if (_type == 2) {
+									$("#contact").show();
+								}
+								if (_type == 3) {
+									$("#result_img_div").html('<i class="fa fa-frown-o" style="font-size:7em;line-height:120px;"></i>');
+									$("#contact p").html("来晚啦！<br/>您抽中的奖项已经被领完，感谢参与。请关注极智构更多精彩活动！");
+									$("#contact").show();
+								}
+								//展开弹窗
+								_alertshow();
+								_isruning = 0;
+							}
+						}
+					});
+				}
+			};
+			 //展开弹窗
+			function _alertshow() {
+				$('.wm_alert').show(0, function() {
+					$(this).addClass('active');
+				})
+			};
+			 //收起弹窗
+			function _alerthide() {
+				_isruning = 0
+				$('.wm_alert').removeClass('active');
+				setTimeout(function() {
+					$('.wm_alert,.wm_modal_content').hide();
+				}, 300);
+			};
+			 //内容切换
+			function _showcontent(id) {
+				$('.wm_modal_content').hide();
+				$('#' + id).show();
+			};
+			$(window).resize(function() {
+				$('.wm_alert').css({
+					'top': '0px'
+				})
+			});
+		</script>
+	</head>
+
+	<body class="wm_index_bg" onload="init();">
+
+		<div class="wm_inline wm_ta_c" id="bg">
+			<!--logo-->
+			<img src="images/logo2.png" style="width: 144px; margin:24px 0;" />
+			<br />
+			<!--logo-->
+			<!--摇一摇动画-->
+			<div class="wm_shake_am" style="width: 256px; height: 256px;">
+				<img src="images/shake.png" />
+			</div>
+			<br />
+			<!--摇一摇动画-->
+			<!--说明-->
+			<div class="wm_content bui_mt_12 bui_plr_24 bui_ta_c">
+				<p class="bui_ts_16" style="font-weight: bold;">摇一摇，抽BCP专属礼包</p>
+				<p class="bui_ts_14  bui_mt_6">【重要提示】每人仅有一次抽奖机会，请谨慎操作！</p>
+				<p class="bui_ts_12  bui_tc_o64">（“摇一摇”不好使？直接点击屏幕也能抽奖哦。）</p>
+			</div>
+			<!--说明-->
+		</div>
+		<!--中奖区域-->
+		<div class="wm_alert" onclick="_alerthide()" >
+			<div class="wm_mask">
+				<div class="wm_mask_shake"></div>
+				<div class="wm_modal">
+					<img src="images/hua.png" id="hua" />
+					<div class="wm_modal_box">
+						<div class="wm_modal_content" id="contact" >
+							<div><h2>恭喜您获得：</h2></div>
+							<div  style="z-index: 999;height:120px;width:200px;margin:0 auto;" id="result_img_div">
+								<img src="images/one.png" style="width:100%;height:100%" id="result_img">
+							</div>
+							<p>一等奖</p>
+							<div class="result_number"></div>
+						</div>
+						<!--填写地址-->
+
+						<!--<div class="wm_modal_content" id="contact">-->
+							<!--<p class="modal_title">哎呦，居然甩出了<span class='bui_ts_24 prizename'></span>流量包！</p>-->
+							<!--<form id="submitForm">-->
+								<!--<p>-->
+									<!--<input type="hidden" value="" name="id" id="userid" />-->
+									<!--<input type="tel" style="font-size: 18px;" value="" placeholder="11位手机号码" maxlength="11" class="wm_ipt" name="memberphone" id="tel" />-->
+								<!--</p>-->
+								<!--<p>【重要提示】提交后信息不能修改，请确认号码正确后再提交！</p>-->
+								<!--<button class="wm_modal_btn bui_block"    >提交信息</button>-->
+							<!--</form>-->
+						<!--</div>-->
+						<!--填写地址-->
+						<!--共用信息栏目-->
+						<div class="wm_modal_content bui_ta_c" id="content">
+						</div>
+						<!--共用信息栏目-->
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!--中奖区域-->
+
+		<!--声音-->
+		<audio src="images/kaca.mp3" controls="controls" hidden="true" id="kaca" style="opacity: 0; -webkit-opacity: 0; -moz-opacity: 0;">
+		</audio>
+		<!--声音-->
+	</body>
+
+</html>

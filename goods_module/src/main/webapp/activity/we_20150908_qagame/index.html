@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>极智构 - 为你加满流量</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+		<link rel="stylesheet" type="text/css" href="../baidiui/css/baidiui.css" />
+		<link rel="stylesheet" type="text/css" href="../baidiui/css/font-awesome-4.3.0/css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script type="text/javascript" src="../baidiui/js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="../baidiui/js/baidiui.js"></script>
+
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script type="text/javascript" src="public.js"></script>
+		<!--<script type="text/javascript">
+			$(document).ready(function() {
+				$.getJSON(url + "merriplusApi/checkMemberResult.html?gameid=" + _gameid, function(data) {
+					if (data.data == null) {
+					} else {
+						var _islottery = data.data.islottery;
+						var _subscribe = data.data.subscribe;
+						//判断是否可抽奖
+						$('.btn_1').addClass('active');//comment.html?gameid=1
+						$('.btn_1').click(function() {
+							window.location.href = 'comment.html?gameid='+_gameid;
+						});
+						if (_islottery == null || _islottery == 0) {
+						} else {
+							$('.btn_2').addClass('active');
+							//判断是否关注
+							$('.btn_2').click(function() {
+								if (_subscribe == 1) {
+									window.location.href = 'shake.html?gameid='+_gameid;
+								} else {
+									wm_alert_show('follow');
+								}
+							});
+						}
+					}
+				});
+			});
+			 //弹出弹窗
+			function wm_alert_show(id) {
+				$('.wm_alert').show(0, function() {
+					_id = $(this).find('#' + id).show();
+					$(this).addClass('active');
+					//关闭弹窗
+					$('.wm_alert .wm_mask').click(function() {
+						$('.wm_alert').removeClass('active');
+						setTimeout(function() {
+							$('.wm_alert,.wm_mask > *').hide();
+						}, 300);
+					});
+				});
+			};
+		</script>-->
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				 
+				$('#yunyingshang').html(''+
+//				'<li><a href="shake.html?type=yd&gameid='+_gameid+'" class="bui_btn_48 bui_bgc_red bui_block bui_radius">中国移动<i class="fa fa-angle-right fa-fw"></i></a></li>'+
+				'<li><a href="shake.html?type=lt&gameid='+_gameid+'" class="bui_btn_48 bui_bgc_red bui_block bui_radius">中国联通<i class="fa fa-angle-right fa-fw"></i></a></li>'+
+				'<li><a href="shake.html?type=dx&gameid='+_gameid+'" class="bui_btn_48 bui_bgc_red bui_block bui_radius">中国电信<i class="fa fa-angle-right fa-fw"></i></a></li>')
+				 $.getJSON(url + "merriplusApi/checkGameAndMember.html?gameid="+_gameid+"&time="+new Date().getTime(), function(data) {
+					if (data.data == null) {
+						js_msg({
+								'msg':data.msg
+							});
+					} else {
+							$('.gameendtime').text(changeDateTimeFormat(data.data.gameendtime));
+							//data.code  0活动进行中|1网络颠簸|2活动过期
+							if(data.code==0){
+								if(data.data.islottery==null){
+									//pageShow 活动状态 0活动进行中|1您已经玩过未中奖|2您已经玩过有中奖|3活动结束
+									pageShow(0,data.data.subscribe);
+								}else if(data.data.islottery==0){
+									pageShow(1,data.data.subscribe);
+									$('.infoContent').hide();
+								}else if(data.data.islottery==1){
+									if(data.data.prizeid){
+										var memberphone=data.data.memberphone;
+	//									alert(memberphone);
+										if(memberphone){
+										$('.prizename').text(data.data.prizename);
+										var operator=data.data.operator;
+										if(operator=='yd'){
+											operator='中国移动';
+										}else if(operator=='lt'){
+											operator='中国联通';
+										}else if(operator=='dx'){
+											operator='中国电信';
+										}
+										$('.communication').text(operator);
+										 
+										 
+										 
+										$('.memberphone').text(memberphone.substring(0,3)+'****'+memberphone.substr(7,memberphone.length));
+										pageShow(2,data.data.subscribe);
+										$('.infoContent').hide();
+										
+										}else{
+											window.location.href='./shake.html?gameid='+_gameid+'&type='+data.data.operator;
+										}
+									}else{
+										pageShow(4,data.data.subscribe);
+										$('.infoContent').hide();
+									}
+									
+								}
+								 
+							}else if(data.code==1){
+								js_msg({
+									'msg':'网络颠簸，请刷新页面!'
+								});
+							}else if(data.code=2){
+								if(data.data.islottery==1){
+									var memberphone=data.data.memberphone;
+									if(memberphone){
+									$('.prizename').text(data.data.prizename);
+									var operator=data.data.operator;
+									if(operator=='yd'){
+										operator='中国移动';
+									}else if(operator=='lt'){
+										operator='中国联通';
+									}else if(operator=='dx'){
+										operator='中国电信';
+									}
+									$('.communication').text(operator);
+									 
+									$('.memberphone').text(memberphone.substring(0,3)+'****'+memberphone.substr(7,memberphone.length));
+									pageShow(2,data.data.subscribe);
+									$('.infoContent').hide();
+									}else{
+											window.location.href='./shake.html?gameid='+_gameid+'&type='+data.data.operator;
+									
+									}
+									
+								} else{
+									pageShow(3,data.data.subscribe);
+									$('.infoContent').hide();
+								}
+							}
+						 
+					}
+				});
+			});
+			function pageShow(page,followtype){
+				//活动状态 0活动进行中|1您已经玩过未中奖|2您已经玩过有中奖|3活动结束
+				 
+				var _gametype = page;
+				$('#gametype_' + _gametype).show();
+				//关注状态 0未关注|1已关注
+				var _followtype = followtype;
+				if (_followtype == 0) {
+					$('#yunyingshang a').click(function(e) {
+						e.preventDefault();
+						wm_alert_show('follow');
+					})
+				}
+			}
+			 //弹出弹窗
+			function wm_alert_show(id) {
+				$('.wm_alert').show(0, function() {
+					_id = $(this).find('#' + id).show();
+					$(this).addClass('active');
+					//关闭弹窗
+					$('.wm_alert .wm_mask').click(function() {
+						$('.wm_alert').removeClass('active');
+						setTimeout(function() {
+							$('.wm_alert,.wm_mask > *').hide();
+						}, 300);
+					});
+				});
+			};
+		</script>
+
+	</head>
+
+	<body class="wm_index_bg">
+		<!--logo-->
+		<div class="bui_inline bui_ta_c bui_pt_32">
+			<img src="images/logo2.png" style="width: 240px; margin:24px 0;" />
+		</div>
+		<!--logo-->
+		<!--活动进行中-->
+		<div class="bui_p_24" id="gametype_0" style="display: none;">
+			<p class="bui_ta_c">请选择您的运营商...</p>
+			<div id='yunyingshang' class="bui_row_p_12 bui_mt_12">
+				<!--<li><a href="shake.html?type=yd" class="bui_btn_48 bui_bgc_red bui_block bui_radius">中国移动<i class="fa fa-angle-right fa-fw"></i></a></li>
+				<li><a href="shake.html?type=lt" class="bui_btn_48 bui_bgc_red bui_block bui_radius">中国联通<i class="fa fa-angle-right fa-fw"></i></a></li>
+				<li><a href="shake.html?type=dx" class="bui_btn_48 bui_bgc_red bui_block bui_radius">中国电信<i class="fa fa-angle-right fa-fw"></i></a></li>-->
+			</div>
+		</div>
+		<!--活动进行中-->
+		<!--您已玩过未中奖-->
+		<div class="bui_p_24" id="gametype_1" style="display: none;">
+			<div class="bui_ta_c bui_ts_14 bui_fas_96">
+				<i class="fa fa-smile-o bui_tc_o48"></i>
+				<p class="bui_mt_12">运气差了那么一点……您没有抢到流量
+					<br/>请关注极智构其他更精彩的活动！</p>
+				<!--<p class="bui_mt_12"><a href="javascript:wm_alert_show('share');" class="bui_btn_48 bui_bgc_red bui_radius">分享给您的朋友</a></p>-->
+			</div>
+		</div>
+		<!--您已玩过未中奖-->
+		<!--您已玩过有中奖-->
+		<div class="bui_p_24" id="gametype_2" style="display: none;">
+			<div class="bui_ta_c bui_ts_14">
+				<p>你之前已经甩出了
+					<br/><span class="bui_ts_24 bui_tc_red prizename"></span></p>
+				<p><span class="communication"></span>流量包</p>
+				<p class="bui_mt_12 bui_ts_12">流量包将于3个工作日内充值到您的手机
+					<br/><span class="bui_tc_red memberphone"></span>
+					<br/>请您留意短讯通知</p> 
+				<!--<p class="bui_mt_12"><a href="javascript:wm_alert_show('share');" class="bui_btn_48 bui_bgc_red bui_radius">分享给您的朋友</a></p>-->
+			</div>
+		</div>
+		<!--您已玩过有中奖-->
+		<!--活动已结束-->
+		<div class="bui_p_24" id="gametype_3" style="display: none;">
+			<div class="bui_ta_c bui_ts_14 bui_fas_96">
+				<i class="fa fa-smile-o bui_tc_o48"></i>
+				<p class="bui_mt_12">曾经有一个中流量的机会摆在你的面前 可你已经错过···<br />
+				没关系，极智构给你一个机会：关注我们更多精彩活动吧！
+				</p>
+			</div>
+		</div>
+		<!--活动已结束-->
+		 <!--库存不足-->
+		<div class="bui_p_24" id="gametype_4" style="display: none;">
+			<div class="bui_ta_c bui_ts_14 bui_fas_96">
+				<i class="fa fa-smile-o bui_tc_o48"></i>
+				<p class="bui_mt_12">来晚啦！<br />
+					您抽中的奖项已经被领完，感谢参与。
+					<br/>请关注极智构更多精彩活动！</p>
+				<!--<p class="bui_mt_12"><a href="javascript:wm_alert_show('share');" class="bui_btn_48 bui_bgc_red bui_radius">分享给您的朋友</a></p>-->
+			</div>
+		</div>
+		<!--您已玩过未中奖-->
+		<div class="infoContent">
+		<p class="bui_plr_12 bui_ta_c bui_ts_12 bui_tc_o64">活动截止时间：2015年9月17日起，送完即止
+			<!--<span class="gameendtime"></span>-->
+		</p>
+		<p class="bui_plr_12 bui_ta_c bui_ts_12 bui_tc_o64">【重要提示】只有一次选择机会，请谨慎操作！</p>
+		 
+		</div>
+		<p class="bui_plr_12 bui_ta_c bui_ts_12 bui_tc_o64">您可以随时点击活动链接查看获奖结果。</p>
+		<p class="bui_plr_12 bui_ta_c bui_ts_12 bui_tc_o64">如有疑问，可致电客服热线 : </p>
+		<p class="bui_plr_12 bui_ta_c bui_ts_12 bui_tc_o64"> <a href="tel:020-28826477">020-28826477</a> 或 <a href="tel:020-28826506">020-28826506</a> </p>
+		 
+		<p class="bui_plr_12 bui_ta_c bui_ts_12 bui_tc_o64">（服务时间：逢工作日9:00-18:00）</p>
+		 
+		 
+			
+		<!--提示关注/分享-->
+		<div class="wm_alert" id="wm_complete_mask">
+			<div class="wm_mask">
+				<div style="padding: 48px; color: #fff; display: none;" id="follow">
+					<img src="images/code.jpg" style="width: 100%; height: auto;" />
+					<p style="font-size: 18px;">啊？原来你还没关注我们？</p>
+					<p style="font-size: 14px; opacity: 0.72; margin-top: 12px;">长按二维码（或搜索“极智构”）加关注，抽奖机会马上到手！</p>
+				</div>
+				<div style="padding: 6px; color: #fff; display: none;" id="share">
+					<img src="images/share.png" style="width: 100%;" />
+				</div>
+			</div>
+		</div>
+		<!--提示关注/分享-->
+	</body>
+
+</html>

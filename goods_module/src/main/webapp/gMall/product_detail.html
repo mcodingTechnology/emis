@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>移动商城 - BIG生活</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/product_detail.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body id="vueBox" class="gym-body bui_at_noline">
+
+		<!--主体-->
+		<div class="bui_wrap">
+			<div class="bui_mo bui_bgc_white_d12 bui_tc_black_l64">
+				<!--页头-->
+				<div class="bui_mo_h">
+					<!--提示关注公众号-->
+					<template v-if="isWechatUserFocused.code==1">
+						<tp-isfollow></tp-isfollow>
+					</template>
+					<!--提示关注公众号-->
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="https://h5.youzan.com/v2/home/zt5mvapt" title="商品详情" iscart='true' :cartnum="cartData.size"></tp-header>
+				</div>
+				<!--页头-->
+				<template v-if="!productDetail||!productDetail.data||!memberDetail||!memberDetail.data">
+					<div class="bui_mo_b bui_mo_b_h" style="{{isWechatUserFocused.code==1?'top:6rem':''}}">
+						<!--loadingbar-->
+						<tp-loadingbar type="loading" v-if="!productDetail||!memberDetail"></tp-loadingbar>
+						<tp-emptypage v-else></tp-emptypage>
+						<!--loadingbar-->
+					</div>
+				</template>
+				<template v-else>
+					<!--页面-->
+					<div class="bui_mo_b bui_mo_b_h gym_mo_b" style="{{isWechatUserFocused.code==1?'top:6rem':''}}">
+						<div id="productDetailSwiperMask" style="background-image: url(images/loading.gif); background-position: center center;">
+							<tp-img src="images/1x1.png" class="bui_block mask"></tp-img>
+						</div>
+
+						<!--产品幻灯片-->
+						<div id="productDetailSwiper" class="bui_bgc_white " style="height: 0rem;overflow: hidden;">
+							<div class="box bui_ta_c">
+								<li class="item bui_inline bui_vm" v-if="productDetail.data.microproductrollimg1">
+									<tp-img :src="productDetail.data.microproductrollimg1" class="" width="100%" height="auto"></tp-img>
+								</li>
+								<li class="item bui_inline bui_vm" v-if="productDetail.data.microproductrollimg2">
+									<tp-img :src="productDetail.data.microproductrollimg2" class="" width="100%" height="auto"></tp-img>
+								</li>
+								<li class="item bui_inline bui_vm" v-if="productDetail.data.microproductrollimg3">
+									<tp-img :src="productDetail.data.microproductrollimg3" class="" width="100%" height="auto"></tp-img>
+								</li>
+								<li class="item bui_inline bui_vm" v-if="productDetail.data.microproductrollimg4">
+									<tp-img :src="productDetail.data.microproductrollimg4" class="" width="100%" height="auto"></tp-img>
+								</li>
+								<li class="item bui_inline bui_vm" v-if="productDetail.data.microproductrollimg5">
+									<tp-img :src="productDetail.data.microproductrollimg5" class="" width="100%" height="auto"></tp-img>
+								</li>
+							</div>
+						</div>
+						<!--产品幻灯片-->
+
+						<!--摘要-->
+						<div class="bui_bgc_white bui_bds_1 bui_p_12">
+							<div class="bui_media">
+								<!--信息-->
+								<div class="bui_media_b">
+									<p class="bui_ts_18">{{productDetail.data.productName}}</p>
+									<div class="bui_mt_6">
+										<div class="bui_inline bui_vm bui_row_p_12">
+											<li class="bui_inline bui_vm">
+												<span class="bui_bgc_red bui_p_6 bui_tc_white bui_radius bui_ts_12">限时特价</span>
+												<span class="bui_ts_24 bui_tc_red">
+													<template v-if="memberDetail.data.parentMemberId">￥{{productDetail.data.microMallPrice/100}}</template>
+													<template v-else>￥{{productDetail.data.discountPrice/100}}</template>
+
+												</span>
+
+											</li>
+											<li class="bui_ts_14 bui_tc_white_d64" style="text-decoration: line-through;">
+												价格:{{productDetail.data.originalPrice/100}}
+											</li>
+										</div>
+									</div>
+
+								</div>
+								<!--信息-->
+								<!--收藏-->
+								<!--<div class="bui_media_r">
+									<button v-if="!isCollectionProduct.data" onclick="productDetail_favorites('add')" class="bui_btn bui_btn_sq bui_btn_64 bui_bds_0"><i class="fa fa-heart-o bui_tc_white_d64"></i></button>
+									<button v-else onclick="productDetail_favorites('remove')" class="bui_btn bui_btn_sq bui_btn_64 bui_bds_0"><i class="fa fa-heart bui_tc_red_i"></i></button>
+								</div>-->
+								<!--收藏-->
+								<!--导购-->
+								<div class="bui_media_r" v-if="memberDetail.data.levelId">
+									<a href="javascript:productDetail_createPic();" class="bui_block_inline bui_vm bui_ta_c">
+										<i class="fa fa-rmb fa-fw bui_ts_24 bui_btn bui_btn_32 bui_bgc_red bui_btnsq bui_round"></i>
+										<p class="bui_ts_12 bui_tc_black">分享有赏</p>
+									</a>
+								</div>
+								<!--导购-->
+
+							</div>
+							<!--导购按钮-->
+							<!--<a href="javascript:productDetail_createPic();" class="bui_block bui_media bui_vm bui_bgc_white_d12 bui_p_12 bui_mt_12 bui_radius" v-if="memberDetail.data.levelId">
+								<div class="bui_media_l">
+									<div class="bui_radius bui_p_6 bui_plr_12 bui_bgc_red bui_ta_c bui_tc_white">
+										<i class="fa fa-rmb fa-fw bui_ts_32"></i>
+										<p class="bui_ts_14">赚钱？</p>
+									</div>
+								</div>
+								<div class="bui_media_b">
+									<p class="bui_ts_14 bui_tc_black">我们为您准备好了好看有用的商品导购海报</p>
+									<p class="bui_ts_12 bui_tc_red">点击一键生成并分享这件商品</p>
+								</div>
+							</a>-->
+							<!--导购按钮-->
+							<div class="bui_row_p_12 bui_inline bui_ta_c bui_ts_14 bui_mt_12">
+								<li><i class="fa fa-dot-circle-o fa-fw"></i> 正品保障</li>
+								<li><i class="fa fa-dot-circle-o fa-fw"></i> 扫码验证</li>
+								<li><i class="fa fa-dot-circle-o fa-fw"></i> 十倍赔付</li>
+							</div>
+						</div>
+						<!--摘要-->
+
+						<!--详情-->
+						<div class="bui_bgc_white bui_bds_1 bui_mt_12 bui_pb_96">
+							<div class="bui_avg_1" id="productDetailTab">
+								<button class="bui_ptb_12 bui_ts_16 bui_bds_2_b">商品介绍</button>
+								<!--<button class="bui_ptb_12 bui_ts_16 bui_bds_2_b">商品详情</button>-->
+							</div>
+							<div buijs_tab_box="productDetailTabBox">
+								<div>{{{productDetail.data.productContent}}}</div>
+								<div>
+									<div class="bui_p_24 bui_ts_14">{{{productDetail.data.productSummary}}}</div>
+								</div>
+							</div>
+						</div>
+						<!--详情-->
+
+					</div>
+					<!--页面-->
+					<!--页脚-->
+					<div class="bui_bgc_black_f64" style="position: fixed;width: 100%;left: 0;right: 0;bottom: 0;">
+						<div class="bui_p_6">
+							<div class="bui_row_p_6">
+								<div class="bui_col_6">
+									<button class="bui_btn bui_btn_48 bui_ts_14 bui_ts_24_i bui_bgc_white bui_block bui_vm" onclick="global_addToCart({{productDetail.data.productId}},1)">
+									<i class="fa fa-cart-plus bui_tc_black_l48"></i> <span>加入购物车</span>
+								</button>
+								</div>
+								<div class="bui_col_6">
+									<template v-if="productDetail.data.isSale==0">
+										<button onclick="productDetail_buy()" class="bui_btn bui_btn_48 bui_ts_14 bui_bgc_red bui_block">
+										<span>立即购买</span>
+									</button>
+									</template>
+									<template v-else>
+										<button class="bui_btn bui_btn_48 bui_ts_14 bui_bgc_white_d48 bui_tc_white bui_block" v-else>
+										<span>暂时缺货</span>
+									</button>
+									</template>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!--页脚-->
+					<!--模态对话框 立即购买-->
+					<div id="modal_buy" buijs_modal_isremove='false' style="display: none;">
+						<div class="bui_p_24">
+							<div class="bui_media bui_vm">
+								<div class="bui_media_l">
+									<tp-img :src="productDetail.data.microproductrollimg1" width="6rem" height="6rem"></tp-img>
+								</div>
+								<div class="bui_media_b">
+									<p class="bui_ts_14">{{productDetail.data.productName}}</p>
+									<p class="bui_ts_12 bui_tc_white_d64">{{productDetail.data.productIntroduce}}</p>
+								</div>
+							</div>
+							<div class="bui_inline bui_vm bui_ta_c bui_mt_12">
+								<button class="bui_btn bui_btn_sq" v-on:click="buyNum>1?buyNum--:buyNum=1"><i class="fa fa-minus"></i></button>
+								<input type="text" value="" v-model="buyNum" v-on:input="buyNum<1?buyNum=1:buyNum>999?buyNum=999:''" class="bui_ipt_32 bui_ta_c" size="3" oninput="this.value = this.value.replace(/\D/g,'')" />
+								<button class="bui_btn bui_btn_sq" v-on:click="buyNum<999?buyNum++:buyNum=999"><i class="fa fa-plus"></i></button>
+							</div>
+						</div>
+					</div>
+					<!--模态对话框 立即购买-->
+					<!--模态对话框 海报-->
+					<div id="productDetail_createPic" buijs_modal_isremove="false" style="display: none;" class="bui_bgc_black_f72 bui_radius bui_tc_white">
+						<div class="bui_p_24 bui_ta_c">
+							<tp-img :src="contactWithQrcode.data" class="bui_block"></tp-img>
+						</div>
+					</div>
+
+				</template>
+
+			</div>
+
+		</div>
+		<!--主体-->
+		<!--浮动插件-->
+		<!--<tp-sideplug :cartnum="cartData.size" :scrolltop="gymScroll" paddingbottom="4rem"></tp-sideplug>-->
+		<!--浮动插件-->
+	</body>
+
+</html>

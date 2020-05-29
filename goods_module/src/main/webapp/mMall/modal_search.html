@@ -1,0 +1,89 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		global_vue({
+			data: vueData
+		});
+		vm.$set('getCategoryList', null);
+		setTimeout(function() {
+			$("#search input").focus();
+			vm.$set('searchHistory', window.localStorage.getItem("searchHistory") ? window.localStorage.getItem("searchHistory").split(",") : []);
+			$("#search").submit(function(e) {
+				e.preventDefault();
+				//页面跳转
+				search_pageJump('?productName=', vueData.keyWord);
+				if(vueData.keyWord) {
+					//插入搜索历史
+					vueData.searchHistory.push(vueData.keyWord);
+					window.localStorage.setItem("searchHistory", vueData.searchHistory);
+				};
+			});
+		}, 300);
+	});
+
+	//页面跳转
+	function search_pageJump(url, keyWord) {
+		window.location.href = url + escape(keyWord)
+	}
+</script>
+<div class="bui_wrap bui_tc_black bui_tc_black_a">
+	<!--页头-->
+	<div class="bui_mo_h">
+		<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:buijs_modal_close('modal_search')" title="搜索"></tp-header>
+	</div>
+	<!--页头-->
+	<!--页面-->
+	<div class="bui_mo_b bui_mo_b_h">
+		<!--搜索框-->
+		<div class="bui_p_12 bui_bds_1_b">
+			<form id="search" class="bui_media bui_vm">
+				<div class="bui_media_b">
+					<input type="text" value="" placeholder="请输入关键词" class="bui_btn bui_btn_48 bui_ts_14 bui_bgc_white bui_block" v-model="keyWord" />
+				</div>
+				<div class="bui_media_r">
+					<button class="bui_btn bui_btn_48 bui_bgc_red bui_ts_14 bui_plr_12"><i class="fa fa-search fa-fw"></i> 搜索</button>
+				</div>
+
+			</form>
+		</div>
+		<!--搜索框-->
+		<!--搜索历史-->
+		<template v-if="searchHistory.length!=0">
+			<div class="bui_p_12 bui_bds_1_b">
+				<div class="bui_ts_16 bui_media bui_vm">
+					<div class="bui_media_b"><i class="fa fa-history fa-fw bui_tc_red bui_ts_16"></i>搜索历史</div>
+					<div class="bui_media_r"><button class="bui_btn bui_btn_24 bui_ts_12 bui_bgc_black_f48 bui_round" onclick="window.localStorage.removeItem('searchHistory');vm.$set('searchHistory',[]);"><i class="fa fa-close fa-fw"></i> 清空</button></div>
+				</div>
+				<div class="bui_m_12">
+					<div class="bui_inline bui_row_p_6">
+						<div v-for="(index,data) in searchHistory | orderBy 'data' -1" v-if="$index < 5">
+							<div onclick="search_pageJump('?productName=', '{{data}}');" class="bui_btn bui_btn_32 bui_bgc_white bui_ts_14">{{data}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</template>
+		<!--搜索历史-->
+
+		<!--产品分类-->
+		<!--<template v-if="getCategoryList">
+			<div class="bui_bds_1_b bui_bgc_white">
+				<div class="bui_avg_{{getCategoryList.queryResult[0].childern.length}}" id="productType_nav" data-buijs_tab='{"setid":"productType_box","style":"basic","activeClass":"bui_bdc_red bui_tc_red"}'>
+					<button v-for="data in getCategoryList.queryResult[0].childern" class="bui_p_12 bui_ts_14 bui_bds_4_b">{{data.categoryName}}</button>
+				</div>
+				<div buijs_tab_box="productType_box">
+					<div v-for="data in getCategoryList.queryResult[0].childern" class="bui_tc_black_a bui_ts_14 bui_ts_16_i">
+						<a v-for="type in data.childern" href="product_list.html?categoryId={{type.id}}" :class="['bui_media' ,'bui_vm' ,'bui_ptb_12' ,'bui_plr_24',$index!=0?'bui_bds_1_t':'']">
+							<div class="bui_media_b">{{type.categoryName}}</div>
+							<div class="bui_media_r">
+								<i class="fa fa-angle-right bui_tc_white_d48"></i>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</template>-->
+		<!--产品分类-->
+	</div>
+	<!--页面-->
+</div>

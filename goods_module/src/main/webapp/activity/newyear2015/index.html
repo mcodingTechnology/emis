@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>新年大战七大姑八大婆QA</title>
+        <script src="workspace_v2.0.1.js" type="text/javascript"></script>
+        <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+        <script src="public.js" type="text/javascript" charset="utf-8"></script>
+        <script src="qa.js" type="text/javascript" charset="utf-8"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+    </head>
+
+    <body class="year-bg">
+        <div id="bui_loading" class="bui_wrap" style="z-index: 100000;">
+            <div class="bui_mo bui-loading">
+                <div class="year-loading"></div>
+            </div>
+        </div>
+        <div class="bui_wrap" id="year_content" style="display:none">
+            <!--主页面-->
+            <div class="bui_mo bui_mo_b">
+                <!--首页-->
+                <div class="year-section home" id="home">
+                    <div class="year-section-content">
+                        <p class="titletu" ><img src="images/title.png" /></p>
+                        <p ><img src="images/bgp.png" /></p>
+                        <p style="margin-top: -55.4%;"><img src="images/left-zi.png" /></p>
+                        <p style="margin-top: -53.4%;"><img src="images/right-zi.png" /></p>
+                        <p style="margin-top: -52%;"><img src="images/leftp.png" /></p>
+                        <p  style="margin-top: -52%;"><img src="images/rightp.png" /></p>
+                        <p class="AcIn qa"><img src="images/qa.png" /></p>
+                        <p class="AcOutL an"><img src="images/anserright.png" /></p>
+                        <p class="AcDownUp" style="z-index: 0; margin-top: -36%;"><img src="images/meirimeijia.png" /></p>
+                        <p class="anniu" >
+                            <a href="javascript:year_homeInform();">
+                                <img src="images/hometest.png" />
+                            </a>
+                        </p>
+                    </div>
+                    <!-- 首页提示说明遮罩层-->
+                    <div class="bui_mo homeInform" style="display: none;" id="homeInform">
+                        <p><img src="images/hometip.png" style="width: 100%; height: auto; margin-top:50px;" class="bui_block" /></p>
+                        <p style="margin-top: -30%;">
+                            <a href="javascript:year_startQuestings();">
+                                <img src="images/starttest.png" class="bui_block" />
+                            </a>
+                        </p>
+                    </div>
+                    <!-- 首页提示说明遮罩层-->
+                </div>
+                <!-- 首页-->
+                <!-- 问题页面-->
+                <div class="year-section question" id="question-pages" style="display: none;">
+                    <ul class="year-section-content">
+                        <li id="question1" style="display:none">
+                            <p><img src="images/questionbg1.jpg" /></p>
+                            <p class="testa"><a href="javascript:year_resultPage1A()"><img src="images/question1a.png" /></a></p>
+                            <p class="testb"><a href="javascript:year_resultPage1B()"><img src="images/question1b.png" /></a></p>
+                            <p class="testc"><a href="javascript:year_resultPage1C()"><img src="images/question1c.png" /></a></p>
+                        </li>
+                        <li id="question2" style="display:none">
+                            <p><img src="images/questionbg2.jpg" /></p>
+                            <p class="testa"><a href="javascript:year_resultPage2A()"><img src="images/question2a.png" /></a></p>
+                            <p class="testb"><a href="javascript:year_resultPage2B()"><img src="images/question2b.png" /></a></p>
+                            <p class="testc"><a href="javascript:year_resultPage2C()"><img src="images/question2c.png" /></a></p>
+                        </li>
+                        <li id="question3" style="display:none">
+                            <p><img src="images/questionbg3.jpg" /></p>
+                            <p class="testa"><a href="javascript:year_resultPage3A()"><img src="images/question3a.png" /></a>
+                            </p>
+                            <p class="testb"><a href="javascript:year_resultPage3B()"><img src="images/question3b.png" /></a></p>
+                            <p class="testc"><a href="javascript:year_resultPage3C()"><img src="images/question3c.png" /></a></p>
+                        </li>
+                        <li id="question4" style="display:none">
+                            <p><img src="images/questionbg4.jpg" /></p>
+                            <p class="testa"><a href="javascript:year_resultPage4A()"><img src="images/question4a.png" /></a></p>
+                            <p class="testb"><a href="javascript:year_resultPage4B()"><img src="images/question4b.png" /></a></p>
+                            <p class="testc"><a href="javascript:year_resultPage4C()"><img src="images/question4c.png" /></a></p>
+                        </li>
+                        <li id="question5" style="display:none">
+                            <p><img src="images/questionbg5.jpg" /></p>
+                            <p class="testa"><a href="javascript:year_resultPage5A()"><img src="images/question5a.png" /></a></p>
+                            <p class="testb"><a href="javascript:year_resultPage5B()"><img src="images/question5b.png" /></a></p>
+                            <p class="testc"><a href="javascript:year_resultPage5C()"><img src="images/question5c.png" /></a></p>
+                        </li>
+                    </ul>
+                </div>                    
+                <!-- 问题页面-->
+                <!-- 问题1答案页面-->
+                <div class="year-section result" id="result-pages1" style="display: none;">
+                    <ul class="year-section-content">
+                        <li class="question1-resulta" id="Rfault" style="display:none">
+                            <p><img src="images/q1resultbga.jpg" /></p>
+                            <p class="testRbg"><a href="javascript:AddRedEnvelopeQ1FalseQ3();"><img src="images/fault.png" /></a></p>
+                        </li>
+                        <li class="question1-resultb" id="Rtrue" style="display:none">
+                            <p><img src="images/q1resultbgb.jpg" /></p>
+                            <p class="testRbg"><a href="javascript:AddRedEnvelopeQ1TrueQ2()"><img src="images/ture.png" /></a></p>
+                        </li>
+                        <li class="question1-resultc" id="Rfault" style="display:none">
+                            <p><img src="images/q1resultbgc.jpg" /></p>
+                            <p class="testRbg"><a href="javascript:AddRedEnvelopeQ1FalseQ4();"><img src="images/fault.png" /></a></p>
+                        </li>
+                    </ul>
+                </div>                    
+                <!-- 问题1答案页面-->
+                <!-- 问题2答案页面-->
+                <div class="year-section result" id="result-pages2" style="display: none;">
+                    <ul class="year-section-content">
+                        <li class="question2-resulta" id="Rfault" style="display:none">
+                            <p><img src="images/q2resultbga.jpg" /></p>
+                            <p class="testRbg"><a href="javascript:AddRedEnvelopeQ2FalseQ5();"><img src="images/fault.png" /></a></p>
+                        </li>
+                        <li class="question2-resultb" id="Rfault" style="display:none">
+                            <p><img src="images/q2resultbgb.jpg" /></p>
+                            <p class="testRbg"><a href="javascript:AddRedEnvelopeQ2FalseQ5();"><img src="images/fault.png" /></a></p>
+                        </li>
+                        <li class="question2-resultc" id="Rtrue" style="display:none">
+                            <p><img src="images/q2resultbgc.jpg" /></p>
+                            <p class="testRbg"><a href="javascript:AddRedEnvelopeQ2TrueQ5()"><img src="images/ture.png" /></a></p>
+                        </li>
+                    </ul>
+                </div>                    
+                <!-- 问题2答案页面-->
+                <!-- 问题3答案页面-->
+                <div class="year-section result" id="result-pages3" style="display: none;">
+                    <ul class="year-section-content">
+                        <li class="question3-resulta" id="Rtrue" style="display:none">
+                            <p><img src="images/q3resultbga.jpg" /></p>
+                            <p class="testRbg"><a href="javascript:AddRedEnvelopeQ2TrueQ5()"><img src="images/ture.png" /></a></p>
+                        </li>
+                        <li class="question3-resultb" id="Rfault" style="display:none">
+                            <p><img src="images/q3resultbgb.jpg" /></p>
+                            <p class="testRbg"><a href="javascript:AddRedEnvelopeQ2FalseQ5()"><img src="images/fault.png" /></a></p>
+                        </li>
+                        <li class="question3-resultc" id="Rfault" style="display:none">
+                            <p><img src="images/q3resultbgc.jpg" /></p>
+                            <p class="testRbg"><a href="javascript:AddRedEnvelopeQ2FalseQ5()"><img src="images/fault.png" /></a></p>
+                        </li>
+                    </ul>
+                </div>                    
+                <!-- 问题3答案页面-->
+                <!-- 问题4答案页面-->
+                <div class="year-section result" id="result-pages4" style="display: none;">
+                    <ul class="year-section-content">
+                        <li class="question4-resulta" id="Rfault" style="display:none">
+                            <p><img src="images/q4resultbga.jpg" /></p>
+                            <p class="testRbg"><a href="javascript:AddRedEnvelopeQ2FalseQ5();"><img src="images/fault.png" /></a></p>
+                        </li>
+                        <li class="question4-resultb" id="Rfault" style="display:none">
+                            <p><img src="images/q4resultbgb.jpg" /></p>
+                            <p class="testRbg"><a href="javascript:AddRedEnvelopeQ2FalseQ5();"><img src="images/fault.png" /></a></p>
+                        </li>
+                        <li class="question4-resultc" id="Rtrue" style="display:none">
+                            <p><img src="images/q4resultbgc.jpg" /></p>
+                            <p class="testRbg"><a href="javascript:AddRedEnvelopeQ2TrueQ5()"><img src="images/ture.png" /></a></p>
+                        </li>
+                    </ul>
+                </div>                    
+                <!-- 问题4答案页面-->
+                <!-- 问题5答案页面-->
+                <div class="year-section result" id="result-pages5" style="display: none;">
+                    <ul class="year-section-content">
+                        <li class="question5-resulta" id="Rfault" style="display:none">
+                            <p><img src="images/q5resultbga.jpg" /></p>
+                            <p class="testRbg"><a href="javascript:AddRedEnvelopeQ3False()"><img src="images/fault.png" /></a></p>
+                        </li>
+                        <li class="question5-resultb" id="Rtrue" style="display:none">
+                            <p><img src="images/q5resultbgb.jpg" /></p>
+                            <p class="testRbg"><a href="javascript:AddRedEnvelopeQ3Ture()"><img src="images/ture.png" /></a></p>
+                        </li>
+                        <li class="question5-resultc" id="Rfault" style="display:none">
+                            <p><img src="images/q5resultbgc.jpg" /></p>
+                            <p class="testRbg"><a href="javascript:AddRedEnvelopeQ3False()"><img src="images/fault.png" /></a></p>
+                        </li>
+                    </ul>
+                </div>                    
+                <!-- 问题5答案页面-->                    
+            </div>
+            <!-- 主页面 -->                      
+        </div>
+    </body>
+    <script type="text/javascript" src="../../resources/js/common/wechatShare.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $.ajax({
+                    type: 'get',
+                    url: _jsonUrl+ '/front/ckeckCNYQAGameTime.html',
+                    dataType: 'json',
+                    success: function(data){
+                        if (data.code == 5) {
+                            buijs_modal({
+                                width: '280px',
+                                positions: 'center',
+                                content: '<div style="max-width=280px;">'+
+                                        '<p style="font-weight: bold;margin-bottom: 5px;">游戏尚未开始~~</p></div>'
+                            })
+                            $('.anniu').remove();
+                        }else if (data.code == 6 ) {
+                             buijs_modal({
+                                width: '280px',
+                                positions: 'center',
+                                content: '<div style="max-width=280px;">'+
+                                        '<p style="font-weight: bold;margin-bottom: 5px;">游戏已经结束~~</p></div>'
+                            })
+                             $('.anniu').remove();
+                        }else if (data.code ==1) {
+                             buijs_modal({
+                                width: '280px',
+                                positions: 'center',
+                                content: '<div style="max-width=280px;">'+
+                                        '<p style="font-weight: bold;margin-bottom: 5px;">'+data.msg+'</p></div>'
+                            })
+                             $('.anniu').remove();
+                        }
+                        $('.bui_modal').css('border-radius',20)
+                    }
+                })
+             $.ajax({
+                type: 'get',
+                url: _jsonUrl+ '/merriplusApi/getMemberDetail.html',
+                dataType: 'json',
+                success: function(data){
+                    if (data.status == 00){
+                        var link= _jsonUrl+ "/activity/newyear2015/share.html?shareOpenid="+data.data.openid;
+                     wechatSharePublic("大过年的，帮人家拆一下嘛~", "拆完有福利，别说我没告诉你！",link, false, "", "/activity/newyear2015/images/share_01.png");
+                 }
+                }
+            })
+        })
+           
+               
+    </script>
+</html>

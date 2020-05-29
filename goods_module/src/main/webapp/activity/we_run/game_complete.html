@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>广马大作战</title>
+		<script type="text/javascript" src="./../game_public/workspace.js"></script>
+		<script type="text/javascript">
+			//分享提示
+			function runShare() {
+				$("body").append('<div class="bui_bgc_black_72" id="run_share_mask" style="position: absolute; top: 0;bottom: 0;left: 0;right: 0;"><img src="./images/share_arrow.png" style="width:100%"/><p class="bui_p_24 bui_tc_white">请点击右上角分享给您的好友或发送到朋友圈吧！朋友才是您成功的关键哟~~</p><img src="./images/share_gxman.png" style="width:100%"/></div>');
+				$("#run_share_mask").click(function() {
+					$(this).remove();
+				});
+			};
+			var _runMyCount, _runBtn, _runMyRankings, _runHelpCount, _runHelpList = "";
+			var _toGameComplete = false,
+				_getRunningRank = false,
+				_getHelpRecord = false;
+			//展示
+			function _runShowSection() {
+				if (_toGameComplete == true && _getRunningRank == true && _getHelpRecord == true) {
+					$(".run_section").html('<img src="./images/game_complete.png" style="width: 100%; overflow: hidden; float: left;" />' +
+						'<div class="run_panel bui_p_12 bui_mlr_12 bui_radius bui_ta_c" id="run_myCount">' + _runMyCount + '</div>' +
+						'<div class="bui_row_p_6 bui_ta_c bui_m_12" id="run_btn">' + _runBtn + '</div>' +
+						'<div class="run_panel bui_ptb_12 bui_plr_24 bui_mlr_12 bui_row_p_12 bui_radius bui_ta_c">' +
+						'<div class="bui_ptb_12 bui_inline bui_ta_c" id="run_myRankings">' + _runMyRankings + '</div>' +
+						'<li><hr style="border-color: rgba(0,0,0,0.12);" /></li>' +
+						'<li>' + _runHelpCount + '</li>' +
+						'<div class="bui_row_p_12 bui_ta_l">' + _runHelpList + '</div>' +
+						'</div>');
+					run_closeLoading();
+					$(".run_section").addClass('active');
+					$(".run_section [data-bui_img]").buijs_img();
+				};
+			};
+			$(document).ready(function() {
+				run_showLoading();
+				//获得我的最后一次成绩和剩余次数
+				$.ajax({
+					type: "get",
+					url: _jsonUrl + "/front/toGameComplete.html",
+					async: true,
+					cache: false,
+					dataType: 'json',
+					error: function(data) {
+						run_jsonError();
+					},
+					success: function(data) {
+						if (_gameCount > _runCount && _canPlay == true) {
+							_runMyCount = '<p class="bui_ts_24 run_bold bui_tc_o48">哇！~你跑了</p><p class="run_score bui_tc_yellow bui_ts_48">' + data.data.lastDistance + 'm</p><p class="bui_ts_14">快叫朋友来帮你加里程</p><p>上榜单，拿大奖！</p>';
+							_runBtn = '<li><a href="javascript:runShare();" class="run_btn_b_green">喊朋友来帮你</a></li><li class="bui_col_sm_6"><a href="rankings.html" class="run_btn_s_orange">看排名</a></li><li class="bui_col_sm_6"><a href="index.html" class="run_btn_s_orange">再来一次<span class="bui_btn_24 bui_btnsq bui_bgc_red bui_round bui_ts_12 bui_ml_6">' + [_gameCount - _runCount] + '</span></a></li>';
+						} else {
+							_runMyCount = '<p class="bui_ts_24 run_bold bui_tc_o48">当前总成绩</p><p class="run_score bui_tc_yellow bui_ts_48">' + data.data.summary + 'm</p><p class="bui_ts_14">你的三次游戏机会已经用完</p><p>快叫朋友帮你加里程！</p>';
+							_runBtn = '<li><a href="javascript:runShare();" class="run_btn_b_green">喊朋友来帮你</a></li><li><a href="rankings.html" class="run_btn_b_orange">看排名</a></li>';
+						};
+						_toGameComplete = true;
+						//展现
+						_runShowSection();
+					}
+				});
+				//获取我的总成绩
+				$.ajax({
+					type: "get",
+					url: _jsonUrl + "/front/getRunningRank.html",
+					async: true,
+					cache: false,
+					dataType: 'json',
+					error: function(data) {
+						run_jsonError();
+					},
+					success: function(data) {
+						//我的排名
+						_runMyRankings = '<div class="bui_round bui_bds_2 bui_bdc_white" style="width: 96px;height: 96px;" data-bui_img=""><img src="' + data.data.headImgUrl + '" /></div><br /><p class="bui_ts_12">' + data.data.nickName + '，您的总成绩为</p><br/><p class="run_score bui_ts_32 bui_tc_yellow">' + data.data.distance + 'm</p><br /><p class="bui_ts_12">排在第<span class="bui_ts_16 bui_tc_red">' + data.data.rank + '</span>名</p>';
+						_getRunningRank = true;
+						//展现
+						_runShowSection();
+					}
+				});
+				//获取被助跑记录
+				$.ajax({
+					type: "get",
+					url: _jsonUrl + "/front/getHelpRecord.html",
+					async: true,
+					cache: false,
+					dataType: 'json',
+					error: function(data) {
+						run_jsonError();
+					},
+					success: function(data) {
+						//助跑记录
+						if (data.data.helpCount > 0) {
+							_runHelpCount = '<p>已有' + data.data.helpCount + '人帮助你，共加里程</p><span class="run_score bui_ts_16 bui_tc_white">' + data.data.helpDistance + 'm</span>'
+							$.map(data.data.helpList, function(data) {
+								_runHelpList += '<li><hr style="border-color: rgba(0,0,0,0.12);" /></li>' +
+									'<li class="bui_media bui_vm"><div class="bui_media_l"><div class="bui_round bui_bds_2 bui_bdc_white" style="width: 32px;height: 32px;" data-bui_img=""><img src="' + data.fromheadimgurl + '" /></div></div><div class="bui_media_b">' + data.fromnickname + '</div><div class="bui_media_r">+' + data.distance + 'm</div></li>';
+							});
+						} else {
+							_runHelpCount = '<p>还没有人帮助你哟</p>';
+							_runHelpList = '<p class="bui_inline bui_ta_c"><a href="javascript:runShare();" class="run_btn_b_green">喊基友一起来</a></p>';
+						};
+						_getHelpRecord = true;
+						//展现
+						_runShowSection();
+					}
+				});
+			});
+		</script>
+	</head>
+
+	<body class="run_body">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<div class="bui_mo_h" id="run_healder"></div>
+				<div class="bui_mo_b">
+					<div class="bui_ptb_48 run_section"></div>
+
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<script type="text/javascript" src='./workspace.js'></script>
+	<script type="text/javascript" src='./js/selfChallenge.js'></script>
+	<!-- 引入微信JSJDK -->
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<title>BIG生活《猴运抢先抓》</title>
+</head>
+<body>
+	<div class="selfChallengeBg content">
+		<div class="scoreWarp">
+			<div class="headBg">
+				<img src="./images/score_01.png">
+			</div>
+			<div class="scoreContent">
+				<p class="bui_tc_white">骚年不仅好臂力，还有一把好手气</p>
+				<p class="tc_bold bui_ts_32 bui_tc_yellow t_indent_20" id="result">0分！</p>
+				<p class="bui_tc_white">喊朋友帮你好运加倍<br />更容易拿大奖!</p>
+				<p class="callHelp ">喊朋友</p>
+				<p class="btCommon bg_red" onclick='javascript:window.location.href="./ranking.html"'>看排名</p>
+				<p class="btCommon mr_l_20 bg_red" id='startGame'>再一次</p>
+				<p class="mr_t_5">已有<span id='count'>0</span>人,为你加分<span id='sumAdd'>0</span>分</p>
+				<ul id='helpList'>
+					<!-- <li><p class="bui_ts_14 mr_t_5">萌猪为你加分:33分</p></li>
+					<li><p class="bui_ts_14">萌二为你加分:33分</p></li> -->
+				</ul>
+				<div class="yellowBtScorll"></div>
+			</div>
+			<div class="footBg">
+				<img src="./images/score_03.png">
+			</div>
+		</div>
+		<div id='shradow'>
+			<div class="img">
+				<img src="./images/arrow.png">
+				<p>点击右上角分享</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

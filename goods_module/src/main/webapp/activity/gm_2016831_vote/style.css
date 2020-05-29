@@ -1,0 +1,27 @@
+.background_ {
+	background-image: url(./images/bg_.jpg);
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-color: black;
+	min-height: 527px;
+}
+
+img {
+	width: 32%;
+}
+
+.Bt_wrap {
+	position: absolute;
+	top: 80%;
+	min-top: 400px;
+	width: 100%;
+}
+
+.leftChoice {
+	margin-left: 8%;
+}
+
+.rightChoice {
+	float: right;
+	margin-right: 8%;
+}

@@ -1,0 +1,1023 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.order.persistence.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.order.bean.Order" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="memberId" property="memberid" jdbcType="INTEGER" />
+    <result column="mobilePhone" property="mobilephone" jdbcType="VARCHAR" />
+    <result column="openId" property="openid" jdbcType="VARCHAR" />
+    <result column="fee" property="fee" jdbcType="INTEGER" />
+    <result column="nums" property="nums" jdbcType="INTEGER" />
+    <result column="addressId" property="addressid" jdbcType="INTEGER" />
+    <result column="payType" property="paytype" jdbcType="VARCHAR" />
+    <result column="payStatus" property="paystatus" jdbcType="VARCHAR" />
+    <result column="orderBrand" property="orderbrand" jdbcType="VARCHAR" />
+    <result column="orderPayResource" property="orderpayresource" jdbcType="VARCHAR" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="payTime" property="paytime" jdbcType="TIMESTAMP" />
+    <result column="sendTime" property="sendtime" jdbcType="TIMESTAMP" />
+    <result column="receiveTime" property="receivetime" jdbcType="TIMESTAMP" />
+    <result column="returnTime" property="returntime" jdbcType="TIMESTAMP" />
+    <result column="thirdNo" property="thirdno" jdbcType="VARCHAR" />
+    <result column="tradeNo" property="tradeno" jdbcType="VARCHAR" />
+    <result column="outNo" property="outno" jdbcType="VARCHAR" />
+    <result column="isPrint" property="isprint" jdbcType="VARCHAR" />
+    <result column="presentStatus" property="presentstatus" jdbcType="VARCHAR" />
+    <result column="orderType" property="ordertype" jdbcType="VARCHAR" />
+    <result column="memberName" property="membername" jdbcType="VARCHAR" />
+    <result column="incomeStatus" property="incomestatus" jdbcType="INTEGER" />
+    <result column="returnStatus" property="returnstatus" jdbcType="VARCHAR" />
+    <result column="cardId" property="cardid" jdbcType="INTEGER" />
+    <result column="cardCode" property="cardcode" jdbcType="VARCHAR" />
+    <result column="cardTypeName" property="cardtypename" jdbcType="VARCHAR" />
+    <result column="feeReduce" property="feereduce" jdbcType="INTEGER" />
+    <result column="freight" property="freight" jdbcType="INTEGER" />
+    <result column="deliveryName" property="deliveryname" jdbcType="VARCHAR" />
+    <result column="deliveryOrderNo" property="deliveryorderno" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="regson" property="regson" jdbcType="VARCHAR" />
+    <result column="receiver" property="receiver" jdbcType="VARCHAR" />
+    <result column="receiverPhone" property="receiverphone" jdbcType="VARCHAR" />
+    <result column="ext1" property="ext1" jdbcType="VARCHAR" />
+    <result column="ext2" property="ext2" jdbcType="VARCHAR" />
+    <result column="ext3" property="ext3" jdbcType="VARCHAR" />
+    <result column="isSendTip" property="issendtip" jdbcType="VARCHAR" />
+    <result column="mallType" property="malltype" jdbcType="VARCHAR" />
+    <result column="plusMoney" property="plusmoney" jdbcType="INTEGER" />
+    <result column="preferentialPrice" property="preferentialprice" jdbcType="INTEGER" />
+    <result column="fullName" property="fullName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, memberId, mobilePhone, openId, fee, nums, addressId, payType, payStatus, orderBrand,
+    orderPayResource, addTime, payTime, sendTime, receiveTime, returnTime, thirdNo, tradeNo,
+    outNo, isPrint, presentStatus, orderType, memberName, incomeStatus, returnStatus,
+    cardId, cardCode, cardTypeName, feeReduce, freight, deliveryName, deliveryOrderNo,
+    address, regson, receiver, receiverPhone, ext1, ext2, ext3, isSendTip, mallType,
+    plusMoney, preferentialPrice,sumFee
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.order.bean.OrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from mr_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from mr_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mr_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.goods.order.bean.OrderExample" >
+    delete from mr_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.order.bean.Order" useGeneratedKeys="true" keyProperty="id" >
+    insert into mr_order (memberId, mobilePhone, openId,
+    fee, nums, addressId,
+    payType, payStatus, orderBrand,
+    orderPayResource, addTime, payTime,
+    sendTime, receiveTime, returnTime,
+    thirdNo, tradeNo, outNo,
+    isPrint, presentStatus, orderType,
+    memberName, incomeStatus, returnStatus,
+    cardId, cardCode, cardTypeName,
+    feeReduce, freight, deliveryName,
+    deliveryOrderNo, address, regson,
+    receiver, receiverPhone, ext1,
+    ext2, ext3, isSendTip,
+    mallType, plusMoney, preferentialPrice
+    )
+    values (#{memberid,jdbcType=INTEGER}, #{mobilephone,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR},
+    #{fee,jdbcType=INTEGER}, #{nums,jdbcType=INTEGER}, #{addressid,jdbcType=INTEGER},
+    #{paytype,jdbcType=VARCHAR}, #{paystatus,jdbcType=VARCHAR}, #{orderbrand,jdbcType=VARCHAR},
+    #{orderpayresource,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP}, #{paytime,jdbcType=TIMESTAMP},
+    #{sendtime,jdbcType=TIMESTAMP}, #{receivetime,jdbcType=TIMESTAMP}, #{returntime,jdbcType=TIMESTAMP},
+    #{thirdno,jdbcType=VARCHAR}, #{tradeno,jdbcType=VARCHAR}, #{outno,jdbcType=VARCHAR},
+    #{isprint,jdbcType=VARCHAR}, #{presentstatus,jdbcType=VARCHAR}, #{ordertype,jdbcType=VARCHAR},
+    #{membername,jdbcType=VARCHAR}, #{incomestatus,jdbcType=INTEGER}, #{returnstatus,jdbcType=VARCHAR},
+    #{cardid,jdbcType=INTEGER}, #{cardcode,jdbcType=VARCHAR}, #{cardtypename,jdbcType=VARCHAR},
+    #{feereduce,jdbcType=INTEGER}, #{freight,jdbcType=INTEGER}, #{deliveryname,jdbcType=VARCHAR},
+    #{deliveryorderno,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{regson,jdbcType=VARCHAR},
+    #{receiver,jdbcType=VARCHAR}, #{receiverphone,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR},
+    #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{issendtip,jdbcType=VARCHAR},
+    #{malltype,jdbcType=VARCHAR}, #{plusmoney,jdbcType=INTEGER}, #{preferentialprice,jdbcType=INTEGER}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.order.bean.Order" useGeneratedKeys="true" keyProperty="id" >
+    insert into mr_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="memberid != null" >
+        memberId,
+      </if>
+      <if test="mobilephone != null" >
+        mobilePhone,
+      </if>
+      <if test="openid != null" >
+        openId,
+      </if>
+      <if test="fee != null" >
+        fee,
+      </if>
+      <if test="nums != null" >
+        nums,
+      </if>
+      <if test="addressid != null" >
+        addressId,
+      </if>
+      <if test="paytype != null" >
+        payType,
+      </if>
+      <if test="paystatus != null" >
+        payStatus,
+      </if>
+      <if test="orderbrand != null" >
+        orderBrand,
+      </if>
+      <if test="orderpayresource != null" >
+        orderPayResource,
+      </if>
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="paytime != null" >
+        payTime,
+      </if>
+      <if test="sendtime != null" >
+        sendTime,
+      </if>
+      <if test="receivetime != null" >
+        receiveTime,
+      </if>
+      <if test="returntime != null" >
+        returnTime,
+      </if>
+      <if test="thirdno != null" >
+        thirdNo,
+      </if>
+      <if test="tradeno != null" >
+        tradeNo,
+      </if>
+      <if test="outno != null" >
+        outNo,
+      </if>
+      <if test="isprint != null" >
+        isPrint,
+      </if>
+      <if test="presentstatus != null" >
+        presentStatus,
+      </if>
+      <if test="ordertype != null" >
+        orderType,
+      </if>
+      <if test="membername != null" >
+        memberName,
+      </if>
+      <if test="incomestatus != null" >
+        incomeStatus,
+      </if>
+      <if test="returnstatus != null" >
+        returnStatus,
+      </if>
+      <if test="cardid != null" >
+        cardId,
+      </if>
+      <if test="cardcode != null" >
+        cardCode,
+      </if>
+      <if test="cardtypename != null" >
+        cardTypeName,
+      </if>
+      <if test="feereduce != null" >
+        feeReduce,
+      </if>
+      <if test="freight != null" >
+        freight,
+      </if>
+      <if test="deliveryname != null" >
+        deliveryName,
+      </if>
+      <if test="deliveryorderno != null" >
+        deliveryOrderNo,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="regson != null" >
+        regson,
+      </if>
+      <if test="receiver != null" >
+        receiver,
+      </if>
+      <if test="receiverphone != null" >
+        receiverPhone,
+      </if>
+      <if test="ext1 != null" >
+        ext1,
+      </if>
+      <if test="ext2 != null" >
+        ext2,
+      </if>
+      <if test="ext3 != null" >
+        ext3,
+      </if>
+      <if test="issendtip != null" >
+        isSendTip,
+      </if>
+      <if test="malltype != null" >
+        mallType,
+      </if>
+      <if test="plusmoney != null" >
+        plusMoney,
+      </if>
+      <if test="preferentialprice != null" >
+        preferentialPrice,
+      </if>
+      <if test="sumFee != null" >
+        sumFee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="memberid != null" >
+        #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="mobilephone != null" >
+        #{mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=INTEGER},
+      </if>
+      <if test="nums != null" >
+        #{nums,jdbcType=INTEGER},
+      </if>
+      <if test="addressid != null" >
+        #{addressid,jdbcType=INTEGER},
+      </if>
+      <if test="paytype != null" >
+        #{paytype,jdbcType=VARCHAR},
+      </if>
+      <if test="paystatus != null" >
+        #{paystatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderbrand != null" >
+        #{orderbrand,jdbcType=VARCHAR},
+      </if>
+      <if test="orderpayresource != null" >
+        #{orderpayresource,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paytime != null" >
+        #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendtime != null" >
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receivetime != null" >
+        #{receivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returntime != null" >
+        #{returntime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thirdno != null" >
+        #{thirdno,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeno != null" >
+        #{tradeno,jdbcType=VARCHAR},
+      </if>
+      <if test="outno != null" >
+        #{outno,jdbcType=VARCHAR},
+      </if>
+      <if test="isprint != null" >
+        #{isprint,jdbcType=VARCHAR},
+      </if>
+      <if test="presentstatus != null" >
+        #{presentstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertype != null" >
+        #{ordertype,jdbcType=VARCHAR},
+      </if>
+      <if test="membername != null" >
+        #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="incomestatus != null" >
+        #{incomestatus,jdbcType=INTEGER},
+      </if>
+      <if test="returnstatus != null" >
+        #{returnstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cardid != null" >
+        #{cardid,jdbcType=INTEGER},
+      </if>
+      <if test="cardcode != null" >
+        #{cardcode,jdbcType=VARCHAR},
+      </if>
+      <if test="cardtypename != null" >
+        #{cardtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="feereduce != null" >
+        #{feereduce,jdbcType=INTEGER},
+      </if>
+      <if test="freight != null" >
+        #{freight,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryname != null" >
+        #{deliveryname,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryorderno != null" >
+        #{deliveryorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="regson != null" >
+        #{regson,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null" >
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverphone != null" >
+        #{receiverphone,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="issendtip != null" >
+        #{issendtip,jdbcType=VARCHAR},
+      </if>
+      <if test="malltype != null" >
+        #{malltype,jdbcType=VARCHAR},
+      </if>
+      <if test="plusmoney != null" >
+        #{plusmoney,jdbcType=INTEGER},
+      </if>
+      <if test="preferentialprice != null" >
+        #{preferentialprice,jdbcType=INTEGER},
+      </if>
+      <if test="sumFee != null" >
+        #{sumFee,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.goods.order.bean.OrderExample" resultType="java.lang.Integer" >
+    select count(*) from mr_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update mr_order
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberid != null" >
+        memberId = #{record.memberid,jdbcType=INTEGER},
+      </if>
+      <if test="record.mobilephone != null" >
+        mobilePhone = #{record.mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openid != null" >
+        openId = #{record.openid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fee != null" >
+        fee = #{record.fee,jdbcType=INTEGER},
+      </if>
+      <if test="record.nums != null" >
+        nums = #{record.nums,jdbcType=INTEGER},
+      </if>
+      <if test="record.addressid != null" >
+        addressId = #{record.addressid,jdbcType=INTEGER},
+      </if>
+      <if test="record.paytype != null" >
+        payType = #{record.paytype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paystatus != null" >
+        payStatus = #{record.paystatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderbrand != null" >
+        orderBrand = #{record.orderbrand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderpayresource != null" >
+        orderPayResource = #{record.orderpayresource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addtime != null" >
+        addTime = #{record.addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.paytime != null" >
+        payTime = #{record.paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sendtime != null" >
+        sendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.receivetime != null" >
+        receiveTime = #{record.receivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.returntime != null" >
+        returnTime = #{record.returntime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.thirdno != null" >
+        thirdNo = #{record.thirdno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeno != null" >
+        tradeNo = #{record.tradeno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outno != null" >
+        outNo = #{record.outno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isprint != null" >
+        isPrint = #{record.isprint,jdbcType=VARCHAR},
+      </if>
+      <if test="record.presentstatus != null" >
+        presentStatus = #{record.presentstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordertype != null" >
+        orderType = #{record.ordertype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.membername != null" >
+        memberName = #{record.membername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.incomestatus != null" >
+        incomeStatus = #{record.incomestatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.returnstatus != null" >
+        returnStatus = #{record.returnstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardid != null" >
+        cardId = #{record.cardid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cardcode != null" >
+        cardCode = #{record.cardcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardtypename != null" >
+        cardTypeName = #{record.cardtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feereduce != null" >
+        feeReduce = #{record.feereduce,jdbcType=INTEGER},
+      </if>
+      <if test="record.freight != null" >
+        freight = #{record.freight,jdbcType=INTEGER},
+      </if>
+      <if test="record.deliveryname != null" >
+        deliveryName = #{record.deliveryname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliveryorderno != null" >
+        deliveryOrderNo = #{record.deliveryorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regson != null" >
+        regson = #{record.regson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiver != null" >
+        receiver = #{record.receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiverphone != null" >
+        receiverPhone = #{record.receiverphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext1 != null" >
+        ext1 = #{record.ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext2 != null" >
+        ext2 = #{record.ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext3 != null" >
+        ext3 = #{record.ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issendtip != null" >
+        isSendTip = #{record.issendtip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.malltype != null" >
+        mallType = #{record.malltype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.plusmoney != null" >
+        plusMoney = #{record.plusmoney,jdbcType=INTEGER},
+      </if>
+      <if test="record.preferentialprice != null" >
+        preferentialPrice = #{record.preferentialprice,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update mr_order
+    set id = #{record.id,jdbcType=INTEGER},
+    memberId = #{record.memberid,jdbcType=INTEGER},
+    mobilePhone = #{record.mobilephone,jdbcType=VARCHAR},
+    openId = #{record.openid,jdbcType=VARCHAR},
+    fee = #{record.fee,jdbcType=INTEGER},
+    nums = #{record.nums,jdbcType=INTEGER},
+    addressId = #{record.addressid,jdbcType=INTEGER},
+    payType = #{record.paytype,jdbcType=VARCHAR},
+    payStatus = #{record.paystatus,jdbcType=VARCHAR},
+    orderBrand = #{record.orderbrand,jdbcType=VARCHAR},
+    orderPayResource = #{record.orderpayresource,jdbcType=VARCHAR},
+    addTime = #{record.addtime,jdbcType=TIMESTAMP},
+    payTime = #{record.paytime,jdbcType=TIMESTAMP},
+    sendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+    receiveTime = #{record.receivetime,jdbcType=TIMESTAMP},
+    returnTime = #{record.returntime,jdbcType=TIMESTAMP},
+    thirdNo = #{record.thirdno,jdbcType=VARCHAR},
+    tradeNo = #{record.tradeno,jdbcType=VARCHAR},
+    outNo = #{record.outno,jdbcType=VARCHAR},
+    isPrint = #{record.isprint,jdbcType=VARCHAR},
+    presentStatus = #{record.presentstatus,jdbcType=VARCHAR},
+    orderType = #{record.ordertype,jdbcType=VARCHAR},
+    memberName = #{record.membername,jdbcType=VARCHAR},
+    incomeStatus = #{record.incomestatus,jdbcType=INTEGER},
+    returnStatus = #{record.returnstatus,jdbcType=VARCHAR},
+    cardId = #{record.cardid,jdbcType=INTEGER},
+    cardCode = #{record.cardcode,jdbcType=VARCHAR},
+    cardTypeName = #{record.cardtypename,jdbcType=VARCHAR},
+    feeReduce = #{record.feereduce,jdbcType=INTEGER},
+    freight = #{record.freight,jdbcType=INTEGER},
+    deliveryName = #{record.deliveryname,jdbcType=VARCHAR},
+    deliveryOrderNo = #{record.deliveryorderno,jdbcType=VARCHAR},
+    address = #{record.address,jdbcType=VARCHAR},
+    regson = #{record.regson,jdbcType=VARCHAR},
+    receiver = #{record.receiver,jdbcType=VARCHAR},
+    receiverPhone = #{record.receiverphone,jdbcType=VARCHAR},
+    ext1 = #{record.ext1,jdbcType=VARCHAR},
+    ext2 = #{record.ext2,jdbcType=VARCHAR},
+    ext3 = #{record.ext3,jdbcType=VARCHAR},
+    isSendTip = #{record.issendtip,jdbcType=VARCHAR},
+    mallType = #{record.malltype,jdbcType=VARCHAR},
+    plusMoney = #{record.plusmoney,jdbcType=INTEGER},
+    preferentialPrice = #{record.preferentialprice,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.order.bean.Order" >
+    update mr_order
+    <set >
+      <if test="memberid != null" >
+        memberId = #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="mobilephone != null" >
+        mobilePhone = #{mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        openId = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="fee != null" >
+        fee = #{fee,jdbcType=INTEGER},
+      </if>
+      <if test="nums != null" >
+        nums = #{nums,jdbcType=INTEGER},
+      </if>
+      <if test="addressid != null" >
+        addressId = #{addressid,jdbcType=INTEGER},
+      </if>
+      <if test="paytype != null" >
+        payType = #{paytype,jdbcType=VARCHAR},
+      </if>
+      <if test="paystatus != null" >
+        payStatus = #{paystatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderbrand != null" >
+        orderBrand = #{orderbrand,jdbcType=VARCHAR},
+      </if>
+      <if test="orderpayresource != null" >
+        orderPayResource = #{orderpayresource,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paytime != null" >
+        payTime = #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendtime != null" >
+        sendTime = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receivetime != null" >
+        receiveTime = #{receivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returntime != null" >
+        returnTime = #{returntime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thirdno != null" >
+        thirdNo = #{thirdno,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeno != null" >
+        tradeNo = #{tradeno,jdbcType=VARCHAR},
+      </if>
+      <if test="outno != null" >
+        outNo = #{outno,jdbcType=VARCHAR},
+      </if>
+      <if test="isprint != null" >
+        isPrint = #{isprint,jdbcType=VARCHAR},
+      </if>
+      <if test="presentstatus != null" >
+        presentStatus = #{presentstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertype != null" >
+        orderType = #{ordertype,jdbcType=VARCHAR},
+      </if>
+      <if test="membername != null" >
+        memberName = #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="incomestatus != null" >
+        incomeStatus = #{incomestatus,jdbcType=INTEGER},
+      </if>
+      <if test="returnstatus != null" >
+        returnStatus = #{returnstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cardid != null" >
+        cardId = #{cardid,jdbcType=INTEGER},
+      </if>
+      <if test="cardcode != null" >
+        cardCode = #{cardcode,jdbcType=VARCHAR},
+      </if>
+      <if test="cardtypename != null" >
+        cardTypeName = #{cardtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="feereduce != null" >
+        feeReduce = #{feereduce,jdbcType=INTEGER},
+      </if>
+      <if test="freight != null" >
+        freight = #{freight,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryname != null" >
+        deliveryName = #{deliveryname,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryorderno != null" >
+        deliveryOrderNo = #{deliveryorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="regson != null" >
+        regson = #{regson,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null" >
+        receiver = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverphone != null" >
+        receiverPhone = #{receiverphone,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        ext2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        ext3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="issendtip != null" >
+        isSendTip = #{issendtip,jdbcType=VARCHAR},
+      </if>
+      <if test="malltype != null" >
+        mallType = #{malltype,jdbcType=VARCHAR},
+      </if>
+      <if test="plusmoney != null" >
+        plusMoney = #{plusmoney,jdbcType=INTEGER},
+      </if>
+      <if test="preferentialprice != null" >
+        preferentialPrice = #{preferentialprice,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.order.bean.Order" >
+    update mr_order
+    set memberId = #{memberid,jdbcType=INTEGER},
+      mobilePhone = #{mobilephone,jdbcType=VARCHAR},
+      openId = #{openid,jdbcType=VARCHAR},
+      fee = #{fee,jdbcType=INTEGER},
+      nums = #{nums,jdbcType=INTEGER},
+      addressId = #{addressid,jdbcType=INTEGER},
+      payType = #{paytype,jdbcType=VARCHAR},
+      payStatus = #{paystatus,jdbcType=VARCHAR},
+      orderBrand = #{orderbrand,jdbcType=VARCHAR},
+      orderPayResource = #{orderpayresource,jdbcType=VARCHAR},
+      addTime = #{addtime,jdbcType=TIMESTAMP},
+      payTime = #{paytime,jdbcType=TIMESTAMP},
+      sendTime = #{sendtime,jdbcType=TIMESTAMP},
+      receiveTime = #{receivetime,jdbcType=TIMESTAMP},
+      returnTime = #{returntime,jdbcType=TIMESTAMP},
+      thirdNo = #{thirdno,jdbcType=VARCHAR},
+      tradeNo = #{tradeno,jdbcType=VARCHAR},
+      outNo = #{outno,jdbcType=VARCHAR},
+      isPrint = #{isprint,jdbcType=VARCHAR},
+      presentStatus = #{presentstatus,jdbcType=VARCHAR},
+      orderType = #{ordertype,jdbcType=VARCHAR},
+      memberName = #{membername,jdbcType=VARCHAR},
+      incomeStatus = #{incomestatus,jdbcType=INTEGER},
+      returnStatus = #{returnstatus,jdbcType=VARCHAR},
+      cardId = #{cardid,jdbcType=INTEGER},
+      cardCode = #{cardcode,jdbcType=VARCHAR},
+      cardTypeName = #{cardtypename,jdbcType=VARCHAR},
+      feeReduce = #{feereduce,jdbcType=INTEGER},
+      freight = #{freight,jdbcType=INTEGER},
+      deliveryName = #{deliveryname,jdbcType=VARCHAR},
+      deliveryOrderNo = #{deliveryorderno,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      regson = #{regson,jdbcType=VARCHAR},
+      receiver = #{receiver,jdbcType=VARCHAR},
+      receiverPhone = #{receiverphone,jdbcType=VARCHAR},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      ext2 = #{ext2,jdbcType=VARCHAR},
+      ext3 = #{ext3,jdbcType=VARCHAR},
+      isSendTip = #{issendtip,jdbcType=VARCHAR},
+      mallType = #{malltype,jdbcType=VARCHAR},
+      plusMoney = #{plusmoney,jdbcType=INTEGER},
+      preferentialPrice = #{preferentialprice,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="queryOrderByPage" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.order.bean.OrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from mr_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="queryOrderProductExportExcel" parameterType="com.mcoding.emis.goods.order.bean.OrderExample" resultType="map">
+  	SELECT
+		o.id,
+		o.outNo,
+		'佛山昌大昌大沥宝盈店' as dealer,
+		o.openId,
+		FORMAT(o.sumFee/100,2) as fee,
+		FORMAT((o.fee-o.freight)/100,2) as mallFee,
+		o.payTime,
+		o.payType,
+		o.nums as orderProductNum,
+		mp.productName,
+		mp.productNo,
+		mp.barCode as productCode,
+		p.nums,
+		'件' as unit,
+		FORMAT(mp.discountPrice/100,2) as discountPrice,
+		FORMAT(mp.originalPrice/100,2) as originalPrice 
+	FROM
+		(
+			SELECT
+				<include refid="Base_Column_List" />
+		    from mr_order
+			    <if test="_parameter != null" >
+			      <include refid="Example_Where_Clause" />
+			    </if>
+			    <if test="orderByClause != null" >
+			      order by ${orderByClause}
+			    </if>
+		) o
+	LEFT JOIN mr_member_address a ON o.addressId = a.id,
+	 mr_order_products p,
+	 mr_product mp
+	WHERE
+		o.id = p.orderId
+	AND p.productId = mp.productId;
+  </select>
+  
+  
+  <select id="queryOrderListExportExcel" parameterType="com.mcoding.emis.goods.order.bean.OrderExample" resultType="map">
+	  SELECT
+		o.id,
+		o.outNo,
+		o.nums,
+		o.addTime,
+		o.payTime,
+		o.openId,
+		FORMAT(o.sumFee/100,2) as fee,
+		FORMAT((o.fee-o.freight)/100,2) as mallFee,
+		o.payStatus,
+		a.`name`,
+		a.phone,
+		a.address,
+		a.regson,
+		'佛山昌大昌大沥宝盈店' as dealer
+	FROM
+		(
+			SELECT
+				<include refid = "Base_Column_List" />
+			FROM
+				mr_order 
+				<if test="_parameter != null" > 
+					<include refid="Example_Where_Clause" /> 
+				</if> 
+				<if test="orderByClause != null" >
+					ORDER BY ${orderByClause} 
+				</if>
+		) o
+	LEFT JOIN mr_member_address a ON o.addressId = a.id
+  </select>
+  <!-- 插入 订单的发货信息到临时表 -->
+  <insert id="insertOrderDeliveryTmpData" parameterType="list">
+    insert into tmp_order_delivery (orderNo, deliveryOrderNo, deliveryName)
+    values 
+    <foreach collection="list" item="delivery" separator="," >
+    (#{delivery.orderNo,jdbcType=VARCHAR}, #{delivery.deliveryOrderNo,jdbcType=VARCHAR},#{delivery.deliveryName,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <update id="updateOrderDeliveryStatus">
+    UPDATE 
+      mr_order o, tmp_order_delivery d
+    SET
+      o.deliveryOrderNo = d.deliveryOrderNo,
+      o.deliveryName = d.deliveryName,
+      o.payStatus = '已发货',
+      d.isUpdate = 1
+    WHERE
+      o.outNo = d.orderNo and
+      d.isUpdate = 0
+  </update>
+  
+  <select id="isOverProductQuota" parameterType="map" resultType="int">
+        SELECT count(*) from mr_order o INNER JOIN mr_order_products p on o.id = p.orderId
+     and p.productId=#{productId}
+     and o.openId = #{openId}
+  </select>
+  <select id="isOverProductQuotas" parameterType="map" resultType="int">
+        SELECT sum(p.nums) from mr_order o left JOIN mr_order_products p on o.id = p.orderId
+     and p.productId=#{productId}
+     and o.openId = #{openId}
+     <if test="startTime != null and startTime != ''">
+     	and o.addTime &gt;= #{startTime}
+     </if>
+     <if test="endTime != null and endTime != ''">
+     	and o.addTime &lt;= #{endTime}
+     </if>
+  </select>
+  <select id="queryProductNumber" parameterType="map" resultType="int">
+        SELECT sum(p.nums) from mr_order o left JOIN mr_order_products p on o.id = p.orderId
+     and p.productId=#{productId}
+     <if test="startTime != null and startTime != ''">
+     	and o.addTime &gt;= #{startTime}
+     </if>
+     <if test="endTime != null and endTime != ''">
+     	and o.addTime &lt;= #{endTime}
+     </if>
+  </select>
+    
+   <!-- 统计会员订单的抽奖次数 -->
+  <select id="sumTotalFeeGroupByOpenid" parameterType="map" resultType="com.mcoding.emis.goods.order.bean.Order">
+        SELECT SUM(fee) totalfee,openId from mr_order where addTime BETWEEN #{param1} and #{param2}
+         and (payStatus='待发货' or payStatus='已发货' or payStatus='已完成')  GROUP BY openId
+order by addTime DESC
+    </select>
+    
+    <!-- 统计当天前3名的订单 -->
+  <select id="getTop3OrderList" resultType="com.mcoding.emis.goods.order.bean.Order">
+        SELECT * from mr_order where to_days(addTime) = to_days(now()) ORDER BY fee DESC LIMIT 3;
+    </select>
+    
+    <!-- 根据ID查询出所对应的订单信息      select * from mr_order where id=#{id}-->
+    <select id="getIDList" parameterType="int" resultType="com.mcoding.emis.goods.order.bean.Order">
+    	   select * from mr_order where id=#{id}
+    </select>
+   
+   <!-- 统计三天前好友未接受的订单 --> 
+   <select id="getNotReceiveProductIn3Days" resultMap="BaseResultMap">
+	SELECT * FROM mr_order
+	WHERE presentStatus = '待接受'
+	AND DATEDIFF(NOW(), payTime) > 3
+	AND id NOT IN
+		(SELECT order_id FROM template_message_record a
+		WHERE a.template_message_id IN
+			(SELECT b.id FROM template_message b WHERE b.type LIKE '%present_not_get'))
+    </select>
+
+  <select id="isFirstTimeOrder" parameterType="map" resultType="int">
+    SELECT count(*) from mr_order where addTime >= #{param2} and openid = #{param1}
+    and (payStatus='待发货' or payStatus='已发货' or payStatus='已完成')
+  </select>
+
+  <select id="isFirstBuyProductByOrder" parameterType="map" resultType="int">
+    SELECT count(*) from mr_order o, mr_order_products op where o.id = op.orderId
+     and o.openid = #{param1} and op.productId = #{param2} and o.addTime >= #{param3}
+    and (o.payStatus='待发货' or o.payStatus='已发货' or o.payStatus='已完成')
+  </select>
+  <select id="queryOrderSendDetailExportExcel" parameterType="map" resultType="map">
+    SELECT
+		mop.productName as productName,
+		mp.productNo as productNo,
+		mp.barCode as productCode,
+		mop.nums as nums,
+		mp.unit as unit,
+		FORMAT(mp.originalPrice/100,2) as originalPrice,
+		FORMAT(mop.price/100,2) as discountPrice
+	FROM
+		mr_order_products mop
+	LEFT JOIN mr_product mp ON mop.productId = mp.productId
+	WHERE mop.orderId = #{orderId}
+  </select>
+  
+  <select id="selectByPrimaryKeyExcel" resultType="map" parameterType="java.lang.Integer" >
+    select
+	    mo.id, mo.memberId, mo.mobilePhone, mo.openId, FORMAT((mo.fee-mo.freight)/100,2) as fee, mo.nums, mo.addressId, mo.payType, mo.payStatus, mo.orderBrand,
+	    mo.orderPayResource, mo.addTime, mo.payTime, mo.sendTime, mo.receiveTime, mo.returnTime, mo.thirdNo, mo.tradeNo,
+	    mo.outNo, mo.isPrint, mo.presentStatus, mo.orderType, mo.memberName, mo.incomeStatus, mo.returnStatus,
+	    mo.cardId, mo.cardCode, mo.cardTypeName, mo.feeReduce, mo.freight, mo.deliveryName, mo.deliveryOrderNo,
+	    mo.address, mo.regson, mo.receiver, mo.receiverPhone, mo.ext1, mo.ext2, mo.ext3, mo.isSendTip, mo.mallType,
+	    mo.plusMoney, FORMAT(mo.preferentialPrice/100,2) as preferentialPrice,mm.fullName
+	    
+    from mr_order mo left join mr_member mm on mo.memberId = mm.memberId
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="querPreferentialprice" parameterType="map" resultType="java.lang.String">
+  	SELECT
+		FORMAT(sum(mop.nums * mp.originalPrice)/100,2)
+	FROM
+		mr_order_products mop
+	LEFT JOIN mr_product mp ON mp.productId = mop.productId
+	WHERE
+		mop.orderId = #{id}
+  </select>
+
+</mapper>

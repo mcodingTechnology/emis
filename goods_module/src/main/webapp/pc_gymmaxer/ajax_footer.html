@@ -1,0 +1,36 @@
+<script type="text/javascript">
+	vm.$set('footerLogo', 'img/logo-footer.png');
+
+	$(window).scroll(function() {
+		if($("body").scrollTop() >= 320) {
+			$("#scrollTop").fadeIn()
+		} else {
+			$("#scrollTop").fadeOut()
+		}
+	});
+</script>
+
+<div class="bui_bgc_black bui_ptb_48 bui_ts_12 bui_tc_white_d96 bui_tc_white_d72_a bui_tc_red_h">
+	<div class="bui_auto_w">
+		<div class="bui_media bui_vm">
+			<div class="bui_media_l">
+				<img src="{{footerLogo}}" style="height: 48px;" onmouseover="vm.$set('footerLogo', 'img/logo-footer-fullcolor.png')" onmouseleave="vm.$set('footerLogo', 'img/logo-footer.png')" />
+			</div>
+			<div class="bui_media_b">
+				<p>COPYRIGHT 2015-2018 @ mcoding.cn 广州熹鼎信息科技有限公司版权所有 | 备案号：粤ICP备15049824号-2</p>
+			</div>
+			<div class="bui_media_r bui_ta_r">
+				<!-- p><i class="fa fa-phone fa-fw bui_ts_20_i"></i> <span class="bui_ts_20">4009-313-999</span></p -->
+				<p>
+					<a href="javascript:;">站点地图</a>/
+					<a href="javascript:;">使用条款</a>/
+					<a href="javascript:;">隐私政策</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--返回顶部按钮-->
+<button class="bui_btn bui_btn_48 bui_btn_sq bui_bgc_black_f72" id="scrollTop" style="position:fixed;right: 24px;bottom: 24px;display: none;" onclick="$('body').animate({'scrollTop':0},300)"><i class="fa fa-arrow-up"></i></button>
+<!--返回顶部按钮-->

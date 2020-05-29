@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mcoding.emis.goods.product.persistence.ChannelProductMapper">
+	<resultMap type="com.mcoding.emis.goods.product.bean.ChannelProduct" id="BaseResultMap">
+		<id column="id" property="id" jdbcType="INTEGER" />
+	    <result column="channel_id" property="channelId" jdbcType="INTEGER" />
+	    <result column="dealer_name" property="dealerName" jdbcType="VARCHAR" />
+	    <result column="product_id" property="productId" jdbcType="INTEGER" />
+	    <result column="productName" property="productName" jdbcType="VARCHAR" />
+	    <result column="product_inventory" property="productInventory" jdbcType="INTEGER" />
+	    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="queryChannelProductData" parameterType="com.mcoding.emis.goods.product.bean.ChannelProductExample" resultMap="BaseResultMap">
+		select
+		  <if test="distinct" >
+		    distinct
+		  </if>
+		  'true' as QUERYID,
+		  <include refid="Base_Column_List" />
+		  from t_channel_product_ref cpr,t_channel_dealer cd,mr_product mp
+		  <if test="_parameter != null" >
+		    <include refid="Example_Where_Clause" />
+		  </if>
+		  <if test="orderByClause != null" >
+		    order by ${orderByClause}
+		  </if>
+	</select>
+	
+	<sql id="Base_Column_List">
+		cpr.id,cpr.channel_id,cpr.product_id,cpr.product_inventory,cpr.create_time,cpr.last_update_time,cd.dealer_name,mp.productName
+	</sql>
+	<sql id="Example_Where_Clause">
+		<where>
+			1=1
+			<foreach collection="oredCriteria" item="criteria" separator="or" >
+		        <if test="criteria.valid" >
+		          <trim prefix="(" suffix=")" prefixOverrides="and" >
+		            <foreach collection="criteria.criteria" item="criterion" >
+		              <choose >
+		                <when test="criterion.noValue" >
+		                  and ${criterion.condition}
+		                </when>
+		                <when test="criterion.singleValue" >
+		                  and ${criterion.condition} #{criterion.value}
+		                </when>
+		                <when test="criterion.betweenValue" >
+		                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+		                </when>
+		                <when test="criterion.listValue" >
+		                  and ${criterion.condition}
+		                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+		                    #{listItem}
+		                  </foreach>
+		                </when>
+		              </choose>
+		            </foreach>
+		          </trim>
+		        </if>
+			</foreach>
+			and mp.productId = cpr.product_id
+			and cd.id = cpr.channel_id
+		</where>
+	</sql>
+	<insert id="addChannelProduct" parameterType="com.mcoding.emis.goods.product.bean.ChannelProduct">
+		insert into t_channel_product_ref (
+			channel_id,
+			product_id,
+			product_inventory,
+			create_time,
+			last_update_time
+		) values (
+			#{channelId,jdbcType=INTEGER},
+			#{productId,jdbcType=INTEGER},
+			#{productInventory,jdbcType=INTEGER},
+			#{createTime,jdbcType=TIMESTAMP},
+			#{lastUpdateTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<select id="queryById" parameterType="map" resultType="com.mcoding.emis.goods.product.bean.ChannelProduct">
+		select id as id,channel_id as channelId,product_id as productId,
+				product_inventory as productInventory,create_time as createTime,last_update_time as lastUpdateTime
+		from t_channel_product_ref where id = #{id}
+	</select>
+	<update id="updateChannelProductId" parameterType="com.mcoding.emis.goods.product.bean.ChannelProduct">
+		update t_channel_product_ref
+		<set>
+			<if test="channelId != null">
+				channel_id = #{channelId,jdbcType=INTEGER},
+			</if>
+			<if test="productId != null">
+				product_id = #{productId,jdbcType=INTEGER},
+			</if>
+			<if test="productInventory != null">
+				product_inventory = #{productInventory,jdbcType=INTEGER},
+			</if>
+			<if test="lastUpdateTime != null">
+				last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<delete id="deleteChannelProduct" parameterType="map">
+		delete from t_channel_product_ref where id = #{id}
+	</delete>
+</mapper>

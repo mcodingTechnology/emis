@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" />
+		<title>极智构 - 摇一摇领奖品</title>
+		<script src="workspace_v2.0.1.js" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script src="../baidiui/js/jQuery.md5.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="public.js"></script>
+		<script src="../../resources/js/common/wechatShare.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				wechatSharePublic("我发现了一个拯救加班狗神器，快来看看吧！", "100条加班狗已经被拯救！", "", false, "", "/activity/we_20160317_shakeByshake/images/share_logo.jpg");
+				});
+		</script>
+		<script type="text/javascript">
+			var _prizeid='';
+			var _prizename='';
+			var _ext='';
+			$(document).ready(function() {
+				var _dh = $(document).height();
+				$('.wm_alert').css({
+					'height': _dh + 'px'
+				});
+				//测试用
+				$('.wm_shake_am').click(function() {
+					_gift();
+				});
+				init();
+			});
+			 //摇一摇
+			var SHAKE_THRESHOLD = 3000;
+			var last_update = 0;
+			var x = y = z = last_x = last_y = last_z = 0;
+			var _isruning = 0
+
+			function init() {
+				if (window.DeviceMotionEvent) {
+					window.addEventListener('devicemotion', deviceMotionHandler, false);
+				} else {
+					alert('换个手机吧，亲，你的手机不支持摇一摇');
+				}
+			};
+
+			function deviceMotionHandler(eventData) {
+				var acceleration = eventData.accelerationIncludingGravity;
+				var curTime = new Date().getTime();
+				if ((curTime - last_update) > 100) {
+					var diffTime = curTime - last_update;
+					last_update = curTime;
+					x = acceleration.x;
+					y = acceleration.y;
+					z = acceleration.z;
+					var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+					if (speed > SHAKE_THRESHOLD && _isruning == 0) {
+						_gift();
+					}
+					last_x = x;
+					last_y = y;
+					last_z = z;
+				}
+			};
+			 //抽奖
+			function _gift() {
+				if (_isruning == 0) {
+					_isruning = 1;
+					$.ajax({
+						type: "get",
+						url: url + "/merriplusApi/shakeGetCard",
+						async: true,
+						data: {
+							gameid: _gameid
+						},
+						error: function() {
+							buijs_alert({
+								content: '数据提取失败...',
+								timeout: 0
+							});
+						},
+						success: function(data) {
+							if ($('.wm_alert').hasClass('active')) {} else {
+								//声音
+								$('#kaca')[0].play();
+								//code  0中奖，1异常，2没抽中，3奖品领完，4已经中过奖，5游戏过期，6游戏未开始，7超过抽奖的限制次数
+								if (data.code == 0) {
+									$('#content').html('<p>恭喜你中奖啦！</p><p>今天你好运爆表啊！</p><a href="javascript:getGift('+data.data.id+');" class="bui_btn_48 bui_bgc_orange bui_block bui_radius bui_mt_32">戳我领奖</a>').show();
+									_prizeid=data.data.id;
+								}
+								if (data.code == 1) {
+									$('#content').html('<p style="font-size:16px;">网络颠簸，再来一次吧！</p><a href="javascript:_alerthide();" class="bui_btn_48 bui_block bui_bgc_orange bui_radius bui_mt_32" style="font-size:16px;">再来一次</a>').show();
+								}
+								if (data.code == 2) {
+									$('#content').html('<p>木有中奖，运气被外星人绑架了！</p><a href="javascript:_alerthide();" class="bui_btn_48 bui_bgc_orange bui_block bui_radius bui_mt_32">再来一次</a>').show();
+								}
+								if (data.code == 3) {
+									$('#content').html('<p>迟了一步。。。奖品已经被领完，下次趁早哦</p><a href="index.html?gameid='+_gameid+'" class="bui_btn_48 bui_bgc_orange bui_block bui_radius bui_mt_32">返回首页</a>').show();
+								}
+								if (data.code == 4) {
+									if(data.data.islottery == 1){
+										if(data.data.ext1 == "yes"){
+											$('#content').html('<p>您已经领取过奖品！转发给好友玩玩吧</p><a href="javascript:getGift('+data.data.id+');" class="bui_btn_48 bui_bgc_orange bui_block bui_radius bui_mt_32">戳我领奖</a>').show();
+											_prizeid=data.data.id;
+										}else{
+											$('#content').html('<p>恭喜你中奖啦！你的奖品等待认领哦！</p><a href="javascript:getGift('+data.data.id+');" class="bui_btn_48 bui_bgc_orange bui_block bui_radius bui_mt_32">戳我领奖</a>').show();
+											_prizeid=data.data.id;
+											
+										}	
+									}else{
+										$('#content').html('<p>您已抽过奖，不能重复抽哦!</p><a href="index.html?gameid='+_gameid+'" class="bui_btn_48 bui_bgc_orange bui_block bui_radius bui_mt_32">返回首页</a>').show();
+									}
+								}
+								if (data.code == 5) {
+									$('#content').html('<p>活动已经过期，下次趁早哦</p><a href="index.html?gameid='+_gameid+'" class="bui_btn_48 bui_bgc_orange bui_block bui_radius bui_mt_32">返回首页</a>').show();
+								}
+								if (data.code == 6) {
+									$('#content').html('<p>活动尚未开始哦~</p><a href="index.html?gameid='+_gameid+'" class="bui_btn_48 bui_bgc_orange bui_block bui_radius bui_mt_32">返回首页</a>').show();
+								}
+								if (data.code == 7) {
+									$('#content').html('<p>您今天的机会已经用完~</p><a href="index.html?gameid='+_gameid+'" class="bui_btn_48 bui_bgc_orange bui_block bui_radius bui_mt_32">返回首页</a>').show();
+								}
+								//展开弹窗
+								_alertshow();
+								_isruning = 0;
+							};
+						}
+					})
+				}
+			};
+			//领取
+			function getGift(id){
+				$.ajax({
+					type: "get",
+					url: url + "merriplusApi/accpetCardForGamePrize",
+					async: true,
+					data: {
+						gameMemberResultId: _prizeid
+					},
+					error: function() {
+						buijs_alert({
+							content: '数据提取失败...',
+							timeout: 0
+						});
+					},
+					success: function(data) {
+						var _cardcode=data.data.cardcode;
+						window.location.href = 'didi_coupons.html?cardcode='+_cardcode;
+					}
+				})	 
+			}
+			//展开弹窗
+			function _alertshow() {
+				$('.wm_alert').show();
+				$('.wm_alert').addClass('active');
+				
+			};
+			 //收起弹窗
+			function _alerthide() {
+				_isruning = 0
+				$('.wm_alert').removeClass('active');
+				setTimeout(function() {
+					$('.wm_alert,.wm_modal_content').hide();
+				}, 300);
+			};
+		</script>
+	</head>
+
+	<body class="wm_index_bg">
+
+		<div class="wm_inline wm_ta_c" id="bg">
+			<!--logo-->
+			<img src="images/logo.png" style="width: 164px; margin:24px 0;" />
+			<br />
+			<!--logo-->
+			<!--摇一摇动画-->
+			<div class="wm_shake_am" style="width: 256px; height: 256px;">
+				<img src="images/shake.png" />
+			</div>
+			<br />
+			<!--摇一摇动画-->
+			<!--说明-->
+			<div class="wm_content bui_mt_12 bui_mb_12 bui_plr_12 bui_ta_c">
+				<p class="bui_ts_16" style="font-weight: bold;">摇一摇，测运气，赢取奖品</p>
+				<p class="bui_ts_14 bui_mt_12" style="color:#816741;">（摇一摇太费劲？戳屏幕也可以抽奖哦！）</p>
+			</div>
+			<!--说明-->
+		</div>
+		<!--中奖区域-->
+		<div class="wm_alert">
+			<div class="wm_mask">
+				<div class="wm_mask_shake"></div>
+				<div class="wm_modal">
+					<img src="images/hua.png" id="hua" />
+					<div class="wm_modal_box">
+						<!--共用信息栏目-->
+						<div class="wm_modal_content bui_ta_c" id="content">
+						</div>
+						<!--共用信息栏目-->
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!--中奖区域-->
+
+		<!--声音-->
+		<audio src="images/kaca.mp3" controls="controls" hidden="true" id="kaca" style="opacity: 0; -webkit-opacity: 0; -moz-opacity: 0;">
+		</audio>
+		<!--声音-->
+	</body>
+
+</html>

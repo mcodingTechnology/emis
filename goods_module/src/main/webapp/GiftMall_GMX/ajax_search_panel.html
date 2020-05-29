@@ -1,0 +1,68 @@
+<!--搜索栏-->
+<div class="bui_p_12">
+	<form id="gm_search" class="bui_ipg_48 bui_block">
+		<button class="fa fa-search fa-fw bui_fr {{style.facFalse}}"></button>
+		<input type="text" value="" placeholder="请输入关键词" class="searchInput bui_ipt_48" />
+	</form>
+
+</div>
+<!--搜索栏-->
+<!--关键词列表-->
+<div class="bui_pb_24">
+	<div id="categoryTypeContent" class="bui_row_p_24">{{{listLoading}}}</div>
+</div>
+
+<!--关键词列表-->
+<script type="text/javascript">
+	$(document).ready(function() {
+		//全局vue
+		var vuePublic = new Vue({
+			el: 'html',
+			data: vueObj
+		});
+		//聚焦光标
+		setTimeout(function() {
+			$("#gm_search input").focus();
+		}, 300);
+		//搜索
+		$("#gm_search").submit(function(e) {
+			e.preventDefault();
+			if (buijs_formcheck_length($(this).find('input').val(), 999, 2) == false) {
+				buijs_alert({
+					content: '请至少输入两个字的关键词'
+				})
+			} else {
+				window.location.href = "gift_list.html?productName=" + escape($(this).find('input').val());
+			}
+		});
+	});
+
+	function SearchPanel() {}
+	SearchPanel.prototype.getList = function() {
+		$.getJSON(_jsonUrl + "/merriplusApi/getCategoryList?brandCode=" + vueObj.brandCode, function(result) {
+			if (result.status == "00") {
+				var content = '';
+				var data = result.data;
+				for (var i = 0; i < data.length; i++) {
+					var categoryTypeListContent = '';
+					var categoryTypeList = data[i].categoryTypeList;
+					for (var j = 0; j < categoryTypeList.length; j++) {
+						categoryTypeListContent += '<li><a href="gift_list.html?categoryId=' + categoryTypeList[j].categoryId + '" class="bui_block bui_ptb_6 bui_plr_12 ' + vueObj.style.bgc + ' bui_atc_white"><h5>' + categoryTypeList[j].categoryName + '</h5></a></li>';
+					}
+					content += '<div>' +
+						'<p class="bui_ts_12 bui_p_12">按' + data[i].categoryType + '分类</p>' +
+						'	<hr />' +
+						'	<div class="bui_avg_3 bui_row_p_12 bui_ta_c bui_ts_12 bui_p_12 bui_at_noline">' + categoryTypeListContent + '	</div>' +
+						'</div>';
+				}
+				$('#categoryTypeContent').html(content);
+			} else {
+				buijs_alert({
+					content: result.msg
+				});
+			}
+		});
+	}
+	var searchPanel = new SearchPanel();
+	searchPanel.getList();
+</script>

@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.ruleengine.persistence.RuleEngineConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.ruleengine.bean.RuleEngineConfig" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="rule_name" property="ruleName" jdbcType="VARCHAR" />
+    <result column="rule_type" property="ruleType" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="orig_price" property="origPrice" jdbcType="INTEGER" />
+    <result column="promo_price" property="promoPrice" jdbcType="INTEGER" />
+    <result column="purchase_num" property="purchaseNum" jdbcType="INTEGER" />
+    <result column="restriction_num" property="restrictionNum" jdbcType="INTEGER" />
+    <result column="stock_restriction_num" property="stockRestrictionNum" jdbcType="INTEGER" />
+    <result column="gift_product_id" property="giftProductId" jdbcType="INTEGER" />
+    <result column="gift_num" property="giftNum" jdbcType="INTEGER" />
+    <result column="promo_min_limit" property="promoMinLimit" jdbcType="INTEGER" />
+    <result column="return_back" property="returnBack" jdbcType="INTEGER" />
+    <result column="freight" property="freight" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="brand_code" property="brandCode" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="ext1" property="ext1" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, rule_name, rule_type, product_id, orig_price, promo_price, purchase_num, gift_product_id, 
+    gift_num, promo_min_limit, return_back, freight, start_time, end_time, brand_code, 
+    status, ext1, create_time, update_time,restriction_num,stock_restriction_num
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.ruleengine.bean.RuleEngineConfigExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from rule_engine_config
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rule_engine_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rule_engine_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.ruleengine.bean.RuleEngineConfig" >
+    insert into rule_engine_config (id, rule_name, rule_type, 
+      product_id, orig_price, promo_price, 
+      purchase_num, gift_product_id, gift_num, 
+      promo_min_limit, return_back, freight, 
+      start_time, end_time, brand_code, 
+      status, ext1, create_time, 
+      update_time,restriction_num,stock_restriction_num)
+    values (#{id,jdbcType=INTEGER}, #{ruleName,jdbcType=VARCHAR}, #{ruleType,jdbcType=INTEGER}, 
+      #{productId,jdbcType=INTEGER}, #{origPrice,jdbcType=INTEGER}, #{promoPrice,jdbcType=INTEGER}, 
+      #{purchaseNum,jdbcType=INTEGER}, #{giftProductId,jdbcType=INTEGER}, #{giftNum,jdbcType=INTEGER}, 
+      #{promoMinLimit,jdbcType=INTEGER}, #{returnBack,jdbcType=INTEGER}, #{freight,jdbcType=INTEGER}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{brandCode,jdbcType=VARCHAR}, 
+      #{status,jdbcType=SMALLINT}, #{ext1,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP},#{restrictionNum,jdbcType=INTEGER},#{stockRestrictionNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.ruleengine.bean.RuleEngineConfig" >
+    insert into rule_engine_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ruleName != null" >
+        rule_name,
+      </if>
+      <if test="ruleType != null" >
+        rule_type,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="origPrice != null" >
+        orig_price,
+      </if>
+      <if test="promoPrice != null" >
+        promo_price,
+      </if>
+      <if test="purchaseNum != null" >
+        purchase_num,
+      </if>
+      <if test="giftProductId != null" >
+        gift_product_id,
+      </if>
+      <if test="giftNum != null" >
+        gift_num,
+      </if>
+      <if test="promoMinLimit != null" >
+        promo_min_limit,
+      </if>
+      <if test="returnBack != null" >
+        return_back,
+      </if>
+      <if test="freight != null" >
+        freight,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="brandCode != null" >
+        brand_code,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="ext1 != null" >
+        ext1,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ruleName != null" >
+        #{ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleType != null" >
+        #{ruleType,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="origPrice != null" >
+        #{origPrice,jdbcType=INTEGER},
+      </if>
+      <if test="promoPrice != null" >
+        #{promoPrice,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseNum != null" >
+        #{purchaseNum,jdbcType=INTEGER},
+      </if>
+      <if test="giftProductId != null" >
+        #{giftProductId,jdbcType=INTEGER},
+      </if>
+      <if test="giftNum != null" >
+        #{giftNum,jdbcType=INTEGER},
+      </if>
+      <if test="promoMinLimit != null" >
+        #{promoMinLimit,jdbcType=INTEGER},
+      </if>
+      <if test="returnBack != null" >
+        #{returnBack,jdbcType=INTEGER},
+      </if>
+      <if test="freight != null" >
+        #{freight,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandCode != null" >
+        #{brandCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.ruleengine.bean.RuleEngineConfig" >
+    update rule_engine_config
+    <set >
+      <if test="ruleName != null" >
+        rule_name = #{ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleType != null" >
+        rule_type = #{ruleType,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="origPrice != null" >
+        orig_price = #{origPrice,jdbcType=INTEGER},
+      </if>
+      <if test="promoPrice != null" >
+        promo_price = #{promoPrice,jdbcType=INTEGER},
+      </if>
+      <if test="stockRestrictionNum != null" >
+        stock_restriction_num = #{stockRestrictionNum,jdbcType=INTEGER},
+      </if>
+      <if test="restrictionNum != null" >
+        restriction_num = #{restrictionNum,jdbcType=INTEGER},
+      </if>
+      <if test="giftProductId != null" >
+        gift_product_id = #{giftProductId,jdbcType=INTEGER},
+      </if>
+      <if test="giftNum != null" >
+        gift_num = #{giftNum,jdbcType=INTEGER},
+      </if>
+      <if test="promoMinLimit != null" >
+        promo_min_limit = #{promoMinLimit,jdbcType=INTEGER},
+      </if>
+      <if test="returnBack != null" >
+        return_back = #{returnBack,jdbcType=INTEGER},
+      </if>
+      <if test="freight != null" >
+        freight = #{freight,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandCode != null" >
+        brand_code = #{brandCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="ext1 != null" >
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.ruleengine.bean.RuleEngineConfig" >
+    update rule_engine_config
+    set rule_name = #{ruleName,jdbcType=VARCHAR},
+      rule_type = #{ruleType,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      orig_price = #{origPrice,jdbcType=INTEGER},
+      promo_price = #{promoPrice,jdbcType=INTEGER},
+      purchase_num = #{purchaseNum,jdbcType=INTEGER},
+      gift_product_id = #{giftProductId,jdbcType=INTEGER},
+      gift_num = #{giftNum,jdbcType=INTEGER},
+      promo_min_limit = #{promoMinLimit,jdbcType=INTEGER},
+      return_back = #{returnBack,jdbcType=INTEGER},
+      freight = #{freight,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      brand_code = #{brandCode,jdbcType=VARCHAR},
+      status = #{status,jdbcType=SMALLINT},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <sql id="Select_Ref_Statement">
+	SELECT c.*,
+       p.productName AS productName,
+       gp.productName AS giftProductName,
+       rt.type_desc AS ruleTypeName,
+       gp.`productId`
+	FROM rule_engine_config c
+	LEFT JOIN mr_product gp ON c.gift_product_id = gp.productId
+	LEFT JOIN mr_product p ON c.product_id=p.productId,
+	   rule_engine_type rt
+	WHERE c.rule_type = rt.id
+	  
+  </sql>
+  
+  
+  <select id="queryRuleEngineConfigByPage" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.ruleengine.bean.RuleEngineConfigExample">
+    <include refid="Select_Ref_Statement" />
+	<if test="_parameter != null" >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          and
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  <select id="queryRulesByProductId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	<include refid="Select_Ref_Statement" />
+		and c.status = 1
+		and c.product_id =  #{productId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryRulesByRuleType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	<include refid="Select_Ref_Statement" />
+		and c.rule_type =  #{ruleType,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryRulesByProductIds" resultMap="BaseResultMap">
+  	<include refid="Select_Ref_Statement" />
+  		and c.status = 1
+		and c.product_id in
+	   <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+       </foreach>
+  </select>
+  
+  <select id="queryRulesByExample" resultMap="BaseResultMap">
+  	<include refid="Select_Ref_Statement" />
+  	and c.status = 1
+	<if test="_parameter != null" >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          and
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  
+  <update id="updateRuleEngineConfigById" parameterType="com.mcoding.emis.goods.ruleengine.bean.RuleEngineConfig" >
+    update rule_engine_config
+    set rule_name = #{ruleName,jdbcType=VARCHAR},
+      rule_type = #{ruleType,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      orig_price = #{origPrice,jdbcType=INTEGER},
+      promo_price = #{promoPrice,jdbcType=INTEGER},
+      purchase_num = #{purchaseNum,jdbcType=INTEGER},
+      <if test="stockRestrictionNum != null" >
+        stock_restriction_num = #{stockRestrictionNum,jdbcType=INTEGER},
+      </if>
+      <if test="restrictionNum != null" >
+        restriction_num = #{restrictionNum,jdbcType=INTEGER},
+      </if>
+      gift_product_id = #{giftProductId,jdbcType=INTEGER},
+      gift_num = #{giftNum,jdbcType=INTEGER},
+      promo_min_limit = #{promoMinLimit,jdbcType=INTEGER},
+      return_back = #{returnBack,jdbcType=INTEGER},
+      freight = #{freight,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      brand_code = #{brandCode,jdbcType=VARCHAR},
+      status = #{status,jdbcType=SMALLINT},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

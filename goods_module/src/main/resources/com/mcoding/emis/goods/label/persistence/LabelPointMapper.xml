@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.mcoding.emis.goods.label.persistence.LabelPointMapper" >
+	 
+	  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.label.entity.LabelEntity" >
+		    <id column="tags_id" property="tagsId" jdbcType="INTEGER" />
+		    <result column="tags_name" property="tagsName" jdbcType="VARCHAR" />
+		    <result column="tags_Servicetype" property="tagsServicetype" jdbcType="VARCHAR" />
+		    <result column="tags_state" property="tagsState" jdbcType="VARCHAR" />
+		    <result column="tags_create_time" property="createTime" jdbcType="TIMESTAMP" />
+		     <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+	  </resultMap>
+ 
+ 
+	<!-- 非自动生成 -->
+	<!-- 自动数据分页，必须以ByPage结尾 -->
+   <select id="selectLabelByPageListByPage" parameterType="map" resultMap="BaseResultMap">
+  		select * from t_tags where  
+      	 tags_state!="x"  
+      	 <if test="tagsName != null and tagsName != ''">
+      	 	and tags_name like #{tagsName}
+      	 </if>
+       ORDER BY tags_id DESC 
+  </select>
+  
+  <insert id="insertLabel" parameterType="com.mcoding.emis.goods.label.entity.LabelEntity" >
+       insert into t_tags (tags_Name,tags_State,tags_create_time)
+   	  values (#{tagsName,jdbcType=VARCHAR},#{tagsState,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  
+  <!-- 根据id查询标签 -->
+  <select id="selectLabelById"  parameterType="java.lang.Integer" resultType="com.mcoding.emis.goods.label.entity.LabelEntity">
+      select 
+       tags_id as tagsId,
+       tags_name as tagsName,
+       tags_Servicetype as tagsServicetype,
+       tags_state as tagsState,
+       tags_create_time as createTime
+       from t_tags where tags_id = #{tagsId,jdbcType=INTEGER}
+       
+  </select>
+  
+  <update id="updateLabel" parameterType="com.mcoding.emis.member.bean.member.Member" >
+	    update t_tags
+		    <set>
+			      <if test="tagsName != null" >
+			        tags_name = #{tagsName,jdbcType=VARCHAR},
+			      </if>
+			      <if test="tagsState != null" >
+			        tags_state = #{tagsState,jdbcType=VARCHAR},
+			      </if>
+			      <if test="lastUpdateTime != null" >
+			        last_update_time = #{lastUpdateTime,jdbcType=VARCHAR},
+			      </if>
+		    </set>
+	   where tags_id = #{tagsId,jdbcType=INTEGER}
+  </update>
+  
+  
+    <update id="deleteLabelById" parameterType="com.mcoding.emis.goods.company.bean.Warehouse" >
+	    update t_tags
+		    <set >
+			        tags_state = 'x'
+		    </set>
+	   where tags_id = #{tagsId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="UserTagsEntityList" parameterType="map" resultMap="BaseResultMap">
+  		select * from t_tags where tags_state="1" or tags_state="2"
+  </select>
+  
+  
+  
+   <insert id="insertUserTags" parameterType="com.mcoding.emis.goods.label.entity.UserTagsEntity" >
+       insert into t_user_tags (tagid,openid,objId,create_time)
+   	  	values (#{tagid,jdbcType=INTEGER},#{openid,jdbcType=VARCHAR},#{objId,jdbcType=INTEGER},#{createtime,jdbcType=TIMESTAMP})
+  </insert>
+    
+  
+  <!-- 根据iD查询会员 -->
+  <select id="selectmemberById"  parameterType="java.lang.Integer" resultType="com.mcoding.emis.member.bean.member.Member">
+    select * from mr_member where memberId = #{memberId,jdbcType=INTEGER}
+  </select>
+  
+  
+  <!-- 根据会员id查询 贴过的标签 -->
+  <select id="selectUserTagsListById" parameterType="java.lang.Integer" resultType="com.mcoding.emis.goods.label.entity.UserTagsEntity">
+  		select 
+  			id as id,  
+  			openid as openid,
+  			tagid as tagid,
+  			create_time as createtime,
+  			objId as objId
+  		from t_user_tags where objId = #{objId,jdbcType=INTEGER}
+  </select>
+  
+  
+  <!-- 删除重复id -->
+   <delete id="deleteUserTagsById" parameterType="java.lang.Integer">
+		delete from
+		t_user_tags
+		where objId = #{memberId,jdbcType=INTEGER}
+	</delete>
+  
+</mapper>

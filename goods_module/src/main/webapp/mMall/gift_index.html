@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>{{global.brandName}}</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/gift_index.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body class="gym-body bui_at_noline bui_bgc_black_l72">
+		<!--主体-->
+		<div class="bui_wrap">
+			<!--提示关注公众号-->
+			<tp-plug-follow v-if="isSubscribe.data==0"></tp-plug-follow>
+			<!--提示关注公众号-->
+			<div class="bui_mo" style="top:{{isSubscribe.data==0?'3rem':'0'}}">
+				<!--页头-->
+				<div class="bui_mo_h">
+					<tp-header bgc="bui_bgc_red" righticon="fa-home" rightlink="index.html" title="美瑞克斯-积分商城"></tp-header>
+				</div>
+				<!--页头-->
+				<!--页面-->
+				<div class="bui_mo_b bui_mo_b_h gym_mo_b">
+					<!--幻灯片-->
+					<div class="bui_bgc_black" buijs_swiper :style="{'height':+global.screenSize/16*9+'px','position':'relative','overflow':'hidden'}">
+						<tp-loading-mask :hidden="loadData.banner"></tp-loading-mask>
+						<div class="box">
+							<li class="item" v-for="data in index_banner">
+								<a :href="data.link" data-bui_img class="bui_block" style="width: 100%;height: 100%;">
+									<tp-img :src="data.url" :class="bui_block"></tp-img>
+								</a>
+							</li>
+						</div>
+					</div>
+					<!--幻灯片-->
+					<!--用户面板-->
+					<div class="bui_bgc_white bui_bds_1_b bui_bds_1_t bui_avg_3 bui_tc_black_a">
+						<div class="bui_bds_1_r">
+							<a href="member_index.html" class="bui_block bui_p_12 bui_ta_c">
+								<tp-img :src="memberDetail.data.headImgUrl" class="bui_btn bui_btn_48 bui_btn_sq bui_round"></tp-img>
+								<p class="bui_ts_12 bui_mt_6">{{memberDetail.data.name}}</p>
+								<p class="bui_ts_8 bui_tc_white_d64"><i class="fa fa-database bui_tc_red_i"></i> {{memberPoint}}</p>
+							</a>
+						</div>
+						<div class="bui_bds_1_r">
+							<a href="gift_product_list.html" class="bui_block bui_p_12 bui_ta_c">
+								<div class="bui_btn bui_btn_48 bui_btn_sq bui_round bui_bgc_red"><i class="fa fa-gift"></i></div>
+								<p class="bui_ts_12 bui_mt_6">全部礼品</p>
+								<p class="bui_ts_8 bui_tc_white_d64">乐兑享不停</p>
+							</a>
+						</div>
+						<div>
+							<a href="javascript:;" class="bui_block bui_p_12 bui_ta_c">
+								<div class="bui_btn bui_btn_48 bui_btn_sq bui_round bui_bgc_purple"><i class="fa fa-gamepad"></i></div>
+								<p class="bui_ts_12 bui_mt_6">积分活动</p>
+								<p class="bui_ts_8 bui_tc_white_d64">大奖等您来</p>
+							</a>
+						</div>
+					</div>
+					<!--用户面板-->
+					<!--产品信息-->
+					<div class="bui_avg_2">
+						<div v-for="data in productArray.queryResult">
+							<tp-product-item type="gift" :href="'gift_product_detail.html?productId='+data.id" :id="data.id" :title="data.productName" :imgurl="data.coverImg" :price="data.priceList[0].value/100" :point="data.priceList[0].productPoint.exchangePoint" :pluspricepoint="data.priceList[0].productPoint.plusPricePoint"></tp-product-item>
+						</div>
+					</div>
+					<div class="bui_bgc_white">
+						<a href="gift_product_list.html" class="bui_btn bui_btn_48 bui_block bui_ts_12 bui_bds_0 bui_p_0 bui_ta_c">更多礼品 <i class="fa fa-angle-right"></i></a>
+					</div>
+
+					<!--产品信息-->
+
+					<!--版权信息-->
+					<tp-copyright></tp-copyright>
+					<!--版权信息-->
+				</div>
+				<!--页面-->
+				<!--页脚-->
+				<tp-footer-nav></tp-footer-nav>
+				<!--页脚-->
+			</div>
+		</div>
+		<!--主体-->
+		<!--购物车挂件-->
+		<tp-plug-cart name="礼品车" :cartsize="global.cartData.gift.size" ></tp-plug-cart>
+		<!--购物车挂件-->
+	</body>
+
+</html>

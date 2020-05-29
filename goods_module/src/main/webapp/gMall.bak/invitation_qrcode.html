@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<!--工作空间-->
+		<script type="text/javascript" src="workspace_v2.0.1.js"></script>
+		<!--工作空间-->
+		<script src="mp_js/invitation_qrcode.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+
+	<body class="bui_at_noline bui_bgc_white_d12">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_bgc_white bui_tc_black bui_fac_black bui_ahtc_black bui_bsd_6">
+					<div class="bui_media bui_vm">
+						<div class="bui_media_l bui_p_0">
+							<button class="bui_btn_32 bui_btnsq fa fa-home bui_m_8 {{style.facFalse}}" onclick="javascript:window.location.href='index.html';"></button>
+						</div>
+						<div class="bui_media_b">专属二维码</div>
+						<div class="bui_media_r bui_pr_12"></div>
+					</div>
+				</div>
+				<!--页头-->
+				<div class="bui_mo_b bui_mo_b_h">
+					<!--主屏幕_页头-->
+					<div class="bui_p_24">
+						<div class="bui_plr_24">
+							<img id="imgQrcode" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" width="100%" class="bui_bsd_12">
+						</div>
+						<div class="bui_ts_12 bui_mt_12">这是你的专属二维码，保存并发给好友，好友通过此二维码关注BIG生活公众号，你即可获得50积分，没有上限！</div>
+						<div class="bui_ts_12 bui_mt_12">小贴士：专属二维码会定期自动更新。如您发现二维码过期，只需回到此页面，系统将为您生成新码。</div>
+						
+						<!--我的_主体-->
+					</div>
+
+					<div class="bui_bgc_white bui_bds_1">
+						<p class="bui_ta_c bui_p_12 bui_ts_14"><i class="fa fa-user fa-fw {{style.facTrue}}"></i> 最新加入好友</p>
+						<div id="newUser"></div>
+					</div>
+					<div id="pageTips" class="bui_p_12 bui_ta_c {{style.tcFalse}}">
+<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> 正在加载中...
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+</html>

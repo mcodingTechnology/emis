@@ -1,0 +1,361 @@
+/*共用样式*/
+/*首页*/
+
+.wm_index_bg {
+	background-color: #fc0;
+}
+.wm_index_bg .index_bg {
+	background-image: url(images/index_bg.png);
+	background-position: center bottom;
+	background-size: 100% auto;
+}
+/*标题动画*/
+
+.wm_index_title {
+	animation: index_title 3s linear infinite;
+	-webkit-animation: index_title 3s linear infinite;
+	-moz-animation: index_title 3s linear infinite;
+}
+@keyframes index_title {
+	0% {
+		transform: scale(1);
+	}
+	5% {
+		transform: scale(1.1);
+	}
+	10% {
+		transform: scale(1);
+	}
+	15% {
+		transform: scale(1.1);
+	}
+	20% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+@-webkit-keyframes index_title {
+	0% {
+		-webkit-transform: scale(1);
+	}
+	5% {
+		-webkit-transform: scale(1.1);
+	}
+	10% {
+		-webkit-transform: scale(1);
+	}
+	15% {
+		-webkit-transform: scale(1.1);
+	}
+	20% {
+		-webkit-transform: scale(1);
+	}
+	100% {
+		-webkit-transform: scale(1);
+	}
+}
+@-moz-keyframes index_title {
+	0% {
+		-moz-transform: scale(1);
+	}
+	5% {
+		-moz-transform: scale(1.1);
+	}
+	10% {
+		-moz-transform: scale(1);
+	}
+	15% {
+		-moz-transform: scale(1.1);
+	}
+	20% {
+		-moz-transform: scale(1);
+	}
+	100% {
+		-moz-transform: scale(1);
+	}
+}
+/*按钮*/
+
+.wm_index_btn {
+	transition: all 0.1s;
+	-webkit-transition: all 0.1s;
+	-moz-transition: all 0.1s;
+}
+.wm_index_btn.hit {
+	margin: 4px 0 0 4px;
+}
+/*对话框*/
+
+.wm_comment {
+	display: block;
+	overflow: hidden;
+	clear: both;
+	padding: 12px;
+	font-size: 14px;
+	color: #333;
+	/*transition: all 0.1s;
+	-webkit-transition: all 0.1s;
+	-moz-transition: all 0.1s;
+	opacity: 0;
+	transform: scale(0);
+	-webkit-transform: scale(0);
+	-moz-transform: scale(0);*/
+}
+/*.wm_comment.on {
+	opacity: 1;
+	transform: scale(1);
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+}*/
+
+.wm_comment>* {
+	display: table-cell;
+	vertical-align: top;
+}
+/*对话框——头像*/
+
+.wm_comment_face h2 {
+	width: 64px;
+	height: 64px;
+	padding: 6px;
+	background-color: #fff;
+	border-radius: 10000px;
+}
+.wm_comment_face span {
+	display: block;
+	width: 52px;
+	height: 52px;
+	border-radius: 10000px;
+	overflow: hidden;
+}
+.wm_comment_face img {
+	width: 100%;
+	height: 100%;
+}
+.wm_comment_face h5 {
+	width: 64px;
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align: center;
+	font-size: 12px;
+	color: #666;
+}
+/*对话框——内容*/
+
+.wm_comment_content {
+	width: 100000px;
+}
+.wm_comment_content_box {
+	border-radius: 6px;
+	padding: 12px;
+	margin: 0 12px;
+	position: relative;
+}
+.wm_comment_content_box:before {
+	content: '';
+	width: 12px;
+	height: 12px;
+	position: absolute;
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+}
+.wm_comment_left .wm_comment_content_box {
+	background-color: #fff;
+}
+.wm_comment_left .wm_comment_content_box:before {
+	background-color: #fff;
+	left: -6px;
+}
+.wm_comment_right .wm_comment_content_box {
+	background-color: #D9C9B4;
+}
+.wm_comment_right .wm_comment_content_box:before {
+	background-color: #D9C9B4;
+	right: -6px;
+}
+/*对话框——选项*/
+
+.wm_comment_select {
+	display: block;
+}
+.wm_comment_select a {
+	text-decoration: none;
+	display: block;
+	background-color: #48A1A3;
+	color: #fff;
+	padding: 6px;
+	margin-top: 6px;
+	border-radius: 6px;
+}
+.wm_comment_select a:hover,
+.wm_comment_select a.hit {
+	background-color: #E8907C;
+}
+.wm_comment_select a.active {
+	background-color: #fff;
+	border: 1px #48A1A3 solid;
+	color: #48A1A3;
+}
+/*摇一摇*/
+
+.wm_shake_am {
+	position: relative;
+	overflow: hidden;
+}
+.am_bgflash,
+.am_hand {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.am_bgflash {
+	z-index: 0;
+	background-image: url(./images/mask_shake.png);
+	background-position: center center;
+	background-size: 100% 100%;
+	animation: flash 3s linear infinite;
+	-webkit-animation: flash 3s linear infinite;
+	-moz-animation: flash 3s linear infinite;
+}
+.am_hand {
+	z-index: 1;
+	animation: shake 0.2s linear infinite;
+	-webkit-animation: shake 0.2s linear infinite;
+	-moz-animation: shake 0.2s linear infinite;
+}
+@keyframes shake {
+	0% {
+		transform: rotate(0);
+	}
+	50% {
+		transform: rotate(20deg);
+	}
+	100% {
+		transform: rotate(0deg);
+	}
+}
+@-webkit-keyframes shake {
+	0% {
+		-webkit-transform: rotate(0);
+	}
+	50% {
+		-webkit-transform: rotate(20deg);
+	}
+	100% {
+		-webkit-transform: rotate(0deg);
+	}
+}
+@-moz-keyframes shake {
+	0% {
+		-moz-transform: rotate(0);
+	}
+	50% {
+		-moz-transform: rotate(20deg);
+	}
+	100% {
+		-moz-transform: rotate(0deg);
+	}
+}
+@keyframes flash {
+	0% {
+		transform: rotate(0);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+@-webkit-keyframes flash {
+	0% {
+		-webkit-transform: rotate(0);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+	}
+}
+@-moz-keyframes flash {
+	0% {
+		-moz-transform: rotate(0);
+	}
+	100% {
+		-moz-transform: rotate(360deg);
+	}
+}
+/*摇一摇说明*/
+
+.wm_content {
+	color: #816741;
+}
+/*中奖信息*/
+
+.wm_modal {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	top: 0;
+	left: 0;
+	transition: all 0.3s;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	opacity: 0;
+	transform: scale(1.5);
+	-webkit-transform: scale(1.5);
+	-moz-transform: scale(1.5);
+	z-index: 999;
+}
+.wm_modal.active {
+	opacity: 1;
+	transform: scale(1);
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+}
+.wm_modal_flash {
+	width: 960px;
+	height: 960px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -480px 0 0 -480px;
+	animation: mask_shake 10s linear infinite;
+	-webkit-animation: mask_shake 10s linear infinite;
+	-moz-animation: mask_shake 10s linear infinite;
+	z-index: 0;
+}
+@keyframes mask_shake {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+@-webkit-keyframes mask_shake {
+	from {
+		-webkit-transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(360deg);
+	}
+}
+@-moz-keyframes mask_shake {
+	from {
+		-moz-transform: rotate(0deg);
+	}
+	to {
+		-moz-transform: rotate(360deg);
+	}
+}
+.wm_modal_detail {
+	position: absolute;
+	left: 5%;
+	right: 5%;
+	z-index: 1;
+}

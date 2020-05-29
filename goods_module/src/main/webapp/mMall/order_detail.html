@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>{{global.brandName}}</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/order_detail.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/order_public.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body class="gym-body bui_at_noline">
+
+		<!--主体-->
+		<div class="bui_wrap bui_bgc_white_d12 bui_tc_black bui_tc_black_a">
+			<!--提示关注公众号-->
+			<tp-plug-follow v-if="isSubscribe.data==0"></tp-plug-follow>
+			<!--提示关注公众号-->
+			<div class="bui_mo" style="top:{{isSubscribe.data==0?'48px':'0'}}">
+				<!--页头-->
+				<div class="bui_mo_h">
+
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="index.html" title="订单详情"></tp-header>
+
+				</div>
+				<!--页头-->
+				<template v-if="!memberDetail||!memberDetail.data||!orderDetail||!orderDetail.data">
+					<div class="bui_mo_b bui_mo_b_h">
+						<!--loadingbar-->
+						<tp-loadingbar type="loading"></tp-loadingbar>
+						<!--loadingbar-->
+				</template>
+				<template v-else>
+					<!--页面-->
+					<div class="bui_mo_b bui_mo_b_h bui_mo_b_f gym_mo_b">
+						<div class="bui_p_12 bui_ts_14">
+							<div class="bui_row_p_12">
+								<!--订单状态信息-->
+								<div>
+									<template v-for="nav in orderPublic_nav">
+										<div v-if="nav.status==orderDetail.data.status" class="{{nav.bgc}} bui_tc_white bui_p_24 bui_radius bui_ta_c">
+											<div class="bui_inline bui_ta_c bui_mt_12">
+												<div class="bui_round bui_bds_4 bui_bdc_white" style="width: 4rem;height: 4rem;">
+													<i class="{{nav.icon}} bui_ts_32_i" style="line-height: 4rem;"></i>
+												</div>
+											</div>
+											<p><span class="bui_ts_16">{{nav.title}}</span></p>
+											<p class="bui_tc_white_f72">编号:{{orderDetail.data.orderNo}}</p>
+										</div>
+									</template>
+								</div>
+								<!--订单状态信息-->
+
+								<!--收货信息-->
+								<div>
+									<div class="bui_bgc_white bui_bds_1 bui_radius">
+										<tp-titleitem title="收货人信息"></tp-titleitem>
+										<!--无收货人信息-->
+										<template v-if="!orderDetail.data.address||!orderDetail.data.addressReveiver||!orderDetail.data.addressRegson||!orderDetail.data.addressPhone">
+											<div class="bui_bds_1_t bui_p_12 bui_ts_14 bui_tc_red_i">
+												<p class="bui_tc_white_d64 bui_ta_c">暂无收获人信息...</p>
+											</div>
+										</template>
+										<!--无收货人信息-->
+										<!--有收货人信息-->
+										<template v-else>
+											<div class="bui_bds_1_t bui_p_12 bui_ts_14 bui_tc_red_i">
+												<div class="bui_inline bui_vm bui_row_p_12">
+													<li><i class="fa fa-user fa-fw"></i> {{orderDetail.data.addressReveiver}}</li>
+													<li><i class="fa fa-phone fa-fw"></i> {{orderDetail.data.addressPhone}}</li>
+												</div>
+												<div>
+													<i class="fa fa-map-marker fa-fw"></i> {{orderDetail.data.addressRegson}} {{orderDetail.data.address}}
+												</div>
+											</div>
+										</template>
+										<!--有收货人信息-->
+
+										<!--有物流信息-->
+										<template v-if="!orderDetail.data.deliveryName||!orderDetail.data.deliveryCode">
+											<div class="bui_bds_1_t bui_p_12 bui_tc_green bui_ta_c">正在紧张配货中，暂无物流信息</div>
+										</template>
+										<!--有物流信息-->
+										<template v-else>
+											<a href="http://m.kuaidi100.com/result.jsp?nu={{orderDetail.data.deliveryCode}}" class="bui_media bui_vm bui_bds_1_t bui_p_12">
+												<div class="bui_media_b">
+													<div class="bui_inline bui_ts_12">
+														<p>物流公司：<span class="bui_tc_green bui_ts_14">{{orderDetail.data.deliveryName}}</span></p>
+														<p>单号：<span class="bui_tc_green bui_ts_14">{{orderDetail.data.deliveryCode}}</span></p>
+													</div>
+												</div>
+												<div class="bui_media_r">
+													<button class="bui_btn bui_btn_24 bui_btn_sq bui_round bui_bgc_red"><i class="fa fa-angle-right"></i></button>
+												</div>
+											</a>
+										</template>
+									</div>
+
+								</div>
+								<!--收货信息-->
+
+								<!--商品&赠品-->
+								<div>
+									<div class="bui_bgc_white bui_bds_1 bui_radius" v-if="orderDetail.data.orderProductList.length!=0">
+										<tp-titleitem title="订单物品"></tp-titleitem>
+
+										<com-order-product-item v-for="data in orderDetail.data.orderProductList" v-if="showAllProducts?$index >= 0:$index < 3" :title="data.productName" :price="data.productPrice/100" :nums="data.nums" :imgurl="data.productImg"></com-order-product-item>
+										<label class="bui_p_12 bui_block bui_bds_1_t" v-if="orderDetail.data.orderProductList.length>3">
+											<p class="bui_ta_c bui_ts_14 bui_tc_white_d64" v-if="!showAllProducts">查看全部商品 <i class="fa fa-angle-down fa-fw"></i></p>
+											<p class="bui_ta_c bui_ts_14 bui_tc_white_d64" v-else>收起 <i class="fa fa-angle-up fa-fw"></i></p>
+											<input type="checkbox" name="" id="" value="" v-model="showAllProducts" style="display: none;" />
+										</label>
+									</div>
+								</div>
+								<!--商品&赠品-->
+								<!--价格信息-->
+								<div>
+									<div class="bui_bds_1 bui_radius bui_bgc_white">
+										<tp-titleitem title="价格信息" v-else></tp-titleitem>
+										<!--订单总价-->
+										<com-order-price-item title="订单总价" tc="bui_tc_red" :payprice="orderDetail.data.amountTotal/100" :origprice="0" v-if="orderDetail.data.amountTotal&&orderDetail.data.amountTotal!=0"></com-order-price-item>
+										<!--订单总价-->
+										<!--订单总价-->
+										<com-order-price-item title="扣除积分" tc="bui_tc_red" :paypoint="orderDetail.data.point" :origprice="0" v-if="orderDetail.data.point&&orderDetail.data.point!=0"></com-order-price-item>
+										<!--订单总价-->
+										<!--运费-->
+										<com-order-price-item title="运费" :payprice="orderDetail.data.freight/100"></com-order-price-item>
+										<!--运费-->
+										<template v-if="orderDetail.data.sceneCode!='metrxgiftmall'">
+											<!--礼品总价-->
+											<com-order-price-item v-if="!memberDetail.data.parentMemberId&&urlData.productLabel&&orderDetail.data.giftPrice!=0" title="礼品总价" :payprice="orderDetail.data.giftPrice/100"></com-order-price-item>
+											<!--礼品总价-->
+											<!--卡券优惠-->
+											<com-order-price-item v-if="!memberDetail.data.parentMemberId" title="卡券优惠" :payprice=""></com-order-price-item>
+											<!--卡券优惠-->
+											<!--活动优惠-->
+											<com-order-price-item v-if="!memberDetail.data.parentMemberId&&urlData.productLabel&&orderDetail.data.preferentialPrice!=0" title="活动优惠" :payprice="orderDetail.data.preferentialPrice/100"></com-order-price-item>
+											<!--活动优惠-->
+										</template>
+									</div>
+								</div>
+								<!--价格信息-->
+							</div>
+						</div>
+					</div>
+					<!--页面-->
+					<!--页脚-->
+					<div class="bui_mo_f bui_bgc_white bui_bds_1_t">
+						<!--待支付-->
+						<template v-if="orderDetail.data.status==100">
+							<div class="bui_p_8">
+								<div class="bui_avg_2 bui_row_p_12">
+									<li>
+										<a href="javascript:orderPublic_action({{orderDetail.data.id}},'取消');" class="bui_btn bui_btn_48 bui_block bui_bgc_white_d64 bui_ts_16 bui_vm bui_ta_c bui_tc_white_a">
+											<i class="fa fa-close fa-fw"></i> 取消订单
+										</a>
+									</li>
+									<li>
+										<a href="order_pay.html?orderId={{orderDetail.data.id}}" class="bui_btn bui_btn_48 bui_block bui_bgc_red bui_ts_16 bui_vm bui_ta_c bui_tc_white_a">
+											<i class="fa fa-rmb fa-fw"></i> 去支付 <i class="fa fa-angle-right fa-fw"></i>
+										</a>
+									</li>
+								</div>
+
+							</div>
+						</template>
+						<!--待支付-->
+						<!--待发货-->
+						<template v-if="orderDetail.data.status==200">
+							<template v-if="orderDetail.data.presentStatus==1">
+								<div class="bui_p_8">
+									<button onclick="window.location.href='order_pay.html?orderId={{orderDetail.data.id}}'" class="bui_btn bui_btn_48 bui_block bui_bgc_red bui_ts_16 bui_vm bui_ta_c bui_tc_white_a"><i class="fa fa-rmb fa-fw"></i> 继续赠送 <i class="fa fa-angle-right fa-fw"></i>
+								</button>
+								</div>
+							</template>
+							<template v-else>
+								<div class="bui_p_8">
+									<button class="bui_btn bui_btn_48 bui_block bui_bgc_white_d64 bui_ts_16 bui_vm bui_ta_c bui_tc_white">宝贝在路上！</button>
+								</div>
+							</template>
+						</template>
+						<!--待发货-->
+						<!--已发货-->
+						<template v-if="orderDetail.data.status==300">
+							<div class="bui_p_8">
+								<button class="bui_btn bui_btn_48 bui_block bui_bgc_red bui_ts_16 bui_vm bui_ta_c" onclick="orderPublic_action({{orderDetail.data.id}},'收货')">确认收货</button>
+							</div>
+						</template>
+						<!--已发货-->
+						<!--已完成-->
+						<template v-if="orderDetail.data.status==400||orderDetail.data.status==600">
+							<template v-if="orderDetail.data.sceneCode=='metrxmall'">
+								<div class="bui_p_8">
+									<button class="bui_btn bui_btn_48 bui_block bui_bgc_red bui_ts_16 bui_vm bui_ta_c" onclick="orderPublic_return({{orderDetail.data.id}})">退换货</button>
+								</div>
+							</template>
+							<template v-else>
+								<div class="bui_p_8">
+									<button class="bui_btn bui_btn_48 bui_block bui_bgc_white_d64 bui_ts_16 bui_vm bui_ta_c bui_tc_white">订单已完成</button>
+								</div>
+							</template>
+
+						</template>
+						<!--已完成-->
+					</div>
+					</div>
+					<!--页脚-->
+				</template>
+			</div>
+		</div>
+		<!--主体-->
+	</body>
+
+</html>

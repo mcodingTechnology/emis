@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<script type="text/javascript" src='./workspace.js'></script>
+	<script type="text/javascript" src='./js/award.js'></script>
+	<!-- 引入微信JSJDK -->
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<title>BIG生活《猴运抢先抓》</title>
+</head>
+<body>
+	<div class="helpFriend content">
+		<div class="scoreWarp">
+			<!-- 中奖 个人信息填写 -->
+			<div id="isAward" style="display:none">
+				<div class="headBg" style="padding-top: 35px;">
+					<img src="./images/wrap_01.png">
+				</div>
+				<div class="scoreContent_info" id='isAward'>
+					<p class="scroeText bui_tc_white bui_ts_32 tc_bold bui_tc_yellow">信息填写</p>
+					<p class="table_p bui_ts_16 bui_tc_white" style="text-align: center;padding-bottom: 10px">您获得了:&nbsp;&nbsp;<span id="giftName"></span></p>
+					<p class="table_p bui_ts_12 bui_tc_white">请准确填写以下信息，一经填写，不可修改。</p>
+					<p class="table_p bui_ts_12 bui_tc_white">奖品将在活动结束后15个工作日内寄出。</p>
+					<!-- <p class="input" id='name'>姓名:<input type="text" ></p>
+					<p class="input" id='telphone'>电话:<input maxlength="11" type="tel" ></p>
+					<p class="input" id='address'>地址:<input type="text" ></p>
+					<p class="bg_yellow table_sbmit tc_92310B bui_ts_24" id='submit'>提交</p> -->
+					<div class="bui_media bui_vm bui_mlr_24 bui_bgc_black_64 bui_radius bui_tc_white" style="margin-top: 10px">
+						<div class="bui_media_l bui_plr_12">
+							姓名：
+						</div>
+						<div class="bui_media_b bui_pr_12">
+							<input type="" name="" id="name" value="" style="width:100%;" class="bui_tc_white" />
+						</div>
+					</div>
+					<div class="bui_media bui_vm bui_mlr_24 bui_bgc_black_64 bui_radius bui_tc_white" style="margin-top: 10px">
+						<div class="bui_media_l bui_plr_12">
+							手机：
+						</div>
+						<div class="bui_media_b bui_pr_12">
+							<input type="tel" name="" maxlength="11" id="telphone" value="" style="width:100%;" class="bui_tc_white" />
+						</div>
+					</div>
+					<div class="bui_media bui_vm bui_mlr_24 bui_bgc_black_64 bui_radius bui_tc_white " style="margin-top: 10px">
+						<div class="bui_media_l bui_plr_12">
+							地址：
+						</div>
+						<div class="bui_media_b bui_pr_12">
+							<input type="" name="" id="address" value="" style="width:100%;" class="bui_tc_white" />
+						</div>
+					</div>
+					<p class="bg_yellow table_sbmit tc_92310B bui_ts_24" id='submit'>提交</p>
+				<div class="footBg">
+					<img src="./images/wrap_03.png">
+				</div>
+			</div>
+
+			<!-- 没有中奖不显示表格填写信息 -->
+			<div id="notAward">
+				<div class="headBg" style="padding-top: 35px;">
+						<img src="./images/result_01.png">
+					</div>
+				<div class="scoreContent_info" id='notAward' style="./images/result_02.png"> 
+					<p class="bui_tc_white bui_ts_24">空空如也</p>
+					<p class="bg_yellow table_sbmit tc_92310B bui_ts_24" onclick="javascript:window.location.href='./index.html'">返回</p>
+				</div>
+				<div class="footBg">
+					<img src="./images/result_03.png">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

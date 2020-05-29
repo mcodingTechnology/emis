@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<!--工作空间-->
+		<script type="text/javascript" src="workspace_v2.0.1.js"></script>
+		<!--工作空间-->
+		<script src="mp_js/integral.js" type="text/javascript"></script>
+		<title></title>
+	</head>
+
+	<body class="bui_at_noline bui_bgc_white_d12">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+
+				<!--页头-->
+				<div class="bui_mo_h bui_bgc_white bui_tc_black bui_fac_black bui_ahtc_black bui_bsd_6">
+					<div class="bui_media bui_vm">
+						<div class="bui_media_l bui_p_0">
+							<button class="bui_btn_32 bui_btnsq fa fa-angle-left bui_m_8 {{style.facFalse}}" onclick="javascript:window.history.go(-1);"></button>
+						</div>
+						<div class="bui_media_b">积分明细</div>
+						<div class="bui_media_r bui_pr_12"></div>
+					</div>
+				</div>
+				<!--页头-->
+				<!--页面-->
+				<div class="bui_mo_b bui_mo_b_h">
+					<!--头像-->
+					<div class="bui_ptb_48 bui_bsd_6 {{style.bgc}}" style="position: relative;">
+
+						<div class="bui_inline bui_ta_c bui_pt_48" style="position: absolute;top: -8px;padding-left: 50%;margin-left: -50px;">
+							<div class="bui_bgc_white bui_round bui_p_6 bui_bsd_12">
+								<div class="ImgC bui_round" style="width: 96px; height: 96px;">
+									<img src="" style="width: 96px; height: 96px;" id="headimgurl" />
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!--头像-->
+					<!--积分开始-->
+					<div class="bui_media bui_vm bui_mtb_12 bui_plr_24  bui_block ">
+						<div class="bui_media_l bui_ts_12 bui_ta_c">
+							<p>全部积分</p>
+							<p class="bui_ts_24 {{style.tcTrue}}"  id="allPoints">0</p>
+						</div>
+						<div class="bui_media_b">
+
+						</div>
+						<div class="bui_media_r bui_ts_12 bui_ta_c">
+							<p>可用积分</p>
+							<p class="bui_ts_24 {{style.tcTrue}}" id="enabledPoints">0</p>
+						</div>
+
+					</div>
+					<!--积分结束-->
+
+					<div id="integral"></div>
+					<!--加载中-->
+					<div class="bui_mtb_24 bui_ta_c {{style.tcFalse}}"  id="loadingTips"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>正在加载更多...</div>
+					<!--加载中-->
+
+				</div>
+				<!--页面-->
+
+			</div>
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="baidiui/css/baidiui.css" />
+		<link rel="stylesheet" type="text/css" href="baidiui/css/font-awesome-4.3.0/css/font-awesome.css" />
+		<link rel="stylesheet" href="style.css" type="text/css" />
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery.lazyload.min.js"></script>
+		<script type="text/javascript" src="js/baidiui.js"></script>
+		<script src="public2.js" type="text/javascript" charset="utf-8"></script>
+		<script src="public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="mp_js/didi_coupons.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<title>兑换券 - 极智构-微商城 Merryplus Mall</title>
+		<style type="text/css">
+			.mp_didi_panel {
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				overflow-y:auto;
+			}
+			#mp_product {
+				z-index: 1;
+				transform: translateX(100%);
+				-webkit-transform: translateX(100%);
+				-moz-transform: translateX(100%);
+				transition: all 0.3s;
+				-webkit-transition: all 0.3s;
+				-moz-transition: all 0.3s;
+			}
+			#mp_product.active {
+				transform: translateX(0);
+				-webkit-transform: translateX(0);
+				-moz-transform: translateX(0);
+			}
+			#mp_product2 {
+				z-index: 1;
+				transform: translateX(100%);
+				-webkit-transform: translateX(100%);
+				-moz-transform: translateX(100%);
+				transition: all 0.3s;
+				-webkit-transition: all 0.3s;
+				-moz-transition: all 0.3s;
+			}
+			#mp_product2.active {
+				transform: translateX(0);
+				-webkit-transform: translateX(0);
+				-moz-transform: translateX(0);
+			}
+			
+			#mp_product2 input[type=radio] {
+				position: absolute;
+				clip: rect(0, 0, 0, 0);
+			}
+		</style>
+	</head>
+
+	<body style="overflow: hidden;">
+		<!--礼品信息-->
+		<div class="mp_didi_panel bui_bgc_orange bui_tc_white bui_ptb_96 active" id="mp_product">
+			<div class=" bui_inline bui_ta_c">
+				<div class="bui_p_6 bui_bgc_white bui_round bui_bsd_24" style="width: 128px; height: 128px; margin: 0 auto;">
+					<img id="productImg" src="#" style="width: 128px; height: 128px;  padding-right: 12px;" />
+				</div>
+			</div>
+			<div class="bui_plr_24 bui_ta_c">
+				<p class="bui_ts_12 bui_mt_24 bui_tc_o64">恭喜你！兑换成功~ 您获得极智构提供的礼品
+				</p>
+				<p class="bui_mt_12 bui_ts_24" id="productName">
+				</p>
+				<!--按钮-->
+				<a href="javascript:;" class="address_confirm bui_btn_48 bui_bgc_white bui_tc_orange bui_btn_noline bui_radius bui_block bui_mt_12">填写收货信息<i class="fa fa-angle-right fa-fw"></i></a>
+				<!--按钮-->
+			</div>
+
+		</div>
+		<!--礼品信息-->
+		<!--礼品信息(套装)-->
+		<div class="mp_didi_panel bui_bgc_orange bui_tc_white bui_pt_32 bui_plr_12  " id="mp_product2">
+			<div class="bui_plr_12 productList"  style="height: 60%;overflow-y: auto;-webkit-overflow-scrolling: touch;" >
+				<!--<input id="product1" name="product" type="radio" checked="checked" />
+				<label for="product1" class="bui_media bui_vm bui_mtb_12 bui_p_12 bui_bgc_white bui_radius">
+					<div class="bui_media_l ">
+						<i class="fa fa-circle-o fa-fw bui_fac_orange bui_fas_24 "></i>
+					</div>
+					<div class="bui_media_b bui_ta_c">
+						<img style="width: 96px; height: 96px; " src="images/product1.png" />
+					</div>
+					<div class="bui_media_r "  style="white-space:normal;width: 45%;">
+						<p class="bui_ts_14" style="overflow: hidden;height: 46px;">蛋白质蛋白质蛋白质蛋白质蛋白质蛋白质蛋白质蛋白质蛋白质蛋白质</p>
+						 
+						<p class="bui_ts_12"><span class="bui_tc_lgray">数量: </span><span>x1</span></p>
+						<p class="bui_ts_12 mp_price">原价: <span>￥188</span></p>
+						<p class="bui_ts_12"><span class="bui_tc_lgray">折扣价: </span><span class="bui_tc_orange">￥128</span></p>
+					</div>
+				</label>-->
+			 
+				 
+				 
+				<!--<div class="bui_p_6 bui_bgc_white bui_round bui_bsd_24" style="width: 128px; height: 128px; margin: 0 auto;">
+					<img id="productImg" src="#" style="width: 128px; height: 128px;  padding-right: 12px;" />
+				</div>-->
+			</div>
+			<div class="bui_plr_24 bui_ta_c" style="position: absolute;bottom: 32px;height: 132px;">
+				<p class="bui_ts_12 bui_mt_24 bui_tc_o64">恭喜你！兑换成功~ 您获得极智构提供的礼品,选择你喜欢的吧~~
+				</p>
+				<p class="bui_mt_12 bui_ts_24" id="productName">
+				</p>
+				<!--按钮-->
+				<a href="javascript:;" class="address_confirm2 bui_btn_48 bui_bgc_white bui_tc_orange bui_btn_noline bui_radius bui_block bui_mt_12">填写收货信息<i class="fa fa-angle-right fa-fw"></i></a>
+				<!--按钮-->
+			</div>
+
+		</div>
+		<!--礼品信息(套装)-->
+		<script type="text/javascript">
+		 
+		 
+		</script>
+	</body>
+
+</html>

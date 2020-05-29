@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<!--工作空间-->
+		<script type="text/javascript" src="workspace_v2.0.1.js"></script>
+		<!--工作空间-->
+		<!--当前页面-->
+		<script src="mp_js/order_list_new.js" type="text/javascript"></script>
+		<script src="mp_js/order_public.js" type="text/javascript"></script>
+		<title></title>
+	</head>
+
+	<body class="bui_at_noline bui_bgc_white_d12">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_bgc_white bui_bsd_6" style="height: 96px;">
+					<div class="{{style.bgc}}" >
+						<div class="bui_media bui_vm bui_tc_white bui_atc_white bui_fac_white">
+							<div class="bui_media_l bui_p_0">
+								<a href="personal_center.html" class="bui_btn_32 bui_btnsq bui_m_8"><i class="fa fa-angle-left"></i></a>
+							</div>
+							<div class="bui_media_b">
+								<p>我的订单</p>
+							</div>
+						</div>
+					</div>
+					<!--列表导航-->
+					<div class="bui_bgc_white bui_ta_c bui_ts_12 bui_p_6 bui_atc_black bui_avg_7" id="orderListNav">
+						<a href="?payStatus=" class="bui_ptb_6 bui_block bui_radius {{style.btnTrue}}">全部</a>
+						<a href="?payStatus=待支付" class="bui_ptb_6 bui_block bui_radius">待支付</a>
+						<a href="?payStatus=待发货" class="bui_ptb_6 bui_block bui_radius">待发货</a>
+						<a href="?payStatus=已发货" class="bui_ptb_6 bui_block bui_radius">已发货</a>
+						<a href="?payStatus=已完成" class="bui_ptb_6 bui_block bui_radius">已完成</a>
+						<a href="?payStatus=退换货" class="bui_ptb_6 bui_block bui_radius">退换货</a>
+						<a href="?payStatus=待接受" class="bui_ptb_6 bui_block bui_radius">待接受</a>
+					</div>
+					<!--列表导航-->
+				</div>
+				<!--页头-->
+				<!--页面-->
+				<div class="bui_mo_b bui_mo_b_h" style="top: 96px;">
+					<div id="in">
+						<!--列表-->
+						<div class="bui_ptb_12">
+							<div id="orderListBox">
+
+							</div>
+						</div>
+						<!--列表-->
+						<!--提示-->
+						<p id="orderTipsBox" class="bui_p_24 bui_ta_c bui_tc_white_d48">正在加载更多...</p>
+						<!--提示-->
+					</div>
+				</div>
+				<!--页面-->
+			</div>
+		</div>
+	</body>
+
+</html>

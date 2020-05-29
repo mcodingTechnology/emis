@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>防伪积分</title>
+		<!-- <script type="text/javascript" src="../resources/js/front/wechat/mrmjUtil.js"></script> -->
+		<!--工作空间-->
+		<script type="text/javascript" src="workspace_v2.0.1.js"></script>
+		<!--工作空间-->
+		<script type="text/javascript" src="mp_js/integration.js"></script>
+	</head>
+
+	<body class="bui_at_noline bui_bgc_white_d6 bui_ts_12">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<div class="bui_mo_b">
+					<!-- 顶部 -->
+					<div class="bui_media bui_vm bui_p_24">
+						<div class="bui_media_l"><img style="height: 76px;width: 76px;" src="../resources/images/gxmQrcode_logo.png"></div>
+						<div class="bui_media_b">
+							<p><i class="fa fa-circle {{style.facTrue}} bui_ts_8 fa-fw"></i> 刮开瓶盖图层，戳下方按钮进行扫码积分</p>
+						</div>
+					</div>
+					<p class="bui_tc_red bui_ta_c bui_pb_6 bui_ts_14" id="productIsTrue"></p>
+					<!-- 顶部 -->
+					<!-- 中部输入 -->
+					<div class="bui_media bui_plr_12 bui_vm bui_bgc_white bui_bds_1">
+						<div class="bui_media_l">
+							<i class="fa fa-qrcode {{style.facFalse}} fa-fw bui_fas_24"></i>
+						</div>
+						<div class="bui_media_b">
+							<input id="id_securityCode_input" type="text" class="bui_ipt_48 bui_block bui_bds_0" placeholder="请输入防伪码" maxlength="16" />
+						</div>
+						<div class="bui_media_r">
+							<button id="scanQRCode" class="bui_bsd_6 bui_round bui_bds_1 bui_m_6" style="height: 48px;width: 48px;">
+                            <p><i class="fa fa-qrcode fa-fw bui_fas_24"></i></p>
+                            <p>扫描</p>
+                        </button>
+						</div>
+					</div>
+					<!-- 中部输入 -->
+					<!-- 底部按钮区 -->
+					<div class="bui_ta_c">
+						<button class="bui_ts_16 bui_mt_24 bui_btn_48 {{style.btnTrue}} bui_round" onclick="validateSecurityCodeInfo()" style="width: 80%;">立即积分</button>
+						<button onclick="redirectFanpai()" class="bui_ts_16 bui_mt_24 bui_btn_48 {{style.btnTrue}} bui_round" style="width: 80%;">【抽奖】10积分抢GoPro</button>
+					</div>
+					<!-- 底部按钮区 -->
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

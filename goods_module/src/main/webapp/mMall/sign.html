@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>{{global.brandName}}</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/sign.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body class="gym-body bui_at_noline">
+		<!--主体-->
+		<div class="bui_wrap bui_bgc_white_d12">
+			<!--提示关注公众号-->
+			<tp-plug-follow v-if="isSubscribe.data==0"></tp-plug-follow>
+			<!--提示关注公众号-->
+			<div class="bui_mo" style="top:{{isSubscribe.data==0?'48px':'0'}}">
+				<!--页头-->
+				<div class="bui_mo_h">
+
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="index.html" title="每日签到"></tp-header>
+
+				</div>
+				<!--页头-->
+				<template v-if="!memberDetail">
+					<div class="bui_mo_b bui_mo_b_h">
+						<!--loadingbar-->
+						<tp-loadingbar type="loading"></tp-loadingbar>
+						<!--loadingbar-->
+				</template>
+				<template v-else>
+					<!--页面-->
+					<div class="bui_mo_b bui_mo_b_h gym_mo_b">
+						<div class="bui_p_12">
+							<div class="bui_row_p_12">
+								<!--个人信息-->
+								<div>
+									<div class="bui_media bui_vm bui_bgc_red bui_radius bui_tc_white bui_p_12">
+										<div class="bui_media_l">
+											<tp-img :src="memberDetail.data.headimgurl" class="bui_fr bui_radius bui_shadow_6" width="4rem" height="4rem"></tp-img>
+										</div>
+										<div class="bui_media_b">
+											<p class="bui_ts_20">{{memberDetail.data.fullName}}</p>
+											<div class="bui_ts_12 bui_inline bui_vm bui_row_p_12">
+												<div>积分： <span class="bui_tc_yellow bui_ts_14">{{memberDetail.data.pointSum}}</span> </div>
+												<div>已连续签到 <span class="bui_tc_yellow bui_ts_14">{{getWxuserInfo.data&&getWxuserInfo.data.allSignnum?getWxuserInfo.data.allSignnum:0}}</span> 天</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--个人信息-->
+
+								<!--动画-->
+								<div id="my-calendar"></div>
+								<!--动画-->
+								<!--签到按钮-->
+								<div>
+									<button class="bui_btn bui_btn_64 bui_block bui_bgc_red bui_radius bui_ts_24" onclick="sign_action();">立即签到 <i class="fa fa-hand-pointer-o fa-fw"></i></button>
+								</div>
+								<!--签到按钮-->
+								<!--签到按钮-->
+								<div>
+									<button class="bui_btn bui_btn_48 bui_block bui_bgc_white bui_radius bui_ts_16" onclick="sign_giftQueryResult();">查看中奖记录 <i class="fa fa-angle-right fa-fw"></i></button>
+								</div>
+								<!--签到按钮-->
+								<!--活动说明-->
+								<div>
+									<p class="bui_ta_c bui_plr_24 bui_tc_white_d64 bui_ts_12">活动最终解释权归{{global.brandName}}所有</p>
+								</div>
+								<!--活动说明-->
+
+							</div>
+						</div>
+					</div>
+					<!--页面-->
+					<!--页脚-->
+					<tp-footer-nav></tp-footer-nav>
+					<!--页脚-->
+				</template>
+				</div>
+			</div>
+			<!--主体-->
+
+			<div id="sign_giftHistory" buijs_modal_isRemove="false" style="display: none;">
+				<div class="bui_bds_1_b">
+					<div v-for="data in getMemberResultList.data" class="bui_media bui_vm bui_p_12" :class="$index!=0?'bui_bds_1_t':''">
+						<div class="bui_media_l">
+							<div class="bui_btn bui_btn_48 bui_btn_sq bui_radius" :class="data.prizetype==1?'bui_bgc_green':data.prizetype==2?'bui_bgc_red':data.prizetype==3?'bui_bgc_orange':''">
+								<i class="fa fa-fw bui_fas_24" :class="data.prizetype==1?'fa-gift':data.prizetype==2?'fa-database':data.prizetype==3?'fa-money':''"></i>
+							</div>
+						</div>
+						<div class="bui_media_b">
+							<p class="bui_ts_14">{{data.prizename}}</p>
+							<p class="bui_ts_12 bui_tc_white_d64">{{unixTimeChange(data.createtime)}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+	</body>
+
+</html>

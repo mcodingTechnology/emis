@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>移动商城 - BIG生活</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/member_index.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body id="vueBox" class="gym-body bui_at_noline">
+
+		<!--主体-->
+		<div class="bui_wrap bui_tc_black bui_tc_black_a bui_bgc_white_d12">
+			<div class="bui_mo">
+
+				<!--页头-->
+				<div class="bui_mo_h">
+					<!--提示关注公众号-->
+					<template v-if="isWechatUserFocused.code==1">
+						<tp-isfollow></tp-isfollow>
+					</template>
+					<!--提示关注公众号-->
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="https://h5.youzan.com/v2/home/zt5mvapt" title="个人中心"></tp-header>
+				</div>
+				<!--页头-->
+				<!--页面-->
+				<div class="bui_mo_b bui_mo_b_h gym_mo_b" style="{{isWechatUserFocused.code==1?'top:6rem':''}}">
+					<!--loading-->
+					<template v-if="!memberDetail||!memberDetail.data">
+						<tp-loadingbar type="loading" bgc="bui_bgc_white_d12"></tp-loadingbar>
+					</template>
+					<!--loading-->
+					<template v-else>
+						<!--用户摘要信息-->
+						<div class="bui_bgc_black bui_tc_white bui_ta_c" style="position: relative; width: 100%; overflow: hidden; height: 15rem;">
+							<div class="bui_blur" style="background-image: url({{memberDetail.data.headimgurl}});background-size: cover;background-position: center center;position: absolute;left:-1rem;top:-1rem;right:-1rem;bottom:-1rem;opacity: 0.48;"></div>
+							<div class="bui_inline bui_vm" style="position: absolute;left:0;top:0;right:0;bottom:0;">
+								<i style="width: 0;height: 100%;"></i>
+								<div>
+									<div class="bui_inline bui_ta_c">
+										<tp-img :src="memberDetail.data.headimgurl" class="bui_bds_4 bui_bdc_red bui_round bui_bgc_white_d12" width="8rem" height="8rem"></tp-img>
+									</div>
+									<div class="bui_ts_20">{{memberDetail.data.fullName||'MR·G'}}</div>
+									<div class="bui_ts_12 bui_inline bui_vm bui_row_p_12 bui_mt_0">
+										<div><span>积分：{{memberDetail.data.pointSum||'0'}}</span></div>
+										<!--<div><span class="bui_bgc_orange bui_plr_6">{{memberDetail.data.levelName||'普通会员'}}</span></div>-->
+									</div>
+								</div>
+								<i style="width: 0;height: 100%;"></i>
+							</div>
+						</div>
+						<!--用户摘要信息-->
+						<!--订单摘要列表-->
+						<!--<div class="bui_avg_3 bui_ta_c bui_bgc_white_d6 bui_bds_1_b">
+							<li>
+								<a href="order_list.html?payStatus=%u5F85%u652F%u4ED8" class="bui_p_12 bui_block">待支付</a>
+							</li>
+							<li>
+								<a href="order_list.html?payStatus=%u5DF2%u53D1%u8D27" class="bui_p_12 bui_block">待收货</a>
+							</li>
+							<li>
+								<a href="order_list.html" class="bui_p_12 bui_block">全部订单</a>
+							</li>
+						</div>-->
+						<!--订单摘要列表-->
+						<!--导航列表-->
+						<div class="bui_avg_3 bui_ta_c bui_bgc_white bui_bds_1_b">
+							<template v-if="memberDetail.data.parentLevelId==3||memberDetail.data.parentLevelId==5">
+								<!--申请加盟-->
+								<!--<template v-if="!memberDetail.data.levelId">
+									<li class="bui_bds_1_r bui_bds_1_b bui_bgc_red bui_tc_white_a">
+										<a :href="!memberDetail.data.mobilePhone?'javascript:global_checkMemberPhoneFinish();':'distributor_join.html'" class="bui_ptb_24 bui_block">
+											<p><i class="fa fa-user-plus bui_tc_white bui_ts_32_i"></i></p>
+											<p class="bui_ts_14 bui_mt_6">申请加盟</p>
+										</a>
+									</li>
+								</template>-->
+								<!--申请加盟-->
+								<!--钱包查询&我的伙伴-->
+								<!--<template v-else>
+									<li class="bui_bds_1_r bui_bds_1_b bui_bgc_red bui_tc_white_a">
+										<a :href="!memberDetail.data.mobilePhone?'javascript:global_checkMemberPhoneFinish();':'distributor_wallet.html'" class="bui_ptb_24 bui_block">
+											<p><i class="fa fa-credit-card bui_tc_white bui_ts_32_i"></i></p>
+											<p class="bui_ts_14 bui_mt_6">钱包查询</p>
+										</a>
+									</li>
+									<li class="bui_bds_1_r bui_bds_1_b">
+										<a :href="!memberDetail.data.mobilePhone?'javascript:global_checkMemberPhoneFinish();':'distributor_statistics.html?type=team'" class="bui_ptb_24 bui_block">
+											<p><i class="fa fa-users bui_tc_orange bui_ts_32_i"></i></p>
+											<p class="bui_ts_14 bui_mt_6">我的伙伴</p>
+										</a>
+									</li>
+								</template>-->
+								<!--钱包查询&我的伙伴-->
+							</template>
+
+							<!--通用导航-->
+							<li class="bui_bds_1_r bui_bds_1_b" v-for="data in memberCenterNav">
+								<a :href="!memberDetail.data.mobilePhone&&data.checkMemberDetail?'javascript:global_checkMemberPhoneFinish();':data.link" class="bui_ptb_24 bui_block">
+									<p><i class="{{data.icon}} {{data.iconColor}} bui_ts_32_i"></i></p>
+									<p class="bui_ts_14 bui_mt_6">{{data.title}}</p>
+								</a>
+							</li>
+							<!--通用导航-->
+						</div>
+						<!--导航列表-->
+					</template>
+
+				</div>
+				<!--页面-->
+
+			</div>
+		</div>
+		<!--主体-->
+	</body>
+
+</html>

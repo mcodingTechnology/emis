@@ -1,0 +1,111 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		global_vue({
+			data: vueData
+		});
+		vm.$set($("#global_showPanelRegin").attr('vuesetobj'), null); //清空输入框
+		vm.$set('regson', ''); //清空列表
+		setTimeout(function() {
+			modalRegson_autoGetRegson(); //GPS获取地址
+			modalRegson_manualGetRegson(1); //手动获取地址列表
+		}, 300);
+	});
+
+	//手动获取地址列表
+	function modalRegson_manualGetRegson(id) {
+		vm.$set('modalRegson.keyWord', ''); //清空关键词
+		vm.$set('modalRegson_list', null); //清空列表
+		setTimeout(function() {
+			global_getJsonSetVue(workSpace.jsonUrl + 'region/service/findByParentId', 'modalRegson_list', {
+				parentRegionId: id
+			}, function() {
+				//选择结束
+				if(vueData.modalRegson_list.length == []) {
+					modalRegson_select(vueData.regson); //选定区域
+				}
+			});
+		}, 300)
+	};
+
+	//GPS获取地址
+	function modalRegson_autoGetRegson() {
+		//全局分享
+		global_wechatGetConfig({
+			jsonUrl: workSpace.jsonUrl + '/wechatJsSdk/front/getJsConfigParams', //接口路径
+			success: function(data) {
+				wx.getLocation({
+					type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+					success: function(data) {
+						var latitude = data.latitude; // 纬度，浮点数，范围为90 ~ -90
+						var longitude = data.longitude; // 经度，浮点数，范围为180 ~ -180。
+						var speed = data.speed; // 速度，以米/每秒计
+						var accuracy = data.accuracy; // 位置精度
+						$.ajax({
+							type: "get",
+							url: "http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location=" + data.latitude + "," + data.longitude + "&output=json&pois=1&ak=iDiRnhc92l5a49AVkGliP0ly",
+							dataType: 'jsonp',
+							jsonp: "callback",
+							async: true,
+							success: function(data) {
+								buijs_mask_close();
+								vm.$set('modalRegson.getRegson', data.result.addressComponent)
+							}
+						});
+					}
+				});
+			}
+		});
+	};
+
+	//选定区域
+	function modalRegson_select(text) {
+		vm.$set($("#global_showPanelRegin").attr('vuesetobj'), text);
+		buijs_modal_close('global_showPanelRegin');
+	}
+</script>
+<div class="bui_wrap bui_tc_black bui_tc_black_a">
+	<!--页头-->
+	<div class="bui_mo_h">
+		<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:buijs_modal_close('global_showPanelRegin');vm.$set('modalRegson_list', null);" title="点击选择区域"></tp-header>
+	</div>
+	<!--页头-->
+
+	<!--页面-->
+	<div class="bui_mo_b bui_mo_b_h">
+		<div class="bui_p_12">
+			<input type="text" value="" placeholder="请输入关键词" class="bui_ipt_48 bui_bgc_white bui_ts_14 bui_block" v-model="modalRegson.keyWord" />
+		</div>
+
+		<div class="bui_bds_1 bui_media bui_vm bui_p_12 bui_bgc_white bui_mb_12" v-if="modalRegson.getRegson" onclick="modalRegson_select(\'{{modalRegson.getRegson.province}} {{modalRegson.getRegson.city}} {{modalRegson.getRegson.district}}\')">
+			<div class="bui_media_l">
+				<p class="bui_tc_white_d64 bui_ts_12">GPS定位</p>
+			</div>
+			<div class="bui_media_b">
+				<p class="bui_ts_16">
+					<template v-if="modalRegson.getRegson">
+						{{modalRegson.getRegson.province}} {{modalRegson.getRegson.city}} {{modalRegson.getRegson.district}}
+					</template>
+					<template v-else>
+						点击获取
+					</template>
+				</p>
+			</div>
+			<div class="bui_media_r"><i class="fa fa-angle-right fa-fw bui_tc_white_d48"></i></div>
+		</div>
+
+		<tp-loadingbar type="loading" v-if="!modalRegson_list||modalRegson_list.length==0"></tp-loadingbar>
+		<template v-else>
+			<div class="bui_bds_1_t" id="regsonList">
+				<div class="bui_media bui_vm bui_p_12 bui_bds_1_b bui_bgc_white" v-for="data in modalRegson_list | filterBy modalRegson.keyWord in 'regionName'" onclick="modalRegson_manualGetRegson({{data.regionId}});vueData.regson+='{{data.regionName}} ';">
+					<div class="bui_media_b">
+						<p class="bui_ts_16">{{data.regionName}}</p>
+					</div>
+					<div class="bui_media_r">
+						<i class="fa fa-angle-right fa-fw bui_tc_white_d48"></i>
+					</div>
+				</div>
+			</div>
+		</template>
+	</div>
+	<!--页面-->
+</div>

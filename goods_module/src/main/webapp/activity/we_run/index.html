@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>广马大作战</title>
+		<script type="text/javascript" src="./../game_public/workspace.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				//温馨提示
+				/* buijs_modal({
+					width: '280px',
+					positions: 'center',
+					content: '<div class="bui_row_p_12 bui_plr_12"><p class="bui_ts_14">在大家疯<span class="bui_ts_12 bui_tc_orange">(gan)</span>狂<span class="bui_ts_12 bui_tc_orange">(de)</span>轰<span class="bui_ts_12 bui_tc_orange">(piao)</span>炸<span class="bui_ts_12 bui_tc_orange">(liang)</span>下，系统已被热晕！助力技能需要冷却一天，明天继续！运动也是需要休息的对不...</p>' +
+						'<p class="bui_ts_12 bui_tc_orange">分享和游戏功能不受影响，好友助力功能暂不可用，攻城狮已经写血书保证明天恢复...</p>' +
+						'<li><hr/></li>' +
+						'<div><a href="javascript:;" class="bui_btn_48 bui_ts_12 bui_bgc_orange bui_block bui_radius bui_modal_close">知道了，朕原谅你</a></div></div>'
+				}); */
+				//获取可玩次数
+				if (_gameCount > _runCount && _canPlay == true) {
+					$(".run_gameStart").attr('href', 'game.html');
+					$(".run_gameStart").html('跑起来<span class="bui_btn_24 bui_btnsq bui_bgc_red bui_round bui_ts_12 bui_ml_6">' + [_gameCount - _runCount] + '</span>');
+				} else {
+					$(".run_gameStart").attr('href', 'game_complete.html');
+					$(".run_gameStart").html('看成绩');
+				}
+			});
+		</script>
+	</head>
+
+	<body class="run_body">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<div class="bui_mo_h" id="run_healder"></div>
+				<div class="bui_mo_b">
+					<!--图片-->
+					<img src="images/run_index_pic.png" style="width: 100%; height: auto;" />
+					<!--图片-->
+					<!--按钮-->
+					<div class="bui_ptb_64 bui_ta_c bui_row_p_6" style="position: absolute; left: 0;right:0;bottom: 0;">
+						<li>
+							<a href="javascript:;" class="run_btn_b_green run_gameStart"><i class="fa fa-circle-o-notch fa-spin"></i></a>
+						</li>
+						<li>
+							<a href="rankings.html" class="run_btn_b_orange ">看名次</a></li>
+						<li>
+							<a href="mygift.html" class="run_btn_b_orange ">查奖品</a></li>
+					</div>
+					<!--按钮-->
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

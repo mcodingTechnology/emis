@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+      <groupId>com.mcoding.base</groupId>
+      <artifactId>base_dependencies</artifactId>
+      <version>2.1.1-RELEASE</version>
+  </parent>
+
+  <groupId>com.mcoding.emis</groupId>
+  <artifactId>mcoding_emis</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>mcoding_emis</name>
+  <url>http://maven.apache.org</url>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <modules>
+    <module>member_module</module>
+    <module>goods_module</module>
+       <!-- 
+    <module>baisheng_module</module>
+    <module>activity_module</module> -->
+  </modules>
+</project>

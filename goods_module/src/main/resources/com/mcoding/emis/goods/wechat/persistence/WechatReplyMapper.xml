@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.wechat.persistence.WechatReplyMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.wechat.bean.WechatReply" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="keyword" property="keyword" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="newsMsgUrl" property="newsMsgUrl" jdbcType="VARCHAR" />
+    <result column="msgType" property="msgType" jdbcType="VARCHAR" />
+    <result column="matchingType" property="matchingType" jdbcType="INTEGER" />
+    <result column="brandCode" property="brandCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.mcoding.emis.goods.wechat.bean.WechatReply" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, userId, keyword, title, image, newsMsgUrl, msgType, matchingType
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.mcoding.emis.goods.wechat.bean.WechatReplyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from xr_wechat_reply
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.wechat.bean.WechatReplyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from xr_wechat_reply
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from xr_wechat_reply
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 列表查询 -->
+    <select id="queryWechatReplyByPage" parameterType="map" resultType="com.mcoding.emis.goods.wechat.bean.WechatReply">
+        select * from xr_wechat_reply
+       <trim prefix="where" suffix=" " suffixOverrides="and" >
+	       <if test="title != null and title != ''">
+	        	title like '%${title}%' and
+	        </if>
+	       <if test="brandCode != null and brandCode != ''">
+	        	brandCode = '${brandCode}' and
+	        </if>
+        </trim>
+        ORDER BY id DESC
+   </select>
+   <select id="selectTheKey" resultType="java.lang.Integer">
+         <!-- select AUTO_INCREMENT from INFORMATION_SCHEMA.TABLES
+			where TABLE_NAME='xr_wechat_reply'  -->
+			select max(id) from xr_wechat_reply
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from xr_wechat_reply
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.goods.wechat.bean.WechatReplyExample" >
+    delete from xr_wechat_reply
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.wechat.bean.WechatReply" useGeneratedKeys="true" keyProperty="id" >
+    insert into xr_wechat_reply (id, userId, keyword, 
+      title, image, content, newsMsgUrl, msgType, matchingType,brandCode
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{keyword,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{newsMsgUrl,jdbcType=LONGVARCHAR}, #{msgType,jdbcType=LONGVARCHAR},
+      #{matchingType,jdbcType=INTEGER}, #{brandCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.wechat.bean.WechatReply" useGeneratedKeys="true" keyProperty="id" >
+    insert into xr_wechat_reply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="keyword != null" >
+        keyword,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="newsMsgUrl != null" >
+        newsMsgUrl,
+      </if>
+      <if test="msgType != null" >
+        msgType,
+      </if>      
+      <if test="matchingType != null" >
+        matchingType,
+      </if>      
+      <if test="brandCode != null" >
+        brandCode,
+      </if>      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="keyword != null" >
+        #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="newsMsgUrl != null" >
+        #{newsMsgUrl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="msgType != null" >
+        #{msgType,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="matchingType != null" >
+        #{matchingType,jdbcType=INTEGER},
+      </if>
+      <if test="brandCode != null" >
+        #{brandCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.goods.wechat.bean.WechatReplyExample" resultType="java.lang.Integer" >
+    select count(*) from xr_wechat_reply
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="queryReplyByKeyword" parameterType="map" resultType="com.mcoding.emis.goods.wechat.bean.WechatReply">
+        select * from xr_wechat_reply
+        <trim prefix="where" suffix=" " suffixOverrides="and" >
+	        <if test="keyword != null and keyword != ''">
+	        	keyword =#{keyword} and
+	        </if>
+	        <if test="brandCode != null and brandCode != ''">
+	        	brandCode =#{brandCode} and
+	        </if>
+        </trim>
+        ORDER BY id ASC
+   </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update xr_wechat_reply
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null" >
+        userId = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.keyword != null" >
+        keyword = #{record.keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.image != null" >
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.newsMsgUrl != null" >
+        newsMsgUrl = #{record.newsMsgUrl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.msgType != null" >
+        msgType = #{record.msgType,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.matchingType != null" >
+        msgType = #{record.matchingType,jdbcType=INTEGER},
+      </if>
+      <if test="record.brandCode != null" >
+        brandCode = #{record.brandCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update xr_wechat_reply
+    set id = #{record.id,jdbcType=INTEGER},
+      userId = #{record.userid,jdbcType=INTEGER},
+      keyword = #{record.keyword,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      image = #{record.image,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=LONGVARCHAR},
+      newsMsgUrl = #{record.newsMsgUrl,jdbcType=LONGVARCHAR},
+      msgType = #{record.msgType,jdbcType=LONGVARCHAR},
+      matchingType = #{record.matchingType,jdbcType=INTEGER},
+      brandCode = #{record.brandCode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update xr_wechat_reply
+    set id = #{record.id,jdbcType=INTEGER},
+      userId = #{record.userid,jdbcType=INTEGER},
+      keyword = #{record.keyword,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      image = #{record.image,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      newsMsgUrl = #{record.newsMsgUrl,jdbcType=VARCHAR},
+      msgType = #{record.msgType,jdbcType=VARCHAR},
+      matchingType = #{record.matchingType,jdbcType=INTEGER},
+      brandCode = #{record.brandCode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.wechat.bean.WechatReply" >
+    update xr_wechat_reply
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="keyword != null" >
+        keyword = #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="newsMsgUrl != null" >
+        newsMsgUrl = #{newsMsgUrl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="msgType != null" >
+        msgType = #{msgType,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="msgType != null" >
+        matchingType = #{matchingType,jdbcType=INTEGER},
+      </if>
+      <if test="brandCode != null" >
+        brandCode = #{brandCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mcoding.emis.goods.wechat.bean.WechatReply" >
+    update xr_wechat_reply
+    set userId = #{userid,jdbcType=INTEGER},
+      keyword = #{keyword,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      newsMsgUrl = #{newsMsgUrl,jdbcType=LONGVARCHAR},
+      msgType = #{msgType,jdbcType=LONGVARCHAR},
+      matchingType = #{matchingType,jdbcType=INTEGER},
+      brandCode = #{brandCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.wechat.bean.WechatReply" >
+    update xr_wechat_reply
+    set userId = #{userid,jdbcType=INTEGER},
+      keyword = #{keyword,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      newsMsgUrl = #{newsMsgUrl,jdbcType=VARCHAR},
+      msgType = #{msgType,jdbcType=VARCHAR},
+      matchingType = #{matchingType,jdbcType=INTEGER},
+      brandCode = #{brandCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <select id="selectLikeReplyByKeyword" parameterType="map" resultType="com.mcoding.emis.goods.wechat.bean.WechatReply">
+	select * from (
+		select position(xr_wechat_reply.keyword in '${param1}') as p, xr_wechat_reply.*
+		FROM
+		xr_wechat_reply
+		WHERE
+		xr_wechat_reply.matchingType =  0 and xr_wechat_reply.brandCode = '${param2}'
+		) a
+	where a.p > 0
+    </select>
+</mapper>

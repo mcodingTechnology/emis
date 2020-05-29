@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<!--工作空间-->
+		<script type="text/javascript" src="workspace_v2.0.1.js"></script>
+		<!--工作空间-->
+		<script src="mp_js/sign.js" type="text/javascript"></script>
+		<style>
+			body {
+				background-color: #FF5E52;
+			}
+
+			.sign_am_box {
+				width: 100%;
+				height: 312px;
+				position: relative;
+			}
+
+			.sign_bg_move {
+				width: 100%;
+				height: 240px;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+
+			.sign_item_move {
+				width: 100%;
+				height: 72px;
+				position: absolute;
+				top: 240px;
+				left: 0;
+			}
+
+			.sign_bg_move img,
+			.sign_item_move img {
+				height: 100%;
+				width: auto;
+			}
+
+			.sign_run {
+				background-image: url('pic/run.png');
+				background-size: auto 100%;
+				position: absolute;
+				left: 50%;
+				bottom: 32px;
+				width: 128px;
+				height: 128px;
+				margin-left: -64px;
+			}
+
+			#bg_move_1 {
+				-webkit-animation: bg_move_1 36s linear infinite;
+				-moz-animation: bg_move_1 36s linear infinite;
+				animation: bg_move_1 36s linear infinite;
+			}
+
+			@-webkit-keyframes bg_move_1 {
+				from {
+					-webkit-transform: translateX(0);
+				}
+				to {
+					-webkit-transform: translateX(-1112px);
+				}
+			}
+
+			@-moz-keyframes bg_move_1 {
+				from {
+					-moz-transform: translateX(0);
+				}
+				to {
+					-moz-transform: translateX(-1112px);
+				}
+			}
+
+			@keyframes bg_move_1 {
+				from {
+					transform: translateX(0);
+				}
+				to {
+					transform: translateX(-1112px);
+				}
+			}
+
+			#bg_move_2 {
+				-webkit-animation: bg_move_2 12s linear infinite;
+				-moz-animation: bg_move_2 12s linear infinite;
+				animation: bg_move_2 12s linear infinite;
+			}
+
+			@-webkit-keyframes bg_move_2 {
+				from {
+					-webkit-transform: translateX(0);
+				}
+				to {
+					-webkit-transform: translateX(-967px);
+				}
+			}
+
+			@-moz-keyframes bg_move_2 {
+				from {
+					-moz-transform: translateX(0);
+				}
+				to {
+					-moz-transform: translateX(-967px);
+				}
+			}
+
+			@keyframes bg_move_2 {
+				from {
+					transform: translateX(0);
+				}
+				to {
+					transform: translateX(-967px);
+				}
+			}
+
+			#bg_move_3 {
+				-webkit-animation: bg_move_3 2s linear infinite;
+				-moz-animation: bg_move_3 2s linear infinite;
+				animation: bg_move_3 2s linear infinite;
+			}
+
+			@-webkit-keyframes bg_move_3 {
+				from {
+					-webkit-transform: translateX(0);
+				}
+				to {
+					-webkit-transform: translateX(-489px);
+				}
+			}
+
+			@-moz-keyframes bg_move_3 {
+				from {
+					-moz-transform: translateX(0);
+				}
+				to {
+					-moz-transform: translateX(-489px);
+				}
+			}
+
+			@keyframes bg_move_3 {
+				from {
+					transform: translateX(0);
+				}
+				to {
+					transform: translateX(-489px);
+				}
+			}
+
+			.sign_run {
+				-webkit-animation: bg_run 0.5s steps(1) infinite;
+				-moz-animation: bg_run 0.5s steps(1) infinite;
+				animation: bg_run 0.5s steps(1) infinite;
+			}
+
+			@-webkit-keyframes bg_run {
+				0% {
+					background-position: 0 0;
+				}
+				15% {
+					background-position: 20% 0;
+				}
+				30% {
+					background-position: 40% 0;
+				}
+				45% {
+					background-position: 60% 0;
+				}
+				60% {
+					background-position: 80% 0;
+				}
+				75% {
+					background-position: 100% 0;
+				}
+			}
+
+			@-moz-keyframes bg_run {
+				0% {
+					background-position: 0 0;
+				}
+				15% {
+					background-position: 20% 0;
+				}
+				30% {
+					background-position: 40% 0;
+				}
+				45% {
+					background-position: 60% 0;
+				}
+				60% {
+					background-position: 80% 0;
+				}
+				75% {
+					background-position: 100% 0;
+				}
+			}
+
+			@keyframes bg_run {
+				0% {
+					background-position: 0 0;
+				}
+				15% {
+					background-position: 20% 0;
+				}
+				30% {
+					background-position: 40% 0;
+				}
+				45% {
+					background-position: 60% 0;
+				}
+				60% {
+					background-position: 80% 0;
+				}
+				75% {
+					background-position: 100% 0;
+				}
+			}
+		</style>
+	</head>
+
+	<body class="bui_at_noline bui_bgc_white_d12">
+		<div class="bui_wrap">
+			<div class="bui_mo bui_bgc_red">
+				<!--页头-->
+				<div class="bui_mo_h bui_tc_white bui_atc_white bui_fas_white">
+					<div class="bui_media bui_vm bui_atc_white">
+						<div class="bui_media_l bui_p_0">
+							<button class="bui_btn_32 bui_btnsq bui_bgc_black_f72 bui_round fa fa-angle-left bui_fac_white bui_m_8" onclick="javascript:window.location.href='personal_center.html';"></button>
+						</div>
+						<div class="bui_media_b">
+							<h1>每日签到</h1>
+						</div>
+						<div class="bui_media_r">
+							<p class="bui_m_8">
+								<a href="javascript:signGiftHistory();" class="bui_btn_32 bui_radius bui_bgc_black_f24 bui_ts_12">中奖历史</a>
+								<a href="./../activity/game_public/game_help.html?type=signin_{{brandNameEn}}" class="bui_btn_32 bui_radius bui_bgc_black_f24 bui_ts_12">活动规则</a>
+							</p>
+
+						</div>
+					</div>
+				</div>
+				<!--页头-->
+				<!--主体-->
+				<div class="bui_mo_b bui_mo_b_h">
+					<!--个人信息-->
+					<div class="bui_media bui_vm bui_pt_24 bui_plr_24" id="mp_signUserInfo" style="display: none;">
+						<div class="bui_media_l">
+							<div class="bui_bgc_white bui_round bui_p_3">
+								<div class="bui_round" style="width: 64px; height: 64px;" data-bui_img="">
+									<img class="headImg" src="images/a.png" style="width: 64px; height: 64px;" />
+								</div>
+							</div>
+
+						</div>
+						<div class="bui_media_b bui_tc_white">
+							<p class="fullName">#</p>
+							<p class="bui_ts_12 bui_tc_o64">积分：<span class="point bui_plr_8" style="color: #ffff00;">0</span>
+								<a href="{{giftMallPath}}" class="bui_btn_32 bui_radius bui_bgc_black_f24 bui_ts_12" style="color:#fff;">去兑换</a>
+							</p>
+							<p class="bui_ts_12 bui_tc_o64">已连续签到<span class="allSignnum" style="color: #ffff00;">0</span>天</p>
+						</div>
+					</div>
+					<!--个人信息-->
+					<!--签到按钮-->
+					<div id="mp_signBtn" style="display: none;">
+						<div class="bui_p_3 bui_m_24 bui_bgc_white bui_atc_white bui_ta_c bui_radius">
+							<a href="javascript:signIn();" class="bui_block bui_radius" style="line-height:48px;background-color:#FF5E52 ;">立刻签到</a>
+						</div>
+					</div>
+					<!--签到按钮-->
+					<!--动画-->
+					<div class="sign_am_box" id="mp_signBG" style="display: none;">
+						<div class="sign_bg_move" id="bg_move_1">
+							<img src="pic/sign_bg_1.png" />
+						</div>
+						<div class="sign_bg_move" id="bg_move_2">
+							<img src="pic/sign_bg_2.png" />
+						</div>
+						<div class="sign_item_move" id="bg_move_3">
+							<img src="pic/sign_bg_3.png" />
+						</div>
+						<div class="sign_run"></div>
+					</div>
+					<!--动画-->
+				</div>
+				<!--主体-->
+				<!--页脚-->
+
+				<!--页脚-->
+			</div>
+		</div>
+	</body>
+
+</html>

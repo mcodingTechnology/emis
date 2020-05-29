@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>{{global.brandName}}</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/gift_product_list.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body class="gym-body bui_at_noline">
+		<!--主体-->
+		<div class="bui_wrap">
+			<!--提示关注公众号-->
+			<tp-plug-follow v-if="isSubscribe.data==0"></tp-plug-follow>
+			<!--提示关注公众号-->
+			<div class="bui_mo" style="top:{{isSubscribe.data==0?'3rem':'0'}}">
+				<!--页头-->
+				<div class="bui_mo_h">
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="index.html" title="全部礼品"></tp-header>
+				</div>
+				<!--页头-->
+
+				<!--页面-->
+				<div class="bui_mo_b bui_mo_b_h gym_mo_b">
+					<template v-if="!productListArray">
+						<!--loadingbar-->
+						<tp-loadingbar type="loading"></tp-loadingbar>
+						<!--loadingbar-->
+					</template>
+					<template v-else>
+						<!--搜索栏-->
+						<div class="bui_p_12 bui_media bui_vm">
+							<div class="bui_media_l">
+								<button class="bui_btn bui_btn_48 bui_ts_14 bui_bgc_red bui_block bui_ta_c" onclick="productList_showProductType();"><i class="fa fa-bars fa-fw"></i> 分类</button>
+							</div>
+							<div class="bui_media_b">
+								<div class="bui_ipg_48 bui_block" onclick="global_showSidePanel('modal_search');">
+									<button class="bui_btn bui_btn_48 bui_btn_sq bui_ts_16 bui_fr bui_bds_0" disabled="disabled"><i class="fa fa-search"></i></button>
+									<input type="text" placeholder="礼品搜索" value="{{urlData.productName}}" class="bui_ipt_48 bui_block bui_ts_14 bui_bgc_white" disabled="disabled" />
+								</div>
+							</div>
+						</div>
+						<!--搜索栏-->
+						<div class="bui_avg_2 bui_bds_1_t">
+							<div v-for="data in productListArray">
+								<tp-product-item type="gift" :href="'gift_product_detail.html?productId='+data.id" :id="data.id" :title="data.productName" :imgurl="data.coverImg" :price="data.priceList[0].value/100" :point="data.priceList[0].productPoint.exchangePoint" :pluspricepoint="data.priceList[0].productPoint.plusPricePoint"></tp-product-item>
+							</div>
+
+						</div>
+						<tp-loadingbar bgc="" :type="!pageLoaded?'loading':'success'"></tp-loadingbar>
+					</template>
+				</div>
+				<!--页面-->
+			</div>
+		</div>
+		<!--主体-->
+		<!--购物车挂件-->
+		<tp-plug-cart name="礼品车" :cartsize="global.cartData.gift.size" :bottom="1"></tp-plug-cart>
+		<!--购物车挂件-->
+
+		<!--分类弹窗-->
+		<div id="productList_showProductType" buijs_modal_isremove='false' style="display: none;" class="bui_tc_black_a">
+			<a href="gift_product_list.html" class="bui_media bui_vm bui_block bui_p_12 bui_plr_24 ">
+				<div class="bui_media_b">全部</div>
+				<div class="bui_media_r"><i class="fa fa-angle-right "></i></div>
+
+			</a>
+			<a v-for="data in getCategoryList.data[0].childern" href="?categoryId={{data.id}}" class="bui_media bui_vm bui_block bui_p_12 bui_plr_24  bui_bds_1_t">
+				<div class="bui_media_b">{{data.categoryName}}</div>
+				<div class="bui_media_r"><i class="fa fa-angle-right "></i></div>
+			</a>
+		</div>
+		<!--分类弹窗-->
+	</body>
+
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>shake</title>
+		<script src="../../game_public/workspace_v2.0.3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/public.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.am-shake {
+				animation: shake 0.2s linear infinite;
+				-webkit-animation: shake 0.2s linear infinite;
+				-moz-animation: shake 0.2s linear infinite;
+			}
+
+			@keyframes shake {
+				0% {
+					transform: rotate(0);
+				}
+				50% {
+					transform: rotate(20deg);
+				}
+				100% {
+					transform: rotate(0deg);
+				}
+			}
+
+			@-webkit-keyframes shake {
+				0% {
+					-webkit-transform: rotate(0);
+				}
+				50% {
+					-webkit-transform: rotate(20deg);
+				}
+				100% {
+					-webkit-transform: rotate(0deg);
+				}
+			}
+
+			@-moz-keyframes shake {
+				0% {
+					-moz-transform: rotate(0);
+				}
+				50% {
+					-moz-transform: rotate(20deg);
+				}
+				100% {
+					-moz-transform: rotate(0deg);
+				}
+			}
+		</style>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				//调用微信分享
+				global_wechatGetConfig({
+					jsonUrl: 'http://mcoding.cn/goods_module/',
+					success: function() {
+						golbal_wechatShare({
+							jsonUrl: 'http://mcoding.cn/goods_module/',
+							title: '生日CP配对',
+							desc: '看看你跟谁是天生一对',
+							imgUrl: 'http://mcoding.cn/activity/activity/other_20161028_signwall/images/sharelogo.jpg',
+							link: window.location.href,
+							isGetJson: false,
+							success: function() {
+								buijs_alert({
+									content: '分享成功'
+								});
+							},
+							cancel: function() {
+								buijs_alert({
+									content: '取消成功'
+								})
+							}
+						})
+					}
+				});
+
+				//摇一摇
+				buijs_shake({
+					success: function() {
+						pair();
+					}
+				});
+			});
+
+			//配对
+			function pair() {
+				buijs_shake_off();
+				buijs_mask({
+					type: 'loading'
+				});
+				global_getJsonSetVue(workSpace.jsonUrl + '/front/yearParty/match.html', 'match', null, function() {
+					setTimeout(function() {
+						buijs_mask_close();
+						if(vueData.match.code == 0) {
+							buijs_modal({
+								setid: 'pairModal',
+								positions: 'center',
+								width: '80%',
+								isclose: false,
+								header: null,
+								boxClass: 'bui_radius bui_shadow_24 bui_bgc_white'
+							})
+						} else {
+							buijs_alert({
+								content: vueData.match.msg
+							});
+							buijs_shake_on();
+						}
+					}, 300)
+				});
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="bui_wrap bui_bgc_white_d12" style="background-image: url(../images/bg.jpg); background-size: cover; background-position: center center;">
+			<div class="bui_mo">
+				<div class="bui_mo_b">
+					<div class="bui_inline bui_vm bui_ta_c" style="height: 100%;">
+						<i style="height: 100%;width: 0;"></i>
+
+						<div>
+							<div class="bui_p_12 bui_tc_black bui_round bui_bgc_orange bui_tc_white">
+								<p class="bui_ts_16">中欧EMBA飞扬121班</p>
+								<p class="bui_ts_24">毕业两周年聚会</p>
+							</div>
+							<div class="bui_ta_c bui_inline bui_mt_12">
+								<div class="bui_round bui_bgc_orange_l64 bui_bds_8 bui_bdc_orange am-shake" style="width: 15rem;height:15rem;" data-bui_img onclick="pair();">
+									<img src="../../game_public/pic/shake.png" />
+								</div>
+							</div>
+
+							<div class="bui_block bui_ta_c bui_ts_14 bui_mt_12">
+								<div class="bui_ts_16 bui_bgc_orange bui_p_6 bui_tc_white bui_round">生日CP配对</div>
+								<p class="bui_ts_16 bui_mt_6">拿起你的手机摇起来！</p>
+								<p class="bui_mt_6">请注意力度~<br/>不小心扔出去我们不负责的</p>
+								<p class="bui_mt_6">还有，如果你的破手机摇不到~<br/>可以直接戳上面的图标</p>
+							</div>
+						</div>
+						<i style="height: 100%;width: 0;"></i>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!--弹窗-->
+		<div id="pairModal" buijs_modal_isRemove="false" style="display: none;">
+			<div class="bui_p_24 bui_ta_c">
+				<p class="bui_ts_24 bui_tc_orange">成功配对</p>
+				<p class="bui_ts_14 bui_tc_black_l24 bui_mt_12">我的天！原来我们是</p>
+				<p class="bui_ts_20">“天生一对”</p>
+				<div class="bui_inline bui_ta_c bui_mt_12">
+					<img :src="match.data.headImgUrl" class="bui_bds_8 bui_bdc_orange bui_round" style="width: 12rem;height: 12rem;" />
+				</div>
+				<p class="bui_mt_6 bui_ts_20">{{match.data.name}}</p>
+			</div>
+		</div>
+	</body>
+
+</html>

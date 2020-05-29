@@ -1,0 +1,39 @@
+.input{
+   height:40px;
+   line-height:40px;
+   background-color:#292C31;
+   padding:0px 5% 0px 15%;
+   background-size:5% 60%;
+   position: relative;
+   background-position: 8%;
+   span{
+      color:#AAAAAA;
+      font-size:1em;
+   }
+   .unit{
+      position: absolute;
+      right:6%;
+   }
+   input{
+      padding-left:15px;
+      padding-right:10px;
+      width:70%;
+      color:#DCDCDC;
+      font-size: 1.1em;
+   }
+}
+.height{
+   background-image:url("../../image/height.png");
+}
+.age{
+   background-image:url("../../image/age.png");
+}
+.weight{
+   background-image:url("../../image/weight.png");
+}
+.hand{
+   background-image:url("../../image/hand.png");
+}
+.sport{
+   background-image:url("../../image/sport.png");
+}

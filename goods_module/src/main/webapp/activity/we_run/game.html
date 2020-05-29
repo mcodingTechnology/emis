@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>广马大作战</title>
+		<script type="text/javascript" src="./../game_public/workspace.js"></script>
+		<link rel="icon" type="image/GIF" href="res/favicon.ico" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="full-screen" content="yes" />
+		<meta name="screen-orientation" content="portrait" />
+		<meta name="x5-fullscreen" content="true" />
+		<meta name="360-fullscreen" content="true" />
+		<style>
+			body,
+			canvas,
+			div {
+				-moz-user-select: none;
+				-webkit-user-select: none;
+				-ms-user-select: none;
+				-khtml-user-select: none;
+				-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+			}
+		</style>
+	</head>
+
+	<body style="padding:0; margin: 0; background: #000;">
+		<canvas id="gameCanvas" width="320" height="480"></canvas>
+		<script type="text/javascript">
+			//游戏时间(秒)
+			//默认为40(秒)
+			var gameSecond = _gameTime;
+			//每秒的路程(米)
+			//默认为125(米)
+			var meterPerSecond = _gameSpeed;
+			//加载js后，自动开始游戏（包括在loading之前）
+			//默认为true,false时不开始游戏，画面为黑屏
+			var isAutoRunGame;
+			//判断是否可玩
+			if (_gameCount > _runCount && _canPlay == true) {
+				isAutoRunGame = true;
+			} else {
+				isAutoRunGame = false;
+				buijs_alert({
+					content: '您的次数已用完，正在返回首页...',
+					timeout: 0
+				});
+				setTimeout(function() {
+					window.location.href = 'index.html';
+				}, 3000);
+			};
+			(function() {
+				//游戏设置
+				var gameCanvas = document.getElementById("gameCanvas");
+				var ctx = gameCanvas.getContext('2d');
+				ctx.fillStyle = '#000000';
+				ctx.fillRect(0, 0, 1, 1);
+			})();
+			//游戏结束后调用
+			var gameComplete = function(score) {
+				run_showLoading();
+				$.ajax({
+					type: "get",
+					url: _jsonUrl + "/front/makeGameRecord.html",
+					async: true,
+					cache: false,
+					dataType: "json",
+					data: {
+						distance: score
+					},
+					error: function(data) {
+						run_jsonError();
+					},
+					success: function(data) {
+						run_closeLoading();
+						//提交失败
+						if (data.code == 500) {
+							buijs_alert({
+								content: '您的网络不安全，操作失败'
+							});
+							setTimeout(function() {
+								window.location.href = 'index.html';
+							}, 2000);
+						}
+						//提交成功
+						else if (data.code == 0) {
+							setTimeout(function() {
+								window.location.href = 'game_complete.html';
+							}, 2000);
+						};
+					}
+				});
+			};
+		</script>
+		<script cocos src="game.min.js"></script>
+
+	</body>
+
+</html>

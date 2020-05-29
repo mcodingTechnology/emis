@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.seckill.persistence.SeckillMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.seckill.bean.Seckill" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="brandCode" property="brandcode" jdbcType="VARCHAR" />
+    <result column="productId" property="productid" jdbcType="INTEGER" />
+    <result column="productName" property="productname" jdbcType="VARCHAR" />
+    <result column="productConvert" property="productconvert" jdbcType="VARCHAR" />
+    <result column="sku" property="sku" jdbcType="INTEGER" />
+    <result column="needPoint" property="needpoint" jdbcType="INTEGER" />
+    <result column="orderNum" property="ordernum" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="startTime" property="starttime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, brandCode, productId, productName, productConvert, sku, needPoint, orderNum, 
+    status, startTime, endTime, createTime, updateTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.seckill.bean.SeckillExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from seckill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from seckill
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from seckill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.goods.seckill.bean.SeckillExample" >
+    delete from seckill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.seckill.bean.Seckill" >
+    insert into seckill (id, brandCode, productId, 
+      productName, productConvert, sku, 
+      needPoint, orderNum, status, 
+      startTime, endTime, createTime, 
+      updateTime)
+    values (#{id,jdbcType=INTEGER}, #{brandcode,jdbcType=VARCHAR}, #{productid,jdbcType=INTEGER}, 
+      #{productname,jdbcType=VARCHAR}, #{productconvert,jdbcType=VARCHAR}, #{sku,jdbcType=INTEGER}, 
+      #{needpoint,jdbcType=INTEGER}, #{ordernum,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, 
+      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.seckill.bean.Seckill" >
+    insert into seckill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="brandcode != null" >
+        brandCode,
+      </if>
+      <if test="productid != null" >
+        productId,
+      </if>
+      <if test="productname != null" >
+        productName,
+      </if>
+      <if test="productconvert != null" >
+        productConvert,
+      </if>
+      <if test="sku != null" >
+        sku,
+      </if>
+      <if test="needpoint != null" >
+        needPoint,
+      </if>
+      <if test="ordernum != null" >
+        orderNum,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="starttime != null" >
+        startTime,
+      </if>
+      <if test="endtime != null" >
+        endTime,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="brandcode != null" >
+        #{brandcode,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+        #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null" >
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="productconvert != null" >
+        #{productconvert,jdbcType=VARCHAR},
+      </if>
+      <if test="sku != null" >
+        #{sku,jdbcType=INTEGER},
+      </if>
+      <if test="needpoint != null" >
+        #{needpoint,jdbcType=INTEGER},
+      </if>
+      <if test="ordernum != null" >
+        #{ordernum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.goods.seckill.bean.SeckillExample" resultType="java.lang.Integer" >
+    select count(*) from seckill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update seckill
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.brandcode != null" >
+        brandCode = #{record.brandcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productid != null" >
+        productId = #{record.productid,jdbcType=INTEGER},
+      </if>
+      <if test="record.productname != null" >
+        productName = #{record.productname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productconvert != null" >
+        productConvert = #{record.productconvert,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sku != null" >
+        sku = #{record.sku,jdbcType=INTEGER},
+      </if>
+      <if test="record.needpoint != null" >
+        needPoint = #{record.needpoint,jdbcType=INTEGER},
+      </if>
+      <if test="record.ordernum != null" >
+        orderNum = #{record.ordernum,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.starttime != null" >
+        startTime = #{record.starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endtime != null" >
+        endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null" >
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update seckill
+    set id = #{record.id,jdbcType=INTEGER},
+      brandCode = #{record.brandcode,jdbcType=VARCHAR},
+      productId = #{record.productid,jdbcType=INTEGER},
+      productName = #{record.productname,jdbcType=VARCHAR},
+      productConvert = #{record.productconvert,jdbcType=VARCHAR},
+      sku = #{record.sku,jdbcType=INTEGER},
+      needPoint = #{record.needpoint,jdbcType=INTEGER},
+      orderNum = #{record.ordernum,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=VARCHAR},
+      startTime = #{record.starttime,jdbcType=TIMESTAMP},
+      endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.seckill.bean.Seckill" >
+    update seckill
+    <set >
+      <if test="brandcode != null" >
+        brandCode = #{brandcode,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+        productId = #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null" >
+        productName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="productconvert != null" >
+        productConvert = #{productconvert,jdbcType=VARCHAR},
+      </if>
+      <if test="sku != null" >
+        sku = #{sku,jdbcType=INTEGER},
+      </if>
+      <if test="needpoint != null" >
+        needPoint = #{needpoint,jdbcType=INTEGER},
+      </if>
+      <if test="ordernum != null" >
+        orderNum = #{ordernum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        startTime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        endTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.seckill.bean.Seckill" >
+    update seckill
+    set brandCode = #{brandcode,jdbcType=VARCHAR},
+      productId = #{productid,jdbcType=INTEGER},
+      productName = #{productname,jdbcType=VARCHAR},
+      productConvert = #{productconvert,jdbcType=VARCHAR},
+      sku = #{sku,jdbcType=INTEGER},
+      needPoint = #{needpoint,jdbcType=INTEGER},
+      orderNum = #{ordernum,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
+      startTime = #{starttime,jdbcType=TIMESTAMP},
+      endTime = #{endtime,jdbcType=TIMESTAMP},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <!-- 自定义 -->
+  
+  <select id="selectByToday" parameterType="map" resultType="com.mcoding.emis.goods.seckill.bean.Seckill">
+  select * from seckill 
+  where starttime LIKE CONCAT(DATE_FORMAT(NOW(),'%Y-%m-%d'),'%')
+  <if test="brandcode != null and brandcode != ''">
+  	and brandcode = #{brandcode,jdbcType=VARCHAR}
+  </if>
+  </select>
+  
+  <select id="selectEndByToday" parameterType="map" resultType="com.mcoding.emis.goods.seckill.bean.Seckill">
+  select * from seckill 
+  where <!-- starttime LIKE CONCAT(DATE_FORMAT(NOW(),'%Y-%m-%d'),'%')
+  and --> status='end'
+  <if test="brandcode != null and brandcode != ''">
+  and brandcode = #{brandcode,jdbcType=VARCHAR}
+  </if>
+  </select>
+  
+  <select id="querySeckillByPage" parameterType="map" resultType="com.mcoding.emis.goods.seckill.bean.Seckill">
+  select * from seckill
+  <where>
+  	<if test="status != null and status != ''">
+  		AND status = #{status}
+    </if>
+  	<if test="startTime != null and startTime != '' and endTime != null and endTime != '' ">
+  		AND startTime between #{startTime} and #{endTime}
+    </if>
+  	<if test="brandcode != null and brandcode != ''">
+  		AND brandcode = #{brandcode}
+    </if>
+  </where> 
+  order by id desc
+  </select>
+  
+</mapper>

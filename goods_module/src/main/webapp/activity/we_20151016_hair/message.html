@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>【丝解密】报告</title>
+    <script type="text/javascript" src="workspace.js"></script>
+    <script type="text/javascript" src="report.js"></script>
+    <script type="text/javascript">
+    </script>
+</head>
+<body class="bg_lightgray">
+  <div id="report_success" style="display: none">
+      <div class="report_head " id="report_success_head">
+          <div class="bui_media_l bui_p_0" style="position: fixed">
+              <a href="javascript:history.go(-1);" class="bui_btn_32 bui_btnsq bui_m_8 bui_bgc_black_64 bui_round"><i style="color:white" class="fa fa-angle-left "></i></a>
+          </div>
+          <h3>您的健康指数</h3>
+          <p id="report_head_score">100</p>
+          <div id="report_head_desc"></div>
+           <div class="report_head_img" data-bui_img=''  style="width: 90px;">
+              <img src="" id="report_head_img"/>
+          </div>
+          <div class="report_head_msg"></div>
+      </div>
+      <ul class="report_content">
+          <li><a href="analyse.html" id="report_content_analyse">健康指数分析<i> </i></a></li>
+          <li><a href="suggest.html" id="report_content_suggest">营养补充建议</a><i> </i></li>
+          <li><a href="message.html?getReport=1">获取完整报告</a><i> </i></li>
+          <li><a href="#"  id="report_content_ask">咨询专家</a><i> </i></li>
+      </ul>
+  </div>
+  <!--咨询区域-->
+  <!--咨询区域-->
+  <div id="report_no" style="display: none" >
+      <div class="validate_head">
+          <div class="bui_media_l bui_p_0" style="position: fixed">
+              <a href="message.html" class="bui_btn_32 bui_btnsq bui_m_8 bui_bgc_black_64 bui_round"><i style="color:white" class="fa fa-angle-left "></i></a>
+          </div>
+          <div class="validate_head_img"  >
+              <img src="images/logo.png" class="report_logo_img"/>
+          </div>
+          <h4>信息登记成功</h4>
+          <div class="report_no_msg">请您按照说明，采集发样、填写资料并寄给我们，我们将尽快为您安排检测。收到发样后，检测需时约15-20个工作日，检测完成后我们将会以微信消息通知您查看，请您留意。</div>
+      </div>
+  </div>
+  <div id="report_fail" style="display: none">
+      <div class="validate_head">
+          <div class="validate_head_new" style="margin-bottom: 10px;"></div>
+          <h5>抱歉，您的检测尚未完成</h5>
+          <div class="report_fail_msg">收到发样后，检测需时约15-20个工作日，检测完成后我们将会以微信消息通知您查看，请您留意。<br/>如有疑问，请联系微信客服。</div>
+          <div class="validate_submit_btn" id="message_back_to_first">返回首页</div>
+      </div>
+  </div>
+  <div id="get_report" style="display: none">
+      <div class="validate_head">
+          <!--<div class="validate_head_img" data-bui_img=''  >
+              <img src="images/logoNew.png" class="report_logo_img"/>
+          </div>-->
+          <div class="validate_head_img_new"></div>
+          <h5>下载完整报告</h5>
+          <div class="report_fail_msg">
+           	1.完整报告需使用MS EXCEL打开。同时按Ctrl和X可切换查看不同的检测项目。</br>
+			2.如使用03/07版，将“宏”的安全性设置到最低即可查看；</br>
+			3.如使用10版或以上，点击“启用编辑”即可查看内容。<br/>
+              <br/><div id="report_download"></div></div>
+      </div>
+  </div>
+</body>
+</html>

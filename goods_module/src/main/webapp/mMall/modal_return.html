@@ -1,0 +1,254 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		setTimeout(function() {
+			global_vue({
+				data: vueData
+			});
+			var modal_orderId = $("#orderPublic_return").attr('orderId');
+			//获取订单信息
+			modalRetrun_getDetail(modal_orderId);
+		}, 300)
+	});
+	//获取订单信息
+	function modalRetrun_getDetail(modal_orderId) {
+		global_vueGetJson({
+			url: workSpace.jsonUrl + '/orderReturn/front/findByOrderId',
+			vueName: 'orderRetrunDetail',
+			data: {
+				orderId: modal_orderId
+			},
+			success: function(data) {
+				setTimeout(function() {
+
+					//设置提交数据
+					vm.$set('orderReturnData', {
+						orderId: modal_orderId,
+						deliveryName: null,
+						deliveryCode: null,
+						reason: null
+					})
+
+					//提交信息
+					$("form#form").unbind('submit').buijs_form_check({
+						texterror: '<i class="fa fa-close fa-fw bui_tc_red_i"></i>',
+						textsuccess: '<i class="fa fa-check fa-fw bui_tc_green_i"></i>',
+						error: function() {
+							buijs_alert({
+								content: '填写未完成'
+							})
+						},
+						success: function() {
+							buijs_mask({
+								type: 'loading'
+							});
+							global_vuePostJson({
+								url: workSpace.jsonUrl + '/orderReturn/front/applyOrderReturn',
+								data: vueData.orderReturnData,
+								success: function(data) {
+									buijs_mask_close();
+									buijs_alert({
+										content: data.msg
+									});
+
+									modalRetrun_getDetail(modal_orderId);
+								}
+							})
+						}
+					});
+				}, 0)
+
+			}
+		});
+	}
+</script>
+<div class="bui_wrap bui_tc_black bui_tc_black_a">
+	<!--页头-->
+	<div class="bui_mo_h">
+		<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:buijs_modal_close('orderPublic_return');" title="退换货申请"></tp-header>
+	</div>
+	<!--页头-->
+
+	<template v-if="!memberDetail||!orderRetrunDetail">
+		<div class="bui_mo_b bui_mo_b_h">
+			<tp-loadingbar type="loading"></tp-loadingbar>
+		</div>
+	</template>
+	<template v-else>
+		<!--未申请过-->
+		<template v-if="!orderRetrunDetail.data">
+			<form id="form">
+				<!--页面-->
+				<div class="bui_mo_b bui_mo_b_h bui_mo_b_f">
+					<div class="bui_p_12 bui_ts_14 bui_row_p_12 bui_tc_red_i">
+						<div>
+							<div class="bui_p_12">
+								<div class="bui_row_p_12">
+									<p>在退换商品及礼品不影响二次销售的情况下，请将订单内所有商品（包括礼品）以快递形式寄回，邮寄信息如下：</p>
+									<p class="bui_tc_orange"> 地址：广东省广州市黄埔区云埔工业区开创大道埔北路1号南方物流园顺丰仓 <br/> 联系人：赵敬 <br/>电话：020-37584483 </p>
+									<p>{{global.brandName}} 会在收到货后7个工作日内，安排退款。</p>
+									<p>为保证退换货顺利进行，请准确填写以下信息</p>
+								</div>
+							</div>
+						</div>
+						<!--物流公司-->
+						<div>
+							<div class="bui_ipg_48 bui_block bui_bgc_white bui_bds_1_b" buijs_form_item_type="select">
+								<span class="buijs_form_item_tips bui_fr"></span>
+								<i class="fa fa-truck bui_fl"></i>
+								<select v-model="orderReturnData.deliveryName" class="bui_ipt_48 bui_bds_0 bui_ts_14">
+									<option :value='null'>请选择</option>
+									<option :value='data' v-for="data in ['顺丰速运', '全峰快递', 'EMS', '圆通速递', '中通快递', '宅急送', '韵达快递', '申通快递', '百世快递']">{{data}}</option>
+								</select>
+							</div>
+						</div>
+						<!--物流公司-->
+						<!--物流单号-->
+						<div>
+							<div class="bui_ipg_48 bui_block bui_bgc_white bui_bds_1_b" buijs_form_item_type="length" buijs_form_item_length='1,255'>
+								<span class="buijs_form_item_tips bui_fr"></span>
+								<i class="fa fa-barcode bui_fl"></i>
+								<input type="tel" placeholder="请输入 物流单号" v-model="orderReturnData.deliveryCode" class="bui_ipt_48 bui_bds_0 bui_ts_14">
+							</div>
+						</div>
+						<!--物流单号-->
+						<!--退换货理由-->
+						<div>
+							<div class="bui_ipg_48 bui_block bui_bgc_white bui_bds_1_b" buijs_form_item_type="length" buijs_form_item_length='15,255'>
+								<span class="buijs_form_item_tips bui_fr"></span>
+								<i class="fa fa-truck bui_fl"></i>
+								<textarea placeholder="请输入 不少于15字的退换货理由" rows="6" v-model="orderReturnData.reason" class="bui_ipt_48 bui_bds_0 bui_ts_14 bui_mtb_6"></textarea>
+							</div>
+						</div>
+						<!--退换货理由-->
+					</div>
+
+				</div>
+				<!--页面-->
+				<!--页脚-->
+				<div class="bui_mo_f">
+					<div class="bui_p_8 bui_bgc_white bui_bds_1_t">
+						<div class="bui_avg_2 bui_row_p_6">
+							<li><button type="button" onclick="buijs_modal_close('orderPublic_return')" class="bui_btn bui_btn_48 bui_block bui_bgc_white bui_ts_16">再想想</button></li>
+							<li><button type="submit" class="bui_btn bui_btn_48 bui_block bui_bgc_red bui_ts_16">提交申请</button></li>
+						</div>
+					</div>
+				</div>
+				<!--页脚-->
+			</form>
+		</template>
+		<!--未申请过-->
+		<!--已申请过-->
+		<template v-else>
+			<!--页面-->
+			<div class="bui_mo_b bui_mo_b_h bui_mo_b_f">
+				<div class="bui_p_12">
+					<div class="bui_row_p_12">
+						<!--退换货状态摘要-->
+						<div>
+							<div :class="[orderRetrunDetail.data.returnStatus==2?'bui_bgc_red':'bui_bgc_green' ,'bui_tc_white' ,'bui_radius' ,'bui_ta_c' ,'bui_p_24']">
+								<p><i :class="['fa' ,orderRetrunDetail.data.returnStatus==2?'fa-truck':'fa-check','bui_ts_64_i']"></i></p>
+								<p class="bui_ts_14 bui_mt_12">{{orderRetrunDetail.data.returnStatus==2?'该订单已经申请退换货':'退换货操作已完成'}}</p>
+							</div>
+						</div>
+						<!--退换货状态摘要-->
+						<!--退换货详情-->
+						<div>
+							<div class="bui_bgc_white bui_bds_1 bui_radius bui_ts_14">
+								<div class="bui_media bui_vm bui_p_12">
+									<div class="bui_media_l">
+										<p class="bui_ts_12 bui_tc_white_d64">单号：</p>
+									</div>
+									<div class="bui_media_b">
+										<p class="bui_ta_r">{{orderRetrunDetail.data.orderNo}}</p>
+									</div>
+								</div>
+								<div class="bui_media bui_vm bui_p_12 bui_bds_1_t">
+									<div class="bui_media_l">
+										<p class="bui_ts_12 bui_tc_white_d64">状态：</p>
+									</div>
+									<div class="bui_media_b">
+										<p class="bui_ta_r">{{orderRetrunDetail.data.returnStatus==2?'申请中':'完成退换货'}}</p>
+									</div>
+								</div>
+								<div class="bui_media bui_vm bui_p_12 bui_bds_1_t">
+									<div class="bui_media_l">
+										<p class="bui_ts_12 bui_tc_white_d64">退款：</p>
+									</div>
+									<div class="bui_media_b">
+										<p class="bui_ta_r bui_tc_red">￥{{orderRetrunDetail.data.fee/100}}</p>
+									</div>
+								</div>
+								<div class="bui_media bui_vm bui_p_12 bui_bds_1_t">
+									<div class="bui_media_l">
+										<p class="bui_ts_12 bui_tc_white_d64">申请时间：</p>
+									</div>
+									<div class="bui_media_b">
+										<p class="bui_ta_r">{{unixTimeChange(orderRetrunDetail.data.applyTime,'time')}}</p>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<div>
+							<div class="bui_bgc_white bui_bds_1 bui_radius bui_ts_14">
+								<div class="bui_media bui_vm bui_p_12">
+									<div class="bui_media_l">
+										<p class="bui_ts_12 bui_tc_white_d64">物流公司：</p>
+									</div>
+									<div class="bui_media_b">
+										<p class="bui_ta_r">{{orderRetrunDetail.data.deliveryName}}</p>
+									</div>
+								</div>
+								<div class="bui_media bui_vm bui_p_12 bui_bds_1_t">
+									<div class="bui_media_l">
+										<p class="bui_ts_12 bui_tc_white_d64">物流单号：</p>
+									</div>
+									<div class="bui_media_b">
+										<p class="bui_ta_r">{{orderRetrunDetail.data.deliveryCode}}</p>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<div>
+							<div class="bui_bgc_white bui_bds_1 bui_radius bui_ts_14">
+								<div class="bui_media bui_vt bui_p_12">
+									<div class="bui_media_l">
+										<p class="bui_ts_12 bui_tc_white_d64">申请理由：</p>
+									</div>
+									<div class="bui_media_b">
+										<p class="bui_ta_r">{{orderRetrunDetail.data.returnreason}}</p>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<!--退换货详情-->
+						<!--附加信息-->
+						<div>
+							<div class="bui_ts_12 bui_ta_c bui_mt_24 bui_tc_white_d64 bui_row_p_6">
+								<p>如果在过程中遇到任何问题,欢迎拨打{{public.brandName}}客服热线咨询</p>
+								<p class="bui_ts_16 bui_ts_16_i"><i class="fa fa-phone-square fa-fw"></i> 4009-313-999</p>
+							</div>
+						</div>
+						<!--附加信息-->
+					</div>
+				</div>
+
+			</div>
+			<!--页面-->
+			<!--页脚-->
+			<div class="bui_mo_f">
+				<div class="bui_p_8 bui_bgc_white bui_bds_1_t">
+					<div class="bui_avg_1 bui_row_p_6">
+						<li><button type="button" onclick="buijs_modal_close('orderPublic_return')" class="bui_btn bui_btn_48 bui_block bui_bgc_red bui_ts_16">我知道了</button></li>
+					</div>
+				</div>
+			</div>
+			<!--页脚-->
+
+		</template>
+		<!--已申请过-->
+	</template>
+
+</div>

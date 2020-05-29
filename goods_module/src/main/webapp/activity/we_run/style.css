@@ -1,0 +1,120 @@
+body.run_body {
+	background-image: url(images/run_bg.png);
+	background-position: top center;
+	background-repeat: no-repeat;
+	background-size: 100% auto;
+	background-color: #617273;
+	color: #714137;
+}
+
+
+/*粗体*/
+
+.run_bold {
+	font-weight: bold;
+}
+
+
+/*分数*/
+
+.run_score {
+	font-weight: bold;
+	text-shadow: 0.07em 0.07em 0px #F59C00, 0px 0.07em 0px #F59C00, -0.07em 0.07em 0px #F59C00, -0.07em 0px 0px #F59C00, -0.07em -0.07em 0px #F59C00, 0px -0.07em 0px #F59C00, 0.07em -0.07em 0px #F59C00, 0.07em 0px 0px #F59C00, 0.15em 0.15em 0px #AC6E00, 0px 0.15em 0px #AC6E00, -0.15em 0.15em 0px #AC6E00, -0.15em 0px 0px #AC6E00, -0.15em -0.15em 0px #AC6E00, 0px -0.15em 0px #AC6E00, 0.15em -0.15em 0px #AC6E00, 0.15em 0px 0px #AC6E00;
+}
+
+.run_score.bui_tc_yellow {
+	color: #ffff00;
+}
+
+
+/*公用按钮*/
+
+[class*=run_btn_] {
+	text-decoration: none !important;
+	display: inline-block;
+	height: 50px;
+	line-height: 50px;
+	font-size: 18px;
+	background-image: url(images/btn.png);
+	background-repeat: no-repeat;
+	background-size: auto 600%;
+	font-weight: bold;
+	color: rgba(0, 0, 0, 0.64) !important;
+}
+
+[class*=run_btn_]>* {
+	vertical-align: middle;
+}
+
+[class*=run_btn_b_] {
+	width: 230px;
+}
+
+[class*=run_btn_s_] {
+	width: 140px;
+}
+
+[class*=run_btn_b_]:hover {
+	background-position: 0 40%;
+}
+
+[class*=run_btn_s_]:hover {
+	background-position: 0 100%;
+}
+.run_btn_b_green {
+	background-position: 0 0;
+}
+
+.run_btn_s_green {
+	background-position: 0 60%;
+}
+.run_btn_b_orange {
+	background-position: 0 20%;
+}
+
+.run_btn_s_orange {
+	background-position: 0 80%;
+}
+.run_btn_b_red {
+	background-position: 0 40%;
+}
+
+.run_btn_s_red {
+	background-position: 0 100%;
+}
+
+
+/*公用面板*/
+
+.run_panel {
+	background-color: #F5A71D;
+	border: 4px #6C3A00 solid;
+}
+
+
+/*客人态*/
+
+.run_section {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	opacity: 0;
+	-webkit-opacity: 0;
+	-moz-opacity: 0;
+	transition: transform 0.3s, opacity 0.3s;
+	-webkit-transition: -webkit-transform 0.3s, -webkit-opacity 0.3s;
+	-moz-transition: -moz-transform 0.3s, -moz-opacity 0.3s;
+	transform: translateX(100%);
+	-webkit-transform: translateX(100%);
+	-moz-transform: translateX(100%);
+}
+
+.run_section.active {
+	opacity: 1;
+	-webkit-opacity: 1;
+	-moz-opacity: 1;
+	transform: translateX(0);
+	-webkit-transform: translateX(0);
+	-moz-transform: translateX(0);
+}

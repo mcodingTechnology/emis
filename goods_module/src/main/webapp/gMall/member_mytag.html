@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>移动商城 - BIG生活</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/member_mytag.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body id="vueBox" class="gym-body bui_at_noline">
+		<!--主体-->
+		<div class="bui_wrap bui_bgc_white_d12">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h">
+					<!--提示关注公众号-->
+					<template v-if="isWechatUserFocused.code==1">
+						<tp-isfollow></tp-isfollow>
+					</template>
+					<!--提示关注公众号-->
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="https://h5.youzan.com/v2/home/zt5mvapt" title="我的标签"></tp-header>
+				</div>
+				<!--页头-->
+
+				<!--页面-->
+				<div class="bui_mo_b bui_mo_b_h gym_mo_b" style="{{isWechatUserFocused.code==1?'top:6rem':''}}">
+					<!--loadingbar-->
+					<tp-loadingbar type="loading" v-if="!memberDetail||!memberDetail.data||!member_select_tags||!member_select_tags.data"></tp-loadingbar>
+
+					<!--loadingbar-->
+					<template v-else>
+						<p class="bui_p_24 bui_vm">
+							<i class="bi bi_dehaze bui_tc_red"></i>
+							<span class="bui_ts_16">挑选您的标签</span>
+						</p>
+						<div class="bui_bgc_white bui_p_24 bui_ts_14 bui_bds_1">
+							<div class="bui_inline bui_row_p_12">
+								<template v-for="data in member_select_tags.data">
+									<li>
+										<label class="bui_bds_1 bui_bdc_red bui_plr_6 bui_p_3 bui_block bui_radius">
+											<input type="checkbox" value="{{data.name}}" name="myTagSelected" v-model="myTagSelected"  style="display: none;"/>{{data.name}}</label>
+									</li>
+								</template>
+
+							</div>
+						</div>
+					</template>
+
+					<!--积分详情-->
+
+					<!--积分详情-->
+				</div>
+				<!--页面-->
+			</div>
+		</div>
+		<!--主体-->
+	</body>
+
+</html>

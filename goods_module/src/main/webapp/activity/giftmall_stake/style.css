@@ -1,0 +1,39 @@
+.bui_wrap {
+	overflow: auto;
+}
+.bui_row_p_12 {
+	margin: 0;
+}
+
+.bui_row_p_24 {
+	margin: 0;
+	padding: 12px !important;
+}
+.stake_bg {
+	background-color: #FFD006;
+	background-image: url(images/stake_bg.jpg);
+	background-position: 0 0;
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+/*tab导航标签*/
+
+.stak_tab {
+	background-image: url(images/stake_orange.png);
+	background-position: center center;
+	background-repeat: repeat-x;
+	text-align: center;
+}
+.stak_tab li > a {
+	display: block;
+	background-color: #fff;
+	color: #ff7f00;
+	padding: 6px 0;
+	border-radius: 10000px;
+	border: 3px #ff7f00 solid;
+}
+.stak_tab li.active > a {
+	background-color: #ff7f00;
+	color: #fff;
+}

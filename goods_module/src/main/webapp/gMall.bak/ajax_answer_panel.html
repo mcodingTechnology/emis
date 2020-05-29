@@ -1,0 +1,186 @@
+<div class="bui_plr_12" >
+	<!-- 问题一 -->
+	<form id="questionForm">
+		<input type="hidden" name="brandCode" value="JLD"/>
+		<div id="question_first">
+			<p class="bui_mtb_24 bui_ts_14">问题：您健身的方式是？（可多选）</p>
+			<ul class="bui_ts_14">
+				<label for="A_1">
+					<li class="bui_media bui_ptb_6 bui_bds_1_b">
+						<div class="bui_media_b">户外运动</div>
+						<div class="bui_media_r"><input id="A_1" class="bui_iprc_16 bui_tc_red" style="vertical-align: middle;" type="checkbox" name="concernsPerson" value="户外运动"></div>
+					</li>
+				</label>
+				<label for="B_1">
+				<li class="bui_media bui_ptb_6 bui_bds_1_b">
+					<div class="bui_media_b">在家运动</div>
+					<div class="bui_media_r"><input id="B_1" class="bui_iprc_16 bui_tc_red" style="vertical-align: middle;" type="checkbox" name="concernsPerson" value="在家运动"></div>
+				</li>
+				</label>
+				<label for="C_1">
+					<li class="bui_media bui_ptb_6 bui_bds_1_b">
+						<div class="bui_media_b">健身房自己运动</div>
+						<div class="bui_media_r"><input id="C_1" class="bui_iprc_16 bui_tc_red" style="vertical-align: middle;" type="checkbox" name="concernsPerson" value="健身房自己运动"></div>
+					</li>
+				</label>
+				<label for="D_1">
+					<li class="bui_media bui_ptb_6 bui_bds_1_b">
+						<div class="bui_media_b">健身房私教陪练</div>
+						<div class="bui_media_r"><input id="D_1" class="bui_iprc_16 bui_tc_red" style="vertical-align: middle;" type="checkbox" name="concernsPerson" value="健身房私教陪练"></div>
+					</li>
+				</label>
+				<label for="E_1">
+					<li class="bui_media bui_ptb_6 bui_bds_1_b">
+						<div class="bui_media_b">不怎么运动</div>
+						<div class="bui_media_r"><input id="E_1" class="bui_iprc_16 bui_tc_red" style="vertical-align: middle;" type="checkbox" name="concernsPerson" value="不怎么运动"></div>
+					</li>
+				</label>
+			</ul>
+		</div>
+
+		<!-- 问题二 -->
+		<div id="question_second" style="display: none;">
+			<p class="bui_mtb_24 bui_ts_14">问题：您健身的目的是？（可多选）</p>
+			<ul class="bui_ts_14">
+				<label for="A_2">
+					<li class="bui_media bui_ptb_6 bui_bds_1_b">
+						<div class="bui_media_b">减肥</div>
+						<div class="bui_media_r"><input id="A_2" class="bui_iprc_16 bui_tc_red" style="vertical-align: middle;" type="checkbox" name="concerns" value="减肥"></div>
+					</li>
+				</label>
+				<label for="B_2">
+				<li class="bui_media bui_ptb_6 bui_bds_1_b">
+					<div class="bui_media_b">个人爱好（释放压力）</div>
+					<div class="bui_media_r"><input id="B_2" class="bui_iprc_16 bui_tc_red" style="vertical-align: middle;" type="checkbox" name="concerns" value="个人爱好（释放压力）"></div>
+				</li>
+				</label>
+				<label for="C_2">
+				<li class="bui_media bui_ptb_6 bui_bds_1_b">
+					<div class="bui_media_b">健美（专业）</div>
+					<div class="bui_media_r"><input id="C_2" class="bui_iprc_16 bui_tc_red" style="vertical-align: middle;" type="checkbox" name="concerns" value="健美（专业）"></div>
+				</li>
+				</label>
+				<label for="C_3">
+				<li class="bui_media bui_ptb_6 bui_bds_1_b">
+					<div class="bui_media_b">强身健体</div>
+					<div class="bui_media_r"><input id="C_3" class="bui_iprc_16 bui_tc_red" style="vertical-align: middle;" type="checkbox" name="concerns" value="强身健体"></div>
+				</li>
+				</label>
+				<label for="C_4">
+				<li class="bui_media bui_ptb_6 bui_bds_1_b">
+					<div class="bui_media_b">产后恢复</div>
+					<div class="bui_media_r"><input id="C_4" class="bui_iprc_16 bui_tc_red" style="vertical-align: middle;" type="checkbox" name="concerns" value="产后恢复"></div>
+				</li>
+				</label>
+				<label for="C_5">
+				<li class="bui_media bui_ptb_6 bui_bds_1_b">
+					<div class="bui_media_b">运动损伤后恢复</div>
+					<div class="bui_media_r"><input id="C_5" class="bui_iprc_16 bui_tc_red" style="vertical-align: middle;" type="checkbox" name="concerns" value="运动损伤后恢复"></div>
+				</li>
+				</label>
+			</ul>
+		</div>
+	</form>
+
+	<!-- 完成 -->
+	<div id="question_end" class="bui_ta_c" style="display: none;">
+		<div class='bui_ta_c bui_plr_32' style='margin-top: 30px;margin-bottom: 15px;'>
+            <img style='width: 75px;vertical-align: middle;' src='http://v.gymmaxer.com/resources/images/success_gxm.png'>
+        </div>
+		<p class="bui_mtb_48 bui_ts_16">恭喜您获得100积分！</p>
+		<ul class="bui_pt_48 bui_ts_14 bui_tc_red bui_atc_orange">
+			<!-- <li class="bui_mb_24"><a href="personal_center.html">进入个人中心 <i class="fa fa-angle-double-right bui_ts_16"></i></a></li> -->
+			<li class=""><a href="http://v.gymmaxer.com/activity/giftmall_gxm_20151117/index.html?gameid=44">拿10积分试试手气 <i class="fa fa-angle-double-right"></i></a></li>
+		</ul>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var questionNum = 1;
+
+	/*加载已有信息*/
+	if(vueObj.memberDetail.position){
+		$("[value="+vueObj.memberDetail.position+"]").prop('checked',true);
+	}
+
+	if(vueObj.memberDetail.concerns){
+		var data = vueObj.memberDetail.concerns.split(',');
+		data.map(function(param){
+			$("[value="+param+"]").prop('checked',true);
+		})
+	}
+
+	if(vueObj.memberDetail.concernsPerson){
+		var data = vueObj.memberDetail.concernsPerson.split(',');
+		data.map(function(param){
+			$("[value="+param+"]").prop('checked',true);
+		})
+	}
+
+	if(vueObj.memberDetail.healthProblem) {
+		$("#id_question_textarea").val(vueObj.memberDetail.healthProblem);
+	}
+	/*加载已有信息*/
+
+	$(function(){
+		//插入页脚按钮
+		$("#mp_answerPanel .bui_modal_f").html('<div class="bui_p_8 bui_bds_1_t">' +
+				'<a href="javascript:questionSubmit();" class="bui_btn_48 bui_block bui_radius bui_tc_white ' + vueObj.style.btnTrue + '">下一题</a>' +
+				'</div>')
+	})
+
+	function questionSubmit() {
+
+		if (questionNum===1) {
+			$('#question_first').hide();
+			$('#question_second').fadeIn(1000);
+			questionNum ++;
+			$("#mp_answerPanel .bui_modal_f").html('<div class="bui_p_8 bui_bds_1_t">' +
+							'<a href="javascript:questionSubmit();" class="bui_btn_48 bui_block bui_radius bui_tc_white ' + vueObj.style.btnTrue + '">提交</a>' +
+							'</div>')
+		}else if (questionNum ===2) {
+			if(!vueObj.memberDetail.mobilePhone) {
+				$("#questionForm").append('<input style="display:none" type="text" name="mobilePhone" value="'+$("#memberDetail_mobilePhone").val()+'"/>');
+			}
+			var param= $("#questionForm").serialize();
+			buijs_showloading('bui_bgc_black_f72');
+			$.ajax({
+	            type: "post",
+	            data:param,
+	            url: _jsonUrl+ "/front/registerDetailSubmit",
+	            complete: function (){
+	            	buijs_closeloading();
+	            },
+	            success: function (data) {
+	            	if (data.code == 0) {
+	            		$('#question_second').hide();
+						$('#question_end').fadeIn(1000);
+						$("#mp_answerPanel .bui_modal_f").html('<div class="bui_p_8 bui_bds_1_t">' +
+							'<a href="javascript:closeBar();" class="bui_btn_48 bui_block bui_radius bui_tc_white ' + vueObj.style.btnTrue + '">完成</a>' +
+							'</div>')
+	                }else if(data.code == 2){
+	                	buijs_alert({
+	                		content: "更新成功"
+	                	});
+	                	closeBar();
+	                }
+	            	else {
+	            		buijs_alert({
+	            			content: "会员信息有误"
+	            		})
+	                	return;
+	                }
+	            }, error : function(err) {
+	            	buijs_alert({
+	            			content: data.msg
+	            		})
+	     			return;
+	    		   }                
+	     	}); 
+		}
+	}
+
+	function closeBar() {
+		buijs_modal_close('mp_answerPanel');
+	}
+</script>

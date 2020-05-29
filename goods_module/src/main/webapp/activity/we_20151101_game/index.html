@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>极智构</title>
+		<!--workspace-->
+		<script type="text/javascript" src="workspace.js"></script>
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var _btnover;
+				$(".wm_index_btn").on({
+					'touchstart': function(e) {
+						e.preventDefault();
+						$(this).addClass('hit');
+					},
+					'touchend': function(e) {
+						var _url = $(this).attr('href');
+						e.preventDefault();
+						$(this).removeClass('hit');
+						setTimeout(function() {
+							window.location.href = _url;
+						}, 300)
+					}
+				});
+			});
+			$(window).load(function() {
+				$("#public_loading").hide();
+			});
+		</script>
+
+	</head>
+
+	<body class="wm_index_bg">
+		<div class="bui_wrap index_bg">
+			<!--bui_mo-->
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_media bui_vm bui_ts_12 bui_fas_16 bui_tc_white bui_atc_white bui_fac_white ">
+					<div class="bui_media_l bui_p_0">
+						<a href="http://v.merryplus.com/wMall/" class="bui_btn_32 bui_m_8 bui_bgc_red_48 bui_radius"><i class="fa fa-home fa-fw"></i> 返回购物</a>
+					</div>
+					<div class="bui_media_b">
+
+					</div>
+					<div class="bui_media_r bui_p_0">
+						<a href="javascript:;" class="bui_btn_32 bui_mtb_8 bui_bgc_black_64 bui_radius" gameUrl="gameHelp">活动说明</a>
+						<a href="javascript:;" class="bui_btn_32 bui_mtb_8 bui_mr_8 bui_bgc_green_64 bui_radius" gameUrl="gameLog">中奖纪录</a>
+					</div>
+				</div>
+				<!--页头-->
+				<!--内容-->
+				<div class="bui_mo_b">
+					<img src="images/index_title.png" style="width: 100%;" class="bui_pt_64 wm_index_title" />
+					<div class="bui_mt_12 bui_ta_c bui_inline">
+						<a href="javascript:;" class="wm_index_btn" gameUrl="gameAction"><img src="images/index_btn.png" style="height: 64px;" /></a>
+					</div>
+				</div>
+				<!--内容-->
+				<!--页脚-->
+				<div class="bui_mo_f">
+					<p class="bui_ta_c bui_ts_12 bui_tc_white bui_tsd_1" style="line-height: 64px;">POWER BY 佰悦技术开发部</p>
+				</div>
+				<!--页脚-->
+			</div>
+			<!--bui_mo-->
+			<!--loading-->
+			<div class="bui_btn_64 bui_btnsq bui_bgc_black_64 bui_fas_24 bui_fac_white bui_radius" style="position: absolute; left: 50%;top: 50%;margin: -32px 0 0 -32px;" id="public_loading">
+				<i class="fa fa-circle-o-notch fa-spin"></i>
+			</div>
+			<!--loading-->
+		</div>
+
+	</body>
+
+</html>

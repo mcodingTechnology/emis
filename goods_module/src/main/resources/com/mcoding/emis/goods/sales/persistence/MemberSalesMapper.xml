@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.sales.persistence.MemberSalesMapper" >
+	<resultMap type="com.mcoding.emis.goods.sales.bean.MemberSales" id="BaseResultMap">
+		<id column="sale_id" property="saleId" jdbcType="INTEGER" />
+	    <result column="sale_name" property="saleName" jdbcType="VARCHAR" />
+	    <result column="sale_title" property="saleTitle" jdbcType="VARCHAR" />
+	    <result column="sale_type" property="saleType" jdbcType="VARCHAR" />
+	    <result column="sale_start_time" property="saleStartTime" jdbcType="TIMESTAMP" />
+	    <result column="sale_end_time" property="saleEndTime" jdbcType="TIMESTAMP" />
+	    <result column="sale_send_msg_type" property="saleSendMsgType" jdbcType="VARCHAR" />
+	    <result column="remake" property="remake" jdbcType="VARCHAR" />
+	    <result column="sale_status" property="saleStatus" jdbcType="VARCHAR" />
+	    <result column="wx_appid" property="wxAppid" jdbcType="VARCHAR" />
+	    <result column="wx_msg_id" property="wxMsgId" jdbcType="VARCHAR" />
+	    <result column="initiator_by" property="initiatorBy" jdbcType="VARCHAR" />
+	    <result column="initiator_href" property="initiatorHref" jdbcType="VARCHAR" />
+	    <result column="sale_content1" property="saleContent1" jdbcType="VARCHAR" />
+	    <result column="sale_content2" property="saleContent2" jdbcType="VARCHAR" />
+	    <result column="sale_content3" property="saleContent3" jdbcType="VARCHAR" />
+	    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="querySalesDataByPage" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.sales.bean.MemberSalesExample" >
+	  select
+	  <if test="distinct" >
+	    distinct
+	  </if>
+	  'true' as QUERYID,
+	  <include refid="Base_Column_List" />
+	  from t_sales_info
+	  <if test="_parameter != null" >
+	    <include refid="Example_Where_Clause" />
+	  </if>
+	  <if test="orderByClause != null" >
+	    order by ${orderByClause}
+	  </if>
+	</select>
+	<sql id="Base_Column_List">
+		sale_id,sale_name,sale_title,sale_type,sale_start_time,sale_end_time,sale_send_msg_type,remake,sale_status,wx_appid,wx_msg_id,
+		initiator_by,initiator_href,sale_content1,sale_content2,sale_content3,create_time,last_update_time
+	</sql>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or" >
+		        <if test="criteria.valid" >
+		          <trim prefix="(" suffix=")" prefixOverrides="and" >
+		            <foreach collection="criteria.criteria" item="criterion" >
+		              <choose >
+		                <when test="criterion.noValue" >
+		                  and ${criterion.condition}
+		                </when>
+		                <when test="criterion.singleValue" >
+		                  and ${criterion.condition} #{criterion.value}
+		                </when>
+		                <when test="criterion.betweenValue" >
+		                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+		                </when>
+		                <when test="criterion.listValue" >
+		                  and ${criterion.condition}
+		                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+		                    #{listItem}
+		                  </foreach>
+		                </when>
+		              </choose>
+		            </foreach>
+		          </trim>
+		        </if>
+			</foreach>
+			and sale_status != "SX"
+		</where>
+	</sql>
+	
+	
+	<insert id="addMemberSales" parameterType="com.mcoding.emis.goods.sales.bean.MemberSales">
+		insert into t_sales_info (
+			sale_name,
+			sale_title,
+			sale_type,
+			sale_start_time,
+			sale_end_time,
+			sale_send_msg_type,
+			remake,
+			sale_status,
+			wx_appid,
+			wx_msg_id,
+			initiator_by,
+			initiator_href,
+			sale_content1,
+			sale_content2,
+			sale_content3,
+			create_time,
+			last_update_time
+		) values (
+			#{saleName,jdbcType=VARCHAR},
+			#{saleTitle,jdbcType=VARCHAR},
+			#{saleType,jdbcType=VARCHAR},
+			#{saleStartTime,jdbcType=TIMESTAMP},
+			#{saleEndTime,jdbcType=TIMESTAMP},
+			#{saleSendMsgType,jdbcType=VARCHAR},
+			#{remake,jdbcType=VARCHAR},
+			#{saleStatus,jdbcType=VARCHAR},
+			#{wxAppid,jdbcType=VARCHAR},
+			#{wxMsgId,jdbcType=VARCHAR},
+			#{initiatorBy,jdbcType=VARCHAR},
+			#{initiatorHref,jdbcType=VARCHAR},
+			#{saleContent1,jdbcType=VARCHAR},
+			#{saleContent2,jdbcType=VARCHAR},
+			#{saleContent3,jdbcType=VARCHAR},
+			#{createTime,jdbcType=VARCHAR},
+			#{lastUpdateTime,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="queryById" parameterType="map" resultType="com.mcoding.emis.goods.sales.bean.MemberSales">
+		select 
+			   sale_id as saleId,
+			   sale_name as saleName,
+			   sale_title as saleTitle,
+			   sale_type as saleType,
+			   sale_start_time as saleStartTime,
+			   sale_end_time as saleEndTime,
+			   sale_send_msg_type as saleSendMsgType,
+			   remake,
+			   sale_status as saleStatus,
+			   wx_appid as wxAppid,
+			   wx_msg_id as wxMsgId,
+			   initiator_by as initiatorBy,
+			   initiator_href as initiatorHref,
+			   sale_content1 as saleContent1,
+			   sale_content2 as saleContent2,
+			   sale_content3 as saleContent3,
+			   create_time as createTime,
+			   last_update_time as lastUpdateTime
+		from t_sales_info where sale_id = #{id}
+	</select>
+	<update id="updateById" parameterType="com.mcoding.emis.goods.sales.bean.MemberSales">
+		update t_sales_info
+		<set>
+			<if test="saleName != null">
+				sale_name = #{saleName,jdbcType=VARCHAR},
+			</if>
+			<if test="saleTitle != null">
+				sale_title = #{saleTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="saleType != null">
+				sale_type = #{saleType,jdbcType=VARCHAR},
+			</if>
+			<if test="saleStartTime != null">
+				sale_start_time = #{saleStartTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="saleEndTime != null">
+				sale_end_time = #{saleEndTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="saleSendMsgType != null">
+				sale_send_msg_type = #{saleSendMsgType,jdbcType=VARCHAR},
+			</if>
+			<if test="remake != null">
+				remake = #{remake,jdbcType=VARCHAR},
+			</if>
+			<if test="saleStatus != null">
+				sale_status = #{saleStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="wxAppid != null">
+				wx_appid = #{wxAppid,jdbcType=VARCHAR},
+			</if>
+			<if test="wxMsgId != null">
+				wx_msg_id = #{wxMsgId,jdbcType=VARCHAR},
+			</if>
+			<if test="initiatorBy != null">
+				initiator_by = #{initiatorBy,jdbcType=VARCHAR},
+			</if>
+			<if test="initiatorHref != null">
+				initiator_href = #{initiatorHref,jdbcType=VARCHAR},
+			</if>
+			<if test="saleContent1 != null">
+				sale_content1 = #{saleContent1,jdbcType=VARCHAR},
+			</if>
+			<if test="saleContent2 != null">
+				sale_content2 = #{saleContent2,jdbcType=VARCHAR},
+			</if>
+			<if test="saleContent3 != null">
+				sale_content3 = #{saleContent3,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateTime != null">
+				last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where sale_id = #{saleId}
+	</update>
+	
+	<update id="deleteById" parameterType="map" >
+		update t_sales_info set sale_status = 'SX' where sale_id = #{saleId}
+	</update>
+	<update id="disableOrEnabledMemberSalesById" parameterType="map" >
+		update t_sales_info set sale_status=#{saleStatus} where sale_id = #{saleId}
+	</update>
+	<resultMap type="com.mcoding.emis.goods.sales.bean.MemberSendSalesInfo" id="sendMemberResult">
+	    <id column="memberId" property="memberId" jdbcType="INTEGER" />
+	    <result column="openid" property="openid" jdbcType="VARCHAR" />
+	    <result column="mobilePhone" property="mobilePhone" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="querySendMemberList" parameterType="com.mcoding.emis.goods.label.entity.UserTagsEntity" resultMap="sendMemberResult">
+		SELECT
+			mm.memberId,
+			mm.openid,
+			mm.mobilePhone
+		FROM
+			mr_member mm,
+			(
+				SELECT DISTINCT
+					tut.objId
+				FROM
+					t_user_tags tut
+				WHERE 1=1
+					<if test="tagids != null and tagids.size > 0">
+						and tut.tag_id in 
+						<foreach collection="tagids" item="tagid" open="(" separator=","  close=")">
+							#{tagid}
+						</foreach>
+					</if>
+					<if test="tagids == null or tagids.size == 0">
+						and 1 > 1
+					</if>
+					<if test="tagids == null or tagids.size == 0">
+						and 1 > 1
+					</if>
+			) obj
+		WHERE
+			obj.objId = mm.memberId
+			<if test="memberPhoneNotNull != null and memberPhoneNotNull != ''">
+				and mm.mobilePhone is not null and mm.mobilePhone != ''
+			</if>
+			<if test="memberOpenIdNotNull != null and memberOpenIdNotNull != ''">
+				and mm.openid is not null and mm.openid != ''
+			</if>
+	</select>
+</mapper>

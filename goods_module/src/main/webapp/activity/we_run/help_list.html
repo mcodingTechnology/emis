@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>广马大作战</title>
+		<script type="text/javascript" src="./../game_public/workspace.js"></script>
+		<script type="text/javascript">
+			//分享提示
+			function runShare() {
+				$("body").append('<div class="bui_bgc_black_72" id="run_share_mask" style="position: absolute; top: 0;bottom: 0;left: 0;right: 0;"><img src="./images/share_arrow.png" style="width:100%"/><p class="bui_p_24 bui_tc_white">请点击右上角分享给您的好友或发送到朋友圈吧！朋友才是您成功的关键哟~~</p><img src="./images/share_gxman.png" style="width:100%"/></div>');
+				$("#run_share_mask").click(function() {
+					$(this).remove();
+				});
+			};
+			var _runHelpCount = "",
+				_runHelpList = "";
+			var _getHelpRecord = false;
+			//展示
+			function _runShowSection() {
+				$(".run_section").html('<div class="run_panel bui_ptb_12 bui_plr_24 bui_mlr_12 bui_row_p_12 bui_radius bui_ta_c">' +
+					'<div class="bui_inline bui_ta_c bui_vm"><img src="./images/gmx_logo.png" style="height: 48px;" />' +
+					'<i class="run_bold bui_ts_16 bui_mlr_12">助战好友</i></div>' +
+					'<li><hr style="border-color: rgba(0,0,0,0.12);" /></li>' +
+					'<li>' + _runHelpCount + '</li>' +
+					'<div class="bui_row_p_12 bui_ta_l">' + _runHelpList + '</div>' +
+					'</div>'+
+					'<div class="bui_row_p_12 bui_ta_c bui_mt_12 "><li class="bui_col_sm_12"><a href="index.html" class="run_btn_b_orange">返回</a></li></div>');
+				run_closeLoading();
+				$(".run_section").addClass('active');
+				$(".run_section [data-bui_img]").buijs_img();
+			};
+			$(document).ready(function() {
+				run_showLoading();
+				//获取被助跑记录
+				$.ajax({
+					type: "get",
+					url: _jsonUrl + "/front/getHelpRecord.html",
+					async: true,
+					cache: false,
+					dataType: 'json',
+					error: function(data) {
+						run_jsonError();
+					},
+					success: function(data) {
+						//助跑记录
+						if (data.data.helpCount > 0) {
+							_runHelpCount = '<p>已有' + data.data.helpCount + '人帮助你，共加里程</p><span class="run_score bui_ts_16 bui_tc_white">' + data.data.helpDistance + 'm</span>'
+							$.map(data.data.helpList, function(data) {
+								_runHelpList += '<li><hr style="border-color: rgba(0,0,0,0.12);" /></li>' +
+									'<li class="bui_media bui_vm"><div class="bui_media_l"><div class="bui_round bui_bds_2 bui_bdc_white" style="width: 32px;height: 32px;" data-bui_img=""><img src="' + data.fromheadimgurl + '" /></div></div><div class="bui_media_b">' + data.fromnickname + '</div><div class="bui_media_r">+' + data.distance + 'm</div></li>';
+							});
+						} else {
+							_runHelpCount = '<p class="bui_ptb_24">还没有人帮助你哟</p>';
+							_runHelpList = '<p class="bui_inline bui_ta_c"><a href="javascript:runShare();" class="run_btn_b_green">喊基友一起来</a></p>';
+						};
+						_getHelpRecord = true;
+						//展现
+						_runShowSection();
+					}
+				});
+			});
+		</script>
+	</head>
+
+	<body class="run_body">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<div class="bui_mo_h" id="run_healder"></div>
+				<div class="bui_mo_b">
+					<div class="bui_ptb_48 run_section"></div>
+
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

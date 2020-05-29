@@ -1,0 +1,26 @@
+[{
+  "goodsId":"11",
+  "goodsName":"111",
+  "goodsImg":"../game_public/pic/demo_face/face_001.jpg",
+  "goodsPoint":"10",
+  "goodsTime":"2015-10-13 15:00:00",
+  "goodsFlag":"1",
+  "goodsCount":"2"
+},{
+  "goodsId":"11",
+  "goodsName":"111",
+  "goodsImg":"../game_public/pic/demo_face/face_002.jpg",
+  "goodsPoint":"10",
+  "goodsTime":"2015-10-16 10:00:00",
+  "goodsFlag":"0",
+  "goodsCount":"3"
+},{
+  "goodsId":"222",
+  "goodsName":"222",
+  "goodsImg":"../game_public/pic/demo_face/face_003.jpg",
+  "goodsPoint":"50",
+  "goodsTime":"2015-10-14 15:22:40",
+  "goodsFlag":"0",
+  "goodsCount":"5"
+}]
+

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>极智构 - 摇一摇领奖品</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+		<script src="workspace_v2.0.1.js" type="text/javascript"></script>
+        <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+        <script src="public.js" type="text/javascript" charset="utf-8"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script type="text/javascript" src="public.js"></script>
+		<script src="../../resources/js/common/wechatShare.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var _id='';
+			$(document).ready(function() {
+				wechatSharePublic("我发现了一个拯救加班狗神器，快来看看吧！", "100条加班狗已经被拯救！", "", false, "", "/activity/we_20160317_shakeByshake/images/share_logo.jpg");
+				$('#start').html('<li><a href="shake.html?gameid='+_gameid+'" class="bui_btn_48 bui_block bui_radius bui_bgc_orange">戳我摇奖<i class="fa fa-angle-right fa-fw"></i></a></li>');
+			});
+			//检测滚动到底部
+			$.fn.buijs_scroll = function(callback) {
+				var _box = $(this);
+				$(this).wrapInner('<div id="buijs_InnerBox"></div>');
+				var _InnerBox = $("#buijs_InnerBox");
+				_box.scroll(function() {
+					scroll();
+				});
+
+				function scroll() {
+					var _boxH = _box.height();
+					var _boxS = _box.scrollTop();
+					var _boxC = _InnerBox.height();
+					if (_boxS >= (_boxC - _boxH)) {
+						callback();
+					};
+				};
+			};
+			function listOfWinners(){
+				buijs_side_show({
+					setid: 'listOfWinnersBox',
+					title: '中奖名单',
+					barbgc: 'orange',
+					showAfter: function() {
+						getListOfWinners(1);
+					}
+				});
+				function getListOfWinners(pageNo) {
+					$.ajax({
+						type: "get",
+						url: url + "merriplusApi/getMemberResultForGame",
+						async: true,
+						data: {
+							gameId: _gameid,
+							pageNo: pageNo,
+							pageSize: 10
+						},
+						error: function() {
+							buijs_alert({
+								content: '数据提取失败...',
+								timeout: 0
+							});
+						},
+						success: function(data) {
+							//列表为空
+							//console.log(data.data.queryResult.length)
+							var _endRowNo=data.data.endRowNo;
+							var _rowCount=data.data.rowCount;
+							if(data.data.queryResult.length <= data.data.pageSize){
+								$("#listOfWinnersTips").addClass('active').html('<i class="fa fa-check fa-fw"></i> 已经加载完成');
+							}
+							if(_endRowNo==_rowCount){
+								$("#listOfWinnersTips").addClass('active').html('<i class="fa fa-check fa-fw"></i> 没有了...');
+							}
+							
+							var _list = '';
+							var _nickname='';
+							$.map(data.data.queryResult, function(data) {
+								var _membername = data.membername;
+								var _encrypt = "******************************";
+								if(_membername==""||_membername==null){
+									_nickname="神秘外星人";
+								}else{
+									_nickname = _membername.replace(_membername.substring(0,_membername.length-1),_encrypt.substring(0,_membername.length-1));
+								}
+								_list += '<li>' +
+									'<div class="bui_media bui_vm bui_bgc_white bui_p_12">' +
+									'<div class="bui_media_l">' +'<div class="bui_btn_48 bui_btnsq bui_round" data-bui_img="">'+
+									'<img src="' +(data.ext? data.ext : './images/headPict_01.png')+ '"/>'+
+									'</div>' + 
+									'</div>' +
+									'<div class="bui_media_b">'+
+									'<p class="bui_ts_14">' + _nickname + '</p>'+
+									'</div>' +
+									'</div>' +
+									'<hr/>' +
+									'</li>'
+							});
+							//插入数据
+							if (pageNo <= 1) {
+								$("#listOfWinnersBox .bui_mo_b").html('<div id="listOfWinners">' + _list + '</div><div class="bui_ptb_12 bui_ta_c bui_tc_white_d48" id="listOfWinnersTips"><i class="fa fa-check"></i> 已经加载完成</div>').find('[data-bui_img]').buijs_img();
+							} else {
+								$("#listOfWinners").append(_list).find('[data-bui_img]').buijs_img();
+							};
+							//滚动加载
+							$("#listOfWinnersBox .bui_mo_b").buijs_scroll(function() {
+								if (!$("#listOfWinnersTips").hasClass('active')) {
+									if(_endRowNo != _rowCount){
+										pageNo = pageNo + 1;
+									}								
+									$("#listOfWinnersTips").addClass('active').html('<i class="fa fa-circle-o-notch fa-fw"></i> 正在加载中...');
+									setTimeout(function() {
+										getListOfWinners(pageNo);
+									}, 300);
+								}
+							});
+						}
+							
+					})
+				}
+			}
+		</script>
+	</head>
+
+	<body class="wm_index_bg">
+	<div class="bui_wrap">
+		<div class="bui_mo_h bui_atc_white">
+			<div class="bui_media bui_vm">
+				<div class="bui_media_l"></div>
+				<div class="bui_media_b"></div>
+				<div class="bui_media_r">
+					<p class="bui_m_8">
+						<a href="javascript:listOfWinners();" class="bui_btn_32 bui_radius bui_bgc_orange_f72 bui_ts_12">查看中奖名单</a>
+					</p>
+				</div>
+			</div>
+		</div>
+		<!--logo-->
+		<div class="bui_inline bui_ta_c">
+			<img src="images/logo.png" style="width: 80%; margin:60px 0 46px;" />
+		</div>
+		<!--logo-->
+		<!--活动进行中-->
+		<div class="bui_plr_24" id="gametype_0">
+			<div id='start'></div>
+		</div>
+		<div class="bui_ts_14 bui_ptb_12 bui_plr_12" style="color: #666;">
+			<div class="bui_mb_6" style="color: #333;">
+				<p class="bui_ta_c bui_ts_14">中奖送 价值316元角鲨烯+维生素B族 礼盒</p>	 
+			</div>
+			<div class="bui_ts_12">
+				<p class="bui_ta_c">活动时间：<span class="bui_tc_orange bui_ts_14">3.21-3.28</span>,限量<span class="bui_tc_orange bui_ts_14">10套</span>，送完即止!</p>
+				<p class="bui_ta_c">【重要提示】每个微信号只有一次中奖机会，领取需支付1元手续费</p>
+				<p class="bui_pt_6" style="text-align: center;"><img src="images/chanpintu.jpg" style="width:172px; height:auto;" alt="" /></p>
+			</div>
+			<div class="bui_ptb_12">
+				<p class="bui_ta_c bui_ts_14">本活动最终解释权归极智构所有</p>
+			</div>
+		</div>
+	</div>
+					
+	</body>
+
+</html>

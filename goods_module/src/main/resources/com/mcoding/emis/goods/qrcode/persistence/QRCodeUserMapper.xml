@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.qrcode.persistence.QRCodeUserMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.qrcode.bean.QRCodeUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userOpenId" property="useropenid" jdbcType="VARCHAR" />
+    <result column="keyword" property="keyword" jdbcType="VARCHAR" />
+    <result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="ext1" property="ext1" jdbcType="VARCHAR" />
+    <result column="labelName" property="labelname" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, userOpenId, keyword, createDate, ext1, labelName, nickname, headimgurl
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.qrcode.bean.QRCodeUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from qrcode_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from qrcode_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from qrcode_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.goods.qrcode.bean.QRCodeUserExample" >
+    delete from qrcode_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.qrcode.bean.QRCodeUser" useGeneratedKeys="true" keyProperty="id" >
+    insert into qrcode_user (userOpenId, keyword, createDate, 
+      ext1, labelName, nickname, 
+      headimgurl)
+    values (#{useropenid,jdbcType=VARCHAR}, #{keyword,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{ext1,jdbcType=VARCHAR}, #{labelname,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{headimgurl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.qrcode.bean.QRCodeUser" useGeneratedKeys="true" keyProperty="id" >
+    insert into qrcode_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="useropenid != null" >
+        userOpenId,
+      </if>
+      <if test="keyword != null" >
+        keyword,
+      </if>
+      <if test="createdate != null" >
+        createDate,
+      </if>
+      <if test="ext1 != null" >
+        ext1,
+      </if>
+      <if test="labelname != null" >
+        labelName,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="headimgurl != null" >
+        headimgurl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="useropenid != null" >
+        #{useropenid,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword != null" >
+        #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="labelname != null" >
+        #{labelname,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="headimgurl != null" >
+        #{headimgurl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.goods.qrcode.bean.QRCodeUserExample" resultType="java.lang.Integer" >
+    select count(*) from qrcode_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update qrcode_user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.useropenid != null" >
+        userOpenId = #{record.useropenid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyword != null" >
+        keyword = #{record.keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdate != null" >
+        createDate = #{record.createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ext1 != null" >
+        ext1 = #{record.ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.labelname != null" >
+        labelName = #{record.labelname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickname != null" >
+        nickname = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.headimgurl != null" >
+        headimgurl = #{record.headimgurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update qrcode_user
+    set id = #{record.id,jdbcType=INTEGER},
+      userOpenId = #{record.useropenid,jdbcType=VARCHAR},
+      keyword = #{record.keyword,jdbcType=VARCHAR},
+      createDate = #{record.createdate,jdbcType=TIMESTAMP},
+      ext1 = #{record.ext1,jdbcType=VARCHAR},
+      labelName = #{record.labelname,jdbcType=VARCHAR},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      headimgurl = #{record.headimgurl,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.qrcode.bean.QRCodeUser" >
+    update qrcode_user
+    <set >
+      <if test="useropenid != null" >
+        userOpenId = #{useropenid,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword != null" >
+        keyword = #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        createDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext1 != null" >
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="labelname != null" >
+        labelName = #{labelname,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="headimgurl != null" >
+        headimgurl = #{headimgurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.qrcode.bean.QRCodeUser" >
+    update qrcode_user
+    set userOpenId = #{useropenid,jdbcType=VARCHAR},
+      keyword = #{keyword,jdbcType=VARCHAR},
+      createDate = #{createdate,jdbcType=TIMESTAMP},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      labelName = #{labelname,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      headimgurl = #{headimgurl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleByPage" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.qrcode.bean.QRCodeUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from qrcode_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="queryResultByKeyAndOpenid" parameterType="map" resultType="com.mcoding.emis.goods.qrcode.bean.QRCodeUser">
+        select * from qrcode_user where keyword =#{keyword} and useropenid =#{openid}
+       <!--  <trim prefix="where" suffix=" " suffixOverrides="and" >
+	        <if test="keyword != null and keyword != ''">
+	        	keyword =#{keyword} and
+	        </if>
+	        <if test="openid != null and openid != ''">
+	        	openid =#{openid} and
+	        </if>
+        </trim> -->
+        ORDER BY id ASC
+   </select>
+   <delete id="deleteObjByOpenId" parameterType="map" >
+    	delete from qrcode_user where userOpenId = #{useropenid}
+  </delete>
+   <update id="updateObjByOpenId" parameterType="map">
+    update qrcode_user set ext1 = #{ext1,jdbcType=VARCHAR}
+    	where userOpenId = #{useropenid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectInvitedWxUserByPage" parameterType="map" resultMap="com.mcoding.emis.member.persistence.member.EmisWeixinUserMapper.BaseResultMap">
+    SELECT
+      mr_wx_user.headimgurl,mr_wx_user.wxUserId,mr_wx_user.openid,mr_wx_user.share_id,mr_wx_user.mobilePhone,mr_wx_user.nickname,mr_wx_user.subscribe,
+      mr_wx_user.sex,mr_wx_user.city,mr_wx_user.country,mr_wx_user.province,mr_wx_user.privilege,mr_wx_user.subscribeTime,mr_wx_user.unionid,
+      mr_wx_user.remark,mr_wx_user.createTime,mr_wx_user.updateTime,mr_wx_user.brand_code,mr_wx_user.game_lottery_num,mr_wx_user.game_residue_num,qrcode_user.createDate
+    FROM
+      mr_wx_user ,
+      qrcode_user
+    WHERE
+      mr_wx_user.openid = qrcode_user.userOpenId AND
+      qrcode_user.keyword = #{keyword,jdbcType=VARCHAR}
+    ORDER BY
+      qrcode_user.createDate DESC
+    
+  </select>
+</mapper>

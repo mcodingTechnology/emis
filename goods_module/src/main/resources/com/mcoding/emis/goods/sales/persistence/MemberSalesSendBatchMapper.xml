@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.sales.persistence.MemberSalesSendBatchMapper" >
+	<resultMap type="com.mcoding.emis.goods.sales.bean.MemberSalesSendBatch" id="BaseResultMap">
+		<id column="batch_id" property="batchId" jdbcType="INTEGER" />
+		<result column="sale_id" property="saleId" jdbcType="INTEGER" />
+	    <result column="wx_appId" property="wxAppId" jdbcType="VARCHAR" />
+		<result column="invite_num" property="inviteNum" jdbcType="INTEGER" />
+	    <result column="sale_msg_send_time" property="saleMsgSendTime" jdbcType="TIMESTAMP" />
+	    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<insert id="inserSaleSendBatch" parameterType="java.util.List">
+		insert into t_sales_msg_send_batch(
+	        sale_id,
+	        wx_appId,
+	        invite_num,
+	        sale_msg_send_time,
+	        last_update_time,
+	        tags_id
+	        )
+        values
+            (
+            #{saleId},#{wxAppId},
+            #{inviteNum},
+            #{saleMsgSendTime},
+            #{lastUpdateTime},
+            #{tagsId}
+            )
+	</insert>
+</mapper>

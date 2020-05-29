@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>积分清零 - BIG生活积分商城</title>
+		<script src="../game_public/workspace_v2.0.3.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script type="text/javascript">
+			var vueData = {};
+			$(document).ready(function() {
+				global_vue({
+					data: vueData
+				});
+				autoSize();
+				global_getJsonSetVue(workSpace.jsonUrl + '/merriplusApi/getClearAndMemberPoints', 'getClearAndMemberPoints', null, function() {
+					if(vueData.getClearAndMemberPoints.status != 00) {
+						var contentText = '很抱歉，无法获取您即将清零的积分';
+						buijs_modal({
+							positions: 'center',
+							width: '86%',
+							isclose: false,
+							content: '<div class="bui_p_24">' + contentText + '</div>',
+							footer: '<div class="bui_p_12"><a href="../../GiftMall_GMX/" class="bui_btn bui_block bui_bgc_red bui_ta_c bui_btn_48 bui_ts_16">去积分商城 <i class="fa fa-angle-right fa-fw"></i></a></div>'
+						})
+					}
+				});
+
+			});
+			$(window).resize(function() {
+				autoSize();
+			});
+
+			function autoSize() {
+				$("html,body").css({
+					'font-size': 16 * $(window).width() / 360 + 'px'
+				})
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="bui_wrap bui_tc_white">
+			<div class="bui_mo">
+				<div class="bui_mo_b">
+					<div class="bui_p_24">
+						<img src="../game_public/images/gym-logo-white.png" style="width: 8rem;" />
+						<div class="bui_ta_c bui_mt_64">
+							<p class="bui_ts_16">您即将清零的积分为：</p>
+							<p class="bui_ts_48 bui_mt_12">{{getClearAndMemberPoints.data?getClearAndMemberPoints.data.clearPoint:0}}</p>
+							<p class="bui_mt_24">
+								<a href="../../GiftMall_GMX/" class="bui_btn bui_btn_48 bui_bgc_red bui_btn_pill bui_radius bui_plr_32 bui_ts_16">马上使用</a>
+							</p>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

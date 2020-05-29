@@ -1,0 +1,152 @@
+<com-loadingbar v-if="!quickDetail">
+</com-loadingbar>
+<template v-else>
+	<div class="bui_p_24 bui_row_p_12 bui_fs_14">
+		<div>
+			<div class="bui_bds_1 bui_bdc_silver">
+				<p class="bui_p_12 bui_fs_12 bui_fc_white bui_bgc_turquoise"><i class="bi bi_menu"></i> 基础信息</p>
+				<div class="bui_p_12 bui_row_p_6">
+					<div class="bui_col_12">
+						<span class="bui_fs_12 bui_fc_silver_d">编号：</span>
+						<span>{{quickDetail.data.orderInfo.outno}}</span>
+					</div>
+					<div class="bui_col_6">
+						<span class="bui_fs_12 bui_fc_silver_d">订单状态：</span>
+						<span>{{quickDetail.data.orderInfo.paystatus}}</span>
+					</div>
+					<div class="bui_col_6">
+						<span class="bui_fs_12 bui_fc_silver_d">支付渠道：</span>
+						<span>{{quickDetail.data.orderInfo.paytype}}</span>
+					</div>
+					<div class="bui_col_6">
+						<span class="bui_fs_12 bui_fc_silver_d">创建时间：</span>
+						<span class="bui_fs_12">{{moment(quickDetail.data.orderInfo.addtime)}}</span>
+					</div>
+					<div class="bui_col_6">
+						<span class="bui_fs_12 bui_fc_silver_d">支付时间：</span>
+						<span>{{moment(quickDetail.data.orderInfo.paytime,null,'待支付')}}</span>
+					</div>
+					<div class="bui_col_6">
+						<span class="bui_fs_12 bui_fc_silver_d">订单渠道：</span>
+						<span>{{quickDetail.data.orderInfo.malltype=='gMall'?'BIG生活微商城':quickDetail.data.orderInfo.malltype=='giftMall_gmx'?'BIG生活积分商城':'未知'}}</span>
+					</div>
+					<div class="bui_col_6">
+						<span class="bui_fs_12 bui_fc_silver_d">所属品牌：</span>
+						<span>{{quickDetail.data.orderInfo.orderbrand=='JLD'?'BIG生活':'未知'}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="bui_bds_1 bui_bdc_silver">
+				<p class="bui_p_12 bui_fs_12 bui_fc_white bui_bgc_turquoise"><i class="bi bi_menu"></i> 订单会员信息</p>
+				<div class="bui_p_12 bui_media bui_vm">
+					<div class="bui_media_l">
+						<com-img :src="quickDetail.data.member.headimgurl" width="6rem" height="6rem"></com-img>
+					</div>
+					<div class="bui_media_b">
+						<div class="bui_row_p_12">
+							<div>
+								<span class="bui_fs_12 bui_fc_silver_d">购买客户：</span>
+								<span>{{quickDetail.data.member.fullName}}</span>
+							</div>
+							<div>
+								<span class="bui_fs_12 bui_fc_silver_d">手机号码：</span>
+								<span>{{quickDetail.data.member.mobilePhone}}</span>
+							</div>
+							<div>
+								<span class="bui_fs_12 bui_fc_silver_d">openid：</span>
+								<span>{{quickDetail.data.member.openid}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="bui_bds_1 bui_bdc_silver">
+				<p class="bui_p_12 bui_fs_12 bui_fc_white bui_bgc_turquoise"><i class="bi bi_menu"></i> 订单商品信息</p>
+				<div>
+					<template v-for="data in quickDetail.data.orderProductsInfo">
+						<div class="bui_media bui_vm bui_p_12" :class="$index!=0?'bui_bds_1_t':''">
+							<div class="bui_media_l">
+								<com-img :src="data.productcoverimg" width="3rem" height="3rem"></com-img>
+							</div>
+							<div class="bui_media_b">
+								<p>{{data.productname}}</p>
+								<p>单价：<span class="bui_fc_red">￥{{data.price/100}}</span></p>
+							</div>
+							<div class="bui_media_r">
+								<p class="bui_fs_24 bui_fc_red">x{{data.nums}}</p>
+							</div>
+						</div>
+					</template>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="bui_bds_1 bui_bdc_silver">
+				<p class="bui_p_12 bui_fs_12 bui_fc_white bui_bgc_turquoise"><i class="bi bi_menu"></i> 物流信息</p>
+				<div class="bui_p_12 bui_row_p_12">
+					<div class="bui_col_6">
+						<span class="bui_fs_12 bui_fc_silver_d">收货人：</span>
+						<span>{{quickDetail.data.addressInfo.name}}</span>
+					</div>
+					<div class="bui_col_6">
+						<span class="bui_fs_12 bui_fc_silver_d">手机号码：</span>
+						<span>{{quickDetail.data.addressInfo.phone}}</span>
+					</div>
+					<div class="bui_col_12">
+						<span class="bui_fs_12 bui_fc_silver_d">收货地址：</span>
+						<span>{{quickDetail.data.addressInfo.regson}} {{quickDetail.data.addressInfo.address}}</span>
+					</div>
+					<div class="bui_col_6">
+						<span class="bui_fs_12 bui_fc_silver_d">物流公司：</span>
+						<span>{{quickDetail.data.orderInfo.deliveryname||'尚无信息'}}</span>
+					</div>
+					<div class="bui_col_6">
+						<span class="bui_fs_12 bui_fc_silver_d">物流单号：</span>
+						<span>{{quickDetail.data.orderInfo.deliveryorderno||'尚无信息'}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="bui_bds_1 bui_bdc_silver">
+				<p class="bui_p_12 bui_fs_12 bui_fc_white bui_bgc_turquoise"><i class="bi bi_menu"></i> 结算信息</p>
+				<div class="bui_p_12 bui_row_p_12">
+					<div class="bui_col_12">
+						<span class="bui_fs_12 bui_fc_silver_d">运费：</span>
+						<span>￥{{quickDetail.data.orderInfo.freight/100}}</span>
+					</div>
+					<div class="bui_col_12">
+						<span class="bui_fs_12 bui_fc_silver_d">实际支付：</span>
+						<template v-if="quickDetail.data.orderInfo.malltype=='gMall'">
+							<span class="bui_fs_24 bui_fc_red">￥{{quickDetail.data.orderInfo.fee/100}}</span>
+						</template>
+						<template v-if="quickDetail.data.orderInfo.malltype=='giftMall_gmx'">
+							<span class="bui_fs_24 bui_fc_red">{{quickDetail.data.orderInfo.fee}} 积分</span>
+							<template v-if="quickDetail.data.orderInfo.plusmoney">
+								<span class="bui_fs_24 bui_fc_red">+￥{{quickDetail.data.orderInfo.plusmoney/100}}</span>
+							</template>
+						</template>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script type="text/javascript">
+	var detailId = $("[bui_modal]#quickDetail").attr('bui_modal_url').split('id=')[1];
+	setTimeout(function() {
+		global_vueGetJson({
+			url: workSpace.jsonUrl + '/merriplusApi/getOrderInfoByOrderId',
+			data: {
+				orderId: detailId
+			},
+			vueName: 'quickDetail'
+		})
+	}, 600);
+</script>

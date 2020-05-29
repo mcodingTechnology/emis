@@ -1,0 +1,29 @@
+/*背景*/
+
+.hiking_bg {
+	background-color: #F18A2D;
+	background-image: url(images/hiking_bg.png);
+	background-size: 100% auto;
+	background-position: center bottom;
+}
+/*排名板*/
+
+.hiking_scorepanel,
+.hiking_scorepanel i {
+	display: block;
+	width: 80px;
+	height: 105px;
+	line-height: 105px;
+	background-image: url(images/hiking_scorepanel.png);
+	background-size: 200% auto;
+}
+.hiking_scorepanel {
+	background-position: 0 0;
+	position: relative;
+}
+.hiking_scorepanel i {
+	position: absolute;
+	background-position: 100% 0;
+	top: 0;
+	left: 0;
+}

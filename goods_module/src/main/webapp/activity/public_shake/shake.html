@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>{{shakeTitle}} - {{brandName}}</title>
+		<meta charset="utf-8">
+		<script src="../game_public/workspace_v2.0.2.js" type="text/javascript" charset="utf-8"></script>
+		<script src="public.js"></script>
+		<!--微信分享-->
+		<script src="../../resources/js/common/wechatShare.js" type="text/javascript" charset="utf-8"></script>
+		<!--微信分享-->
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script type="text/javascript">
+			var _prizeid = '';
+			var _prizename = '';
+			var _ext = '';
+			$(document).ready(function() {
+				if (vueData.urlData.action == 'on') {
+					shakeAfter();
+				};
+				//摇一摇
+				init();
+				//点屏幕
+				$('.wm_shake_am').click(function() {
+					shakeAfter();
+				});
+			});
+			//抽奖
+			function shakeAfter() {
+				if (_isruning == 0) {
+					_isruning = 1;
+					$('#kaca')[0].play();
+					$.ajax({
+						type: "get",
+						url: _jsonUrl + '/merriplusApi/shakeAndGetPrize',
+						async: true,
+						dataType: 'json',
+						data: {
+							gameid: vueData.urlData.gameId
+						},
+						beforeSend: function() {
+							buijs_showloading('black_f72');
+						},
+						complete: function() {
+							buijs_closeloading();
+						},
+						error: function() {
+							buijs_alert({
+								content: '数据访问失败'
+							});
+							_isruning = 0
+						},
+						success: function(data) {
+							function modalTemplateContent(title, prizename, imgUrl, info) {
+								var img = ''
+								if (imgUrl == false) {
+									img = '<i class="fa fa-frown-o bui_fac_white bui_fas_96" style="width:128px;height:128px;line-height:128px;"></i>'
+								} else {
+									img = '<img src="' + imgUrl + '" style="width:128px;" class="bui_bsd_24 bui_radius bui_bgc_white"/>'
+								}
+								return '<div class="bui_ta_c">' +
+									'<p class="bui_ts_12">' + title + '</p>' +
+									'<p class="bui_ts_20">' + prizename + '</p>' +
+									'<p class="bui_p_12">' + img + '</p>' +
+									'<p class="bui_ts_12">' + info + '</p>' +
+									'</div>';
+							};
+
+							function modalTemplateFooter(action, title) {
+								if (vueData.urlData.gameType != 'online') {
+									return ''
+								} else {
+									return '<div class="bui_p_12">' +
+										'<button onclick="' + action + '" class="bui_btn_48 bui_block bui_bds_0 bui_bgc_white bui_bsd_12 bui_round ' + vueData.style.tcTrue + '"><span class="' + vueData.style.tcTrue + '">' + title + '</span></button>' +
+										'</div>'
+								}
+							};
+							console.log(data);
+							var modalContent = '',
+								modalFooter = '';
+							switch (data.code) {
+								//抽中
+								case 0:
+								case 4:
+									var _info = ''
+									vueData.addressInfo = {};
+									vueData.addressInfo.membername = data.data.membername;
+									vueData.addressInfo.memberphone = data.data.memberphone;
+									vueData.addressInfo.memberaddress = data.data.memberaddress;
+									if (data.data.islottery == 0) {
+										modalContent = modalTemplateContent('Sorry！', '没有中奖', false, 'GymmaxBIG生活祝您跑出好成绩！');
+										modalFooter = '';
+									} else if (data.data.islottery == 1) {
+										var _ext = data.data.ext ? '<br/>兑换码：<span class="bui_ts_16">' + data.data.ext : '</span>';
+										if (data.data.prizetype == 1) {
+											if (!data.data.membername || !data.data.memberphone || !data.data.memberaddress) {
+												modalFooter = modalTemplateFooter('javascript:checkAddress(\'before\',' + data.data.id + ');', '马上领奖');
+												_info = '快去领奖吧！' + _ext;
+											} else {
+												modalFooter = modalTemplateFooter('javascript:checkAddress(\'after\',' + data.data.id + ');', '查看信息');
+												_info = '您已经领过奖品' + _ext;
+											}
+										} else if (data.data.prizetype == 2) {
+											modalFooter = modalTemplateFooter('javascript:buijs_modal_close();_isruning=0', '朕知道了！');
+											_info = '请长按上方二维码领取<br/><span class="bui_ts_16">您已经抽过奖啦！<span>'
+										};
+										modalContent = modalTemplateContent('Yo！你的麒麟臂摇出了', data.data.prizename, data.data.prizeimg, _info);
+									}
+									break;
+									//抛出异常
+								case 1:
+									modalContent = modalTemplateContent('网络有颠簸！', '不小心绊了一下', false, '重新试试吧');
+									modalFooter = modalTemplateFooter('javascript:buijs_modal_close();_isruning=0', '重新试试');
+									break;
+									//未抽中
+								case 2:
+									modalContent = modalTemplateContent('Sorry！', '没有中奖', false, 'GymmaxBIG生活祝您跑出好成绩！');
+									modalFooter = modalTemplateFooter('javascript:buijs_modal_close();_isruning=0', '感觉好极了T_T');
+									break;
+									//库存不足
+								case 3:
+									modalContent = modalTemplateContent('库存不足', '奖品已经领完啦', false, '下次请早~');
+									modalFooter = '';
+									break;
+									//游戏过期
+								case 5:
+									modalContent = modalTemplateContent('非常抱歉~', '游戏已过期', false, '请关注' + vueData.brandName + '其他活动');
+									modalFooter = '';
+									break;
+									//游戏未开始
+								case 6:
+									modalContent = modalTemplateContent('啊哦~', '游戏未开始', false, '请关注' + vueData.brandName + '其他活动');
+									modalFooter = '';
+									break;
+									//超过尝试次数
+								case 7:
+									modalContent = modalTemplateContent('啊哦~', '超过游戏次数了~', false, '请关注' + vueData.brandName + '其他活动');
+									modalFooter = '';
+									break;
+									//已中奖未分享
+								case 8:
+									modalContent = '';
+									modalFooter = '';
+									break;
+								default:
+									break;
+							}
+							buijs_modal({
+								title: '提示',
+								positions: 'center',
+								width: '80%',
+								height: '80%',
+								barbgc: vueData.style.bgc,
+								bgc: vueData.style.bgc + ' bui_tc_white',
+								content: '<div class="bui_p_12">'+modalContent+'</div>',
+								footer: modalFooter,
+								isclose: false
+							})
+						}
+					});
+				}
+			};
+			//领奖
+			function checkAddress(type, id) {
+				var checkAddressTitle = '',
+					checkAddressContent = '',
+					checkAddressFooter = '';
+				switch (type) {
+					case 'before':
+						checkAddressTitle = '请填写收货信息';
+						checkAddressContent = '<div class="bui_p_12 ' + vueData.style.facFalse + '">' +
+							'<div class="bui_row_p_12">' +
+							'<li>' +
+							'		<div class="bui_ipg_32 bui_block">' +
+							'			<i class="fa fa-user bui_fl"></i>' +
+							'			<input type="text" name="address_name" id="address_name" placeholder="收货人姓名" maxlength="20" value="" class="bui_ipt_32 bui_ts_12" />' +
+							'		</div>' +
+							'	</li>' +
+							'	<li>' +
+							'		<div class="bui_ipg_32 bui_block">' +
+							'			<i class="fa fa-mobile bui_fas_24 bui_fl"></i>' +
+							'			<input type="tel" name="address_phone" id="address_phone" placeholder="手机号码" maxlength="11" value="" class="bui_ipt_32 bui_ts_12" />' +
+							'		</div>' +
+							'	</li>' +
+							'	<li>' +
+							'		<div class="bui_ipg_32 bui_block">' +
+							'			<i class="fa fa-map-marker bui_fl"></i>' +
+							'			<i class="fa fa-angle-right bui_fr"></i>' +
+							'			<textarea type="text" name="address_regson" id="address_regson" placeholder="所在区域" value="" class="bui_ipt_32 bui_ts_12" readonly="readonly" onclick="javascript:public_selectRegson($(this),1,0,\'100%\');"></textarea>' +
+							'		</div>' +
+							'		<input type="hidden" name="address_province" id="address_province" value="" placeholder="省" />' +
+							'		<input type="hidden" name="address_city" id="address_city" value="" placeholder="市" />' +
+							'		<input type="hidden" name="address_area" id="address_area" value="" placeholder="区" />' +
+							'		<input type="hidden" name="address_street" id="address_street" value="" placeholder="街道" />' +
+							'	</li>' +
+							'	<li>' +
+							'		<div class="bui_ipg_32 bui_block">' +
+							'			<i class="fa fa-truck bui_fl"></i>' +
+							'			<textarea name="address_address" id="address_address" rows="6" cols="" placeholder="详细收货地址" maxlength="255" class="bui_ipt_32 bui_ts_12"></textarea>' +
+							'		</div>' +
+							'	</li>' +
+							'</div>' +
+							'</div>';
+						checkAddressFooter = '<div class="bui_p_12"><button class="bui_btn_48 bui_block ' + vueData.style.btnTrue + '" buijs_modal_true="">提交信息</button></div>';
+						break;
+					case 'after':
+						checkAddressTitle = '您的收货信息';
+						checkAddressContent = '<div class="bui_row_p_12">' +
+							'<li><div class="bui_media bui_vt bui_p_12 bui_bds_1_b"><div class="bui_media_l bui_ts_12 ' + vueData.style.tcFalse + '">收货人：</div><div class="bui_media_b bui_ta_r bui_ts_14">' + vueData.addressInfo.membername + '</div></li>' +
+							'<li><div class="bui_media bui_vt bui_p_12 bui_bds_1_b"><div class="bui_media_l bui_ts_12 ' + vueData.style.tcFalse + '">手机：</div><div class="bui_media_b bui_ta_r bui_ts_14">' + vueData.addressInfo.memberphone + '</div></li>' +
+							'<li><div class="bui_media bui_vt bui_p_12 bui_bds_1_b"><div class="bui_media_l bui_ts_12 ' + vueData.style.tcFalse + '">收货地址：</div><div class="bui_media_b bui_ta_r bui_ts_14">' + vueData.addressInfo.memberaddress + '</div></li>' +
+							'</div>';
+						checkAddressFooter = '<div class="bui_p_12"><button class="bui_btn_48 bui_block ' + vueData.style.btnTrue + '" onclick="buijs_modal_close(\'checkAddress\')">关闭</button></div>';
+						break;
+					default:
+						break;
+				};
+				buijs_modal({
+					setid: 'checkAddress',
+					positions: 'center',
+					width: '80%',
+					height: '80%',
+					title: checkAddressTitle,
+					content: checkAddressContent,
+					footer: checkAddressFooter,
+					isclose: false,
+					showAfter: function() {
+						$("#checkAddress input,#checkAddress textarea").focus(function() {
+							$(this).removeClass('bui_bdc_red')
+						});
+					},
+					trueAfter: function() {
+						if (buijs_formcheck_length($("#address_name").val(), 20, 1) == false) {
+							$("#address_name").addClass('bui_bdc_red');
+							buijs_alert({
+								content: '姓名格式错误'
+							});
+							return false;
+						} else if (buijs_formcheck_mobile($("#address_phone").val()) == false) {
+							$("#address_phone").addClass('bui_bdc_red');
+							buijs_alert({
+								content: '手机号码格式错误'
+							});
+							return false;
+						} else if (buijs_formcheck_length($("#address_province").val(), 255, 1) == false || buijs_formcheck_length($("#address_city").val(), 255, 1) == false || buijs_formcheck_length($("#address_area").val(), 255, 1) == false) {
+							$("#address_regson").addClass('bui_bdc_red');
+							buijs_alert({
+								content: '区域信息不完整'
+							});
+							return false;
+						} else if (buijs_formcheck_length($("#address_address").val(), 255, 1) == false) {
+							$("#address_address").addClass('bui_bdc_red');
+							buijs_alert({
+								content: '详细地址格式错误'
+							});
+							return false;
+						} else {
+							$.ajax({
+								type: "post",
+								url: _jsonUrl + "merriplusApi/updateMemberAddressInfo.html",
+								async: true,
+								dataType: 'json',
+								data: {
+									id: id,
+									ext1: 'yes',
+									membername: $("#address_name").val(),
+									memberphone: $("#address_phone").val(),
+									memberaddress: $("#address_province").val() + ' ' + $("#address_city").val() + ' ' + $("#address_area").val() + ' ' + $("#address_address").val()
+								},
+								beforeSend: function() {
+									buijs_showloading('black_f72');
+								},
+								complete: function() {
+									buijs_closeloading();
+								},
+								error: function() {
+									buijs_alert({
+										content: '数据访问失败'
+									});
+								},
+								success: function(data) {
+									buijs_alert({
+										content: '领取成功！',
+									});
+									setTimeout(function() {
+										window.history.go(-1);
+									}, 1000)
+								}
+							});
+						}
+					}
+				})
+			};
+		</script>
+	</head>
+
+	<body class="bui_at_noline {{style.pageBg}}">
+		<!--声音-->
+		<audio src="images/kaca.mp3" controls="controls" hidden="true" id="kaca" style="opacity: 0; -webkit-opacity: 0; -moz-opacity: 0;">
+		</audio>
+		<!--声音-->
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<!--页头-->
+
+				<!--页头-->
+				<!--页面-->
+				<div class="bui_mo_b">
+					<div class="bui_pt_48 bui_ta_c">
+						<img src="{{shakeLogo}}" style="width: 50%;" />
+					</div>
+					<div class="bui_inline bui_ta_c bui_p_24">
+						<!--摇一摇动画-->
+						<div class="wm_shake_am" style="width: 256px; height: 256px;">
+							<img src="images/shake.png" />
+						</div>
+						<!--摇一摇动画-->
+					</div>
+					<div class="bui_ta_c">
+						<p class="bui_ts_16 bui_tc_white">倾力一甩，大奖出来</p>
+						<p class="bui_ts_12 {{style.tcTrue}}">（甩不出来？点击屏幕也能抽奖！）</p>
+					</div>
+
+				</div>
+				<!--页面-->
+			</div>
+		</div>
+
+	</body>
+
+</html>

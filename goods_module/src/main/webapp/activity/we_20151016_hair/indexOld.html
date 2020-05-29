@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>手机验证</title>
+    <script type="text/javascript" src="workspace.js"></script>
+    <script type="text/javascript" src="validate.js"></script>
+</head>
+<body class="bg_lightgray">
+<!-- 头部-->
+<!--<div class="validate_head">
+    <div class="validate_head_img" data-bui_img=''  >
+        <img src="images/logo.png" id="validate_head_img"/>
+    </div>
+    <p>身份验证</p>
+</div>-->
+<div class="validate_head_new">
+    <p>身份验证</p>
+</div>
+<!--主体-->
+<div class="validate_content">
+    <ul>
+        <li style="position: relative" id="validate_phone_li">
+            <i class="fa fa-mobile-phone"></i>
+            <span style="display: inline-block;padding-left:20px">
+                <input id="validate_phone" maxlength="11" placeholder="手机号码" type="tel" style="padding-left: 5px;" />
+                <span  class="validate_num_btn">获取验证码</span>
+            </span>
+        </li>
+        <li style="position: relative" id="validate_number_li">
+            <i class="fa fa-file-text"></i>
+            <span style="display: inline-block;">
+                <input type="tel" id="validate_number" maxLength="6" placeholder="验证码" style="padding-left: 5px;"/>
+            </span>
+        </li>
+    </ul>
+    <div class="validate_submit_btn">提交</div>
+</div>
+</body>
+</html>

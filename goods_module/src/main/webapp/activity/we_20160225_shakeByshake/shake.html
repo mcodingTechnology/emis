@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" />
+		<title>BIG生活 - 摇一摇领奖品</title>
+		<script src="workspace_v2.0.1.js" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script src="../baidiui/js/jQuery.md5.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="public.js"></script>
+		<script src="../../resources/js/common/wechatShare.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				wechatSharePublic("BIG生活 - 摇一摇领奖品", "BIG生活 - 摇一摇领奖品", "", false, "", "/activity/yyy/images/code.jpg");
+				});
+		</script>
+		<script type="text/javascript">
+			var _prizeid='';
+			var _prizename='';
+			var _ext='';
+			$(document).ready(function() {
+				var _dh = $(document).height();
+				$('.wm_alert').css({
+					'height': _dh + 'px'
+				});
+				//测试用
+				$('.wm_shake_am').click(function() {
+					_gift();
+				});
+				init();
+			});
+			 //摇一摇
+			var SHAKE_THRESHOLD = 3000;
+			var last_update = 0;
+			var x = y = z = last_x = last_y = last_z = 0;
+			var _isruning = 0
+
+			function init() {
+				if (window.DeviceMotionEvent) {
+					window.addEventListener('devicemotion', deviceMotionHandler, false);
+				} else {
+					alert('换个手机吧，亲，你的手机不支持摇一摇');
+				}
+			};
+
+			function deviceMotionHandler(eventData) {
+				var acceleration = eventData.accelerationIncludingGravity;
+				var curTime = new Date().getTime();
+				if ((curTime - last_update) > 100) {
+					var diffTime = curTime - last_update;
+					last_update = curTime;
+					x = acceleration.x;
+					y = acceleration.y;
+					z = acceleration.z;
+					var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+					if (speed > SHAKE_THRESHOLD && _isruning == 0) {
+						_gift();
+					}
+					last_x = x;
+					last_y = y;
+					last_z = z;
+				}
+			};
+			 //抽奖
+			function _gift() {
+				if (_isruning == 0) {
+					_isruning = 1;
+					$.getJSON(url + '/merriplusApi/shakeGetFlow.html?gameid='+_gameid, function(data) {
+						if ($('.wm_alert').hasClass('active')) {} else {
+							//声音
+							$('#kaca')[0].play();
+							//code 0 抽奖成功 ，1 抽奖失败 ，2 没抽中 ，3 库存不足 ，4 当天已抽过奖，不能重复抽
+							if (data.code == 0) {
+								$('#content').html('<p>果然麒麟臂！</p><p>你摇出了<span style="color:#ede902">'+data.data.prizename+'</span></p><p>中奖编码是<span style="color:#ede902">'+data.data.ext+'</span></p><p class="bui_mt_32 bui_ts_16">请领取奖品后，</p><p class="bui_ts_16">再点击“我已领取”！</p><a href="javascript:getGift('+data.data.id+');" class="bui_btn_48 b_bgc_black bui_block bui_radius bui_mt_32">我已领取</a>').show();
+								_prizeid=data.data.id;
+								_ext=data.data.ext;
+								_prizename=data.data.prizename;
+							}
+							if (data.code == 1) {
+								$('#content').html('<p style="font-size:16px;">网络颠簸，再来一次吧！</p><a href="javascript:_alerthide();" class="bui_btn_48 bui_block b_bgc_black bui_radius bui_mt_32" style="font-size:16px;">再来一次</a>').show();
+							}
+							if (data.code == 2) {
+								$('#content').html('<p>可惜了！距离奖品就差一点点运气！</p><a href="index.html?gameid='+_gameid+'" class="bui_btn_48 b_bgc_black bui_block bui_radius bui_mt_32">返回首页</a>').show();
+							}
+							if (data.code == 3) {
+								$('#content').html('<p>可惜了！距离奖品就差一点点运气！</p><a href="index.html?gameid='+_gameid+'" class="bui_btn_48 b_bgc_black bui_block bui_radius bui_mt_32">返回首页</a>').show();
+							}
+							if (data.code == 4) {
+								if(data.data.islottery == 1){
+									if(data.data.ext1 == "yes"){
+										$('#content').html('<p>您已经领取过奖品！</p><p>您获得的是<span style="color:#ede902">'+data.data.prizename+'</span></p><p>中奖编码是<span style="color:#ede902">'+data.data.ext+'</span></p><a href="index.html?gameid='+_gameid+'" class="bui_btn_48 b_bgc_black bui_block bui_radius bui_mt_32">返回首页</a>').show();
+									}else{
+										$('#content').html('<p>您摇出的奖品还没有领取，赶快领取吧！</p><p>你摇出的是<span style="color:#ede902">'+data.data.prizename+'</span></p><p>中奖编码是<span style="color:#ede902">'+data.data.ext+'</span></p><p class="bui_mt_32 bui_ts_16">请领取奖品后，</p><p class="bui_ts_16">再点击“我已领取”！</p><a href="javascript:getGift('+data.data.id+');" class="bui_btn_48 b_bgc_black bui_block bui_radius bui_mt_32">我已领取</a>').show();
+										_prizeid=data.data.id;
+										_ext=data.data.ext;
+										_prizename=data.data.prizename;
+										
+									}	
+								}else{
+									$('#content').html('<p>您已抽过奖，不能重复抽哦!</p><a href="index.html?gameid='+_gameid+'" class="bui_btn_48 b_bgc_black bui_block bui_radius bui_mt_32">返回首页</a>').show();
+								}
+							}
+							//展开弹窗
+							_alertshow();
+							_isruning = 0;
+						};
+					})
+				}
+			};
+			//已经领取
+			function getGift(id){
+				$.getJSON(url + '/merriplusApi/updateMemberResult.html?id='+_prizeid+'&ext1=yes', function(data){
+						buijs_alert({
+							content: '领取成功',
+						});
+					$('#content').html('<p>您已经领取过奖品！</p><p>您获得的是<span style="color:#ede902">'+_prizename+'</span></p><p>中奖编码是<span style="color:#ede902">'+_ext+'</span></p><a href="index.html?gameid='+_gameid+'" class="bui_btn_48 b_bgc_black bui_block bui_radius bui_mt_32">返回首页</a>').show();
+				})	 
+			}
+			//展开弹窗
+			function _alertshow() {
+				$('.wm_alert').show();
+				$('.wm_alert').addClass('active');
+				
+			};
+			 //收起弹窗
+			function _alerthide() {
+				_isruning = 0
+				$('.wm_alert').removeClass('active');
+				setTimeout(function() {
+					$('.wm_alert,.wm_modal_content').hide();
+				}, 300);
+			};
+		</script>
+	</head>
+
+	<body class="wm_index_bg">
+
+		<div class="wm_inline wm_ta_c" id="bg">
+			<!--logo-->
+			<img src="images/logo.png" style="width: 184px; margin:24px 0;" />
+			<br />
+			<!--logo-->
+			<!--摇一摇动画-->
+			<div class="wm_shake_am" style="width: 256px; height: 256px;">
+				<img src="images/shake.png" />
+			</div>
+			<br />
+			<!--摇一摇动画-->
+			<!--说明-->
+			<div class="wm_content bui_mt_24 bui_mb_12 bui_plr_12 bui_ta_c">
+				<!-- <p class="bui_ts_16" style="font-weight: bold;">流量礼包“甩”出来</p> -->
+				<p class="bui_ts_14" style="color: #fff;">（摇一摇用不了？点击屏幕也能抽奖！）</p>
+			</div>
+			<!--说明-->
+		</div>
+		<!--中奖区域-->
+		<div class="wm_alert">
+			<div class="wm_mask">
+				<div class="wm_mask_shake"></div>
+				<div class="wm_modal">
+					<img src="images/hua.png" id="hua" />
+					<div class="wm_modal_box">
+						<!--共用信息栏目-->
+						<div class="wm_modal_content bui_ta_c" id="content">
+						</div>
+						<!--共用信息栏目-->
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!--中奖区域-->
+
+		<!--声音-->
+		<audio src="images/kaca.mp3" controls="controls" hidden="true" id="kaca" style="opacity: 0; -webkit-opacity: 0; -moz-opacity: 0;">
+		</audio>
+		<!--声音-->
+	</body>
+
+</html>

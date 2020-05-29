@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.healthCriteria.persistence.HealthCriteriaMemberMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteriaMember" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="memberName" property="membername" jdbcType="VARCHAR" />
+    <result column="mobilePhone" property="mobilephone" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="VARCHAR" />
+    <result column="determine" property="determine" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="additionalAdvice" property="additionaladvice" jdbcType="VARCHAR" />
+    <result column="healthCriteriaId" property="healthcriteriaid" jdbcType="VARCHAR" />
+    <result column="productId" property="productid" jdbcType="VARCHAR" />
+    <result column="detailedReport" property="detailedreport" jdbcType="VARCHAR" />
+    <result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="updateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="ext1" property="ext1" jdbcType="VARCHAR" />
+    <result column="ext2" property="ext2" jdbcType="VARCHAR" />
+    <result column="health_mark1" property="healthMark1" jdbcType="VARCHAR" />
+    <result column="health_mark2" property="healthMark2" jdbcType="VARCHAR" />
+    <result column="health_mark3" property="healthMark3" jdbcType="VARCHAR" />
+    <result column="health_mark4" property="healthMark4" jdbcType="VARCHAR" />
+    <result column="health_mark5" property="healthMark5" jdbcType="VARCHAR" />
+    <result column="health_mark6" property="healthMark6" jdbcType="VARCHAR" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="result_status" property="resultStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, memberName, mobilePhone, level, score, determine, description, additionalAdvice, 
+    healthCriteriaId, productId, detailedReport, createDate, updateDate, ext1, ext2, 
+    health_mark1, health_mark2, health_mark3, health_mark4, health_mark5, health_mark6, 
+    openid, result_status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteriaMemberExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from health_criteria_member
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from health_criteria_member
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from health_criteria_member
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteriaMemberExample" >
+    delete from health_criteria_member
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteriaMember" >
+    insert into health_criteria_member (id, memberName, mobilePhone, 
+      level, score, determine, 
+      description, additionalAdvice, healthCriteriaId, 
+      productId, detailedReport, createDate, 
+      updateDate, ext1, ext2, 
+      health_mark1, health_mark2, health_mark3, 
+      health_mark4, health_mark5, health_mark6, 
+      openid, result_status)
+    values (#{id,jdbcType=INTEGER}, #{membername,jdbcType=VARCHAR}, #{mobilephone,jdbcType=VARCHAR}, 
+      #{level,jdbcType=INTEGER}, #{score,jdbcType=VARCHAR}, #{determine,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{additionaladvice,jdbcType=VARCHAR}, #{healthcriteriaid,jdbcType=VARCHAR}, 
+      #{productid,jdbcType=VARCHAR}, #{detailedreport,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{updatedate,jdbcType=TIMESTAMP}, #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, 
+      #{healthMark1,jdbcType=VARCHAR}, #{healthMark2,jdbcType=VARCHAR}, #{healthMark3,jdbcType=VARCHAR}, 
+      #{healthMark4,jdbcType=VARCHAR}, #{healthMark5,jdbcType=VARCHAR}, #{healthMark6,jdbcType=VARCHAR}, 
+      #{openid,jdbcType=VARCHAR}, #{resultStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteriaMember" >
+    insert into health_criteria_member
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="membername != null" >
+        memberName,
+      </if>
+      <if test="mobilephone != null" >
+        mobilePhone,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="determine != null" >
+        determine,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="additionaladvice != null" >
+        additionalAdvice,
+      </if>
+      <if test="healthcriteriaid != null" >
+        healthCriteriaId,
+      </if>
+      <if test="productid != null" >
+        productId,
+      </if>
+      <if test="detailedreport != null" >
+        detailedReport,
+      </if>
+      <if test="createdate != null" >
+        createDate,
+      </if>
+      <if test="updatedate != null" >
+        updateDate,
+      </if>
+      <if test="ext1 != null" >
+        ext1,
+      </if>
+      <if test="ext2 != null" >
+        ext2,
+      </if>
+      <if test="healthMark1 != null" >
+        health_mark1,
+      </if>
+      <if test="healthMark2 != null" >
+        health_mark2,
+      </if>
+      <if test="healthMark3 != null" >
+        health_mark3,
+      </if>
+      <if test="healthMark4 != null" >
+        health_mark4,
+      </if>
+      <if test="healthMark5 != null" >
+        health_mark5,
+      </if>
+      <if test="healthMark6 != null" >
+        health_mark6,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="resultStatus != null" >
+        result_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="membername != null" >
+        #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        #{mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=VARCHAR},
+      </if>
+      <if test="determine != null" >
+        #{determine,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="additionaladvice != null" >
+        #{additionaladvice,jdbcType=VARCHAR},
+      </if>
+      <if test="healthcriteriaid != null" >
+        #{healthcriteriaid,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+        #{productid,jdbcType=VARCHAR},
+      </if>
+      <if test="detailedreport != null" >
+        #{detailedreport,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="healthMark1 != null" >
+        #{healthMark1,jdbcType=VARCHAR},
+      </if>
+      <if test="healthMark2 != null" >
+        #{healthMark2,jdbcType=VARCHAR},
+      </if>
+      <if test="healthMark3 != null" >
+        #{healthMark3,jdbcType=VARCHAR},
+      </if>
+      <if test="healthMark4 != null" >
+        #{healthMark4,jdbcType=VARCHAR},
+      </if>
+      <if test="healthMark5 != null" >
+        #{healthMark5,jdbcType=VARCHAR},
+      </if>
+      <if test="healthMark6 != null" >
+        #{healthMark6,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="resultStatus != null" >
+        #{resultStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteriaMemberExample" resultType="java.lang.Integer" >
+    select count(*) from health_criteria_member
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update health_criteria_member
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.membername != null" >
+        memberName = #{record.membername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobilephone != null" >
+        mobilePhone = #{record.mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null" >
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.score != null" >
+        score = #{record.score,jdbcType=VARCHAR},
+      </if>
+      <if test="record.determine != null" >
+        determine = #{record.determine,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.additionaladvice != null" >
+        additionalAdvice = #{record.additionaladvice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.healthcriteriaid != null" >
+        healthCriteriaId = #{record.healthcriteriaid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productid != null" >
+        productId = #{record.productid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailedreport != null" >
+        detailedReport = #{record.detailedreport,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdate != null" >
+        createDate = #{record.createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedate != null" >
+        updateDate = #{record.updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ext1 != null" >
+        ext1 = #{record.ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext2 != null" >
+        ext2 = #{record.ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.healthMark1 != null" >
+        health_mark1 = #{record.healthMark1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.healthMark2 != null" >
+        health_mark2 = #{record.healthMark2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.healthMark3 != null" >
+        health_mark3 = #{record.healthMark3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.healthMark4 != null" >
+        health_mark4 = #{record.healthMark4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.healthMark5 != null" >
+        health_mark5 = #{record.healthMark5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.healthMark6 != null" >
+        health_mark6 = #{record.healthMark6,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openid != null" >
+        openid = #{record.openid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resultStatus != null" >
+        result_status = #{record.resultStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update health_criteria_member
+    set id = #{record.id,jdbcType=INTEGER},
+      memberName = #{record.membername,jdbcType=VARCHAR},
+      mobilePhone = #{record.mobilephone,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=VARCHAR},
+      determine = #{record.determine,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      additionalAdvice = #{record.additionaladvice,jdbcType=VARCHAR},
+      healthCriteriaId = #{record.healthcriteriaid,jdbcType=VARCHAR},
+      productId = #{record.productid,jdbcType=VARCHAR},
+      detailedReport = #{record.detailedreport,jdbcType=VARCHAR},
+      createDate = #{record.createdate,jdbcType=TIMESTAMP},
+      updateDate = #{record.updatedate,jdbcType=TIMESTAMP},
+      ext1 = #{record.ext1,jdbcType=VARCHAR},
+      ext2 = #{record.ext2,jdbcType=VARCHAR},
+      health_mark1 = #{record.healthMark1,jdbcType=VARCHAR},
+      health_mark2 = #{record.healthMark2,jdbcType=VARCHAR},
+      health_mark3 = #{record.healthMark3,jdbcType=VARCHAR},
+      health_mark4 = #{record.healthMark4,jdbcType=VARCHAR},
+      health_mark5 = #{record.healthMark5,jdbcType=VARCHAR},
+      health_mark6 = #{record.healthMark6,jdbcType=VARCHAR},
+      openid = #{record.openid,jdbcType=VARCHAR},
+      result_status = #{record.resultStatus,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteriaMember" >
+    update health_criteria_member
+    <set >
+      <if test="membername != null" >
+        memberName = #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        mobilePhone = #{mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=VARCHAR},
+      </if>
+      <if test="determine != null" >
+        determine = #{determine,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="additionaladvice != null" >
+        additionalAdvice = #{additionaladvice,jdbcType=VARCHAR},
+      </if>
+      <if test="healthcriteriaid != null" >
+        healthCriteriaId = #{healthcriteriaid,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+        productId = #{productid,jdbcType=VARCHAR},
+      </if>
+      <if test="detailedreport != null" >
+        detailedReport = #{detailedreport,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        createDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedate != null" >
+        updateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext1 != null" >
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        ext2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="healthMark1 != null" >
+        health_mark1 = #{healthMark1,jdbcType=VARCHAR},
+      </if>
+      <if test="healthMark2 != null" >
+        health_mark2 = #{healthMark2,jdbcType=VARCHAR},
+      </if>
+      <if test="healthMark3 != null" >
+        health_mark3 = #{healthMark3,jdbcType=VARCHAR},
+      </if>
+      <if test="healthMark4 != null" >
+        health_mark4 = #{healthMark4,jdbcType=VARCHAR},
+      </if>
+      <if test="healthMark5 != null" >
+        health_mark5 = #{healthMark5,jdbcType=VARCHAR},
+      </if>
+      <if test="healthMark6 != null" >
+        health_mark6 = #{healthMark6,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="resultStatus != null" >
+        result_status = #{resultStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.healthCriteria.bean.HealthCriteriaMember" >
+    update health_criteria_member
+    set memberName = #{membername,jdbcType=VARCHAR},
+      mobilePhone = #{mobilephone,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      score = #{score,jdbcType=VARCHAR},
+      determine = #{determine,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      additionalAdvice = #{additionaladvice,jdbcType=VARCHAR},
+      healthCriteriaId = #{healthcriteriaid,jdbcType=VARCHAR},
+      productId = #{productid,jdbcType=VARCHAR},
+      detailedReport = #{detailedreport,jdbcType=VARCHAR},
+      createDate = #{createdate,jdbcType=TIMESTAMP},
+      updateDate = #{updatedate,jdbcType=TIMESTAMP},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      ext2 = #{ext2,jdbcType=VARCHAR},
+      health_mark1 = #{healthMark1,jdbcType=VARCHAR},
+      health_mark2 = #{healthMark2,jdbcType=VARCHAR},
+      health_mark3 = #{healthMark3,jdbcType=VARCHAR},
+      health_mark4 = #{healthMark4,jdbcType=VARCHAR},
+      health_mark5 = #{healthMark5,jdbcType=VARCHAR},
+      health_mark6 = #{healthMark6,jdbcType=VARCHAR},
+      openid = #{openid,jdbcType=VARCHAR},
+      result_status = #{resultStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 非自动生成 -->
+  <!-- 检测结果列表查询 -->
+  <select id="queryHealthCriteriaMemberByPage" parameterType="map" resultMap="BaseResultMap">
+        select * from health_criteria_member
+       <trim prefix="where" suffix=" " suffixOverrides="and" >
+	        <if test="memberName != null and memberName != ''">
+	        	memberName like '%${memberName}%' and
+	        </if>
+	        <if test="mobilePhone != null">
+	        	mobilePhone = #{mobilePhone}
+	        </if>
+	        <if test="resultStatus != null">
+	        	result_status = #{resultStatus}
+	        </if>
+        </trim>
+        ORDER BY id DESC
+   </select>
+   
+  <!-- 非自动生成 -->
+  <!-- 根据手机号码分页查询检测报告 -->
+  <select id="queryResultByPhoneByPage" parameterType="map" resultMap="BaseResultMap">
+  	SELECT * FROM health_criteria_member hcm
+	WHERE hcm.mobilePhone = #{phone}
+	ORDER BY hcm.updateDate DESC
+  </select>
+  
+  <!-- 非自动生成 -->
+  <!-- 根据根据产品Ids查询推荐产品列表 -->
+  <select id="queryRecommendProductByIds" parameterType="map" resultType="com.mcoding.emis.goods.healthCriteria.bean.HealthRecommendProduct">
+  	SELECT DISTINCT
+		mp.productId AS productId,
+		mp.productName AS productName,
+		mp.originalPrice AS originalPrice,
+		mp.discountPrice AS discountPrice,
+		mp.microMallPrice1 AS microMallPrice,
+		mp.productCoverImg AS productImg,
+		mp.productAdImg AS productAdImg,
+		mp.productIntroduce AS productIntroduce 
+  	FROM mr_product mp WHERE mp.productId IN
+  	<foreach item="item" index="index" collection="ids" open="("
+			separator="," close=")">
+		#{item}
+	</foreach>
+  </select>
+  <!-- 非自动生成 -->
+  <!-- 根据手机号码查询最新一条记录 -->
+  <select id="queryHealthCriteriaMemberLastRecord" parameterType="map" resultMap="BaseResultMap">
+  	SELECT * FROM health_criteria_member hcm 
+  	WHERE 
+  		hcm.mobilePhone = #{phone}
+	AND hcm.openid = #{openid}
+	ORDER BY hcm.id DESC
+	LIMIT 1
+  </select>
+</mapper>

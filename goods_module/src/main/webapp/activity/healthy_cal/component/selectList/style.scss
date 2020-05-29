@@ -1,0 +1,45 @@
+.selectList {
+  .selectList_r {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 2;
+    width: 85%;
+    height: 100vh;
+    .title {
+      height: 8vh;
+      background-color:#2D3035;
+      padding-left:15%;
+      color:#A3A3A2;
+      line-height:8vh ;
+      border-bottom: 1px solid #242628;
+    }
+    ul {
+      height: 92vh;
+      overflow: auto;
+      background-color:#2D3035;
+      li{
+        height:8vh;
+        background-color:#2D3035;
+        color:#FFFFFF;
+        line-height:8vh ;
+        text-align: center;
+        border-bottom: 1px solid #242628;
+        .unit{
+          padding-left:5px;
+          color:#A3A3A2;
+        }
+      }
+    }
+  }
+  .selectList_l {
+    z-index: 2;
+    width: 15%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100vh;
+    background-color: black;
+    opacity: 0.48;
+  }
+}

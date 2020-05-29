@@ -1,0 +1,179 @@
+<script type="text/javascript">//var memberPoint=0;
+$(document).ready(function() {
+	getCartList();
+});
+//删除礼品车
+function gm_cartClear(cartId) {
+	!cartId ? cartId = 0 : cartId = cartId;
+	var modalContent;
+	cartId == 0 ? modalContent = '<p class="bui_p_24 bui_ta_c">是否清空礼品车</p>' : modalContent = '<p class="bui_p_24 bui_ts_14 bui_ta_c">是否删除该礼品</p>'
+	buijs_modal({
+		setid: 'gmModal_cartClear',
+		content: modalContent,
+		footer: '<div class="bui_p_12 bui_bds_1_t">' +
+			'<div class="bui_avg_2 bui_row_p_12">' +
+			'<li><button buijs_modal_close="gmModal_cartClear" class="bui_btn_48 bui_block bui_ts_14 ' + vueObj.style.btnFalse + '">取消</button></li>' +
+			'<li><button buijs_modal_true class="bui_btn_48 bui_block bui_ts_14 ' + vueObj.style.btnTrue + '">确定</button></li>' +
+			'</div>' +
+			'</div>',
+		trueAfter: function() {
+			buijs_showloading('bui_bgc_black_f72');
+			$.ajax({
+				type: "get",
+				url: _jsonUrl + '/merriplusApi/delShoppingCart',
+				async: true,
+				dataType: "json",
+				data: {
+					cartId: cartId
+				},
+				success: function(rs) {
+					gm_cartPlug(); //更新礼品车插件信息
+					buijs_closeloading();
+					buijs_modal_close('gmModal_cartClear');
+					getCartList();
+					cartSum();
+				}
+			});
+		}
+	});
+};
+
+function cartSum() {
+	var cartCount = 0;
+	var cartSum = 0;
+	var cartSum_RMB = 0;
+	$('.cartNum').each(function(index, ele) {
+		cartCount = Number($(ele).val()) + cartCount;
+		cartSum += Number($(this).data('coupons')) * Number($(ele).val());
+		cartSum_RMB += Number($(this).data('money')) * Number($(ele).val())
+	});
+	$('.cartMoney').html(cartSum_RMB);
+	$('.cartCount').html(cartCount);
+	$('.cartSum').html(cartSum);
+}
+//获取并插入数据 by pangxj
+function getCartList() {
+	$("#gm_cartPanel .bui_modal_b").html('<div class="bui_p_24 bui_ta_c"><i class="bui_btn_48 bui_btnsq fa fa-circle-o-notch fa-spin bui_fas_24 ' + vueObj.style.facFalse + '"></i></div>');
+	$.ajax({
+		type: "get",
+		url: _jsonUrl + "/merriplusApi/getCartList",
+		async: true,
+		dataType: "json",
+		data: {
+			malltype: vueObj.mallType
+		},
+		success: function(data) {
+			$("#gm_cartPanel .bui_modal_h .bui_media_l").html('<button class="bui_btn_32 bui_btnsq bui_m_8 fa fa-angle-left" onclick="buijs_modal_close(\'gm_cartPanel\')"></button>');
+			//购物车不为空
+			if (data.data.length > 0) {
+				//页头页脚处理
+				$("#gm_cartPanel .bui_modal_h .bui_media_r").html('<button class="bui_btn_32 bui_btnsq bui_m_8 fa fa fa-trash" onclick="gm_cartClear()"></button>');
+				$("#gm_cartPanel .bui_modal_f").html('<div class="bui_media bui_vm bui_bds_1_t">' +
+					'<div class="bui_media_l bui_ptb_8 bui_plr_24 bui_ts_12 bui_ta_c" style="line-height: 1.2em">' +
+					'	<p>共<span class="bui_tc_red cartCount">0</span>件礼品</p>' +
+					'	<p>合计<span class="bui_tc_red bui_ts_12 cartSum">0</span>积分</p>' +
+					'	<p cartMoneyC>需支付<span class="bui_tc_red bui_ts_14 cartMoney"></span>元</p>' +
+					'</div>' +
+					'<li class="bui_media_b bui_p_8">' +
+					'<a href="javascript:editProductNum(\'order_add.html?type=cart\')" class="bui_btn_48 bui_block bui_atc_white ' + vueObj.style.btnTrue + ' cartSubmit"><i class="fa fa-check-circle fa-fw"></i>结算</a>' +
+					'</li>' +
+					'</div>');
+				var _list = '';
+				$.map(data.data, function(data) {
+					_list += '<div class="bui_media bui_p_12 bui_bds_1_b" name="mp_cart_goods">' +
+						'		<div class="bui_media_l">' +
+						' 			<img src="' + data.productcoverimg + '" style="width: 64px;height: 64px;" />' +
+						'		</div>' +
+						'		<div class="bui_media_b">' +
+						'			<p class="bui_ts_14">' + data.productname + '</p>' +
+						'			<p class="bui_ts_12 bui_tc_white_d48 bui_mt_6">' +
+						'				<span class="bui_ts_12 ' + vueObj.style.bgc + ' bui_tc_white  bui_plr_12 bui_round">' + data.productprice + '积分</span><span class="bui_money">' + (data.plusMoney > 0 ? "+ ￥" + data.plusMoney / 100 : "") + '</span>' +
+						'			</p>' +
+						'			<p class="bui_mt_6" style="white-space:nowrap">' +
+						'				<a href="javascript:;" class="bui_btn_24 bui_btnsq bui_bgc_green bui_radius cartMinus"><i class="fa fa-minus"></i></a>' +
+						'				<input type="tel" maxlength="3"  value="' + data.productnum + '"  data-coupons="' + data.productprice + '" data-money="' + data.plusMoney / 100 + '" data-cartId="' + data.cartid + '" data-islimit="' + data.ext + '" data-limitnum="' + data.ext1 + '"  class="bui_ipt_24 bui_ta_c cartNum" size="3" />' +
+						'				<a href="javascript:;" class="bui_btn_24 bui_btnsq bui_bgc_green bui_radius cartAdd"><i class="fa fa-plus"></i></a>' +
+						'				<a href="javascript:gm_cartClear(' + data.cartid + ');" class="bui_btn_24 bui_btnsq bui_bgc_red bui_radius bui_ml_12 "><i class="fa fa-trash"></i></a>' +
+						'			</p>' +
+						'		</div>' +
+						'	</div>';
+				});
+				$("#gm_cartPanel .bui_modal_b").html(_list);
+				//加减--按钮绑定
+				$('.cartMinus').onTouch(function() {
+					var cartNum = Number($(this).next('.cartNum').val())
+					if (cartNum > 1) {
+						$(this).next('.cartNum').val(cartNum - 1);
+						cartSum();
+					}
+				})
+				$('.cartAdd').onTouch(function() {
+					var isLimit = Number($(this).prev('input').data('islimit') || 0);
+					var limitNum = Number($(this).prev('input').data('limitnum') || 0)
+					var cartNum = Number($(this).prev('.cartNum').val());
+					if (isLimit == 1 && cartNum >= limitNum) {
+						$(this).prev('.cartNum').val(limitNum);
+					} else {
+						$(this).prev('.cartNum').val(cartNum + 1);
+					}
+					cartSum();
+				});
+				cartSum();
+				$('.cartNum').bind('input', function() {
+					var isLimit = Number($(this).data('islimit') || 0);
+					var limitNum = Number($(this).data('limitnum') || 0)
+					this.value = this.value.replace(/(^[0])|[^\d]/g, '')
+					if ($('.cartNum').val() == '' || $('.cartNum').val() <= 0) {
+						$('.cartNum').val(1);
+					}
+					if (isLimit == 1 && this.value > limitNum) {
+						this.value = limitNum;
+					}
+					cartSum()
+				})
+			}
+			//购物车为空
+			else {
+				$("#gm_cartPanel .bui_modal_h .bui_media_r").html('');
+				$("#gm_cartPanel .bui_modal_f").html('<div class="bui_bds_1_t bui_p_8">' +
+					'<a href="gift_list.html" class="bui_btn_48 bui_block ' + vueObj.style.btnTrue + '"><i class="fa fa-check-circle fa-fw"></i>快去塞满</a>' +
+					'</div>');
+				$("#gm_cartPanel .bui_modal_b").html('<div class="bui_ta_c bui_p_24 bui_ta_c">' +
+					'<i class="fa fa-cart-plus bui_fas_96 ' + vueObj.style.facFalse + '"></i>' +
+					'<p>您的购物车很空虚~</p>' +
+					'</div>');
+				buijs_modal_close('gm_cartPanel');
+			}
+		}
+	});
+}
+//更新礼品车数量并结算
+function editProductNum(href) {
+	var cartArr = [];
+	$('div[name=mp_cart_goods]').each(function() {
+		var obj = {};
+		obj.cartid = $(this).find('.cartNum').data('cartid');
+		obj.productnum = Number($(this).find('.cartNum').val());
+		cartArr.push(obj);
+	});
+	$.ajax({
+		type: "post",
+		url: _jsonUrl + "/merriplusApi/updateAllProductInCart",
+		async: false,
+		global: false,
+		contentType: "application/json; charset=utf-8",
+		data: JSON.stringify(cartArr),
+		dataType: "json",
+		success: function(rs) {
+			if (href) {
+				window.location.href = href;
+			}
+		}
+	});
+};
+
+function getMemberPoint(callback) {
+	$.getJSON(_jsonUrl + '/merriplusApi/getMemberPointDetail?pageNo=1&pageSize=1', function(result) {
+		callback(result.data.allPoints || 0);
+	})
+}</script>

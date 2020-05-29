@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" src="workspace.js"></script>
+		<script type="text/javascript">
+			var _brandCode = buijs_geturl('brandCode');
+			console.log(_brandCode);
+			$(document).ready(function() {
+				//判断是否带brandCode
+				if (_brandCode == null) {
+					$(".bui_mo").hide();
+					buijs_alert({
+						content: "你来到了一个神秘的地方",
+						timeout: 0
+					});
+				} else {
+					if (_brandCode == "MRMJ") {
+						$(".bui_mo_h").addClass('bui_bgc_orange');
+						$("#game_backbtn").attr('href','../../GiftMall/index.html');
+					} else if (_brandCode == "JLD") {
+						$(".bui_mo_h").addClass('bui_bgc_red');
+						$("#game_backbtn").attr('href','../../GiftMall_GMX/index.html');
+					}
+				};
+				//模拟json
+				$.ajax({
+					type: "get",
+					url: "game_list.json",
+					async: true,
+					cache: true,
+					dataType: "json",
+					error: function(data) {
+						buijs_alert({
+							content: "数据读取失败，请检查您的网络设置",
+							timeout: 0
+						});
+					},
+					success: function(data) {
+						$.map(data, function(data) {
+							if (data.brandCode == _brandCode) {
+								var _gameUrl, _gameStataus;
+								if (data.stataus == "on") {
+									_gameUrl = data.url;
+									_gameStataus ='';
+								} else {
+									_gameUrl = "javascript:;";
+									_gameStataus = '<p class="bui_ts_12 bui_tc_red">筹备中</p>'
+								};
+								console.log(data.brandCode);
+								$("#gameList").append('<li><hr /><a href="' + _gameUrl + '" class="bui_media bui_vm bui_bgc_white bui_p_12"><div class="bui_media_l"><div class="bui_radius bui_bgc_lgray" style="width: 72px; height: 72px;" data-bui_img=""><img src="' + data.pic + '" /></div></div><div class="bui_media_b"><p>' + data.title + '</p><p class="bui_ts_12 bui_tc_o48">' + data.info + '</p>'+_gameStataus+'</div><div class="bui_media_r"><i class="fa fa-angle-right fa-fw bui_tc_o12 bui_fas_24"></i></div></a><hr /></li>')
+							}
+						});
+						$("#gameList [data-bui_img]").buijs_img();
+					}
+				});
+			});
+		</script>
+	</head>
+
+	<body class="bui_at_noline">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_media bui_vm bui_tc_white bui_atc_white bui_fac_white">
+					<div class="bui_media_l bui_p_0">
+						<a href="javascript:;" class="bui_btn_48 bui_btnsq" id="game_backbtn"><i class="fa fa-angle-left bui_fas_24"></i></a>
+					</div>
+					<div class="bui_media_b">
+						活动列表
+					</div>
+				</div>
+				<!--页头-->
+				<!--主体-->
+				<div class="bui_mo_b bui_mo_b_h bui_bgc_lgray bui_atc_black">
+
+					<div class="bui_row_p_6 bui_mt_12" id="gameList"></div>
+					<!--<p class="bui_p_24 bui_tc_lgray bui_ta_c">
+						<i class="fa fa-circle-o-notch fa-fw fa-spin"></i>正在用力地Load...
+					</p>-->
+				</div>
+				<!--主体-->
+			</div>
+
+		</div>
+	</body>
+
+</html>

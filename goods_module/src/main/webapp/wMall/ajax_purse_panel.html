@@ -1,0 +1,40 @@
+<div id="mp_address" class="bui_bgc_white">
+	<li class="bui_plr_12">
+		<div class="bui_ipg_48 bui_block">
+			<i class="fa fa-user bui_fl {{style.facFalse}}"></i>
+			<input type="text" name="purse_acount" id="purse_acount" placeholder="充值金额" maxlength="20" value="" class="bui_ipt_48 bui_bds_0 bui_ts_14" />
+		</div>
+	</li>
+	<hr/>
+</div>
+
+<script type="text/javascript">
+	var isNewUer = false;
+	$(document).ready(function() {
+		//vue
+		new Vue({
+			el: 'html',
+			data: vueObj
+		});
+		//表单跟随滚动
+		buijs_ipt_scroll();
+		//插入底部按钮
+		$("[id*=mp_showPursePanel_add] .bui_modal_f").html('<div class="bui_p_8 bui_bgc_white bui_bds_1_t" id="address_btn"><a href="javascript:updataMemberAddress();" class="bui_btn_48 bui_block bui_radius bui_tc_white ' + vueObj.style.btnTrue + '">下一步</a></div>');
+		//读取数据
+
+		console.log(isNewUer)
+	});
+	//更新数据
+	function updataMemberAddress() {
+		//前端校验
+		var res=/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
+		if(!res.test($("#purse_acount").val())) {
+			buijs_alert({
+				content: '充值金额输入错误'
+			});
+			return false;
+		}else {
+			walletSupplement($("#purse_acount").val());
+		};
+	};
+</script>

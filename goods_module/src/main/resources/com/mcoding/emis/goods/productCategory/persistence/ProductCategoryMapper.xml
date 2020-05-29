@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.productCategory.persistence.ProductCategoryMapper" >
+  <select id="selectByPrimaryKey" resultType="com.mcoding.emis.goods.productCategory.bean.ProductCategory" parameterType="java.lang.Integer" >
+    select *
+    from mr_product_category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByProductId" resultType="com.mcoding.emis.goods.productCategory.bean.ProductCategory" parameterType="java.lang.Integer" >
+    select *
+    from mr_product_category
+    where productId = #{productId,jdbcType=INTEGER}
+  </select>
+    <select id="getProductCategoryByType" resultType="com.mcoding.emis.goods.productCategory.bean.ProductCategory" parameterType="java.lang.Integer" >
+    select * from mr_product_category where categoryId = #{categoryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mr_product_category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+    <!--根据productId删除-->
+    <delete id="deleteByProductId" parameterType="int">
+    	DELETE from mr_product_category where productId = #{productId}
+    </delete>
+  
+  <insert id="insert" parameterType="com.mcoding.emis.goods.productCategory.bean.ProductCategory" >
+    insert into mr_product_category (id, categoryId, productId,productName, sort,
+      createTime, updateTime)
+    values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER},
+      #{productName,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.productCategory.bean.ProductCategory" >
+    insert into mr_product_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="categoryId != null" >
+        categoryId,
+      </if>
+      <if test="productId != null" >
+        productId,
+      </if>
+      <if test="productName != null" >
+        productName,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.productCategory.bean.ProductCategory" >
+    update mr_product_category
+    <set >
+      <if test="categoryId != null" >
+        categoryId = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        productId = #{productId,jdbcType=INTEGER},
+      </if>
+     <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.productCategory.bean.ProductCategory" >
+    update mr_product_category
+    set categoryId = #{categoryId,jdbcType=INTEGER},
+      productId = #{productId,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

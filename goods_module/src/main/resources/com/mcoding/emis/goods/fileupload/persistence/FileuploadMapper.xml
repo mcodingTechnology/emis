@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.fileupload.persistence.FileuploadMapper" >
+  
+  <select id="queryById" resultType="com.mcoding.emis.goods.fileupload.bean.Fileupload" parameterType="java.lang.Integer" >
+    select *
+    from xr_fileupload
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据路径获取一条记录 -->
+  <select id="getAFileByFullPath" resultType="com.mcoding.emis.goods.fileupload.bean.Fileupload" parameterType="java.lang.String" >
+    select *
+    from xr_fileupload
+    where upFullpath = #{upFullpath,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 获取所有共享文件 -->
+  <select id="queryShareFileList" resultType="com.mcoding.emis.goods.fileupload.bean.Fileupload">
+    select *
+    from xr_fileupload
+    where isShare = "yes" order by upDatatime desc
+  </select>
+  
+  <!-- 文件共享中心，获取所有共享文件 -->
+  <select id="queryAllShareFileByPage" parameterType="map" resultType="com.mcoding.emis.goods.fileupload.bean.Fileupload">
+    select *
+    from xr_fileupload
+    where isShare = "yes" and upTitle LIKE '%${upTitle}%'  order by upDatatime desc
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from xr_fileupload
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="add" parameterType="com.mcoding.emis.goods.fileupload.bean.Fileupload"  useGeneratedKeys="true" keyProperty="id">
+    insert into xr_fileupload
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="upDatatime != null" >
+        upDatatime,
+      </if>
+      <if test="upUserId != null" >
+        upUserId,
+      </if>
+      <if test="upType != null" >
+        upType,
+      </if>
+      <if test="upFullpath != null" >
+        upFullpath,
+      </if>
+      <if test="upTitle != null" >
+        upTitle,
+      </if>
+      <if test="isShare != null" >
+        isShare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="upDatatime != null" >
+        #{upDatatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upUserId != null" >
+        #{upUserId,jdbcType=INTEGER},
+      </if>
+      <if test="upType != null" >
+        #{upType,jdbcType=INTEGER},
+      </if>
+      <if test="upFullpath != null" >
+        #{upFullpath,jdbcType=VARCHAR},
+      </if>
+      <if test="upTitle != null" >
+        #{upTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="isShare != null" >
+        #{isShare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.mcoding.emis.goods.fileupload.bean.Fileupload" >
+    update xr_fileupload
+    <set >
+      <if test="upDatatime != null" >
+        upDatatime = #{upDatatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upUserId != null" >
+        upUserId = #{upUserId,jdbcType=INTEGER},
+      </if>
+      <if test="upType != null" >
+        upType = #{upType,jdbcType=VARCHAR},
+      </if>
+      <if test="upFullpath != null" >
+        upFullpath = #{upFullpath,jdbcType=VARCHAR},
+      </if>
+      <if test="upTitle != null" >
+        upTitle = #{upTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="isShare != null" >
+        isShare = #{isShare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="queryFileuploadPage" resultType="com.mcoding.emis.goods.fileupload.bean.Fileupload" parameterType="map" >
+	  select 
+	    f.*,u.nickName
+	    from xr_fileupload f left join sys_user u on f.upUserId=u.userId
+    <where>
+   		 <trim prefix="" suffix="" suffixOverrides="and" >
+		    <if test="userId != null and userId != ''" >
+		        f.upUserId = #{userId,jdbcType=INTEGER} and
+		    </if>
+		    <if test="sSearch != null and sSearch!=''" >
+		        u.nickName = #{sSearch,jdbcType=VARCHAR} and
+		    </if>
+   		</trim>
+   		order by id desc
+    </where>
+    </select>
+</mapper>

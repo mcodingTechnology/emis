@@ -1,0 +1,59 @@
+.homePage{
+    background-image: url('../image/index_bg.png');
+    background-repeat: no-repeat;
+    height:100vh;
+    width:100%;
+    background-size:100% 100%;
+    ul{
+        width:80%;
+        margin:auto;
+        li{
+            width:50%;
+            max-width: 166px;
+            min-width: 108px;
+            height:25vh;
+            float: left;
+            background-size:68%;
+            background-position-y:15%;
+            span{
+                width: 100%;
+                display: inline-block;
+                color: #bebfbf;
+                margin-top: 20vh;
+            }
+        }
+        .homePage5{
+            background-image: url('../image/homePage1.png');
+        }
+        .homePage6{
+            background-image: url('../image/homePage2.png');
+        }
+        .homePage7{
+            background-image: url('../image/homePage4.png');
+        }
+        .homePage8{
+            background-image: url('../image/homePage3.png');
+        }
+        .homePage1{
+            background-image: url('../image/homePage5.png');
+        }
+        .homePage2{
+            background-image: url('../image/homePage6.png');
+        }
+        .homePage3{
+            background-image: url('../image/homePage7.png');
+        }
+        .homePage4{
+            background-image: url('../image/homePage8.png');
+        }
+        .img1{
+            background-position-x:50%;
+        }
+        .img2{
+            background-position-x:50%;
+        }
+        span{
+            text-align:center;
+        }
+    }
+}

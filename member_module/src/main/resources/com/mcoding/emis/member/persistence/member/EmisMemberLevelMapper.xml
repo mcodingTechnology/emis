@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.member.persistence.member.EmisMemberLevelMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.member.bean.member.MemberLevel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="priority" property="priority" jdbcType="INTEGER" />
+    <result column="discount" property="discount" jdbcType="DOUBLE" />
+    <result column="deposit" property="deposit" jdbcType="INTEGER" />
+    <result column="creditLimit" property="creditlimit" jdbcType="INTEGER" />
+    <result column="parentId" property="parentid" jdbcType="INTEGER" />
+    <result column="isVaild" property="isvaild" jdbcType="TINYINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="consumption" property="consumption" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, priority, discount, deposit, creditLimit, parentId, isVaild, type, consumption
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.member.bean.member.MemberLevelExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from mr_member_level
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from mr_member_level
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mr_member_level
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.member.bean.member.MemberLevelExample" >
+    delete from mr_member_level
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.member.bean.member.MemberLevel" useGeneratedKeys="true" keyProperty="id" >
+    insert into mr_member_level (name, priority, discount,
+    deposit, creditLimit, parentId,
+    isVaild, type, consumption
+    )
+    values (#{name,jdbcType=VARCHAR}, #{priority,jdbcType=INTEGER}, #{discount,jdbcType=DOUBLE},
+    #{deposit,jdbcType=INTEGER}, #{creditlimit,jdbcType=INTEGER}, #{parentid,jdbcType=INTEGER},
+    #{isvaild,jdbcType=TINYINT}, #{type,jdbcType=INTEGER}, #{consumption,jdbcType=INTEGER}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.member.bean.member.MemberLevel" useGeneratedKeys="true" keyProperty="id" >
+    insert into mr_member_level
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="deposit != null" >
+        deposit,
+      </if>
+      <if test="creditlimit != null" >
+        creditLimit,
+      </if>
+      <if test="parentid != null" >
+        parentId,
+      </if>
+      <if test="isvaild != null" >
+        isVaild,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="consumption != null" >
+        consumption,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="deposit != null" >
+        #{deposit,jdbcType=INTEGER},
+      </if>
+      <if test="creditlimit != null" >
+        #{creditlimit,jdbcType=INTEGER},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="isvaild != null" >
+        #{isvaild,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="consumption != null" >
+        #{consumption,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.member.bean.member.MemberLevelExample" resultType="java.lang.Integer" >
+    select count(*) from mr_member_level
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update mr_member_level
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priority != null" >
+        priority = #{record.priority,jdbcType=INTEGER},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.deposit != null" >
+        deposit = #{record.deposit,jdbcType=INTEGER},
+      </if>
+      <if test="record.creditlimit != null" >
+        creditLimit = #{record.creditlimit,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentid != null" >
+        parentId = #{record.parentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.isvaild != null" >
+        isVaild = #{record.isvaild,jdbcType=TINYINT},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.consumption != null" >
+        consumption = #{record.consumption,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update mr_member_level
+    set id = #{record.id,jdbcType=INTEGER},
+    name = #{record.name,jdbcType=VARCHAR},
+    priority = #{record.priority,jdbcType=INTEGER},
+    discount = #{record.discount,jdbcType=DOUBLE},
+    deposit = #{record.deposit,jdbcType=INTEGER},
+    creditLimit = #{record.creditlimit,jdbcType=INTEGER},
+    parentId = #{record.parentid,jdbcType=INTEGER},
+    isVaild = #{record.isvaild,jdbcType=TINYINT},
+    type = #{record.type,jdbcType=INTEGER},
+    consumption = #{record.consumption,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.member.bean.member.MemberLevel" >
+    update mr_member_level
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="deposit != null" >
+        deposit = #{deposit,jdbcType=INTEGER},
+      </if>
+      <if test="creditlimit != null" >
+        creditLimit = #{creditlimit,jdbcType=INTEGER},
+      </if>
+      <if test="parentid != null" >
+        parentId = #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="isvaild != null" >
+        isVaild = #{isvaild,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="consumption != null" >
+        consumption = #{consumption,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.member.bean.member.MemberLevel" >
+    update mr_member_level
+    set name = #{name,jdbcType=VARCHAR},
+      priority = #{priority,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=DOUBLE},
+      deposit = #{deposit,jdbcType=INTEGER},
+      creditLimit = #{creditlimit,jdbcType=INTEGER},
+      parentId = #{parentid,jdbcType=INTEGER},
+      isVaild = #{isvaild,jdbcType=TINYINT},
+      type = #{type,jdbcType=INTEGER},
+      consumption = #{consumption,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleByPage" resultMap="BaseResultMap" parameterType="com.mcoding.emis.member.bean.member.MemberLevelExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from mr_member_level
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectParentLevelByMemberId" resultMap="BaseResultMap" parameterType="Integer" >
+    SELECT
+      l.*
+    FROM
+      mr_member AS a ,
+      mr_member AS p ,
+      mr_member_level AS l
+    WHERE
+      a.memberId = #{memberId,jdbcType=INTEGER} 
+      AND a.parentMemberId =  p.memberId 
+      AND p.levelId =  l.id
+  </select>
+</mapper>

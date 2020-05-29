@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>积分商城</title>
+		<!---->
+		<script type="text/javascript" src="workspace.js"></script>
+		<script type="text/javascript">
+		</script>
+	</head>
+
+	<body>
+		<div class="bui_wrap">
+			<div class="bui_mo {{style.bgc}}">
+				<!--页头-->
+				<div class="bui_mo_h">
+					<div class="bui_media bui_vm bui_atc_white bui_tc_white">
+						<div class="bui_media_l bui_p_0 ">
+							<a href="index.html" class="bui_btn_32 bui_btnsq bui_m_8 goback"><i class="fa fa-angle-left"></i></a>
+						</div>
+						<div class="bui_media_b">
+							<p class="goBackText">返回首页</p>
+						</div>
+					</div>
+				</div>
+				<!--页头-->
+				<!--主体-->
+				<div class="bui_mo_b bui_mo_b_h">
+					<div class="bui_ptb_48 bui_plr_12 bui_ta_c bui_tc_white">
+						<i class="fa fa-smile-o bui_fas_128"></i>
+						<p class="bui_mt_12 bui_ts_24">恭喜你，兑换成功</p>
+						<p class="bui_ts_12 bui_vm">本次使用了<span class="bui_ts_32 bui_mlr_6 bui_tc_o64 fee"></span>积分</p>
+						<p class="bui_ts_12 bui_vm bui_mb_12"><span class="bui_ts_32 bui_mlr_6 bui_tc_o64 money"></span></p>
+						<div class="bui_avg_2 bui_row_p_12">
+							<li><a href="index.html" class="bui_btn_48 bui_bgc_black_f24 {{style.tcTrue}} bui_bds_0 bui_block bui_radius"><i class="fa fa-gift fa-fw"></i>继续兑换</a></li>
+							<li><a href="javascript:;" class="bui_btn_48 bui_bgc_black_f24 {{style.tcTrue}} bui_bds_0 bui_block bui_radius goOrderDetail"><i class="fa fa-search fa-fw"></i>查看订单 </a></li>
+						</div>
+					</div>
+				</div>
+				<!--主体-->
+			</div>
+		</div>
+
+	</body>
+	<script type="text/javascript" charset="utf-8">
+		var orderId = buijs_geturl("orderId");
+		var type = buijs_geturl("type");
+		var href = buijs_geturl('href');
+		$('.fee').html(buijs_geturl("fee"));
+		var money = buijs_geturl('money');
+		money && $('.money').html('￥' + money);
+		if (type == 'gift') {
+			$('.goBack').attr('href', href);
+			$('.goBackText').html('返回抽奖');
+			$('.continue').html('继续抽奖').attr('href', href);
+		}
+		$('.goOrderDetail').onTouch(function() {
+			//			alert();
+			window.location.href = "order_detail.html?orderId=" + orderId + "&type=gift";
+		})
+	</script>
+
+</html>

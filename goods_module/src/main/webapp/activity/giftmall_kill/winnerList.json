@@ -1,0 +1,42 @@
+[
+	{
+		"goodsName": "1",
+		"time":"2015/10/18",
+		"times": "第一轮",
+		"pict": "http://v.merryplus.com/resources/uploads/product/20150916104430_590.jpg",
+		"goods_winner": [{"name":"大堂","pict":"../game_public/pic/demo_face/face_001.jpg"},{"name":"大堂","pict":"../game_public/pic/demo_face/face_001.jpg"},{"name":"大堂","pict":"../game_public/pic/demo_face/face_001.jpg"},{"name":"大堂","pict":"../game_public/pic/demo_face/face_001.jpg"},{"name":"大AA","pict":"../game_public/pic/demo_face/face_002.jpg"},{"name":"大OPP","pict":"../game_public/pic/demo_face/face_003.jpg"}],
+		"goodsInfo": "10分钟秒杀 极智构维生素C+E咀嚼片（共三份）"
+	},
+	{
+		"goodsName": "2",
+		"time": "2015/10/18",
+		"times": "第一轮",
+		"pict": "http://v.merryplus.com/resources/uploads/product/20150923163916_7749.png",
+		"goods_winner": [{"name":"大SPPP","pict":"../game_public/pic/demo_face/face_006.jpg"},{"name":"大QPPPP","pict":"../game_public/pic/demo_face/face_004.jpg"},{"name":"大BPPPP","pict":"../game_public/pic/demo_face/face_005.jpg"}],
+		"goodsInfo": "500积分秒杀 超有逼格的极智构运动头巾（共一份）"
+	},
+	{
+		"goodsName": "2",
+		"time": "2015/10/18",
+		"times": "第一轮",
+		"pict": "http://v.merryplus.com/resources/uploads/product/20150923163916_7749.png",
+		"goods_winner": [{"name":"大SPPP","pict":"../game_public/pic/demo_face/face_006.jpg"},{"name":"大QPPPP","pict":"../game_public/pic/demo_face/face_004.jpg"},{"name":"大BPPPP","pict":"../game_public/pic/demo_face/face_005.jpg"}],
+		"goodsInfo": "500积分秒杀 超有逼格的极智构运动头巾（共一份）"
+	},
+	{
+		"goodsName": "2",
+		"time": "2015/10/18",
+		"times": "第一轮",
+		"pict": "http://v.merryplus.com/resources/uploads/product/20150923163916_7749.png",
+		"goods_winner": [{"name":"大SPPP","pict":"../game_public/pic/demo_face/face_006.jpg"},{"name":"大QPPPP","pict":"../game_public/pic/demo_face/face_004.jpg"},{"name":"大BPPPP","pict":"../game_public/pic/demo_face/face_005.jpg"}],
+		"goodsInfo": "500积分秒杀 超有逼格的极智构运动头巾（共一份）"
+	},
+	{
+		"goodsName": "2",
+		"time": "2015/10/18",
+		"times": "第一轮",
+		"pict": "http://v.merryplus.com/resources/uploads/product/20150923163916_7749.png",
+		"goods_winner": [{"name":"大SPPP","pict":"../game_public/pic/demo_face/face_006.jpg"},{"name":"大QPPPP","pict":"../game_public/pic/demo_face/face_004.jpg"},{"name":"大BPPPP","pict":"../game_public/pic/demo_face/face_005.jpg"}],
+		"goodsInfo": "500积分秒杀 超有逼格的极智构运动头巾（共一份）"
+	}
+]

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.incomeratio.persistence.IncomeRatioMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.incomeratio.bean.IncomeRatio" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="dealer_id" property="dealerId" jdbcType="INTEGER" />
+    <result column="dealer_name" property="dealerName" jdbcType="VARCHAR" />
+    <result column="first_prize" property="firstPrize" jdbcType="DECIMAL" />
+    <result column="perpetual_award" property="perpetualAward" jdbcType="DECIMAL" />
+    <result column="is_valid" property="isValid" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, dealer_id, first_prize, perpetual_award, is_valid, remark, create_time, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.incomeratio.bean.IncomeRatioExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from income_ratio
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from income_ratio
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from income_ratio
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.goods.incomeratio.bean.IncomeRatioExample" >
+    delete from income_ratio
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.incomeratio.bean.IncomeRatio" >
+    insert into income_ratio (id, dealer_id, first_prize, 
+      perpetual_award, is_valid, remark, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{dealerId,jdbcType=INTEGER}, #{firstPrize,jdbcType=DECIMAL}, 
+      #{perpetualAward,jdbcType=DECIMAL}, #{isValid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.incomeratio.bean.IncomeRatio" >
+    insert into income_ratio
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dealerId != null" >
+        dealer_id,
+      </if>
+      <if test="firstPrize != null" >
+        first_prize,
+      </if>
+      <if test="perpetualAward != null" >
+        perpetual_award,
+      </if>
+      <if test="isValid != null" >
+        is_valid,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dealerId != null" >
+        #{dealerId,jdbcType=INTEGER},
+      </if>
+      <if test="firstPrize != null" >
+        #{firstPrize,jdbcType=DECIMAL},
+      </if>
+      <if test="perpetualAward != null" >
+        #{perpetualAward,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.goods.incomeratio.bean.IncomeRatioExample" resultType="java.lang.Integer" >
+    select count(*) from income_ratio
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update income_ratio
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dealerId != null" >
+        dealer_id = #{record.dealerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.firstPrize != null" >
+        first_prize = #{record.firstPrize,jdbcType=DECIMAL},
+      </if>
+      <if test="record.perpetualAward != null" >
+        perpetual_award = #{record.perpetualAward,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isValid != null" >
+        is_valid = #{record.isValid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update income_ratio
+    set id = #{record.id,jdbcType=INTEGER},
+      dealer_id = #{record.dealerId,jdbcType=INTEGER},
+      first_prize = #{record.firstPrize,jdbcType=DECIMAL},
+      perpetual_award = #{record.perpetualAward,jdbcType=DECIMAL},
+      is_valid = #{record.isValid,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.incomeratio.bean.IncomeRatio" >
+    update income_ratio
+    <set >
+      <if test="dealerId != null" >
+        dealer_id = #{dealerId,jdbcType=INTEGER},
+      </if>
+      <if test="firstPrize != null" >
+        first_prize = #{firstPrize,jdbcType=DECIMAL},
+      </if>
+      <if test="perpetualAward != null" >
+        perpetual_award = #{perpetualAward,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid != null" >
+        is_valid = #{isValid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.incomeratio.bean.IncomeRatio" >
+    update income_ratio
+    set dealer_id = #{dealerId,jdbcType=INTEGER},
+      first_prize = #{firstPrize,jdbcType=DECIMAL},
+      perpetual_award = #{perpetualAward,jdbcType=DECIMAL},
+      is_valid = #{isValid,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleByPage" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.incomeratio.bean.IncomeRatioExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    (select dealer_name from t_channel_dealer where id = dealer_id) dealer_name,
+    <include refid="Base_Column_List" />
+    from income_ratio
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

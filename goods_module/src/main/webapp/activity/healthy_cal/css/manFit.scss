@@ -1,0 +1,52 @@
+.manFit{
+  background-image: url('../image/manFit_bg.png');
+  height: 100vh;
+  background-size: 100% 100%;
+  position: relative;
+  .manFit_result{
+    padding-top: 8%;
+    h5{
+     padding:5% 0px 2% 7%;
+      color:#C79D2D;
+    }
+    ul{
+      width:90%;
+      margin-left:5%;
+      background-color:#35383D;
+      padding:2% 5%;
+      overflow: auto;
+      li{
+        width:33%;
+        float:left;
+        color:#9E9FA0;
+        height:7vh;
+        line-height:7vh;
+      }
+    }
+  }
+  .manFit_result2{
+      background-color:#292C31;
+      li{
+        position: relative;
+        height:8vh;
+        line-height:8vh;
+        margin-left:8%;
+        border-bottom: 1px solid #24272C;
+        color:#9A9B9F;
+        &:last-child{
+          margin-left:0%;
+          padding-left:8%;
+        }
+      }
+      a {
+        display: block;
+        color: #9A9B9F;
+      }
+      a:hover {
+        text-decoration: none;
+      }
+  }
+}
+.womanFit{
+  background-image: url('../image/womanFit_bg.png');
+}

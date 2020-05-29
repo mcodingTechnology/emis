@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>积分商城</title>
+
+		<script type="text/javascript" src="workspace.js"></script>
+		<script src="mp_js/gift_detail.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {});
+		</script>
+	</head>
+
+	<body>
+		<!--礼品车插件-->
+		<div id="cartPlug"></div>
+		<!--礼品车插件-->
+		<div class="bui_wrap">
+			<!--框架-->
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_bsd_6">
+					<div class="bui_media bui_vm">
+						<div class="bui_media_l bui_p_0 bui_atc_black">
+							<a href="javascript:history.go(-1);" class="bui_btn_48 bui_btnsq"><i class="fa fa-angle-left"></i></a>
+						</div>
+						<div class="bui_media_b">
+							<p>礼品详情</p>
+						</div>
+						<div class="bui_media_r bui_plr_8">
+
+							<a href="{{MallPath}}member_index.html?malltype={{mallType}}" class="bui_btn_32 bui_btnsq fa fa-user {{style.facFalse}}"></a>
+							<button class="bui_btn_32 bui_btnsq fa fa-search {{style.facFalse}}" onclick="gm_showSearchPanel();"></button>
+
+						</div>
+					</div>
+				</div>
+				<!--页头-->
+				<!--主体-->
+				<div class="bui_mo_b bui_mo_b_h bui_mo_b_f bui_bgc_white_d6">
+					<!--幻灯片-->
+					<div class="bui_block bui_bgc_white gm_gift_img bui_bds_1_b">
+						<div class="box"></div>
+					</div>
+					<!--幻灯片-->
+
+					<!--标题pangxj-->
+					<div class="bui_mt_12 bui_p_12 bui_bds_1 bui_bgc_white" id="giftTitle">
+						<p class="bui_ta_c"><i class="fa fa-circle-o-notch fa-fw fa-spin bui_fas_24 {{style.facFalse}}"></i></p>
+					</div>
+					<!--标题pangxj-->
+
+					<!--礼品详情-->
+
+					<div class="bui_mt_12 bui_p_12 bui_bds_1 bui_bgc_white bui_ts_14" id="gm_gift_infos">
+						<p class="bui_ta_c"><i class="fa fa-circle-o-notch fa-fw fa-spin bui_fas_24 {{style.facFalse}}"></i></p>
+					</div>
+
+					<!--礼品详情-->
+					<!--宝贝图-->
+					<div class="bui_mt_12 bui_bds_1 bui_bgc_white bui_ts_14">
+						<a href="javascript:;" id="gm_gift_pic_show" class="bui_btn_48 bui_block bui_bgc_white bui_bds_0">查看更多<i class="fa fa-ellipsis-v fa-fw"></i></a>
+					</div>
+					<!--宝贝图-->
+
+				</div>
+				<!--主体-->
+				<!--底部按钮-->
+				<div class="bui_mo_f bui_bsd_6">
+					<div class="bui_m_8 bui_ts_14">
+						<div class="bui_avg_2 bui_row_p_12" id="isSale" style="display: none;">
+							<li><a href="javascript:gm_addCartBuyNow(buijs_geturl('productId'),'addCart');" class="bui_btn_48 bui_bgc_green bui_block"><i class="fa fa-shopping-cart fa-fw"></i>塞入礼品车</a></li>
+							<li><a href="javascript:gm_addCartBuyNow(buijs_geturl('productId'),'buyNow');;" class="bui_btn_48 {{style.btnTrue}} bui_block"><i class="fa fa-check fa-fw"></i>马上兑换</a></li>
+						</div>
+						<div class="bui_avg_1" id="notSale" style="display: none;">
+							<li><a href="javascript:;" class="bui_btn_48 {{style.btnFalse}} bui_block"><i class="fa fa-close fa-fw"></i>暂无库存</a></li>
+
+						</div>
+						<div class="bui_avg_1" id="notPoint" style="display: none;">
+							<li><a href="javascript:;" class="bui_btn_48 {{style.btnFalse}} bui_block"><i class="fa fa-close fa-fw"></i>积分不足</a></li>
+
+						</div>
+						<div class="bui_avg_1" id="isLimit" style="display: none;">
+							<li><a href="javascript:;" class="bui_btn_48 {{style.btnFalse}} bui_block"><i class="fa fa-close fa-fw"></i>您已经成功购买</a></li>
+						</div>
+					</div>
+
+				</div>
+				<!--底部按钮-->
+			</div>
+			<!--框架-->
+		</div>
+
+	</body>
+
+</html>

@@ -1,0 +1,28 @@
+<section class="bui_p_32 bui_row_p_24">
+	<div>
+		<com-title title="系统首页"></com-title>
+	</div>
+	<div>
+		<div class="bui_avg_3_sm bui_avg_1 bui_bds_1_t bui_bds_1_l">
+			<template v-for="top in sideNavData[0].children" v-if="$index!=0">
+				<div class="bui_bds_1_b bui_bds_1_r">
+					<div class="bui_bds_1_b bui_p_12">{{top.menuName}}</div>
+					<div class="bui_p_12 bui_fs_12 bui_fc_turquoise_a">
+						<template v-for="small in top.children" if="top.children.length>0">
+							<div>
+								<a href="#menuCode={{top.menuCode}}#menuURL={{small.menuURL.split('/')[0]}}">
+									{{small.menuName}}
+
+								</a>
+							</div>
+						</template>
+					</div>
+
+				</div>
+
+			</template>
+		</div>
+	</div>
+
+</section>
+<script type="text/javascript"></script>

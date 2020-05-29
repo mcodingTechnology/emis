@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>健身指数检测工具 - BIG生活</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="../game_public/workspace_v2.0.3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/result.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="bui_wrap bg-{{urlData.formId}}">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_media bui_vm bui_bgc_black_f64">
+					<div class="bui_media_l bui_p_0">
+						<a href="form.html?formId={{urlData.formId}}" class="bui_btn_32 bui_btn_sq bui_block bui_ta_c bui_m_8"><i class="fa fa-angle-left"></i></a>
+					</div>
+					<div class="bui_media_b">
+						<template v-for="data in navData | filterBy  urlData.formId in 'id'">{{data.title}} 计算结果</template>
+					</div>
+				</div>
+				<!--页头-->
+				<div class="bui_mo_b">
+					<div class="bui_mlr_12 bui_mtb_48 bui_row_p_24">
+						<!--BMI-->
+						<template v-if="urlData.formId==1">
+							<div>
+								<div class="bui_bgc_red bui_p_12 bui_radius bui_ta_c bui_ts_12">
+									<p>您的BMI值</p>
+									<p><span class="bui_ts_32 bui_tc_yellow">{{resultData.value1()}}</span></p>
+
+								</div>
+							</div>
+							<div>
+								<div class="bui_plr_24">
+									<img src='images/bmi-1.png' class="bui_block" v-if="resultData.value1()<18.5" />
+									<img src='images/bmi-2.png' class="bui_block" v-if="resultData.value1()>=18.5&&resultData.value1()<=23.9" />
+									<img src='images/bmi-3.png' class="bui_block" v-if="resultData.value1()>=24&&resultData.value1()<=27.9" />
+									<img src='images/bmi-4.png' class="bui_block" v-if="resultData.value1()>=28" />
+								</div>
+							</div>
+							<div>
+
+								<div v-dialog data-name="教练">
+									<div class="bui_media_b">
+										<p v-if="resultData.value1()<18.5">太苗条可不符合现代审美观念，再长点肉，有肌才会更健美哦！</p>
+										<p v-if="resultData.value1()>=18.5&&resultData.value1()<=23.9">恭喜！大侠体重正常！但要增加肌肉比例，才会更有型哦！</p>
+										<p v-if="resultData.value1()>=24&&resultData.value1()<=27.9">这个状态的你，看起来像个茄子，在你身上已看不到该有的线条，你是要练练练呢？还是要练练练呢？</p>
+										<p v-if="resultData.value1()>=28">你那讨厌的脂肪已经让你很难受了，再不动起来，它们会让你“一胖毁所有”！</p>
+									</div>
+								</div>
+							</div>
+							<div class="bui_ta_c">
+								<com-result-btn name="增重" v-if="resultData.value1()<18.5"></com-result-btn>
+								<com-result-btn name="更好" v-if="resultData.value1()>=18.5&&resultData.value1()<=23.9"></com-result-btn>
+								<com-result-btn name="减肥" v-if="resultData.value1()>=24"></com-result-btn>
+							</div>
+							<div>
+								<p class="bui_ts_8 bui_tc_white_f48">(BMI：是最常用，方便简单判断体型的指标。 注意BMI不适合下列人群：18岁以下，运动员、肌肉特别发达者、孕妇、哺乳妇女、体弱或需久坐的老人。)</p>
+							</div>
+						</template>
+						<!--BMI-->
+						<!--蛋白质需求量-->
+						<template v-if="urlData.formId==2">
+							<div>
+								<div class="bui_bgc_red bui_p_12 bui_radius bui_ta_c bui_ts_12">
+									<p>您每天的蛋白质需求量</p>
+									<p><span class="bui_ts_32 bui_tc_yellow">{{resultData.value2.value()}}</span>g</p>
+								</div>
+							</div>
+							<div>
+								<div class="bui_bgc_black_l48 bui_radius">
+									<p class="bui_bgc_black_f24 bui_ta_c bui_p_12 bui_bds_1_b bui_bdc_black_f12">您每日所需食物摄入量(单种)</p>
+									<div v-for="data in resultData.value2.food()" class="bui_media bui_vm bui_p_6 bui_plr_12 bui_bds_1_b bui_bdc_black_f12">
+										<div class="bui_media_l"><img src="{{data.imgUrl}}" class="bui_block" style="width: 2rem;" /></div>
+										<div class="bui_media_b">
+											<p class="bui_ts_16">{{data.name}}</p>
+											<p class="bui_ts_8 bui_tc_white_d64">{{data.info}}</p>
+										</div>
+										<div class="bui_media_r">
+											<p class="bui_ts_16 bui_tc_yellow" style="white-space: nowrap;">{{data.value}}</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div>
+								<div v-dialog data-name="营养师">
+									<div class="bui_media_b">
+										<p>{{resultData.value2.value()}}g蛋白质相当于
+											<span class="bui_tc_white_d48" v-for="data in resultData.value2.food()">{{$index!=0?'、或':''}}{{data.value}}{{data.name}}</span>...很难吃到这么多吧？那就看下<span class="bui_tc_yellow">推荐补充方案</span>吧。</p>
+									</div>
+								</div>
+							</div>
+							<div>
+								<div class="bui_bgc_black_l48 bui_radius">
+									<p class="bui_bgc_black_f24 bui_ta_c bui_p_12 bui_bds_1_b bui_bdc_black_f12">推荐蛋白质补充方案(单种)</p>
+									<div v-for="data in resultData.value2.product()" v-if="data.show" class="bui_media bui_vm bui_p_6 bui_plr_12 bui_bds_1_b bui_bdc_black_f12">
+										<div class="bui_media_l"><img src="{{data.imgUrl}}" class="bui_block bui_round" style="width: 4rem;" /></div>
+										<div class="bui_media_b">
+											<p class="bui_ts_16">{{data.name}}</p>
+											<p class="bui_ts_8 bui_tc_white_d64">
+												早餐：约<span class="bui_tc_yellow">{{(data.value*0.2).toFixed(1)}}</span>勺，午餐：约<span class="bui_tc_yellow">{{(data.value*0.3).toFixed(1)}}</span>勺，晚餐：约<span class="bui_tc_yellow">{{(data.value*0.2).toFixed(1)}}</span>勺，运动后：约<span class="bui_tc_yellow">{{(data.value*0.3).toFixed(1)}}</span>勺</p>
+										</div>
+										<div class="bui_media_r">
+											<p class="bui_ts_16 bui_tc_yellow" style="white-space: nowrap;">{{data.value}}勺</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div>
+								<p class="bui_ts_8 bui_tc_white_f48">(蛋白质需要量：你每天需要吃多少蛋白质呢？不同性别，不同运动方式的人是不一样的哦，来测测吧！)
+								</p>
+							</div>
+						</template>
+						<!--蛋白质需求量-->
+						<!--基础代谢率-->
+						<template v-if="urlData.formId==3">
+							<div>
+								<div class="bui_bgc_red bui_p_12 bui_radius bui_ta_c bui_ts_12">
+									<p>您的基础代谢率应为</p>
+									<p><span class="bui_ts_32 bui_tc_yellow">{{resultData.value3()}}</span></p>
+								</div>
+							</div>
+							<div>
+								<div v-dialog data-name="营养师">
+									<div class="bui_media_b">
+										<p>如果你通过仪器测量的基础代谢小于{{resultData.value3()}}，那么就应该提高下了。可以通过以下方法：</p>
+										<p> 1、增加抗阻力训练，增加肌肉量 </p>
+										<p>2、少食多餐，增加蛋白质摄入 </p>
+									</div>
+								</div>
+							</div>
+							<div class="bui_ta_c">
+								<com-result-btn name="增重"></com-result-btn>
+							</div>
+							<div>
+								<p class="bui_ts_8 bui_tc_white_f48">(基础代谢：指人体维持生命的所有器官所需的最低能量需要。基础代谢消耗的能量占能量总消耗量的70%左右，因此，较高的基础代谢让你更不容易发胖哦。)</p>
+							</div>
+						</template>
+						<!--基础代谢率-->
+						<!--运动心率-->
+						<template v-if="urlData.formId==4">
+							<div>
+								<div class="bui_bgc_red bui_p_12 bui_radius bui_ta_c bui_ts_12">
+									<p>您适宜的运动心率</p>
+									<p><span class="bui_ts_32 bui_tc_yellow">{{resultData.value4()}}</span></p>
+								</div>
+							</div>
+							<div>
+								<div v-dialog data-name="营养师">
+									<div class="bui_media_b">
+										<p>1、一般来说，快走、慢跑、跳绳、上坡、爬山等运动能达到这个心率。</p>
+										<p>2、建议有条件的最好能配备个心率表，实时知道自己的心率。如果没有心率表，可以用10秒心率测算法：运动完马上测，当前的运动心率=10秒脉搏跳动次数*6 </p>
+									</div>
+								</div>
+							</div>
+							<div>
+								<p class="bui_ts_8 bui_tc_white_f48">(适宜运动心率：有氧运动（中低强度）需要达到适宜的运动心率，并维持40分钟左右，才能达到较好的效果。)</p>
+							</div>
+						</template>
+						<!--运动心率-->
+						<!--标准体重-->
+						<template v-if="urlData.formId==5">
+							<div>
+								<div class="bui_bgc_red bui_p_12 bui_radius bui_ta_c bui_ts_12">
+									<div class="bui_avg_2">
+										<div class="bui_bds_1_r bui_bdc_white_f24">
+											<p class="bui_ts_8">您的体重</p>
+											<p><span class="bui_ts_32 bui_tc_yellow">{{urlData.formData.weight}}</span>KG</p>
+										</div>
+										<div>
+											<p class="bui_ts_8">您的标准体重</p>
+											<p><span class="bui_ts_32 bui_tc_yellow">{{resultData.value5()}}</span>KG</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div>
+								<div class="bui_plr_24">
+									<img src='images/weight-1.png' class="bui_block" v-if="urlData.formData.weight<resultData.value5()-resultData.value5()*0.1" />
+									<img src='images/weight-2.png' class="bui_block" v-if="urlData.formData.weight>=resultData.value5()-resultData.value5()*0.1&&urlData.formData.weight<=resultData.value5()+resultData.value5()*0.1" />
+									<img src='images/weight-3.png' class="bui_block" v-if="urlData.formData.weight>resultData.value5()+resultData.value5()*0.1" />
+								</div>
+							</div>
+							<div>
+								<div v-dialog data-name="营养师">
+									<div class="bui_media_b">
+										<p v-if="urlData.formData.weight<resultData.value5()-resultData.value5()*0.1">你的体重不达标，好瘦喔！太苗条可不符合现代审美观念，再长点肉，有肌才会更健美哦！</p>
+										<p v-if="urlData.formData.weight>=resultData.value5()-resultData.value5()*0.1&&urlData.formData.weight<=resultData.value5()+resultData.value5()*0.1">你的体重在正常范围内，越接近标准体重越好哦！另外，体重正常但体型不一定完美，比如看起来有点瘦，或稍微有些胖，做些增肌减脂的训练能让你变得更好哦！</p>
+										<p v-if="urlData.formData.weight>resultData.value5()+resultData.value5()*0.1">你的体重超标了喂！这个状态的你，看起来像个茄子，在你身上已看不到该有的线条，一胖毁所有啊！你是要练练练呢？还是要练练练呢？</p>
+									</div>
+								</div>
+							</div>
+							<div class="bui_ta_c">
+								<com-result-btn name="增重" v-if="urlData.formData.weight<resultData.value5()-resultData.value5()*0.1"></com-result-btn>
+								<com-result-btn name="更好" v-if="urlData.formData.weight>=resultData.value5()-resultData.value5()*0.1&&urlData.formData.weight<=resultData.value5()+resultData.value5()*0.1"></com-result-btn>
+								<com-result-btn name="减肥" v-if="urlData.formData.weight>resultData.value5()+resultData.value5()*0.1"></com-result-btn>
+							</div>
+							<div>
+								<p class="bui_ts_8 bui_tc_white_f48">(标准体重：评价是否肥胖的指标，最为简单、方便、易懂。标准体重可以作为你努力达到的体重目标，体重越接近标准体重越好哦！)</p>
+							</div>
+						</template>
+						<!--标准体重-->
+						<!--健康体重范围-->
+						<template v-if="urlData.formId==6">
+							<div>
+								<div class="bui_bgc_red bui_p_12 bui_radius bui_ta_c bui_ts_12">
+									<div class="bui_avg_2">
+										<div class="bui_bds_1_r bui_bdc_white_f24">
+											<p class="bui_ts_8">您的体重</p>
+											<p><span class="bui_ts_20 bui_tc_yellow">{{urlData.formData.weight}}</span>KG</p>
+										</div>
+										<div>
+											<p class="bui_ts_8">标准体重范围</p>
+											<p><span class="bui_ts_20 bui_tc_yellow">{{resultData.value6.min()}}~{{resultData.value6.max()}}</span>KG</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div>
+								<div class="bui_plr_24">
+									<img src='images/weight-1.png' class="bui_block" v-if="urlData.formData.weight<resultData.value6.min()" />
+									<img src='images/weight-2.png' class="bui_block" v-if="urlData.formData.weight>=resultData.value6.min()&&urlData.formData.weight<=resultData.value6.max()" />
+									<img src='images/weight-3.png' class="bui_block" v-if="urlData.formData.weight>resultData.value6.max()" />
+								</div>
+							</div>
+							<div>
+								<div v-dialog data-name="营养师">
+									<div class="bui_media_b">
+										<p v-if="urlData.formData.weight<resultData.value6.min()">你的体重还没到健康体重范围，好瘦喔！太苗条可不符合现代审美观念，再长点肉，有肌才会更健美哦！</p>
+										<p v-if="urlData.formData.weight>=resultData.value6.min()&&urlData.formData.weight<=resultData.value6.max()">你的体重在健康体重范围内，不过，你的体型可不一定完美，比如看起来有点瘦，或稍微有些胖，做些增肌减脂的训练能让你变得更好哦！</p>
+										<p v-if="urlData.formData.weight>resultData.value6.max()">你的体重超出健康体重范围了喂！ 这个状态的你，看起来像个茄子，在你身上已看不到该有的线条，你是要练练练呢？还是要练练练呢？
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="bui_ta_c">
+								<com-result-btn name="增重" v-if="urlData.formData.weight<resultData.value6.min()"></com-result-btn>
+								<com-result-btn name="更好" v-if="urlData.formData.weight>=resultData.value6.min()&&urlData.formData.weight<=resultData.value6.max()"></com-result-btn>
+								<com-result-btn name="减肥" v-if="urlData.formData.weight>resultData.value6.max()"></com-result-btn>
+							</div>
+							<div>
+								<p class="bui_ts_8 bui_tc_white_f48">(健康体重范围：简单评估你的体重是否在健康范围内。 不过会有少部分人即使体重正常的，但体脂肪超标了，即隐形肥胖，也应注意多运动。)
+								</p>
+							</div>
+						</template>
+						<!--健康体重范围-->
+						<!--男性健美围度-->
+						<template v-if="urlData.formId==7">
+							<div>
+								<div class="bui_bgc_red bui_p_12 bui_radius bui_ta_c bui_ts_12">
+									<p class="bui_ts_8">您的腕围</p>
+									<p><span class="bui_ts_32 bui_tc_yellow">{{urlData.formData.wristCircumference}}</span>cm</p>
+								</div>
+							</div>
+							<div>
+								<div class="bui_row_p_0 bui_radius bui_bgc_black_l24 bui_bds_1_t bui_tc_white_f64  bui_bds_1_l bui_bdc_black">
+									<div class="bui_col_12 bui_ta_c bui_p_6 bui_bds_1_b bui_bds_1_r bui_bdc_black">
+										您的身体各围度的标准值
+									</div>
+									<div v-for="data in resultData.value7" class="bui_ts_8 bui_col_4 bui_ta_c bui_p_6 bui_bds_1_b bui_bds_1_r bui_bdc_black">
+										<p>{{data.name}}:</p>
+										<p><span class="bui_ts_16 bui_tc_yellow">{{data.value()}}</span>cm</p>
+									</div>
+								</div>
+
+							</div>
+							<div>
+								<div v-dialog data-name="营养师">
+									<div class="bui_media_b">
+										<p>嘿，你身体的各项围度达到这个标准了吗？如果还没有，就努力去达到它吧！练起来！</p>
+									</div>
+								</div>
+							</div>
+
+							<div>
+								<p class="bui_ts_8 bui_tc_white_f48">(男性身体健美围度：你身体各个部位的围度决定了你的体型是否美观，所以不要仅仅关注你的体重，围度才是王道哦！不过要想达到健美围度的标准可是有难度的，需要你付出更多的努力和汗水！)
+								</p>
+							</div>
+						</template>
+						<!--男性健美围度-->
+						<!--女性健美围度-->
+						<template v-if="urlData.formId==8">
+							<div>
+								<div class="bui_bgc_red bui_p_12 bui_radius bui_ta_c bui_ts_12">
+									<p class="bui_ts_8">您的身高</p>
+									<p><span class="bui_ts_32 bui_tc_yellow">{{urlData.formData.height}}</span>cm</p>
+								</div>
+							</div>
+							<div>
+								<div class="bui_row_p_0 bui_radius bui_bgc_black_l24 bui_bds_1_t bui_tc_white_f64  bui_bds_1_l bui_bdc_black">
+									<div class="bui_col_12 bui_ta_c bui_p_6 bui_bds_1_b bui_bds_1_r bui_bdc_black">
+										您的身体各围度的标准值
+									</div>
+									<div v-for="data in resultData.value8" class="bui_ts_8 bui_col_4 bui_ta_c bui_p_6 bui_bds_1_b bui_bds_1_r bui_bdc_black">
+										<p>{{data.name}}:</p>
+										<p><span class="bui_ts_16 bui_tc_yellow">{{data.value()}}</span>cm</p>
+									</div>
+								</div>
+
+							</div>
+							<div>
+								<div v-dialog data-name="营养师">
+									<div class="bui_media_b">
+										<p>嘿，你身体的各项围度达到这个标准了吗？如果还没有，就努力去达到它吧！练起来！</p>
+									</div>
+								</div>
+							</div>
+
+							<div>
+								<p class="bui_ts_8 bui_tc_white_f48">(女性身体健美围度：你身体各个部位的围度决定了你的体型是否美观，所以不要仅仅关注你的体重，围度才是王道哦！不过要想达到健美围度的标准可是有难度的，需要你付出更多的努力和汗水！)
+								</p>
+							</div>
+						</template>
+						<!--女性健美围度-->
+					</div>
+
+					<!--<pre class="bui_ts_8">{{urlData.formData|json}}</pre>-->
+				</div>
+			</div>
+		</div>
+		<!--loadingbar-->
+		<div id="loadingMask" class="bui_bgc_black_l72 bui_inline bui_ta_c bui_vm bui_tc_white_d64 bui_tc_white_d64_i" style="position: fixed;top: 0;left: 0;right: 0;bottom: 0;z-index: 10;">
+			<i style="height: 100%;width: 0;"></i>
+			<div>
+				<i class="fa fa-circle-o-notch fa-spin bui_ts_32_i "></i>
+				<p class="bui_ts_12 bui_mt_12">loading...</p>
+			</div>
+			<i style="height: 100%;width: 0;"></i>
+		</div>
+		<!--loadingbar-->
+	</body>
+
+</html>

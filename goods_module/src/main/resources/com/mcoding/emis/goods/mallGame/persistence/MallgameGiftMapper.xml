@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.mallGame.persistence.MallgameGiftMapper">
+	<resultMap id="BaseResultMap" type="com.mcoding.emis.goods.mallGame.bean.MallgameGift">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="gameid" property="gameid" jdbcType="INTEGER" />
+		<result column="isProduct" property="isproduct" jdbcType="INTEGER" />
+		<result column="gainPoint" property="gainpoint" jdbcType="INTEGER" />
+		<result column="productId" property="productid" jdbcType="INTEGER" />
+		<result column="productName" property="productname" jdbcType="VARCHAR" />
+		<result column="productCoverImg" property="productcoverimg"
+			jdbcType="VARCHAR" />
+		<result column="nums" property="nums" jdbcType="INTEGER" />
+		<result column="gainNums" property="gainnums" jdbcType="INTEGER" />
+		<result column="brandCode" property="brandcode" jdbcType="VARCHAR" />
+		<result column="ext" property="ext" jdbcType="VARCHAR" />
+		<result column="ext1" property="ext1" jdbcType="VARCHAR" />
+		<result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, gameid, isProduct, gainPoint, productId, productName,
+		productCoverImg, nums,
+		gainNums, brandCode, ext, ext1, createTime
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.mcoding.emis.goods.mallGame.bean.MallgameGiftExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from mallgame_gift
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from mallgame_gift
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		mallgame_gift
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.mcoding.emis.goods.mallGame.bean.MallgameGiftExample">
+		delete from mallgame_gift
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.mcoding.emis.goods.mallGame.bean.MallgameGift">
+		insert into mallgame_gift (id,
+		gameid, isProduct,
+		gainPoint, productId, productName,
+		productCoverImg,
+		nums, gainNums,
+		brandCode, ext, ext1,
+		createTime)
+		values
+		(#{id,jdbcType=INTEGER}, #{gameid,jdbcType=INTEGER},
+		#{isproduct,jdbcType=INTEGER},
+		#{gainpoint,jdbcType=INTEGER},
+		#{productid,jdbcType=INTEGER}, #{productname,jdbcType=VARCHAR},
+		#{productcoverimg,jdbcType=VARCHAR}, #{nums,jdbcType=INTEGER},
+		#{gainnums,jdbcType=INTEGER},
+		#{brandcode,jdbcType=VARCHAR},
+		#{ext,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR},
+		#{createtime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.mcoding.emis.goods.mallGame.bean.MallgameGift">
+		insert into mallgame_gift
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="gameid != null">
+				gameid,
+			</if>
+			<if test="isproduct != null">
+				isProduct,
+			</if>
+			<if test="gainpoint != null">
+				gainPoint,
+			</if>
+			<if test="productid != null">
+				productId,
+			</if>
+			<if test="productname != null">
+				productName,
+			</if>
+			<if test="productcoverimg != null">
+				productCoverImg,
+			</if>
+			<if test="nums != null">
+				nums,
+			</if>
+			<if test="gainnums != null">
+				gainNums,
+			</if>
+			<if test="brandcode != null">
+				brandCode,
+			</if>
+			<if test="ext != null">
+				ext,
+			</if>
+			<if test="ext1 != null">
+				ext1,
+			</if>
+			<if test="createtime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="gameid != null">
+				#{gameid,jdbcType=INTEGER},
+			</if>
+			<if test="isproduct != null">
+				#{isproduct,jdbcType=INTEGER},
+			</if>
+			<if test="gainpoint != null">
+				#{gainpoint,jdbcType=INTEGER},
+			</if>
+			<if test="productid != null">
+				#{productid,jdbcType=INTEGER},
+			</if>
+			<if test="productname != null">
+				#{productname,jdbcType=VARCHAR},
+			</if>
+			<if test="productcoverimg != null">
+				#{productcoverimg,jdbcType=VARCHAR},
+			</if>
+			<if test="nums != null">
+				#{nums,jdbcType=INTEGER},
+			</if>
+			<if test="gainnums != null">
+				#{gainnums,jdbcType=INTEGER},
+			</if>
+			<if test="brandcode != null">
+				#{brandcode,jdbcType=VARCHAR},
+			</if>
+			<if test="ext != null">
+				#{ext,jdbcType=VARCHAR},
+			</if>
+			<if test="ext1 != null">
+				#{ext1,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.mcoding.emis.goods.mallGame.bean.MallgameGiftExample"
+		resultType="java.lang.Integer">
+		select count(*) from mallgame_gift
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update mallgame_gift
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.gameid != null">
+				gameid = #{record.gameid,jdbcType=INTEGER},
+			</if>
+			<if test="record.isproduct != null">
+				isProduct = #{record.isproduct,jdbcType=INTEGER},
+			</if>
+			<if test="record.gainpoint != null">
+				gainPoint = #{record.gainpoint,jdbcType=INTEGER},
+			</if>
+			<if test="record.productid != null">
+				productId = #{record.productid,jdbcType=INTEGER},
+			</if>
+			<if test="record.productname != null">
+				productName = #{record.productname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.productcoverimg != null">
+				productCoverImg =
+				#{record.productcoverimg,jdbcType=VARCHAR},
+			</if>
+			<if test="record.nums != null">
+				nums = #{record.nums,jdbcType=INTEGER},
+			</if>
+			<if test="record.gainnums != null">
+				gainNums = #{record.gainnums,jdbcType=INTEGER},
+			</if>
+			<if test="record.brandcode != null">
+				brandCode = #{record.brandcode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.ext != null">
+				ext = #{record.ext,jdbcType=VARCHAR},
+			</if>
+			<if test="record.ext1 != null">
+				ext1 = #{record.ext1,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createtime != null">
+				createTime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update mallgame_gift
+		set id = #{record.id,jdbcType=INTEGER},
+		gameid =
+		#{record.gameid,jdbcType=INTEGER},
+		isProduct =
+		#{record.isproduct,jdbcType=INTEGER},
+		gainPoint =
+		#{record.gainpoint,jdbcType=INTEGER},
+		productId =
+		#{record.productid,jdbcType=INTEGER},
+		productName =
+		#{record.productname,jdbcType=VARCHAR},
+		productCoverImg =
+		#{record.productcoverimg,jdbcType=VARCHAR},
+		nums =
+		#{record.nums,jdbcType=INTEGER},
+		gainNums =
+		#{record.gainnums,jdbcType=INTEGER},
+		brandCode =
+		#{record.brandcode,jdbcType=VARCHAR},
+		ext =
+		#{record.ext,jdbcType=VARCHAR},
+		ext1 = #{record.ext1,jdbcType=VARCHAR},
+		createTime = #{record.createtime,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.mallGame.bean.MallgameGift">
+		update mallgame_gift
+		<set>
+			<if test="gameid != null">
+				gameid = #{gameid,jdbcType=INTEGER},
+			</if>
+			<if test="isproduct != null">
+				isProduct = #{isproduct,jdbcType=INTEGER},
+			</if>
+			<if test="gainpoint != null">
+				gainPoint = #{gainpoint,jdbcType=INTEGER},
+			</if>
+			<if test="productid != null">
+				productId = #{productid,jdbcType=INTEGER},
+			</if>
+			<if test="productname != null">
+				productName = #{productname,jdbcType=VARCHAR},
+			</if>
+			<if test="productcoverimg != null">
+				productCoverImg = #{productcoverimg,jdbcType=VARCHAR},
+			</if>
+			<if test="nums != null">
+				nums = #{nums,jdbcType=INTEGER},
+			</if>
+			<if test="gainnums != null">
+				gainNums = #{gainnums,jdbcType=INTEGER},
+			</if>
+			<if test="brandcode != null">
+				brandCode = #{brandcode,jdbcType=VARCHAR},
+			</if>
+			<if test="ext != null">
+				ext = #{ext,jdbcType=VARCHAR},
+			</if>
+			<if test="ext1 != null">
+				ext1 = #{ext1,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				createTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.mallGame.bean.MallgameGift">
+		update
+		mallgame_gift
+		set gameid = #{gameid,jdbcType=INTEGER},
+		isProduct =
+		#{isproduct,jdbcType=INTEGER},
+		gainPoint =
+		#{gainpoint,jdbcType=INTEGER},
+		productId =
+		#{productid,jdbcType=INTEGER},
+		productName =
+		#{productname,jdbcType=VARCHAR},
+		productCoverImg =
+		#{productcoverimg,jdbcType=VARCHAR},
+		nums = #{nums,jdbcType=INTEGER},
+		gainNums = #{gainnums,jdbcType=INTEGER},
+		brandCode =
+		#{brandcode,jdbcType=VARCHAR},
+		ext = #{ext,jdbcType=VARCHAR},
+		ext1 =
+		#{ext1,jdbcType=VARCHAR},
+		createTime = #{createtime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!--非自动生成 -->
+	<select id="queryStakeGiftInfor" parameterType="java.lang.Integer"
+		resultType="com.mcoding.emis.goods.mallGame.bean.MallgameStakeGiftInfor">
+		SELECT
+			mg.`status` AS activityStatus,
+			mt.gameid AS gameId,
+			mt.gainPoint AS needPoint,
+			mg.gameStartTime AS starTime,
+			mg.gameEndTime AS endTime,
+			mt.productId AS productId,
+			mt.productName AS productName,
+			mt.productCoverImg AS productImg
+		FROM
+			mallgame_gambling mg,
+			mallgame_gift mt
+		WHERE
+			mg.id = mt.gameid
+		AND 
+			mt.id = #{giftid}
+	</select>
+
+	<!-- 非自动生成 -->
+	<select id="selectGamblingStakeRecordByPage" parameterType="map"
+		resultType="com.mcoding.emis.goods.mallGame.bean.MallgameOrderRecord">
+		SELECT
+		mg.id AS gameid,
+		mg.gameName AS gamename,
+		mt.id AS
+		giftid,
+		mt.productId
+		AS productid,
+		mt.productName AS productname,
+		mr.nickName AS winner,
+		mr.openid AS openid,
+		mr.isOrder AS isOrder
+		FROM
+		mallgame_gambling mg,
+		mallgame_gift mt,
+		mallgame_result mr
+		WHERE
+		mg.id =
+		mt.gameid
+		AND mg.ext =
+		"1"
+		AND mg.id = mr.gameid
+		AND mr.isLottery = "1" 
+		ORDER BY gameid DESC
+	</select>
+</mapper>

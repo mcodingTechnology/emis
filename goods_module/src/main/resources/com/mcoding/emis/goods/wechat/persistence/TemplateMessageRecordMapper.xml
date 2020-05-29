@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.wechat.persistence.TemplateMessageRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.wechat.bean.TemplateMessageRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="template_message_id" property="templateMessageId" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="keyword1" property="keyword1" jdbcType="VARCHAR" />
+    <result column="keyword2" property="keyword2" jdbcType="VARCHAR" />
+    <result column="keyword3" property="keyword3" jdbcType="VARCHAR" />
+    <result column="keyword4" property="keyword4" jdbcType="VARCHAR" />
+    <result column="keyword5" property="keyword5" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="createdTime" property="createdtime" jdbcType="TIMESTAMP" />
+    <result column="updatedTime" property="updatedtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, template_message_id, openid, nick_name, status, keyword1, keyword2, keyword3, 
+    keyword4, keyword5, content, url, order_id, createdTime, updatedTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.wechat.bean.TemplateMessageRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from template_message_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from template_message_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from template_message_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.goods.wechat.bean.TemplateMessageRecordExample" >
+    delete from template_message_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.wechat.bean.TemplateMessageRecord" >
+    insert into template_message_record (id, template_message_id, openid, 
+      nick_name, status, keyword1, 
+      keyword2, keyword3, keyword4, 
+      keyword5, content, url, 
+      order_id, createdTime, updatedTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{templateMessageId,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, 
+      #{nickName,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, #{keyword1,jdbcType=VARCHAR}, 
+      #{keyword2,jdbcType=VARCHAR}, #{keyword3,jdbcType=VARCHAR}, #{keyword4,jdbcType=VARCHAR}, 
+      #{keyword5,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{orderId,jdbcType=INTEGER}, #{createdtime,jdbcType=TIMESTAMP}, #{updatedtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.wechat.bean.TemplateMessageRecord" >
+    insert into template_message_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="templateMessageId != null" >
+        template_message_id,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="keyword1 != null" >
+        keyword1,
+      </if>
+      <if test="keyword2 != null" >
+        keyword2,
+      </if>
+      <if test="keyword3 != null" >
+        keyword3,
+      </if>
+      <if test="keyword4 != null" >
+        keyword4,
+      </if>
+      <if test="keyword5 != null" >
+        keyword5,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="createdtime != null" >
+        createdTime,
+      </if>
+      <if test="updatedtime != null" >
+        updatedTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="templateMessageId != null" >
+        #{templateMessageId,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="keyword1 != null" >
+        #{keyword1,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword2 != null" >
+        #{keyword2,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword3 != null" >
+        #{keyword3,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword4 != null" >
+        #{keyword4,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword5 != null" >
+        #{keyword5,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="createdtime != null" >
+        #{createdtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedtime != null" >
+        #{updatedtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.goods.wechat.bean.TemplateMessageRecordExample" resultType="java.lang.Integer" >
+    select count(*) from template_message_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update template_message_record
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.templateMessageId != null" >
+        template_message_id = #{record.templateMessageId,jdbcType=INTEGER},
+      </if>
+      <if test="record.openid != null" >
+        openid = #{record.openid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickName != null" >
+        nick_name = #{record.nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=SMALLINT},
+      </if>
+      <if test="record.keyword1 != null" >
+        keyword1 = #{record.keyword1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyword2 != null" >
+        keyword2 = #{record.keyword2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyword3 != null" >
+        keyword3 = #{record.keyword3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyword4 != null" >
+        keyword4 = #{record.keyword4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyword5 != null" >
+        keyword5 = #{record.keyword5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null" >
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdtime != null" >
+        createdTime = #{record.createdtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedtime != null" >
+        updatedTime = #{record.updatedtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update template_message_record
+    set id = #{record.id,jdbcType=INTEGER},
+      template_message_id = #{record.templateMessageId,jdbcType=INTEGER},
+      openid = #{record.openid,jdbcType=VARCHAR},
+      nick_name = #{record.nickName,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=SMALLINT},
+      keyword1 = #{record.keyword1,jdbcType=VARCHAR},
+      keyword2 = #{record.keyword2,jdbcType=VARCHAR},
+      keyword3 = #{record.keyword3,jdbcType=VARCHAR},
+      keyword4 = #{record.keyword4,jdbcType=VARCHAR},
+      keyword5 = #{record.keyword5,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=INTEGER},
+      createdTime = #{record.createdtime,jdbcType=TIMESTAMP},
+      updatedTime = #{record.updatedtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.wechat.bean.TemplateMessageRecord" >
+    update template_message_record
+    <set >
+      <if test="templateMessageId != null" >
+        template_message_id = #{templateMessageId,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="keyword1 != null" >
+        keyword1 = #{keyword1,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword2 != null" >
+        keyword2 = #{keyword2,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword3 != null" >
+        keyword3 = #{keyword3,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword4 != null" >
+        keyword4 = #{keyword4,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword5 != null" >
+        keyword5 = #{keyword5,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="createdtime != null" >
+        createdTime = #{createdtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedtime != null" >
+        updatedTime = #{updatedtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.wechat.bean.TemplateMessageRecord" >
+    update template_message_record
+    set template_message_id = #{templateMessageId,jdbcType=INTEGER},
+      openid = #{openid,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=SMALLINT},
+      keyword1 = #{keyword1,jdbcType=VARCHAR},
+      keyword2 = #{keyword2,jdbcType=VARCHAR},
+      keyword3 = #{keyword3,jdbcType=VARCHAR},
+      keyword4 = #{keyword4,jdbcType=VARCHAR},
+      keyword5 = #{keyword5,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=INTEGER},
+      createdTime = #{createdtime,jdbcType=TIMESTAMP},
+      updatedTime = #{updatedtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

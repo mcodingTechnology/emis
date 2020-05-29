@@ -1,0 +1,63 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		global_vue({
+			el: '#vueBox',
+			data: vueData
+		});
+		vm.$set($("#global_showPanelRegin").attr('vuesetobj'), null); //清空输入框
+		vm.$set('regson', ''); //清空列表
+		setTimeout(function() {
+			regson_select(1); //查找区域信息
+		}, 300);
+	});
+
+	//查找区域信息
+	function regson_select(id) {
+		buijs_mask({
+			type: 'loading'
+		});
+		vm.$set('regson_searchName', ''); //清空关键词
+		vm.$set('queryRegionByParentId', null); //清空列表
+		setTimeout(function() {
+			global_getJsonSetVue(workSpace.jsonUrl + '/region/queryRegionByParentId', 'queryRegionByParentId', {
+				parentRegionId: id
+			}, function() {
+				buijs_mask_close();
+				//选择结束
+				if(vueData.queryRegionByParentId.length == []) {
+					buijs_modal_close('global_showPanelRegin');
+					//应用环境-编辑收货信息
+					vm.$set($("#global_showPanelRegin").attr('vuesetobj'), vueData.regson)
+				}
+			});
+		}, 300)
+	};
+</script>
+<div class="bui_wrap bui_tc_black bui_tc_black_a">
+	<!--页头-->
+	<div class="bui_mo_h">
+		<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:buijs_modal_close('global_showPanelRegin');vm.$set('queryRegionByParentId', null);" title="点击选择区域"></tp-header>
+	</div>
+	<!--页头-->
+
+	<!--页面-->
+	<div class="bui_mo_b bui_mo_b_h">
+		<div class="bui_p_12">
+			<input type="text" value="" placeholder="请输入关键词" class="bui_ipt_48 bui_bgc_white bui_ts_14 bui_block" v-model="regson_searchName" />
+		</div>
+		<tp-loadingbar type="loading" v-if="!queryRegionByParentId||queryRegionByParentId.length==0"></tp-loadingbar>
+		<template v-else>
+			<div class="bui_bds_1_t" id="regsonList">
+				<div class="bui_media bui_vm bui_p_12 bui_bds_1_b bui_bgc_white" v-for="data in queryRegionByParentId | filterBy regson_searchName in 'regionName'" onclick="regson_select({{data.regionId}});vueData.regson+='{{data.regionName}} ';">
+					<div class="bui_media_b">
+						{{data.regionName}}
+					</div>
+					<div class="bui_media_r">
+						<i class="fa fa-angle-right fa-fw bui_tc_white_d48"></i>
+					</div>
+				</div>
+			</div>
+		</template>
+	</div>
+	<!--页面-->
+</div>

@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.game.persistence.GameQuestionMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.game.bean.GameQuestion" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="questionType" property="questiontype" jdbcType="VARCHAR" />
+    <result column="questionTitle" property="questiontitle" jdbcType="VARCHAR" />
+    <result column="option1" property="option1" jdbcType="VARCHAR" />
+    <result column="option2" property="option2" jdbcType="VARCHAR" />
+    <result column="option3" property="option3" jdbcType="VARCHAR" />
+    <result column="option4" property="option4" jdbcType="VARCHAR" />
+    <result column="option5" property="option5" jdbcType="VARCHAR" />
+    <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="ext" property="ext" jdbcType="VARCHAR" />
+    <result column="brandCode" property="brandcode" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="gameName" property="gamename" jdbcType="VARCHAR" />
+    <result column="gameId" property="gameid" jdbcType="INTEGER" />
+    <result column="rightReply" property="rightreply" jdbcType="VARCHAR" />
+    <result column="wrongReply" property="wrongreply" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, questionType, questionTitle, option1, option2, option3, option4, option5, answer, 
+    ext, brandCode, createTime, updateTime, gameName, gameId, rightReply, wrongReply
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.game.bean.GameQuestionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from game_question
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from game_question
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from game_question
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.goods.game.bean.GameQuestionExample" >
+    delete from game_question
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.game.bean.GameQuestion" >
+    insert into game_question (id, questionType, questionTitle, 
+      option1, option2, option3, 
+      option4, option5, answer, 
+      ext, brandCode, createTime, 
+      updateTime, gameName, gameId, 
+      rightReply, wrongReply)
+    values (#{id,jdbcType=INTEGER}, #{questiontype,jdbcType=VARCHAR}, #{questiontitle,jdbcType=VARCHAR}, 
+      #{option1,jdbcType=VARCHAR}, #{option2,jdbcType=VARCHAR}, #{option3,jdbcType=VARCHAR}, 
+      #{option4,jdbcType=VARCHAR}, #{option5,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, 
+      #{ext,jdbcType=VARCHAR}, #{brandcode,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{gamename,jdbcType=VARCHAR}, #{gameid,jdbcType=INTEGER}, 
+      #{rightreply,jdbcType=VARCHAR}, #{wrongreply,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.game.bean.GameQuestion" >
+    insert into game_question
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="questiontype != null" >
+        questionType,
+      </if>
+      <if test="questiontitle != null" >
+        questionTitle,
+      </if>
+      <if test="option1 != null" >
+        option1,
+      </if>
+      <if test="option2 != null" >
+        option2,
+      </if>
+      <if test="option3 != null" >
+        option3,
+      </if>
+      <if test="option4 != null" >
+        option4,
+      </if>
+      <if test="option5 != null" >
+        option5,
+      </if>
+      <if test="answer != null" >
+        answer,
+      </if>
+      <if test="ext != null" >
+        ext,
+      </if>
+      <if test="brandcode != null" >
+        brandCode,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+      <if test="gamename != null" >
+        gameName,
+      </if>
+      <if test="gameid != null" >
+        gameId,
+      </if>
+      <if test="rightreply != null" >
+        rightReply,
+      </if>
+      <if test="wrongreply != null" >
+        wrongReply,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="questiontype != null" >
+        #{questiontype,jdbcType=VARCHAR},
+      </if>
+      <if test="questiontitle != null" >
+        #{questiontitle,jdbcType=VARCHAR},
+      </if>
+      <if test="option1 != null" >
+        #{option1,jdbcType=VARCHAR},
+      </if>
+      <if test="option2 != null" >
+        #{option2,jdbcType=VARCHAR},
+      </if>
+      <if test="option3 != null" >
+        #{option3,jdbcType=VARCHAR},
+      </if>
+      <if test="option4 != null" >
+        #{option4,jdbcType=VARCHAR},
+      </if>
+      <if test="option5 != null" >
+        #{option5,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="ext != null" >
+        #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="brandcode != null" >
+        #{brandcode,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gamename != null" >
+        #{gamename,jdbcType=VARCHAR},
+      </if>
+      <if test="gameid != null" >
+        #{gameid,jdbcType=INTEGER},
+      </if>
+      <if test="rightreply != null" >
+        #{rightreply,jdbcType=VARCHAR},
+      </if>
+      <if test="wrongreply != null" >
+        #{wrongreply,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.goods.game.bean.GameQuestionExample" resultType="java.lang.Integer" >
+    select count(*) from game_question
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update game_question
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.questiontype != null" >
+        questionType = #{record.questiontype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.questiontitle != null" >
+        questionTitle = #{record.questiontitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.option1 != null" >
+        option1 = #{record.option1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.option2 != null" >
+        option2 = #{record.option2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.option3 != null" >
+        option3 = #{record.option3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.option4 != null" >
+        option4 = #{record.option4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.option5 != null" >
+        option5 = #{record.option5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.answer != null" >
+        answer = #{record.answer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext != null" >
+        ext = #{record.ext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brandcode != null" >
+        brandCode = #{record.brandcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null" >
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gamename != null" >
+        gameName = #{record.gamename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gameid != null" >
+        gameId = #{record.gameid,jdbcType=INTEGER},
+      </if>
+      <if test="record.rightreply != null" >
+        rightReply = #{record.rightreply,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wrongreply != null" >
+        wrongReply = #{record.wrongreply,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update game_question
+    set id = #{record.id,jdbcType=INTEGER},
+      questionType = #{record.questiontype,jdbcType=VARCHAR},
+      questionTitle = #{record.questiontitle,jdbcType=VARCHAR},
+      option1 = #{record.option1,jdbcType=VARCHAR},
+      option2 = #{record.option2,jdbcType=VARCHAR},
+      option3 = #{record.option3,jdbcType=VARCHAR},
+      option4 = #{record.option4,jdbcType=VARCHAR},
+      option5 = #{record.option5,jdbcType=VARCHAR},
+      answer = #{record.answer,jdbcType=VARCHAR},
+      ext = #{record.ext,jdbcType=VARCHAR},
+      brandCode = #{record.brandcode,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      gameName = #{record.gamename,jdbcType=VARCHAR},
+      gameId = #{record.gameid,jdbcType=INTEGER},
+      rightReply = #{record.rightreply,jdbcType=VARCHAR},
+      wrongReply = #{record.wrongreply,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.game.bean.GameQuestion" >
+    update game_question
+    <set >
+      <if test="questiontype != null" >
+        questionType = #{questiontype,jdbcType=VARCHAR},
+      </if>
+      <if test="questiontitle != null" >
+        questionTitle = #{questiontitle,jdbcType=VARCHAR},
+      </if>
+      <if test="option1 != null" >
+        option1 = #{option1,jdbcType=VARCHAR},
+      </if>
+      <if test="option2 != null" >
+        option2 = #{option2,jdbcType=VARCHAR},
+      </if>
+      <if test="option3 != null" >
+        option3 = #{option3,jdbcType=VARCHAR},
+      </if>
+      <if test="option4 != null" >
+        option4 = #{option4,jdbcType=VARCHAR},
+      </if>
+      <if test="option5 != null" >
+        option5 = #{option5,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="ext != null" >
+        ext = #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="brandcode != null" >
+        brandCode = #{brandcode,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gamename != null" >
+        gameName = #{gamename,jdbcType=VARCHAR},
+      </if>
+      <if test="gameid != null" >
+        gameId = #{gameid,jdbcType=INTEGER},
+      </if>
+      <if test="rightreply != null" >
+        rightReply = #{rightreply,jdbcType=VARCHAR},
+      </if>
+      <if test="wrongreply != null" >
+        wrongReply = #{wrongreply,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.game.bean.GameQuestion" >
+    update game_question
+    set questionType = #{questiontype,jdbcType=VARCHAR},
+      questionTitle = #{questiontitle,jdbcType=VARCHAR},
+      option1 = #{option1,jdbcType=VARCHAR},
+      option2 = #{option2,jdbcType=VARCHAR},
+      option3 = #{option3,jdbcType=VARCHAR},
+      option4 = #{option4,jdbcType=VARCHAR},
+      option5 = #{option5,jdbcType=VARCHAR},
+      answer = #{answer,jdbcType=VARCHAR},
+      ext = #{ext,jdbcType=VARCHAR},
+      brandCode = #{brandcode,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      gameName = #{gamename,jdbcType=VARCHAR},
+      gameId = #{gameid,jdbcType=INTEGER},
+      rightReply = #{rightreply,jdbcType=VARCHAR},
+      wrongReply = #{wrongreply,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 非自动生成 -->
+  
+  <!-- 游戏题目列表查询 -->
+  <select id="queryGameQuestionByPage" parameterType="map" resultType="com.mcoding.emis.goods.game.bean.GameQuestion">
+        select * from game_question
+        <trim prefix="where" suffix=" " suffixOverrides="and" >
+	        <if test="questionTitle != null and questionTitle != ''">
+	        	questionTitle =#{questionTitle} and
+	        </if>
+        </trim>
+        ORDER BY id DESC
+   </select>
+    
+  <!-- 随机查询5道题-->
+  <select id="getRadomQuestion" parameterType="map" resultType="com.mcoding.emis.goods.game.bean.GameQuestion">
+         select * from (SELECT * from game_question 
+		where questionType='A' order by rand() limit 3) t1
+		UNION
+		 select * from (SELECT * from game_question
+		 where questionType='B'
+		order by rand() limit 2) t2;
+   </select>
+  
+</mapper>

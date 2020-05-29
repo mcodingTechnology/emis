@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>广马大作战</title>
+		<script type="text/javascript" src="./../game_public/workspace.js"></script>
+		<script type="text/javascript">
+			var _run_myRankings = "",
+				_run_rankingsList = "";
+			//展示
+			function _runShowSection() {
+				$(".run_section").html('<div class="run_panel bui_p_12 bui_radius bui_row_p_12">' +
+					'<div class="bui_inline bui_ta_c bui_vm"><img src="./images/gmx_logo.png" style="height: 48px;" />' +
+					'<i class="run_bold bui_ts_16 bui_mlr_12">作战排行榜</i></div>' +
+					'<li><hr style="border-color: rgba(0,0,0,0.12);" /></li>' +
+					'<li class="bui_ta_c bui_ts_12 bui_vm"><i class="fa fa-user fa-fw bui_fas_24"></i> 我的成绩 </li>' +
+					'<li><hr style="border-color: rgba(0,0,0,0.12);" /></li>' +
+					'<div class="bui_ptb_12 bui_inline bui_ta_c">' + _run_myRankings + '</div>' +
+					'<li><hr style="border-color: rgba(0,0,0,0.12);" /></li>' +
+					'<li class="bui_ta_c bui_ts_12 bui_vm"><i class="fa fa-trophy fa-fw bui_fas_24"></i> 前100名选手名单 </li>' +
+					'<div class="bui_row_p_12">' + _run_rankingsList + '</div>' +
+					'</div>' +
+					'<div class="bui_row_p_12 bui_ta_c bui_mt_12 "><li class="bui_col_sm_6"><a href="javascript:window.location.reload();" class="run_btn_s_green">刷新</a></li><li class="bui_col_sm_6"><a href="index.html" class="run_btn_s_orange">返回</a></li><li class="bui_col_sm_12"><a href="help_list.html" class="run_btn_b_orange">看看谁帮过我</a></li></div>');
+				run_closeLoading();
+				$(".run_section").addClass('active');
+				$(".run_section [data-bui_img]").buijs_img();
+				$(".run_section li.bui_media:eq(0)").find('.bui_btn_32').addClass('bui_bgc_red').removeClass('bui_bgc_black');
+				$(".run_section li.bui_media:eq(1)").find('.bui_btn_32').addClass('bui_bgc_yellow').removeClass('bui_bgc_black');
+				$(".run_section li.bui_media:eq(2)").find('.bui_btn_32').addClass('bui_bgc_green').removeClass('bui_bgc_black');
+			};
+			$(document).ready(function() {
+				run_showLoading();
+				//获取排名列表
+				$.ajax({
+					type: "get",
+					url: _jsonUrl + "/front/getRunningRank.html",
+					async: true,
+					cache: false,
+					dataType: 'json',
+					error: function(data) {
+						run_jsonError();
+					},
+					success: function(data) {
+						if (data.data.distance > 0) {
+							//我的排名
+							_run_myRankings = '<div class="bui_round bui_bds_2 bui_bdc_white" style="width: 96px;height: 96px;" data-bui_img=""><img src="' + data.data.headImgUrl + '" /></div><br /><p class="bui_ts_12">' + data.data.nickName + '，您的总成绩为</p><br/><p class="run_score bui_ts_32 bui_tc_yellow">' + data.data.distance + 'm</p><br /><p class="bui_ts_12">排在第<span class="bui_ts_16 bui_tc_red">' + data.data.rank + '</span>名</p>';
+						} else {
+							_run_myRankings = '您还没有玩过游戏哟~';
+						}
+						//前100名
+						if (data.data.resultList.length > 0) {
+							$.map(data.data.resultList, function(data) {
+								_run_rankingsList += '<li><hr style="border-color: rgba(0,0,0,0.12);" /></li><li class="bui_media bui_vm"><div class="bui_media_l"><div class="bui_round bui_bds_2 bui_bdc_white" style="width: 48px;height: 48px;" data-bui_img=""><img src="' + data.headimgurl + '" /></div></div><div class="bui_media_b"><p class="run_bold">' + data.nickname + '</p><p class="bui_ts_12">总里程：' + data.distance + 'm</p></div><div class="bui_media_r"><span class="bui_btn_32 bui_btnsq bui_bgc_black bui_tc_white bui_round">' + data.rank + '</span></div></li>';
+							});
+						} else {
+							_run_rankingsList = '<li><hr style="border-color: rgba(0,0,0,0.12);" /></li><li class="bui_ptb_12 bui_ta_c">各路大神正在路上...</li>'
+						};
+						_runShowSection();
+					}
+				});
+			});
+		</script>
+	</head>
+
+	<body class="run_body">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<div class="bui_mo_h" id="run_healder"></div>
+				<div class="bui_mo_b">
+					<div class="bui_ptb_48 bui_plr_12 run_section"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

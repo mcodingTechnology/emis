@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../baidiui/css/baidiui.css" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script type="text/javascript" src="../baidiui/js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="public.js"></script>
+		<script type="text/javascript" src="../baidiui/js/baidiui.js"></script>
+		<title>营养冷知识 - 极智构</title>
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js">
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				//
+				$.getJSON(url + "merriplusApi/checkMemberResult.html?gameid=" + _gameid, function(data) {
+					var _gaintitle = data.data.gaintitle;
+					var _subscribe = data.data.subscribe;
+					var _lotterynum = data.data.lotterynum;
+					var _islottery = data.data.islottery;
+					//判断称号
+					if (_gaintitle != null || _gaintitle != 0) {
+						$('#gaintitle').attr('src', 'images/honor_' + _gaintitle + '.png');
+						if(_gaintitle == 1)
+						{
+							$('#gaininfo').text('知识渊博又冷酷，肯定是（嫁）个高帅富！');
+						}
+						if(_gaintitle == 2)
+						{
+							$('#gaininfo').text('特效都是假的，但想抽奖要凭真本事！再试一次吧！');
+						}
+						if(_gaintitle == 3)
+						{
+							$('#gaininfo').text('经不起“烤”验，怎能去抽奖？再试一次吧！');
+						}
+					};
+					//判断是否可抽奖
+					if (_islottery == null || _islottery == 0) {} else {
+						$('#lottery').addClass('active').on({
+							'touchend': function() {
+								if (_subscribe == 1) {
+									window.location.href = 'shake.html?gameid='+_gameid;
+								} else {
+									wm_alert_show('follow');
+								}
+							}
+						});
+					}
+				});
+				//按钮
+				$('.wm_complete_btn a').on({
+					'touchstart': function(e) {
+						e.preventDefault();
+						$(this).addClass('hit');
+					},
+					'touchend': function(e) {
+						$(this).removeClass('hit');
+						var _url = $(this).attr('href');
+						if (_url) {
+							window.location.href = _url
+						}
+					}
+				});
+				//分享
+				$('#show_share').on({
+					'touchend': function() {
+						wm_alert_show('share');
+					}
+				});
+				//提示关注
+				$('#lottery a').on({
+					'touchend': function() {
+						var _url = $(this).attr('href');
+						if (_url == 'javascript:;' || _url == null || _url == undefined) {
+							wm_alert_show('follow');
+						}
+					}
+				});
+			});
+			 //弹出弹窗
+			function wm_alert_show(id) {
+				$('.wm_alert').show(0, function() {
+					_id = $(this).find('#' + id).show();
+					$(this).addClass('active');
+					//关闭弹窗
+					$('.wm_alert .wm_mask').click(function() {
+						$('.wm_alert').removeClass('active');
+						setTimeout(function() {
+							$('.wm_alert,.wm_mask > *').hide();
+						}, 300);
+					});
+				});
+			};
+		</script>
+
+	</head>
+
+	<body class="wm_index_body wm_bg_complete">
+		<div class="wm_ta_c">
+			<!--logo-->
+			<img src="images/logo.png" style="width: 144px; margin:24px 0;" />
+			<!--logo-->
+			<!--称号-->
+			<p style="font-size: 12px; color: #666;">
+				经学姐霸气鉴定，你是
+			</p>
+			<img src="" style="height: 64px; margin: 6px 0;" id="gaintitle" />
+			<p style="font-size: 12px; color: #666;" id="gaininfo"></p>
+			<!--称号-->
+			<!--按钮-->
+			<div class="wm_complete_btn">
+				<li><a href="index.html?gameid=1" class="active">再玩一次</a></li>
+				<li><a href="javascript:;" id="lottery">马上抽奖</a></li>
+				<!-- <li><a href="javascript:;" class="active" id="show_share">让朋友也来玩</a></li> -->
+			</div>
+			<!--按钮-->
+
+			<!--提示关注/分享-->
+			<div class="wm_alert" id="wm_complete_mask">
+				<div class="wm_mask">
+					<div style="padding: 48px; color: #fff; display: none;" id="follow">
+						<p style="font-size: 18px;">不向朋友炫耀一下吗？</p></br>
+						<img src="images/code.jpg" style="width: 100%; height: auto;" />
+						<p style="font-size: 18px;">啊？原来你还没关注我们？</p>
+						<p style="font-size: 14px; opacity: 0.72; margin-top: 12px;">长按二维码（或搜索“极智构”）加关注，回复关键字“学姐”，抽奖机会马上到手！</p>
+					</div>
+					<div style="padding: 6px; color: #fff; display: none;" id="share">
+						<img src="images/share.png" style="width: 100%;" />
+					</div>
+				</div>
+			</div>
+			<!--提示关注/分享-->
+		</div>
+	</body>
+
+</html>

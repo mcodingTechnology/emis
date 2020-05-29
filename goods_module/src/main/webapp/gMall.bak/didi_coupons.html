@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<!--工作空间-->
+		<script type="text/javascript" src="workspace_v2.0.1.js"></script>
+		<!--工作空间-->
+		<script src="mp_js/didi_coupons.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+		<style type="text/css">
+			.mp_didi_panel {
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				overflow-y: auto;
+			}
+
+			#mp_product {
+				z-index: 1;
+				transform: translateX(100%);
+				-webkit-transform: translateX(100%);
+				-moz-transform: translateX(100%);
+				transition: all 0.3s;
+				-webkit-transition: all 0.3s;
+				-moz-transition: all 0.3s;
+			}
+
+			#mp_product.active {
+				transform: translateX(0);
+				-webkit-transform: translateX(0);
+				-moz-transform: translateX(0);
+			}
+
+			#mp_product2 {
+				z-index: 1;
+				transform: translateX(100%);
+				-webkit-transform: translateX(100%);
+				-moz-transform: translateX(100%);
+				transition: all 0.3s;
+				-webkit-transition: all 0.3s;
+				-moz-transition: all 0.3s;
+			}
+
+			#mp_product2.active {
+				transform: translateX(0);
+				-webkit-transform: translateX(0);
+				-moz-transform: translateX(0);
+			}
+
+			#mp_product2 input[type=radio] {
+				position: absolute;
+				clip: rect(0, 0, 0, 0);
+			}
+		</style>
+	</head>
+
+	<body class="bui_at_noline bui_bgc_white_d12">
+		<div class="bui_wrap" style="z-index: 1;">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_bgc_white bui_tc_black bui_fac_black bui_ahtc_black bui_bsd_6">
+					<div class="bui_media bui_vm">
+						<div class="bui_media_l bui_p_0">
+							<button class="bui_btn_32 bui_btnsq fa fa-angle-left bui_m_8 {{style.facFalse}}" onclick="javascript:window.location.href= 'index.html';"></button>
+						</div>
+						<div class="bui_media_b">兑换通道</div>
+						<div class="bui_media_r bui_pr_12">
+							<p id="ally_detail" class="bui_ts_12 bui_mlr_6"></p>
+						</div>
+					</div>
+				</div>
+				<!--页头-->
+				<div class="bui_mo_b bui_mo_b_h">
+					<!--标志-->
+					<div class="bui_pt_96 bui_inline bui_vm bui_ta_c">
+						<img src="images/logo.png" style="width: 40%; height: auto;" />
+						<div class="bui_ts_12 bui_bgc_white_d24 bui_tc_white bui_mt_12 bui_plr_6">礼品兑换</div>
+					</div>
+					<!--标志-->
+					<div class="bui_plr_24 bui_ptb_48">
+						<form id="formCoupons">
+							<!--输入框-->
+							<input type="tel" placeholder="兑换码" maxlength="10" class="bui_ipt_48 bui_bgc_white bui_radius bui_block" id="ipt" />
+							<!--输入框-->
+							<!--按钮-->
+							<button class="bui_btn_48 bui_radius bui_block bui_mt_12 bui_tc_white bui_ts_14 {{style.btnFalse}}" id="btn">确认 <i class="fa fa-check fa-fw"></i></button>
+							<!--按钮-->
+						</form>
+
+					</div>
+				</div>
+				<!--页头-->
+				<!--页脚-->
+				<div class="bui_mo_f">
+					<!--版权信息-->
+					<p class="bui_p_24 bui_ta_c bui_ts_12">版权所有 © {{brandName}}</p>
+					<!--版权信息-->
+				</div>
+				<!--页脚-->
+			</div>
+		</div>
+		<!--礼品信息-->
+
+		<div class="mp_didi_panel  bui_tc_white bui_ptb_96 {{style.bgc}}" id="mp_product">
+			<div class=" bui_inline bui_ta_c">
+				<div class="bui_p_6 bui_bgc_white bui_round bui_bsd_24" style="width: 128px; height: 128px; margin: 0 auto;">
+					<img id="productImg" src="#" style="width: 128px; height: 128px;  padding-right: 12px;" />
+				</div>
+			</div>
+			<div class="bui_plr_24 bui_ta_c">
+				<p class="bui_ts_12 bui_mt_24 bui_tc_white_f64">恭喜你！兑换成功~ 您获得{{brandName}}提供的礼品
+				</p>
+				<p class="bui_mt_12 bui_ts_16 bui_tc_white" id="productName"></p>
+				<!--按钮-->
+				<a href="javascript:;" class="address_confirm bui_btn_48 bui_bgc_white bui_bds_0 bui_btn_noline bui_radius bui_block bui_mt_12">
+					<p class="bui_tc_orange">填写收货信息</p><i class="fa fa-angle-right fa-fw"></i></a>
+				<!--按钮-->
+			</div>
+		</div>
+		<!--礼品信息-->
+		<!--礼品信息(套装)-->
+		<div class="mp_didi_panel  bui_tc_white bui_pt_32 bui_plr_12 {{style.bgc}}" id="mp_product2">
+			<div class="productList" style="height: 60%;overflow-y: auto;-webkit-overflow-scrolling: touch;"></div>
+			<div class="bui_plr_24 bui_ta_c" style="position: absolute;bottom: 32px;height: 132px;">
+				<p class="bui_ts_12 bui_mt_24 bui_tc_white_f64">恭喜你！兑换成功~ 您获得{{brandName}}提供的礼品,选择你喜欢的吧~~
+				</p>
+				<p class="bui_mt_12 bui_ts_24" id="productName">
+				</p>
+				<!--按钮-->
+				<a href="javascript:;" class="address_confirm2 bui_btn_48 bui_bgc_white bui_bds_0 bui_atc_orange bui_btn_noline bui_radius bui_block bui_mt_12">填写收货信息<i class="fa fa-angle-right fa-fw"></i></a>
+				<!--按钮-->
+			</div>
+
+		</div>
+		<!--礼品信息(套装)-->
+		<script type="text/javascript">
+		</script>
+	</body>
+
+</html>

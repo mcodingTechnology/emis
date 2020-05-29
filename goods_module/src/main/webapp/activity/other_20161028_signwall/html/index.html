@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../game_public/workspace_v2.0.3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				//判断用户签到情况
+				setTimeout(function() {
+					game_checkStatus();
+				}, 300);
+			});
+			//判断用户签到情况
+			function game_checkStatus() {
+				global_getJsonSetVue(workSpace.jsonUrl + "/front/yearParty/SignOpenid.html", 'game.SignOpenid', null, function() {
+					setTimeout(function() {
+						//提交表单
+						$("#form").buijs_form_check({
+							textsuccess: '<i class="fa fa-check bui_tc_green_i"></i>',
+							texterror: '<i class="fa fa-close bui_tc_red_i"></i>',
+							error: function() {
+								buijs_alert({
+									content: '姓名和祝福语都是必填项哟~'
+								})
+							},
+							success: function() {
+								buijs_mask({
+									type: 'loadingFull'
+								});
+								$("#form input,#form textarea").prop('disabled', true);
+								game_postData(); //提交数据
+							}
+						});
+					}, 300);
+				})
+			};
+			//提交数据
+			function game_postData() {
+				global_getVueSetJson(workSpace.jsonUrl + '/front/yearParty/sign.html', vm.$data.game.SignOpenid.data.memberList[0], ['name', 'bless'], function(data) {
+					if(data.code == 0) {
+						setTimeout(function() {
+							window.location.reload();
+						}, 1000)
+					}
+					//已经签到
+					if(data.code == 3) {
+						setTimeout(function() {
+							window.location.reload();
+						}, 1000)
+					}
+				});
+
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="bui_wrap bui_bgc_white_d12">
+			<div class="bui_mo">
+				<div class="bui_mo_b">
+					<template v-if="!game||!game.SignOpenid">
+						<div class="bui_p_64 bui_tc_white_d64 bui_ta_c">
+							<p><i class="fa fa-circle-o-notch fa-spin bui_ts_48_i"></i></p>
+							<p class="bui_mt_12">loading...</p>
+						</div>
+					</template>
+					<template v-else>
+						<div class="bui_bgc_black_f12 bui_tc_white bui_ta_c" style="background-image: url(../images/bg.jpg);background-size: cover;">
+
+							<div class="bui_bgc_orange_f64 bui_p_12 ">
+								<p class="bui_ts_24">中欧EMBA飞扬121班</p>
+								<p class="bui_ts_16">毕业两周年聚会</p>
+							</div>
+
+							<div class="bui_inline bui_p_24">
+								<img src="{{game.SignOpenid.data.memberList[0].headImgUrl}}" style="width: 10rem;height: 10rem;" class="bui_bds_4 bui_round" />
+							</div>
+							<div class="bui_bgc_orange_f64 bui_p_12">
+								<p>
+									<span class="bui_ts_14">欢迎您，</span>
+									<span class="bui_ts_16">{{game.SignOpenid.data.memberList[0].name?game.SignOpenid.data.memberList[0].name:game.SignOpenid.data.memberList[0].nickName}}</span>
+								</p>
+								<p>{{game.SignOpenid.code==0?'请输入祝福语吧':game.SignOpenid.code==1?'祝福语输入成功！':''}}</p>
+							</div>
+
+						</div>
+						<!--未签到-->
+						<template v-if="game.SignOpenid.code==0">
+							<form id="form" class="bui_p_24">
+								<div class="bui_row_p_12">
+									<div>
+										<div class="bui_ipg_48 bui_block" buijs_form_item_type='length' buijs_form_item_length="1,999">
+											<span class="bui_fr buijs_form_item_tips"></span>
+											<i class="fa fa-user fa-fw bui_fl bui_tc_orange_i"></i>
+											<input type="text" placeholder="请输入您的真实姓名" v-model="game.SignOpenid.data.memberList[0].name" class="bui_ipt_48 bui_ts_14 bui_bds_0 bui_bgc_white" />
+										</div>
+									</div>
+									<div>
+										<div class="bui_ipg_48 bui_block" buijs_form_item_type='length' buijs_form_item_length="1,999">
+											<span class="bui_fr buijs_form_item_tips"></span>
+											<i class="fa fa-edit fa-fw bui_fl bui_tc_orange_i"></i>
+											<textarea placeholder="请输入您的祝福语" rows="6" v-model="game.SignOpenid.data.memberList[0].bless" class="bui_ipt_48 bui_ts_14 bui_bds_0 bui_bgc_white bui_mtb_6"></textarea>
+										</div>
+									</div>
+									<div>
+										<button class="bui_btn bui_btn_48 bui_block bui_bgc_orange bui_ts_16">提交 <i class="fa fa-angle-right fa-fw"></i></button>
+									</div>
+
+								</div>
+							</form>
+						</template>
+						<!--未签到-->
+						<!--签到过-->
+						<template v-if="game.SignOpenid.code==1">
+							<div class="bui_p_24">
+								<div class="bui_row_p_12">
+									<div>
+										<div class="bui_media bui_vm bui_p_12 bui_bgc_orange bui_tc_white bui_radius">
+											<div class="bui_media_l">
+												<p class="bui_tc_white_f64 bui_ts_12">姓名：</p>
+											</div>
+											<div class="bui_media_b">
+												<p class="bui_ts_14">{{game.SignOpenid.data.memberList[0].name}}</p>
+											</div>
+										</div>
+									</div>
+									<div>
+										<div class="bui_media bui_vm bui_p_12 bui_bgc_orange bui_tc_white bui_radius">
+											<div class="bui_media_l">
+												<p class="bui_tc_white_f64 bui_ts_12">祝福语：</p>
+											</div>
+											<div class="bui_media_b">
+												<p class="bui_ts_14">{{game.SignOpenid.data.memberList[0].bless}}</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</template>
+						<!--签到过-->
+					</template>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,365 @@
+<script type="text/javascript">
+	vm.$set('pageData', {
+		//banner
+		bannerData: [{
+			name: 'banner1',
+			imgUrl: 'pic/banner-1.png',
+			link: 'javascript:;'
+		}, {
+			name: 'banner2',
+			imgUrl: 'pic/banner-2.png',
+			link: 'javascript:;'
+		}, {
+			name: 'banner3',
+			imgUrl: 'pic/banner-3.png',
+			link: 'javascript:;'
+		}],
+		//kol
+		section2Data: [{
+			name: '浩克',
+			imgUrl: 'pic/section2-pic1.png',
+			info: '<p>1BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>1BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>1BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>1BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>1BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>1BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p>'
+		}, {
+			name: '永远的小白哥',
+			imgUrl: 'pic/section2-pic2.png',
+			info: '<p>2BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>2BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>2BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>2BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>2BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>2BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p>'
+		}, {
+			name: '张本富',
+			imgUrl: 'pic/section2-pic3.png',
+			info: '<p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p>'
+		}, {
+			name: '中山大鸽饭',
+			imgUrl: 'pic/section2-pic4.png',
+			info: '<p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p>'
+		}, {
+			name: '无敌浩克',
+			imgUrl: 'pic/section2-pic5.png',
+			info: '<p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p><p>3BIG生活签约运动员</p><p>2016年上海IWF健体冠军</p><p>2016年CUBFA全国大学生健体冠军</p>'
+		}],
+		//私教视频
+		videoData: [{
+			name: '浩克亲授增肌课程',
+			type: '明星私教',
+			imgUrl: 'pic/video-1.png',
+			link: 'javascript:;'
+		}, {
+			name: '打造一天翅臀',
+			type: '交流分享',
+			imgUrl: 'pic/video-2.png',
+			link: 'javascript:;'
+		}],
+		//产品
+		productData: [{
+			name: '正肌能TM乳清蛋白高纤粉',
+			info: '长效疯涨 均衡吸收',
+			imgUrl: 'http://www.gymmaxer.com/Gymmax/pic/product_010.png',
+			link: 'javascript:;'
+		}, {
+			name: '重肌能TM乳清蛋白营养强化粉',
+			info: '长效疯涨 增重强身',
+			imgUrl: 'http://www.gymmaxer.com/Gymmax/pic/product_008.png',
+			link: 'javascript:;'
+		}, {
+			name: '纤脂能TM左旋肉碱共轭亚油酸粉',
+			info: '长时燃脂 多效纤体',
+			imgUrl: 'http://www.gymmaxer.com/Gymmax/pic/product_001.png',
+			link: 'javascript:;'
+		}],
+		newsData: [{
+			name: '健身,让时光的脚步为你变慢',
+			infos: '关注囚徒健身微信平台:qiutujs,回复您的身体信息,为您定制专属您的健身计划 爱健身的妹子必定有一颗爱美之心,她会很努力地塑造和维持自己的身材。 如果她本不貌美,拥有一个好的身材可以给她加分不少;如果她天生丽质,那更是锦上添花! 健身的养生功效人尽皆知,健身不仅可以抗癌',
+			time: '2016-12-31',
+			author: 'BIG生活',
+			imgUrl: 'pic/news-1.png'
+		}, {
+			name: '活力圈 "互联网+全民健身"打造专业赛事新玩法',
+			infos: '积极与社会体育俱乐部进行"互联网+全民健身"的融合创新,共同推动全民健身发展,合力打造全民健身准公共化服务平台。 活力圈app倾力打造全民健身准公共化服务平台 活化既有社会体育资源,以互联网创新作为动力,推动全民健身发展 活力圈app,一个网聚体育力量的全民健身准公共',
+			time: '2016-12-31',
+			author: 'BIG生活',
+			imgUrl: 'pic/news-2.png'
+		}, {
+			name: '姚晨挺8个月孕肚健身 与儿子小土豆互动 ',
+			infos: '9月1日,怀孕八个月的姚晨在微博上发出了一组自己的健身房照片。并且,姚晨这次并不是一个人来运动,还带上了儿子小土豆。母子二人在健身房亲一起训练,互动甜蜜。照片中的姚晨肚子里揣一个小宝宝,手里牵一个大宝宝,全身上下除了腹部隆起,其他地方都线条紧致,十分健美。 姚晨',
+			time: '2016-12-31',
+			author: 'BIG生活',
+			imgUrl: 'pic/news-3.png'
+		}, {
+			name: '盘点娱乐圈健身狂魔:王宝强从傻根变身肌肉大叔 ',
+			infos: '娱乐圈中早就掀起了健身热潮,明星们纷纷走入健身房,为拥有一身傲人的肌肉而努力着。健身前后的他们判若两人,形象、气质上都有着质的飞跃,也为自己的演绎事业增添了新的筹码。 彭于晏 刚出道的彭于晏青春可爱,给人"乖乖男"男的感觉。但是现在的他更有一种"坏坏"的感觉,但让你',
+			time: '2016-12-31',
+			author: 'BIG生活',
+			imgUrl: 'pic/news-4.png'
+		}, {
+			name: '肌肉增长原理,健身入门看! ',
+			infos: '特别适用一些体型偏弱的健身爱好者 简单的说,肌肉的生长是一个刺激,补充,生长这样一个过程。 肌肉的生长需要力量训练即大重量,高强度的训练去刺激肌肉,以达到肌肉纤维破坏的这样一个过程,之后身体通过自身免疫功能调动营养物质去修复。 所以,需要健身者进行营养补充来提供',
+			time: '2016-12-31',
+			author: 'BIG生活',
+			imgUrl: 'pic/news-5.png'
+		}, {
+			name: '光猪圈健身APP更新,智能便利健身继续升级',
+			infos: '近日,光猪圈健身APP在原有版本的基础上进行了更新,完善更加强大的体测数据系统,新增消息中心等功能模块,对内在打开速度、显示效果等进行新一轮的优化,全方位提升了使用流畅速度,在打造一键式智能健身应用的基础上,进一步为用户提升健身体验。 光猪圈健身是一个突破传统健',
+			time: '2016-12-31',
+			author: 'BIG生活',
+			imgUrl: 'pic/news-6.png'
+		}, {
+			name: '开放健身场所、推进"健康+"保险 日照走出特色"健康之路"',
+			infos: '今年3月份,日照市委书记、市人大常委会主任杨军调研全民健身工作时强调,要不断提高全民健身活动场所配套水平,广泛开展全民健身活动,营造更加浓厚的全民健身氛围,努力把日照市体育工作提升到新的水平。 在日照市的发展规划中,构建全民健身服务体系被列为重点工程,加强公共体',
+			time: '2016-12-31',
+			author: 'BIG生活',
+			imgUrl: 'pic/news-7.png'
+		}, {
+			name: '陈意涵"卧轨"健身秀绝技不料暴露了真实身高',
+			infos: '搜狐娱乐讯(关耳朵/文)8月31日晚,元气少女陈意涵晒出一张独特的健身照片,并配文称"拍戏去的地方我无法决定,但想运动的心,随心所欲ps~铁轨也是运动场,其实有点痛!"。照片中,她扎起丸子头,穿着白T,趴在铁轨上,只以手脚支撑身体,一只脚还高抬,做出高难度瑜伽动作。对于运动达人陈',
+			time: '2016-12-31',
+			author: 'BIG生活',
+			imgUrl: 'pic/news-8.png'
+		}, {
+			name: '湖南省第七届全民健身节将于9月底在怀化市举行',
+			infos: '此次活动主赛场设在市全民健身服务中心,为了产生更大的社会影响力,本届健身节将设置全国瑜伽(怀化站)公开赛、全省体育舞蹈、广场舞、青少年跆拳道、肚皮舞、青少年攀岩、健身气功、城市定向、健美健身、排舞、棋牌、太极拳、游泳、登山、自行车骑行、钓鱼、武术共17 个比',
+			time: '2016-12-31',
+			author: 'BIG生活',
+			imgUrl: 'pic/news-9.png'
+		}, {
+			name: '今冬不"猫冬",市民健身有去处! ',
+			infos: '伴随着一场秋雨,沈阳气温突降。昨天,记者在位于万泉公园的大东区全民健身带看到,平时满满当当的足球场"冷清"了不少,却有市民撑着雨伞在健身路径的器材上做着运动,也有人在塑胶跑道上健步走。进入秋季之后,沈城将逐渐转冷,但这并不会影响到市民的健身热情。在政府加大力度建',
+			time: '2016-12-31',
+			author: 'BIG生活',
+			imgUrl: 'pic/news-10.png'
+		}]
+	});
+	vueReady = function() {
+		$("[data-buijs_swiper]").buijs_swiper({
+			btn: false
+		});
+		$("[data-bui_img]").buijs_img();
+
+		$("[data-buijs_tab]").buijs_tab({
+			style: false,
+			effect: 'slidev',
+			activeClass: 'bui_bdc_white bui_bds_2_b'
+		});
+		$("[data-buijs_scrollbar]").buijs_scrollbar({
+			style: 'bui_bgc_white bui_round',
+			stylebg: 'bui_bgc_black_f24 bui_round',
+		});
+
+		//视频图片hover效果
+		$(".video_pic").hover(function() {
+			if($(this).find('.video_mask').length == 0) {
+				$(this).append('<div style="position: absolute;top:0;bottom:0;left:0;right:0;" class="bui_bgc_red_f72 bui_ta_c bui_inline bui_vm video_mask"><i style="width:0;height:100%"></i><i class="fa fa-play-circle bui_ts_48_i bui_tc_white_i"></i></div>');
+			}
+
+		}, function() {
+			$(this).find('.video_mask').remove();
+		})
+	};
+</script>
+
+<!--banner-->
+<div data-buijs_swiper='' style="height:620px;">
+	<div class="box">
+		<a v-for="data in pageData.bannerData | orderBy 'name' -1" href="{{data.link}}" class="item" data-bui_img>
+			<img src="{{data.imgUrl}}" />
+		</a>
+	</div>
+	<div style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;">
+		<div class="bui_auto_w" style="height: 620px;position: relative;">
+			<a href="javascript:;" class="buijs_swiper_btn_prev bui_btn bui_btn_64 bui_btn_sq bui_bgc_black_f48" style="position: absolute;left: 0;top: 50%;margin-top: -32px;"><i class="fa fa-angle-left bui_ts_64_i bui_tc_white_i"></i></a>
+			<a href="javascript:;" class="buijs_swiper_btn_next bui_btn bui_btn_64 bui_btn_sq bui_bgc_black_f48" style="position: absolute;right: 0;top: 50%;margin-top: -32px;"><i class="fa fa-angle-right bui_ts_64_i bui_tc_white_i"></i></a>
+		</div>
+	</div>
+
+</div>
+<!--banner-->
+<!--section1-->
+<div class="index-section1 bui_ptb_72">
+	<div class="bui_auto_w bui_ta_c">
+		<p class="bui_ts_32 bui_tc_white">成就肌肉的力量</p>
+		<p class="bui_ts_20 bui_tc_white_d72">The Power To Be Strong</p>
+
+		<div class="bui_avg_sm_3 bui_pt_48 bui_plr_32">
+			<div>
+				<p class="bui_ta_c bui_inline">
+					<img src="pic/section1-icon1.png" />
+				</p>
+
+				<p class="bui_tc_red bui_mt_12">增肌增重产品</p>
+				<p class="bui_tc_white_d64">Muscle gainer & Mass gainer</p>
+			</div>
+			<div>
+				<p class="bui_ta_c bui_inline">
+					<img src="pic/section1-icon2.png" />
+				</p>
+				<p class="bui_tc_red bui_mt_12">减脂塑形产品</p>
+				<p class="bui_tc_white_d64">Fat Loss Accelerator</p>
+			</div>
+			<div>
+				<p class="bui_ta_c bui_inline">
+					<img src="pic/section1-icon3.png" />
+				</p>
+				<p class="bui_tc_red bui_mt_12">能量补充产品</p>
+				<p class="bui_tc_white_d64">Energy supplement</p>
+			</div>
+		</div>
+	</div>
+</div>
+<!--section1-->
+<!--section2-->
+<div class="index-section2" style="position: relative;">
+	<!--浮动层-->
+	<div style="position: absolute;left: 0;right: 0;top: 0;bottom: 0;">
+		<div class="bui_auto_w bui_ptb_64">
+			<div class="bui_avg_sm_2">
+				<div class="bui_pr_48">
+					<div class="index-section2-nav bui_inline bui_at_noline bui_ts_14" data-buijs_tab='{"setid":"section2box"}'>
+						<template v-for="data in pageData.section2Data">
+							<li>
+								<a href="javascript:;" class="bui_tc_white_a bui_block bui_plr_12">{{data.name}}</a>
+							</li>
+						</template>
+					</div>
+					<div buijs_tab_box="section2box" class="bui_mt_24">
+						<div v-for="data in pageData.section2Data">
+							<div class="bui_p_24 bui_tc_white bui_ts_14" style="height: 240px;overflow: hidden;" data-buijs_scrollbar>
+								<div class="bui_row_p_12">{{{data.info}}}</div>
+							</div>
+						</div>
+					</div>
+					<div class="bui_mt_24">
+						<a href="javascript:;" class="bui_btn bui_bds_2 bui_bdc_white bui_tc_white bui_bgc_white_h bui_tc_red_h">Click More</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--浮动层-->
+	<div class="bui_avg_sm_2">
+		<div>&nbsp;</div>
+		<div>
+			<div buijs_tab_box="section2box">
+				<div v-for="data in pageData.section2Data" class="index-section2-pic" style="height:495px;background-image: url({{data.imgUrl}});"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--section2-->
+
+<!--section3-->
+<div class="bui_ptb_64 bui_bgc_black bui_tc_white bui_tc_white_a bui_tc_red_h bui_at_noline">
+	<div class="bui_auto_w">
+		<div class="bui_avg_sm_2 bui_row_p_48">
+			<!--私教视频-->
+			<div>
+				<p class="bui_inline">
+					<span class="bui_bds_2_b bui_bdc_red bui_ts_24">私教视频</span>
+					<span class="bui_ts_14">COACH VIDEO</span>
+				</p>
+				<div class="bui_mt_24">
+					<div class="bui_avg_2 bui_row_p_32">
+						<div v-for="data in pageData.videoData">
+							<a href="{{data.link}}">
+								<div class="video_pic" data-bui_img style="height: 168px;">
+									<img src="{{data.imgUrl}}" />
+								</div>
+								<p class="bui_mt_12 bui_ts_14">{{data.name}}</p>
+								<p class="bui_ts_12 bui_tc_white_d64">{{data.type}}</p>
+							</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<!--私教视频-->
+			<!--明星产品-->
+			<div>
+				<p class="bui_inline">
+					<span class="bui_bds_2_b bui_bdc_red bui_ts_24">明星产品</span>
+					<span class="bui_ts_14">PRODUCTS SHOW</span>
+				</p>
+				<div class="bui_mt_24">
+					<div class="bui_avg_3 bui_row_p_24">
+						<div v-for="data in pageData.productData">
+							<a href="{{data.link}}">
+								<div data-bui_img='{"center":"inside"}' style="height: 168px;">
+									<img src="{{data.imgUrl}}" />
+									<div class="bui_btn bui_btn_24 bui_btn_sq bui_bgc_red bui_round" style="position: absolute;right: 0px;bottom: 0px;">
+										<i class="fa fa-plus bui_tc_white_i"></i>
+									</div>
+								</div>
+								<p class="bui_mt_12 bui_ts_12">{{data.name}}...</p>
+								<p class="bui_ts_12 bui_tc_white_d64">{{data.info}}</p>
+							</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<!--明星产品-->
+		</div>
+	</div>
+</div>
+<!--section3-->
+
+<!--section4-->
+<div class="bui_ptb_64 bui_bgc_black_l72 bui_tc_white bui_tc_white_a bui_tc_red_h bui_at_noline">
+	<div class="bui_auto_w">
+		<p class="bui_inline">
+			<span class="bui_bds_2_b bui_bdc_red bui_ts_24">最新新闻</span>
+			<span class="bui_ts_14">LATEST NEWS</span>
+		</p>
+		<div class="bui_mt_24">
+			<div class="bui_avg_sm_2 bui_row_p_48 bui_tc_white bui_tc_white_a bui_tc_red_h bui_at_noline">
+				<!--头条-->
+				<div>
+					<template v-for="data in pageData.newsData">
+						<template v-if="$index==0">
+							<div>
+								<div class="bui_row_p_24">
+									<div class="bui_col_sm_7">
+										<div class="" data-bui_img style="height: 256px;">
+											<img src="{{data.imgUrl}}" />
+										</div>
+									</div>
+									<div class="bui_col_sm_5">
+										<p class="bui_ts_14 bui_tc_white">{{data.name}}</p>
+										<p class="bui_ts_12 bui_tc_white_d72">{{data.time}}</p>
+										<p class="bui_ts_12 bui_tc_white_d72 bui_mt_24">{{data.infos.substring(0,64)}}...</p>
+										<p class="bui_mt_24 bui_ts_12 bui_tc_red_a"><i class="fa fa-angle-right fa-fw bui_tc_red_i"></i>
+											<a href="javascript:;" class="">查看更多</a>
+										</p>
+									</div>
+								</div>
+							</div>
+						</template>
+					</template>
+
+				</div>
+				<!--头条-->
+				<!--新闻列表-->
+				<div>
+					<div style="height: 256px;" data-buijs_scrollbar>
+						<div class="bui_row_p_24">
+							<div v-for="data in pageData.newsData">
+								<div class="bui_media bui_pr_48">
+									<div class="bui_media_l">
+										<div style="height: 64px;width: 96px;" data-bui_img>
+											<img src="{{data.imgUrl}}" />
+										</div>
+									</div>
+									<div class="bui_media_b">
+										<p class="bui_ts_14 bui_tc_white">{{data.name}}</p>
+										<p class="bui_ts_12 bui_tc_white_d72">{{data.infos.substring(0,64)}}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<!--新闻列表-->
+			</div>
+		</div>
+
+	</div>
+</div>
+<!--section4-->

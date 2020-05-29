@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>移动商城 - BIG生活</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/product_list.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body id="vueBox" class="gym-body bui_at_noline">
+
+		<!--主体-->
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h">
+					<!--提示关注公众号-->
+					<template v-if="isWechatUserFocused.code==1">
+						<tp-isfollow></tp-isfollow>
+					</template>
+					<!--提示关注公众号-->
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="https://h5.youzan.com/v2/home/zt5mvapt" title="全部商品" iscart='true' :cartnum="cartData.size"></tp-header>
+				</div>
+				<!--页头-->
+
+				<!--页面-->
+				<div class="bui_mo_b bui_mo_b_h bui_mo_b_f gym_mo_b" style="{{isWechatUserFocused.code==1?'top:6rem':''}}">
+					<template v-if="!memberDetail||!memberDetail.data||!getProductList||!getProductList.data">
+						<!--loadingbar-->
+						<tp-loadingbar type="loading"></tp-loadingbar>
+						<!--loadingbar-->
+					</template>
+					<template v-else>
+						<!--搜索栏-->
+						<div class="bui_plr_12 bui_pt_12 bui_pb_0">
+							<div class="bui_ipg_48 bui_block" onclick="global_showSidePanel('modal_search');">
+								<button class="bui_btn bui_btn_48 bui_btn_sq bui_ts_16 bui_fr" disabled="disabled"><i class="fa fa-search"></i></button>
+								<input type="text" placeholder="商品搜索" value="{{urlData.productName}}" class="bui_ipt_32 bui_bgc_white_f6 bui_block bui_bdc_black_l48 bui_tc_white bui_ts_14" disabled="disabled" />
+							</div>
+						</div>
+						<!--搜索栏-->
+						<div class="bui_p_12" id="productList">
+							<div class="bui_avg_2 bui_row_p_12">
+								<div v-for="data in productListArray">
+									<div class="bui_p_12 bui_block bui_bgc_black_l64">
+										<a href="product_detail.html?productId={{data.productId}}" class="bui_block" style="background-image: url({{data.productCoverImg}});background-size: cover;">
+											<img src="./images/seize.png" class="bui_block" width="100%" />
+										</a>
+										<a href="product_detail.html?productId={{data.productId}}" class="bui_mt_6 bui_block bui_ts_12">
+											<p class="bui_tc_white" style="height: 3.2em; overflow: hidden; ">{{data.productName}}</p>
+											<div class="bui_inline bui_vm bui_row_p_12">
+												<p class="bui_tc_red bui_ts_14"><i class="fa fa-rmb"></i> {{memberDetail.data.parentMemberId?data.microMallPrice/100:data.discountPrice/100}}</p>
+												<p class="bui_tc_white_d64 bui_ts_12" style="text-decoration: line-through;"><i class="fa fa-rmb"></i> {{data.originalPrice/100}}</p>
+											</div>
+										</a>
+									</div>
+								</div>
+
+							</div>
+							<tp-loadingbar bgc="" type="loading" v-if="!pageLoaded"></tp-loadingbar>
+							<tp-loadingbar bgc="" type="success" v-else></tp-loadingbar>
+						</div>
+					</template>
+				</div>
+				<!--页面-->
+				<!--页脚-->
+				<tp-nav :parent="memberDetail.data.parentMemberId" :level="memberDetail.data.levelId"></tp-nav>
+				<!--页脚-->
+
+			</div>
+		</div>
+		<!--主体-->
+		<!--浮动插件-->
+		<!--<tp-sideplug :cartnum="cartData.size" :scrolltop="gymScroll"></tp-sideplug>-->
+		<!--浮动插件-->
+	</body>
+
+</html>

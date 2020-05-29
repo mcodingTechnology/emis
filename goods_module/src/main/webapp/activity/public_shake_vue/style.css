@@ -1,0 +1,73 @@
+/*背景 BIG生活*/
+
+.shake_bg_gym {
+	background-image: url(images/bg_gym.jpg);
+	background-position: center top;
+	background-size: 100% auto;
+}
+
+.shake_bg_mp {
+	background-image: url(images/bg_mp.png);
+	background-position: center top;
+	background-size: 100% auto;
+}
+
+
+/*摇一摇*/
+
+.wm_shake_am {
+	display: inline-block;
+	overflow: hidden;
+	background-color: #e0d2aa;
+	border-radius: 10000px;
+}
+
+.wm_shake_am img {
+	border-radius: 10000px;
+	width: 100%;
+	height: 100%;
+}
+
+.wm_shake_am {
+	animation: shake 0.2s linear infinite;
+	-webkit-animation: shake 0.2s linear infinite;
+	-moz-animation: shake 0.2s linear infinite;
+}
+
+@keyframes shake {
+	0% {
+		transform: rotate(0);
+	}
+	50% {
+		transform: rotate(20deg);
+	}
+	100% {
+		transform: rotate(0deg);
+	}
+}
+
+@-webkit-keyframes shake {
+	0% {
+		-webkit-transform: rotate(0);
+	}
+	50% {
+		-webkit-transform: rotate(20deg);
+	}
+	100% {
+		-webkit-transform: rotate(0deg);
+	}
+}
+
+@-moz-keyframes shake {
+	0% {
+		-moz-transform: rotate(0);
+	}
+	50% {
+		-moz-transform: rotate(20deg);
+	}
+	100% {
+		-moz-transform: rotate(0deg);
+	}
+}
+
+;

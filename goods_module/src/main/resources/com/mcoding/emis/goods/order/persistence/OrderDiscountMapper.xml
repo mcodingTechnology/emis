@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.order.persistence.OrderDiscountMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.order.bean.OrderDiscount" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="discount_type" property="discountType" jdbcType="SMALLINT" />
+    <result column="promo_desc" property="promoDesc" jdbcType="VARCHAR" />
+    <result column="rule_type" property="ruleType" jdbcType="INTEGER" />
+    <result column="preferential_price" property="preferentialPrice" jdbcType="INTEGER" />
+    <result column="promo_min_limit" property="promoMinLimit" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="gift_product_id" property="giftProductId" jdbcType="INTEGER" />
+    <result column="gift_product_name" property="giftProductName" jdbcType="VARCHAR" />
+    <result column="gift_product_num" property="giftProductNum" jdbcType="INTEGER" />
+    <result column="require_purchase_num" property="requirePurchaseNum" jdbcType="INTEGER" />
+    <result column="actual_purchase_num" property="actualPurchaseNum" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, order_id, openid, discount_type, promo_desc, rule_type, preferential_price, promo_min_limit, 
+    product_id, product_name, gift_product_id, gift_product_name, gift_product_num, require_purchase_num, 
+    actual_purchase_num, create_time, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.order.bean.OrderDiscountExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from mr_order_discount
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from mr_order_discount
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mr_order_discount
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.order.bean.OrderDiscount" >
+    insert into mr_order_discount (id, order_id, openid, 
+      discount_type, promo_desc, rule_type, 
+      preferential_price, promo_min_limit, product_id, 
+      product_name, gift_product_id, gift_product_name, 
+      gift_product_num, require_purchase_num, actual_purchase_num, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, 
+      #{discountType,jdbcType=SMALLINT}, #{promoDesc,jdbcType=VARCHAR}, #{ruleType,jdbcType=INTEGER}, 
+      #{preferentialPrice,jdbcType=INTEGER}, #{promoMinLimit,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, 
+      #{productName,jdbcType=VARCHAR}, #{giftProductId,jdbcType=INTEGER}, #{giftProductName,jdbcType=VARCHAR}, 
+      #{giftProductNum,jdbcType=INTEGER}, #{requirePurchaseNum,jdbcType=INTEGER}, #{actualPurchaseNum,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.order.bean.OrderDiscount" >
+    insert into mr_order_discount
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="discountType != null" >
+        discount_type,
+      </if>
+      <if test="promoDesc != null" >
+        promo_desc,
+      </if>
+      <if test="ruleType != null" >
+        rule_type,
+      </if>
+      <if test="preferentialPrice != null" >
+        preferential_price,
+      </if>
+      <if test="promoMinLimit != null" >
+        promo_min_limit,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="giftProductId != null" >
+        gift_product_id,
+      </if>
+      <if test="giftProductName != null" >
+        gift_product_name,
+      </if>
+      <if test="giftProductNum != null" >
+        gift_product_num,
+      </if>
+      <if test="requirePurchaseNum != null" >
+        require_purchase_num,
+      </if>
+      <if test="actualPurchaseNum != null" >
+        actual_purchase_num,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="discountType != null" >
+        #{discountType,jdbcType=SMALLINT},
+      </if>
+      <if test="promoDesc != null" >
+        #{promoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleType != null" >
+        #{ruleType,jdbcType=INTEGER},
+      </if>
+      <if test="preferentialPrice != null" >
+        #{preferentialPrice,jdbcType=INTEGER},
+      </if>
+      <if test="promoMinLimit != null" >
+        #{promoMinLimit,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="giftProductId != null" >
+        #{giftProductId,jdbcType=INTEGER},
+      </if>
+      <if test="giftProductName != null" >
+        #{giftProductName,jdbcType=VARCHAR},
+      </if>
+      <if test="giftProductNum != null" >
+        #{giftProductNum,jdbcType=INTEGER},
+      </if>
+      <if test="requirePurchaseNum != null" >
+        #{requirePurchaseNum,jdbcType=INTEGER},
+      </if>
+      <if test="actualPurchaseNum != null" >
+        #{actualPurchaseNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.order.bean.OrderDiscount" >
+    update mr_order_discount
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="discountType != null" >
+        discount_type = #{discountType,jdbcType=SMALLINT},
+      </if>
+      <if test="promoDesc != null" >
+        promo_desc = #{promoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleType != null" >
+        rule_type = #{ruleType,jdbcType=INTEGER},
+      </if>
+      <if test="preferentialPrice != null" >
+        preferential_price = #{preferentialPrice,jdbcType=INTEGER},
+      </if>
+      <if test="promoMinLimit != null" >
+        promo_min_limit = #{promoMinLimit,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="giftProductId != null" >
+        gift_product_id = #{giftProductId,jdbcType=INTEGER},
+      </if>
+      <if test="giftProductName != null" >
+        gift_product_name = #{giftProductName,jdbcType=VARCHAR},
+      </if>
+      <if test="giftProductNum != null" >
+        gift_product_num = #{giftProductNum,jdbcType=INTEGER},
+      </if>
+      <if test="requirePurchaseNum != null" >
+        require_purchase_num = #{requirePurchaseNum,jdbcType=INTEGER},
+      </if>
+      <if test="actualPurchaseNum != null" >
+        actual_purchase_num = #{actualPurchaseNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.order.bean.OrderDiscount" >
+    update mr_order_discount
+    set order_id = #{orderId,jdbcType=INTEGER},
+      openid = #{openid,jdbcType=VARCHAR},
+      discount_type = #{discountType,jdbcType=SMALLINT},
+      promo_desc = #{promoDesc,jdbcType=VARCHAR},
+      rule_type = #{ruleType,jdbcType=INTEGER},
+      preferential_price = #{preferentialPrice,jdbcType=INTEGER},
+      promo_min_limit = #{promoMinLimit,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      product_name = #{productName,jdbcType=VARCHAR},
+      gift_product_id = #{giftProductId,jdbcType=INTEGER},
+      gift_product_name = #{giftProductName,jdbcType=VARCHAR},
+      gift_product_num = #{giftProductNum,jdbcType=INTEGER},
+      require_purchase_num = #{requirePurchaseNum,jdbcType=INTEGER},
+      actual_purchase_num = #{actualPurchaseNum,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getOrderDiscountInfo" resultMap="BaseResultMap" parameterType="map" >
+  	select * from mr_order_discount
+  	 where order_id = #{orderId,jdbcType=INTEGER}
+       and openid = #{openid,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../baidiui/css/baidiui.css" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script type="text/javascript" src="../baidiui/js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="public.js"></script>
+		<script type="text/javascript" src="../baidiui/js/baidiui.js"></script>
+		<title>极智构</title>
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js">
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				//考官头像
+				var _askface = 'images/index_pic_01.png';
+				//考官名称
+				var _askname = '营养师';
+				//间隔时间
+				var _delay = 1000;
+				
+				var _scroll = function() {
+					var _t = $('.wm_comment:last-child');
+					var _b = _t.offset().top
+					$('body,html').animate({
+						scrollTop: _b
+					})
+					_t.addClass('on');
+				}
+
+				function ask(_c, _q) {
+					$('body').append('<div class="wm_comment wm_comment_left"><div class="wm_comment_face"><h2><span><img src="' + _askface + '" /></span></h2><h5>' + _askname + '</h5></div><div class="wm_comment_content"><div class="wm_comment_content_box"><p>' + _c + '</p></div></div></div>');
+					_scroll();
+				};
+
+				function answer(_c) {
+					$('body').append('<div class="wm_comment wm_comment_right"><div class="wm_comment_content"><div class="wm_comment_content_box">' + _c + '</div></div><div class="wm_comment_face"><h2><span><img src="' + headimgurl + '" /></span></h2><h5>' + nickname + '</h5></div></div>');
+					_scroll();
+				};
+
+				function question(data) {
+					if (data != null) {
+						$('body').append('<div class="wm_comment wm_comment_left" id="question_' + i + '" style="position:relative"><div class="wm_comment_face"><h2><span><img src="' + _askface + '" /></span></h2><h5>' + _askname + '</h5></div><div class="wm_comment_content"><div class="wm_comment_content_box"><p>' + data.questiontitle + '</p><div class="wm_comment_select"><a href="javascript:;">' + data.option1 + '</a><a href="javascript:;">' + data.option2 + '</a><a href="javascript:;">' + data.option3 + '</a><a href="javascript:;">' + data.option4 + '</a><a href="javascript:;">' + data.option5 + '</a></div></div></div></div>');
+						$('.wm_comment:last-child a').each(function() {
+							var _t = $(this)
+							if (_t.html() != '' && _t.html() != undefined && _t.html() != null) {
+								_t.css({
+									'display': 'block'
+								});
+							}
+						});
+						_scroll();
+						$('.wm_comment a').on({
+							'touchend':function(){
+								var _t = $(this);
+								var _text = $(this).text();
+								var _url = $(this).attr('href');
+								if(_url!='javascript:;')
+									{window.location.href=_url};
+								answer(_text);
+								$(this).addClass('active');
+
+								$('#question_' + i + '').append('<div style="position: absolute;z-index: 9999;width: 100%;height: 100%;top: 0px;"></div>');
+								setTimeout(function() {
+									if (_t.index() + 1 == data.answer) {
+										rightnum++;
+										ask(data.rightreply);
+										var _score = parseInt($('#wm_score').val());
+										$('#wm_score').val(_score + 20);
+										setTimeout(function() {
+											i++;
+											question(qArr[i]);
+										}, _delay);
+									} else {
+										end();
+										ask('很遗憾，您答错了<div class="wm_comment_select"><a href="index.html?gameid=' + _gameid + '" style="display:block;">返回首页 &gt;</a></div>');
+									}
+								}, _delay);
+							}
+						});
+					} else {
+						end();
+						ask('恭喜您！答对了所有问题。<div class="wm_comment_select"><a href="index.html?gameid=' + _gameid + '" style="display:block;">查看成绩？ &gt;</a></div>');
+					}
+				};
+				getQuestion();
+				ask('准备好挑战营养知识了吗？小加豪礼已备好！');;
+				setTimeout(function() {
+					answer('准备好了！');
+					setTimeout(function() {
+						question(qArr[i]);
+					}, _delay);
+				}, _delay);
+			});
+			var qArr = [];
+			var i = 0;
+			var rightnum = 0;
+			var gaintitle = '3';
+			var headimgurl = '';
+			var nickname = '';
+
+			function getQuestion() {
+				$.getJSON(url + "merriplusApi/getQuestionsByGameid.html?gameid=" + _gameid, function(data) {
+					qArr = data.data.gameQuestionList;
+					headimgurl = data.data.headimgurl;
+					nickname = data.data.nickname;
+				});
+			}
+
+			function end() {
+				$.ajax({
+					type: "post",
+					url: url + "merriplusApi/answerAndGetPrize.html",
+					async: true,
+					global: false,
+					dateType: 'json',
+					contentType: 'application/json',
+					data: JSON.stringify({
+						gameid: _gameid,
+						rightnum: rightnum,
+						brandcode: 'MRMJ'
+					}),
+					success: function(data) {}
+				});
+			}
+		</script>
+	</head>
+
+	<body class="we_index_bg" style="overflow: auto;">
+		<input type="hidden" value="0" id="wm_score" />
+	</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>健身指数检测工具 - BIG生活</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="../game_public/workspace_v2.0.3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="bui_wrap bg-index">
+			<div class="bui_mo">
+				<div class="bui_mo_b bui_inline bui_vm bui_ta_c">
+					<i class="bmi-vm-bar"></i>
+					<div class="bui_avg_2 bui_p_12 bui_row_p_24" style="width: 80%;">
+						<div v-for="data in navData">
+							<a href="{{data.link}}" class="bui_block">
+								<img :src="data.icon" style="width: 70%;" />
+								<p class="bui_ts_12 bui_tc_white_d64">{{data.title}}</p>
+							</a>
+						</div>
+					</div>
+					<i class="bmi-vm-bar"></i>
+				</div>
+
+			</div>
+		</div>
+		<!--loadingbar-->
+		<div id="loadingMask" class="bui_bgc_black_l72 bui_inline bui_ta_c bui_vm bui_tc_white_d64 bui_tc_white_d64_i" style="position: fixed;top: 0;left: 0;right: 0;bottom: 0;z-index: 10;">
+			<i style="height: 100%;width: 0;"></i>
+			<div>
+				<i class="fa fa-circle-o-notch fa-spin bui_ts_32_i "></i>
+				<p class="bui_ts_12 bui_mt_12">loading...</p>
+			</div>
+			<i style="height: 100%;width: 0;"></i>
+		</div>
+		<!--loadingbar-->
+	</body>
+
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>{{global.brandName}}</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/order_add.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body class="gym-body bui_at_noline">
+		<!--主体-->
+		<div class="bui_wrap bui_bgc_white_d12 bui_tc_black bui_tc_black_a">
+			<!--提示关注公众号-->
+			<tp-plug-follow v-if="isSubscribe.data==0"></tp-plug-follow>
+			<!--提示关注公众号-->
+			<div class="bui_mo" style="top:{{isSubscribe.data==0?'48px':'0'}}">
+				<!--页头-->
+				<div class="bui_mo_h">
+
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="index.html" title="创建订单"></tp-header>
+				</div>
+				<!--页头-->
+				<template v-if="!memberDetail||!memberDetail.data||!orderDetail||!orderDetail.data">
+					<div class="bui_mo_b bui_mo_b_h gym_mo_b">
+						<!--loadingbar-->
+						<tp-loadingbar type="loading"></tp-loadingbar>
+						<!--loadingbar-->
+				</template>
+				<template v-else>
+					<!--页面-->
+					<div class="bui_mo_b bui_mo_b_h bui_mo_b_f gym_mo_b">
+						<div class="bui_p_12">
+							<div class="bui_row_p_12">
+								<!--收货信息-->
+								<div>
+									<div class="bui_bds_4 bui_bdc_green_d24 bui_p_12 bui_bgc_white bui_tc_red_i bui_ts_14 bui_radius" style="border-style: dotted !important;">
+										<template v-if="!isPresent">
+											<template v-if="!orderAddress">
+												<div class="bui_tc_white_d48 bui_tc_white_d48_i bui_ta_c" onclick="global_showSidePanel('modal_address_list')">
+													<i class="fa fa-plus-square-o bui_ts_48_i fa-fw"></i>
+													<p>请先完善您的收货信息</p>
+												</div>
+											</template>
+											<template v-else>
+												<div onclick="global_showSidePanel('modal_address_list')">
+													<div class="bui_inline bui_vm bui_row_p_12">
+														<li class="bui_fr bui_tc_white_d64 bui_tc_white_d64_i"><i class="fa fa-edit fa-fw"></i> 编辑</li>
+														<li><i class="fa fa-user fa-fw"></i> {{orderAddress.receiver}}</li <li><i class="fa fa-phone fa-fw"></i> {{orderAddress.phone}}</li>
+													</div>
+													<hr class="bui_mtb_6" />
+													<div>
+														<i class="fa fa-map-marker fa-fw"></i> {{orderAddress.regson}}{{orderAddress.address}}
+													</div>
+												</div>
+											</template>
+
+										</template>
+										<template v-else>
+											<div class="bui_ts_16 bui_p_12">
+												您已选择将该订单分享赠送给您的好友，记得支付成功后分享给您的好友哟~
+											</div>
+										</template>
+
+										<hr class="bui_mtb_6" />
+										<label class="bui_media bui_vm bui_p_6 bui_radius" v-if="urlJson.sceneCode=='metrxmall'">
+											<div class="bui_media_b"><span class="bui_tc_red">是否分享赠送给好友？ </span></div>
+											<div class="bui_media_r">
+												<input type="checkbox" v-bind:true-value='1' v-bind:false-value='0' v-model="isPresent" class="bui_iprc_16 bui_tc_red" />
+											</div>
+										</label>
+									</div>
+								</div>
+
+								<!--收货信息-->
+								<!--订单详情-->
+								<div v-if="urlJson.sceneCode=='metrxmall'">
+									<div class="bui_bds_1 bui_radius bui_bgc_white">
+										<tp-titleitem title="订单详情"></tp-titleitem>
+										<!--发票抬头-->
+										<div class="bui_media bui_vm bui_p_12 bui_bds_1_t">
+											<div class="bui_media_l">
+												<p class="bui_ta_c bui_ts_12 bui_tc_white_d64" style="width: 5rem;">备注：</p>
+											</div>
+											<div class="bui_media_b">
+												<input type="text" value="{{orderAddress.data.name}}" class="bui_ipt_24 bui_p_0 bui_bds_0 bui_block bui_ts_14" placeholder="请输入发票抬头" />
+											</div>
+										</div>
+										<!--发票抬头-->
+									</div>
+								</div>
+								<!--订单详情-->
+								<!--商品信息-->
+								<div v-if="orderDetail.data.orderProductList.length!=0">
+
+									<div class="bui_bds_1 bui_radius bui_bgc_white">
+										<tp-titleitem title="商品信息"></tp-titleitem>
+										<com-order-product-item v-for="data in orderDetail.data.orderProductList" v-if="showAllProduct?$index >= 0:$index < 2" :title="data.productName" :price="data.productPrice/100" :point="data.productPoint" :nums="data.nums" :imgurl="data.productImg"></com-order-product-item>
+										<label class="bui_p_12 bui_block bui_bds_1" v-if="orderDetail.data.orderProductList.length>=3">
+											<p class="bui_ta_c bui_ts_14 bui_tc_white_d64" v-if="!showAllProduct">查看全部商品 <i class="fa fa-angle-down fa-fw"></i></p>
+											<p class="bui_ta_c bui_ts_14 bui_tc_white_d64" v-else>收起 <i class="fa fa-angle-up fa-fw"></i></p>
+											<input type="checkbox" value="" v-model="showAllProduct" style="display: none;" />
+										</label>
+									</div>
+								</div>
+								<!--商品信息-->
+
+								<!--价格信息-->
+								<div>
+									<div class="bui_bds_1 bui_radius bui_bgc_white">
+										<tp-titleitem title="价格信息" btn="优惠说明" link="javascript:orderAdd_showPanel('promoPriceList');" v-if="orderDetail.data.promoPriceList"></tp-titleitem>
+										<tp-titleitem title="价格信息" v-else></tp-titleitem>
+										<!--订单总价-->
+										<com-order-price-item title="订单总价" tc="bui_tc_red" :payprice="orderDetail.data.amountTotal/100" :origprice="0" v-if="orderDetail.data.amountTotal&&orderDetail.data.amountTotal!=0"></com-order-price-item>
+										<!--订单总价-->
+										<!--订单总价-->
+										<com-order-price-item title="扣除积分" tc="bui_tc_red" :paypoint="orderDetail.data.point" :origprice="0" v-if="orderDetail.data.point&&orderDetail.data.point!=0"></com-order-price-item>
+										<!--订单总价-->
+										<!--运费-->
+										<com-order-price-item title="运费" :payprice="orderDetail.data.freight/100" :origprice="0"></com-order-price-item>
+										<!--运费-->
+										<!--减免金额-->
+										<com-order-price-item title="减免金额" :payprice="orderDetail.data.amountReduce/100"></com-order-price-item>
+										<!--减免金额-->
+									</div>
+								</div>
+								<!--价格信息-->
+								<!--积分信息-->
+								<div v-if="urlJson.sceneCode=='metrxgiftmall'">
+									<div class="bui_bds_1 bui_radius bui_bgc_white">
+										<tp-titleitem title="积分信息" v-else></tp-titleitem>
+										<!--可用积分-->
+										<com-order-price-item title="您的可用积分" tc="bui_tc_red" :paypoint="memberPoint"></com-order-price-item>
+										<!--可用积分-->
+									</div>
+								</div>
+								<!--积分信息-->
+							</div>
+						</div>
+
+					</div>
+					<!--页面-->
+					<!--页脚-->
+					<div class="bui_mo_f bui_bgc_white bui_bds_1_t">
+						<div class="bui_media bui_vm bui_m_8">
+							<div class="bui_media_l">
+								<div class="bui_plr_24 bui_ta_c">
+									<p class="bui_ts_12 bui_tc_white_d64">合计</p>
+									<p class="bui_ts_14 bui_tc_red bui_inline bui_row_p_6">
+										<span v-if="orderDetail.data.point&&orderDetail.data.point!=0">{{orderDetail.data.point}}积分</span><span class="bui_ts_12 bui_tc_white_d64" v-if="orderDetail.data.point&&orderDetail.data.point!=0&&orderDetail.data.amountPay&&orderDetail.data.amountPay!=0">+</span>
+										<span v-if="orderDetail.data.amountPay&&orderDetail.data.amountPay!=0">￥{{orderDetail.data.amountPay/100}}元</span>
+									</p>
+
+								</div>
+
+							</div>
+							<div class="bui_media_b">
+								<!--地址未完善-->
+								<button v-if="!orderAddress" class="bui_btn bui_btn_48 bui_bgc_white_d48 bui_tc_white bui_block bui_ts_14" onclick="global_showSidePanel('modal_addressedit')">收货信息未完善</button>
+								<!--地址未完善-->
+								<!--地址已完善-->
+								<template v-else>
+									<!--购买-->
+									<button v-if="urlJson.sceneCode=='metrxmall'" class="bui_btn bui_btn_48 bui_bgc_red bui_block bui_ts_14" onclick="orderAdd_buy();"><i class="fa fa-rmb fa-fw"></i> 去支付</button>
+									<!--购买-->
+									<template v-else>
+										<!--兑换-->
+										<button v-if="urlJson.sceneCode=='metrxgiftmall'&&memberPoint>=orderDetail.data.point" class="bui_btn bui_btn_48 bui_bgc_red bui_block bui_ts_14" onclick="orderAdd_buy();"><i class="fa fa-gift fa-fw"></i> 马上兑换</button>
+										<button v-else class="bui_btn bui_btn_48 bui_bgc_white_d48 bui_tc_white bui_block bui_ts_14">积分不足</button>
+										<!--兑换-->
+									</template>
+
+								</template>
+								<!--地址已完善-->
+
+							</div>
+						</div>
+					</div>
+					<!--页脚-->
+				</template>
+				</div>
+			</div>
+			<!--主体-->
+
+			<!--模态对话框——礼品详细说明-->
+			<div id="giftMsgList" buijs_modal_isremove="false" style="display: none;">
+				<table class="bui_table bui_table_noline bui_ts_12 bui_bds_0_t">
+					<tbody>
+						<tr v-for="data in orderDetail.data.giftMsgList">
+							<td style="width: 45%;">
+								<p>购买 {{data.productName}}</p>
+								<p class="bui_tc_red ">X{{data.requirePurchaseNum}}</p>
+							</td>
+							<td class="bui_p_0" style="width: 10%;">
+								<div class="bui_inline bui_ta_c">
+									<div class="bui_btn bui_btn_24 bui_btn_sq bui_bgc_red bui_round">送</div>
+								</div>
+
+							</td>
+							<td style="width: 45%;">
+								<p>赠送 {{data.giftProductName}}</p>
+								<p class="bui_tc_red ">X{{data.giftProductNum}}</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!--模态对话框——礼品详细说明-->
+			<!--模态对话框——促销详细说明-->
+			<div id="promoPriceList" buijs_modal_isremove="false" style="display: none;">
+				<div class="bui_p_12 bui_bds_1_b" v-for="data in orderDetail.data.promoPriceList">
+					{{data.promoDesc}}
+				</div>
+			</div>
+			<!--模态对话框——促销详细说明-->
+	</body>
+
+</html>

@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.game.persistence.GameMemberResultMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.game.bean.GameMemberResult" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="rightNum" property="rightnum" jdbcType="INTEGER" />
+    <result column="gainTitle" property="gaintitle" jdbcType="VARCHAR" />
+    <result column="isLottery" property="islottery" jdbcType="INTEGER" />
+    <result column="lotteryNum" property="lotterynum" jdbcType="INTEGER" />
+    <result column="prizeId" property="prizeid" jdbcType="INTEGER" />
+    <result column="prizeName" property="prizename" jdbcType="VARCHAR" />
+    <result column="brandCode" property="brandcode" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="gameName" property="gamename" jdbcType="VARCHAR" />
+    <result column="gameId" property="gameid" jdbcType="INTEGER" />
+    <result column="memberAddress" property="memberaddress" jdbcType="VARCHAR" />
+    <result column="memberName" property="membername" jdbcType="VARCHAR" />
+    <result column="memberPhone" property="memberphone" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="ext" property="ext" jdbcType="VARCHAR" />
+    <result column="ext1" property="ext1" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, openid, rightNum, gainTitle, isLottery, lotteryNum, prizeId, prizeName, brandCode, 
+    createTime, updateTime, gameName, gameId, memberAddress, memberName, memberPhone, 
+    operator, ext, ext1
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.game.bean.GameMemberResultExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from game_member_result
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from game_member_result
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from game_member_result
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.goods.game.bean.GameMemberResultExample" >
+    delete from game_member_result
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.game.bean.GameMemberResult"  useGeneratedKeys="true" keyProperty="id">
+    insert into game_member_result (id, openid, rightNum, 
+      gainTitle, isLottery, lotteryNum, 
+      prizeId, prizeName, brandCode, 
+      createTime, updateTime, gameName, 
+      gameId, memberAddress, memberName, 
+      memberPhone, operator, ext, 
+      ext1)
+    values (#{id,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{rightnum,jdbcType=INTEGER}, 
+      #{gaintitle,jdbcType=VARCHAR}, #{islottery,jdbcType=INTEGER}, #{lotterynum,jdbcType=INTEGER}, 
+      #{prizeid,jdbcType=INTEGER}, #{prizename,jdbcType=VARCHAR}, #{brandcode,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{gamename,jdbcType=VARCHAR}, 
+      #{gameid,jdbcType=INTEGER}, #{memberaddress,jdbcType=VARCHAR}, #{membername,jdbcType=VARCHAR}, 
+      #{memberphone,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{ext,jdbcType=VARCHAR}, 
+      #{ext1,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.game.bean.GameMemberResult"  useGeneratedKeys="true" keyProperty="id">
+    insert into game_member_result
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="rightnum != null" >
+        rightNum,
+      </if>
+      <if test="gaintitle != null" >
+        gainTitle,
+      </if>
+      <if test="islottery != null" >
+        isLottery,
+      </if>
+      <if test="lotterynum != null" >
+        lotteryNum,
+      </if>
+      <if test="prizeid != null" >
+        prizeId,
+      </if>
+      <if test="prizename != null" >
+        prizeName,
+      </if>
+      <if test="brandcode != null" >
+        brandCode,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+      <if test="gamename != null" >
+        gameName,
+      </if>
+      <if test="gameid != null" >
+        gameId,
+      </if>
+      <if test="memberaddress != null" >
+        memberAddress,
+      </if>
+      <if test="membername != null" >
+        memberName,
+      </if>
+      <if test="memberphone != null" >
+        memberPhone,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="ext != null" >
+        ext,
+      </if>
+      <if test="ext1 != null" >
+        ext1,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="rightnum != null" >
+        #{rightnum,jdbcType=INTEGER},
+      </if>
+      <if test="gaintitle != null" >
+        #{gaintitle,jdbcType=VARCHAR},
+      </if>
+      <if test="islottery != null" >
+        #{islottery,jdbcType=INTEGER},
+      </if>
+      <if test="lotterynum != null" >
+        #{lotterynum,jdbcType=INTEGER},
+      </if>
+      <if test="prizeid != null" >
+        #{prizeid,jdbcType=INTEGER},
+      </if>
+      <if test="prizename != null" >
+        #{prizename,jdbcType=VARCHAR},
+      </if>
+      <if test="brandcode != null" >
+        #{brandcode,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gamename != null" >
+        #{gamename,jdbcType=VARCHAR},
+      </if>
+      <if test="gameid != null" >
+        #{gameid,jdbcType=INTEGER},
+      </if>
+      <if test="memberaddress != null" >
+        #{memberaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="membername != null" >
+        #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="memberphone != null" >
+        #{memberphone,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="ext != null" >
+        #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.goods.game.bean.GameMemberResultExample" resultType="java.lang.Integer" >
+    select count(*) from game_member_result
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update game_member_result
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.openid != null" >
+        openid = #{record.openid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rightnum != null" >
+        rightNum = #{record.rightnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.gaintitle != null" >
+        gainTitle = #{record.gaintitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.islottery != null" >
+        isLottery = #{record.islottery,jdbcType=INTEGER},
+      </if>
+      <if test="record.lotterynum != null" >
+        lotteryNum = #{record.lotterynum,jdbcType=INTEGER},
+      </if>
+      <if test="record.prizeid != null" >
+        prizeId = #{record.prizeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.prizename != null" >
+        prizeName = #{record.prizename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brandcode != null" >
+        brandCode = #{record.brandcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null" >
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gamename != null" >
+        gameName = #{record.gamename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gameid != null" >
+        gameId = #{record.gameid,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberaddress != null" >
+        memberAddress = #{record.memberaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.membername != null" >
+        memberName = #{record.membername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberphone != null" >
+        memberPhone = #{record.memberphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operator != null" >
+        operator = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext != null" >
+        ext = #{record.ext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext1 != null" >
+        ext1 = #{record.ext1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update game_member_result
+    set id = #{record.id,jdbcType=INTEGER},
+      openid = #{record.openid,jdbcType=VARCHAR},
+      rightNum = #{record.rightnum,jdbcType=INTEGER},
+      gainTitle = #{record.gaintitle,jdbcType=VARCHAR},
+      isLottery = #{record.islottery,jdbcType=INTEGER},
+      lotteryNum = #{record.lotterynum,jdbcType=INTEGER},
+      prizeId = #{record.prizeid,jdbcType=INTEGER},
+      prizeName = #{record.prizename,jdbcType=VARCHAR},
+      brandCode = #{record.brandcode,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      gameName = #{record.gamename,jdbcType=VARCHAR},
+      gameId = #{record.gameid,jdbcType=INTEGER},
+      memberAddress = #{record.memberaddress,jdbcType=VARCHAR},
+      memberName = #{record.membername,jdbcType=VARCHAR},
+      memberPhone = #{record.memberphone,jdbcType=VARCHAR},
+      operator = #{record.operator,jdbcType=VARCHAR},
+      ext = #{record.ext,jdbcType=VARCHAR},
+      ext1 = #{record.ext1,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.game.bean.GameMemberResult" >
+    update game_member_result
+    <set >
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="rightnum != null" >
+        rightNum = #{rightnum,jdbcType=INTEGER},
+      </if>
+      <if test="gaintitle != null" >
+        gainTitle = #{gaintitle,jdbcType=VARCHAR},
+      </if>
+      <if test="islottery != null" >
+        isLottery = #{islottery,jdbcType=INTEGER},
+      </if>
+      <if test="lotterynum != null" >
+        lotteryNum = #{lotterynum,jdbcType=INTEGER},
+      </if>
+      <if test="prizeid != null" >
+        prizeId = #{prizeid,jdbcType=INTEGER},
+      </if>
+      <if test="prizename != null" >
+        prizeName = #{prizename,jdbcType=VARCHAR},
+      </if>
+      <if test="brandcode != null" >
+        brandCode = #{brandcode,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gamename != null" >
+        gameName = #{gamename,jdbcType=VARCHAR},
+      </if>
+      <if test="gameid != null" >
+        gameId = #{gameid,jdbcType=INTEGER},
+      </if>
+      <if test="memberaddress != null" >
+        memberAddress = #{memberaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="membername != null" >
+        memberName = #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="memberphone != null" >
+        memberPhone = #{memberphone,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="ext != null" >
+        ext = #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        ext1 = #{ext1,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.game.bean.GameMemberResult" >
+    update game_member_result
+    set openid = #{openid,jdbcType=VARCHAR},
+      rightNum = #{rightnum,jdbcType=INTEGER},
+      gainTitle = #{gaintitle,jdbcType=VARCHAR},
+      isLottery = #{islottery,jdbcType=INTEGER},
+      lotteryNum = #{lotterynum,jdbcType=INTEGER},
+      prizeId = #{prizeid,jdbcType=INTEGER},
+      prizeName = #{prizename,jdbcType=VARCHAR},
+      brandCode = #{brandcode,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      gameName = #{gamename,jdbcType=VARCHAR},
+      gameId = #{gameid,jdbcType=INTEGER},
+      memberAddress = #{memberaddress,jdbcType=VARCHAR},
+      memberName = #{membername,jdbcType=VARCHAR},
+      memberPhone = #{memberphone,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR},
+      ext = #{ext,jdbcType=VARCHAR},
+      ext1 = #{ext1,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 非自动生成 -->
+  
+  <!-- 查询游戏答题和抽奖结果-->
+  <select id="queryGameMemberResultByPage" parameterType="map" resultType="com.mcoding.emis.goods.game.bean.GameMemberResult">
+        select r.* from game_member_result r
+        <trim prefix="where" suffix=" " suffixOverrides="and" >
+	        <if test="memberphone != null and memberphone != ''">
+	        	memberphone =#{memberphone} and
+	        </if>
+	        <if test="gameid != null and gameid != ''">
+	        	gameid =#{gameid} and
+	        </if>
+        </trim>
+        ORDER BY r.id DESC
+  </select>
+  
+  <!-- 查询抽奖结果-->
+  <select id="queryGameMemberResultList" parameterType="map" resultType="com.mcoding.emis.goods.game.bean.GameMemberResult">
+        select r.*,p.prizetype from game_member_result r INNER JOIN game_prize p
+         on r.prizeId = p.id
+		  <if test="prizetype != null and prizetype != ''">
+	        	and p.prizetype =#{prizetype} 
+	      </if>
+          and r.openid =#{openid}
+          and r.gameId=#{gameid}
+        ORDER BY r.id DESC
+  </select>
+
+  <!-- 查询抽奖结果-->
+  <select id="queryGameMemberResultListV2" parameterType="map" resultType="com.mcoding.emis.goods.game.bean.GameMemberResult">
+    select r.*,p.prizetype,p.prizeImg as prizeimg from game_member_result r LEFT JOIN game_prize p
+    on r.prizeId = p.id
+    <if test="prizetype != null and prizetype != ''">
+      and p.prizetype =#{prizetype}
+    </if>
+    where r.openid =#{openid}
+    and r.gameId=#{gameid}
+    ORDER BY r.id DESC
+  </select>
+
+  <select id="selectByExampleByPage" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.game.bean.GameMemberResultExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from game_member_result
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

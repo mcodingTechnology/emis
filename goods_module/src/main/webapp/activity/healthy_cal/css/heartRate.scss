@@ -1,0 +1,27 @@
+.heartRate{
+  background-image: url('../image/heartRate_bg.png');
+  height: 100vh;
+  background-size: 100% 100%;
+  padding-top: 8%;
+  position: relative;
+  .content_body{
+    width:90%;
+    margin-left:5%;
+    background-image: url("../image/heartRate_result2.png");
+    background-size:100% 100%;
+    padding:5%;
+    color:#8C8D8D;
+  }
+  .content_title{
+    height:10vh;
+    line-height:12vh;
+    margin-left:25%;
+    color:#BE952A;
+    img{
+      height:9vh;
+      position: absolute;
+      top: 1vh;
+      left: 8%;
+    }
+  }
+}

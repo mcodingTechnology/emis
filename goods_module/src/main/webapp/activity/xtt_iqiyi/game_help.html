@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" src="workspace.js"></script>
+		<script type="text/javascript">
+			var _gameid = buijs_geturl('gameid');
+			var _type = buijs_geturl('type');
+			var _json;
+			if(_gameid&&!_type)
+			{
+				_json = 'gameid='+_gameid;
+			}
+			if(!_gameid&&_type)
+			{
+				_json = 'type='+_type;
+			}
+			console.log(_gameid)
+			 $(document).ready(function() {
+				$.ajax({
+					type: "get",
+					url: _jsonUrl + "/gameApi/queryGameHelpByGameid.html?" + _json,
+					async: true,
+					error: function(data) {},
+					success: function(data) {
+						if (data.data.banner == null) {
+							$(".help_banner").html('<div class="bui_bgc_orange bui_tc_white bui_ptb_48 bui_ta_c"><h1 class="bui_ts_24">' + data.data.title + '</h1></div>');
+						} else {
+							$(".help_banner").html('<img src="' + data.data.banner + '" style="width:100%; height:auto;"/>');
+						}
+						$(".help_content").html(data.data.content);
+					}
+				});
+			});
+		</script>
+		<style type="text/css">
+			.bg{
+                width:100%;
+                height:100%;
+                background: url(images/aqybg.jpg) no-repeat center center;
+                background-size: 100% auto;
+                position: relative;
+            }
+			.help_content p {
+				padding: 0.25em 0;
+			}
+			.main{
+                position: absolute;
+                top: 24px;
+                bottom: 0px;
+                left: 0px;
+                right: 0px;
+                z-index: 0;
+                overflow: hidden;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .help_content h1{
+                width: 100%;
+                height: 30px;
+                line-height: 30px;
+                font-size: 20px;
+                color: #d51337;
+                font-weight: bold;
+                text-align: center;
+            }
+            .inform{
+                margin-top: 20px;
+            }
+            .inform span{
+                color: #d51337;
+            }
+            .inform p{               
+                line-height: 1.6rem;
+                padding: 0.25em 0;
+                font-size: 1.4rem;
+            }
+		</style>
+	</head>
+
+	<body class="bui_at_noline bg">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_media bui_vm bui_tc_white bui_atc_white bui_fac_white">
+					<div class="bui_media_l bui_p_0">
+						<a href="javascript:history.go(-1);" class="bui_btn_32 bui_btnsq bui_m_8 bui_bgc_black_64 bui_round"><i class="fa fa-angle-left "></i></a>
+					</div>
+					<div class="bui_media_b">
+
+					</div>
+				</div>
+				<!--页头-->
+				<div class="bui_mo_b">
+					<div class="main">
+                   		 <div class="help_content bui_p_24">
+	                        <strong>
+	                            <h1>活动说明</h1>
+	                        </strong>
+	                        <div class="inform">
+	                            <strong>
+	                                <span>1、活动时间：</span>
+	                            </strong>
+	                            <p>2016年1月26日~1月28日；</p>
+	                            <strong>
+	                                <span>2、活动规则：</span>
+	                            </strong>
+	                            <p>新用户通过本页面关注“小田田”，即可获得爱奇艺黄金会员特权，2000个特权领完即止；</p>
+	                            <strong>
+	                                <span>3、账号发放：</span>
+	                            </strong> 
+	                            <p>①关注“小田田”后，回复“我爱健身”，即可获得爱奇艺黄金会员账号密码；<br />
+	                            ②该账号使用期限为25~30天，仅限爱奇艺视频客户端使用，在网页端使用可能会出现登录异常等情况，建议单人使用；<br />
+	                            ③每个新用户仅领取一次。</p>
+	                            <p>如有疑问，请咨询“小田田”客服。</p>
+                        	</div>
+                        </div>  
+                    </div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

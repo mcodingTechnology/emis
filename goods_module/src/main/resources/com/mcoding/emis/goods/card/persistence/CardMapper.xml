@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.card.persistence.CardMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.card.bean.Card" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cardTypeId" property="cardtypeid" jdbcType="INTEGER" />
+    <result column="cardTypeName" property="cardtypename" jdbcType="VARCHAR" />
+    <result column="cardCode" property="cardcode" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="validTime" property="validtime" jdbcType="TIMESTAMP" />
+    <result column="useTime" property="usetime" jdbcType="TIMESTAMP" />
+    <result column="openId" property="openid" jdbcType="VARCHAR" />
+    <result column="memberId" property="memberid" jdbcType="INTEGER" />
+    <result column="isValid" property="isvalid" jdbcType="INTEGER" />
+    <result column="ext1" property="ext1" jdbcType="VARCHAR" />
+    <result column="ext2" property="ext2" jdbcType="VARCHAR" />
+    <result column="ext3" property="ext3" jdbcType="VARCHAR" />
+    <result column="ext4" property="ext4" jdbcType="VARCHAR" />
+    <result column="ext5" property="ext5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, cardTypeId, cardTypeName, cardCode, createTime, validTime, useTime, openId, memberId, 
+    isValid, ext1, ext2, ext3, ext4, ext5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.card.bean.CardExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from card
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleByPage" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.card.bean.CardExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from card
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from card
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from card
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.goods.card.bean.CardExample" >
+    delete from card
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.card.bean.Card"  useGeneratedKeys="true" keyProperty="id">
+    insert into card (id, cardTypeId, cardTypeName, 
+      cardCode, createTime, validTime, 
+      useTime, openId, memberId, 
+      isValid, ext1, ext2, 
+      ext3, ext4, ext5)
+    values (#{id,jdbcType=INTEGER}, #{cardtypeid,jdbcType=INTEGER}, #{cardtypename,jdbcType=VARCHAR}, 
+      #{cardcode,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{validtime,jdbcType=TIMESTAMP}, 
+      #{usetime,jdbcType=TIMESTAMP}, #{openid,jdbcType=VARCHAR}, #{memberid,jdbcType=INTEGER}, 
+      #{isvalid,jdbcType=INTEGER}, #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, 
+      #{ext3,jdbcType=VARCHAR}, #{ext4,jdbcType=VARCHAR}, #{ext5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.card.bean.Card"  useGeneratedKeys="true" keyProperty="id">
+    insert into card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cardtypeid != null" >
+        cardTypeId,
+      </if>
+      <if test="cardtypename != null" >
+        cardTypeName,
+      </if>
+      <if test="cardcode != null" >
+        cardCode,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="validtime != null" >
+        validTime,
+      </if>
+      <if test="usetime != null" >
+        useTime,
+      </if>
+      <if test="openid != null" >
+        openId,
+      </if>
+      <if test="memberid != null" >
+        memberId,
+      </if>
+      <if test="isvalid != null" >
+        isValid,
+      </if>
+      <if test="ext1 != null" >
+        ext1,
+      </if>
+      <if test="ext2 != null" >
+        ext2,
+      </if>
+      <if test="ext3 != null" >
+        ext3,
+      </if>
+      <if test="ext4 != null" >
+        ext4,
+      </if>
+      <if test="ext5 != null" >
+        ext5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cardtypeid != null" >
+        #{cardtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="cardtypename != null" >
+        #{cardtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="cardcode != null" >
+        #{cardcode,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validtime != null" >
+        #{validtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="usetime != null" >
+        #{usetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="isvalid != null" >
+        #{isvalid,jdbcType=INTEGER},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="ext4 != null" >
+        #{ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="ext5 != null" >
+        #{ext5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertList" parameterType="list">
+    insert into card (cardTypeId, cardTypeName, 
+      cardCode, createTime, validTime, 
+      useTime, openId, memberId, 
+      isValid, ext1, ext2, 
+      ext3, ext4, ext5)
+    values 
+    <foreach collection="list" item="card" separator="," >
+    (#{card.cardtypeid,jdbcType=INTEGER}, #{card.cardtypename,jdbcType=VARCHAR}, 
+      #{card.cardcode,jdbcType=VARCHAR}, #{card.createtime,jdbcType=TIMESTAMP}, 
+      #{card.validtime,jdbcType=TIMESTAMP}, #{card.usetime,jdbcType=TIMESTAMP}, 
+      #{card.openid,jdbcType=VARCHAR}, #{card.memberid,jdbcType=INTEGER}, 
+      #{card.isvalid,jdbcType=INTEGER}, #{card.ext1,jdbcType=VARCHAR}, 
+      #{card.ext2,jdbcType=VARCHAR}, #{card.ext3,jdbcType=VARCHAR}, 
+      #{card.ext4,jdbcType=VARCHAR}, #{card.ext5,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.goods.card.bean.CardExample" resultType="java.lang.Integer" >
+    select count(*) from card
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update card
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cardtypeid != null" >
+        cardTypeId = #{record.cardtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cardtypename != null" >
+        cardTypeName = #{record.cardtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardcode != null" >
+        cardCode = #{record.cardcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.validtime != null" >
+        validTime = #{record.validtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.usetime != null" >
+        useTime = #{record.usetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.openid != null" >
+        openId = #{record.openid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberid != null" >
+        memberId = #{record.memberid,jdbcType=INTEGER},
+      </if>
+      <if test="record.isvalid != null" >
+        isValid = #{record.isvalid,jdbcType=INTEGER},
+      </if>
+      <if test="record.ext1 != null" >
+        ext1 = #{record.ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext2 != null" >
+        ext2 = #{record.ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext3 != null" >
+        ext3 = #{record.ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext4 != null" >
+        ext4 = #{record.ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext5 != null" >
+        ext5 = #{record.ext5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update card
+    set id = #{record.id,jdbcType=INTEGER},
+      cardTypeId = #{record.cardtypeid,jdbcType=INTEGER},
+      cardTypeName = #{record.cardtypename,jdbcType=VARCHAR},
+      cardCode = #{record.cardcode,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      validTime = #{record.validtime,jdbcType=TIMESTAMP},
+      useTime = #{record.usetime,jdbcType=TIMESTAMP},
+      openId = #{record.openid,jdbcType=VARCHAR},
+      memberId = #{record.memberid,jdbcType=INTEGER},
+      isValid = #{record.isvalid,jdbcType=INTEGER},
+      ext1 = #{record.ext1,jdbcType=VARCHAR},
+      ext2 = #{record.ext2,jdbcType=VARCHAR},
+      ext3 = #{record.ext3,jdbcType=VARCHAR},
+      ext4 = #{record.ext4,jdbcType=VARCHAR},
+      ext5 = #{record.ext5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.card.bean.Card" >
+    update card
+    <set >
+      <if test="cardtypeid != null" >
+        cardTypeId = #{cardtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="cardtypename != null" >
+        cardTypeName = #{cardtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="cardcode != null" >
+        cardCode = #{cardcode,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validtime != null" >
+        validTime = #{validtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="usetime != null" >
+        useTime = #{usetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openid != null" >
+        openId = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        memberId = #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="isvalid != null" >
+        isValid = #{isvalid,jdbcType=INTEGER},
+      </if>
+      <if test="ext1 != null" >
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        ext2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null" >
+        ext3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="ext4 != null" >
+        ext4 = #{ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="ext5 != null" >
+        ext5 = #{ext5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.card.bean.Card" >
+    update card
+    set cardTypeId = #{cardtypeid,jdbcType=INTEGER},
+      cardTypeName = #{cardtypename,jdbcType=VARCHAR},
+      cardCode = #{cardcode,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      validTime = #{validtime,jdbcType=TIMESTAMP},
+      useTime = #{usetime,jdbcType=TIMESTAMP},
+      openId = #{openid,jdbcType=VARCHAR},
+      memberId = #{memberid,jdbcType=INTEGER},
+      isValid = #{isvalid,jdbcType=INTEGER},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      ext2 = #{ext2,jdbcType=VARCHAR},
+      ext3 = #{ext3,jdbcType=VARCHAR},
+      ext4 = #{ext4,jdbcType=VARCHAR},
+      ext5 = #{ext5,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <update id="batchUpdate"  parameterType="java.util.List">
+        update card
+        <set>
+            ext2 = 'MANY_USED'
+        </set>
+		where cardCode in 
+        (
+          <foreach collection="list" item="item" index="index" open="" close="" separator=",">
+            '${item}'
+          </foreach> 
+    	)
+    </update>
+    
+    <select id="verifyCard" resultType="com.mcoding.emis.goods.card.bean.Card" parameterType="java.util.List">
+       select * from 
+       (select * from card where cardcode in (
+           <foreach collection="list" item="item" index="index" open="" close="" separator=",">
+               '${item}'
+           </foreach> 
+       )) t1
+       where  exists (select 1 from (select * from card where cardcode in (
+           <foreach collection="list" item="item" index="index" open="" close="" separator=",">
+               '${item}'
+           </foreach> 
+       )) t2 where (t1.cardTypeId=t2.cardTypeId and t1.Cardcode!=t2.Cardcode) 
+       ) or (ext2='MANY_USED')
+    </select>
+
+  <select id="getCardSurplusById" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    SELECT count(*) from card where cardTypeId = #{id,jdbcType=INTEGER} and useTime is NULL
+  </select>
+</mapper>

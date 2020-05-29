@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.cart.persistence.CartMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.goods.cart.bean.Cart" >
+    <id column="cartId" property="cartid" jdbcType="INTEGER" />
+    <result column="memberId" property="memberid" jdbcType="INTEGER" />
+    <result column="openId" property="openid" jdbcType="VARCHAR" />
+    <result column="productId" property="productid" jdbcType="INTEGER" />
+    <result column="productName" property="productname" jdbcType="VARCHAR" />
+    <result column="productIntroduce" property="productintroduce" jdbcType="VARCHAR" />
+    <result column="productNum" property="productnum" jdbcType="INTEGER" />
+    <result column="productPrice" property="productprice" jdbcType="INTEGER" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="productCoverImg" property="productcoverimg" jdbcType="VARCHAR" />
+    <result column="mallType" property="malltype" jdbcType="VARCHAR" />
+    <result column="plusMoney" property="plusMoney" jdbcType="INTEGER" />
+    <result column="giftBuyType" property="giftBuyType" jdbcType="INTEGER" />
+    <result column="minimumQuantity" property="minimumQuantity" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    cartId, memberId, openId, productId, productName, productIntroduce, productNum, productPrice,
+    createTime, updateTime, status, productCoverImg, mallType, plusMoney,giftBuyType
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.cart.bean.CartExample" >
+  <bind name="_openid" value="@com.mcoding.emis.goods.common.utils.GetOpenidUtil@getOpenid()"/>
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    <if test="_openid !=null and _openid !=''">
+		,ps.minimum_quantity minimumQuantity 
+    </if>
+    from mr_shopping_cart
+    <if test="_openid !=null and _openid !=''">
+        INNER JOIN (
+			SELECT
+				s.product_id,s.minimum_quantity  
+			FROM
+				mr_member m,
+				mr_price_set s
+			WHERE
+				IFNULL(m.channelsId,5) = s.dealer_id
+			AND m.openid = #{_openid}
+			AND s. STATUS = '1'
+		) ps ON ps.product_id = productId
+	    </if>
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from mr_shopping_cart
+    where cartId = #{cartid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mr_shopping_cart
+    where cartId = #{cartid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.goods.cart.bean.CartExample" >
+    delete from mr_shopping_cart
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.cart.bean.Cart" >
+    insert into mr_shopping_cart (cartId, memberId, openId,
+      productId, productName, productIntroduce,
+      productNum, productPrice, createTime,
+      updateTime, status, productCoverImg,
+      mallType, plusMoney,giftBuyType)
+    values (#{cartid,jdbcType=INTEGER}, #{memberid,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR},
+      #{productid,jdbcType=INTEGER}, #{productname,jdbcType=VARCHAR}, #{productintroduce,jdbcType=VARCHAR},
+      #{productnum,jdbcType=INTEGER}, #{productprice,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP},
+      #{updatetime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{productcoverimg,jdbcType=VARCHAR},
+      #{malltype,jdbcType=VARCHAR}, #{plusMoney,jdbcType=INTEGER}, #{giftBuyType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.cart.bean.Cart" >
+    insert into mr_shopping_cart
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cartid != null" >
+        cartId,
+      </if>
+      <if test="memberid != null" >
+        memberId,
+      </if>
+      <if test="openid != null" >
+        openId,
+      </if>
+      <if test="productid != null" >
+        productId,
+      </if>
+      <if test="productname != null" >
+        productName,
+      </if>
+      <if test="productintroduce != null" >
+        productIntroduce,
+      </if>
+      <if test="productnum != null" >
+        productNum,
+      </if>
+      <if test="productprice != null" >
+        productPrice,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="productcoverimg != null" >
+        productCoverImg,
+      </if>
+      <if test="malltype != null" >
+        mallType,
+      </if>
+      <if test="plusMoney != null" >
+        plusMoney,
+      </if>
+      <if test="giftBuyType != null" >
+        giftBuyType
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cartid != null" >
+        #{cartid,jdbcType=INTEGER},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+        #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null" >
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="productintroduce != null" >
+        #{productintroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="productnum != null" >
+        #{productnum,jdbcType=INTEGER},
+      </if>
+      <if test="productprice != null" >
+        #{productprice,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="productcoverimg != null" >
+        #{productcoverimg,jdbcType=VARCHAR},
+      </if>
+      <if test="malltype != null" >
+        #{malltype,jdbcType=VARCHAR},
+      </if>
+      <if test="plusMoney != null" >
+        #{plusMoney,jdbcType=INTEGER},
+      </if>
+      <if test="giftBuyType != null" >
+        #{giftBuyType,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.goods.cart.bean.CartExample" resultType="java.lang.Integer" >
+    select count(*) from mr_shopping_cart
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update mr_shopping_cart
+    <set >
+      <if test="record.cartid != null" >
+        cartId = #{record.cartid,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberid != null" >
+        memberId = #{record.memberid,jdbcType=INTEGER},
+      </if>
+      <if test="record.openid != null" >
+        openId = #{record.openid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productid != null" >
+        productId = #{record.productid,jdbcType=INTEGER},
+      </if>
+      <if test="record.productname != null" >
+        productName = #{record.productname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productintroduce != null" >
+        productIntroduce = #{record.productintroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productnum != null" >
+        productNum = #{record.productnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.productprice != null" >
+        productPrice = #{record.productprice,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null" >
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.productcoverimg != null" >
+        productCoverImg = #{record.productcoverimg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.malltype != null" >
+        mallType = #{record.malltype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.plusMoney != null" >
+        plusMoney = #{record.plusMoney,jdbcType=INTEGER},
+      </if>
+      <if test="record.giftBuyType != null" >
+        giftBuyType = #{record.giftBuyType,jdbcType=INTEGER}
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update mr_shopping_cart
+    set cartId = #{record.cartid,jdbcType=INTEGER},
+      memberId = #{record.memberid,jdbcType=INTEGER},
+      openId = #{record.openid,jdbcType=VARCHAR},
+      productId = #{record.productid,jdbcType=INTEGER},
+      productName = #{record.productname,jdbcType=VARCHAR},
+      productIntroduce = #{record.productintroduce,jdbcType=VARCHAR},
+      productNum = #{record.productnum,jdbcType=INTEGER},
+      productPrice = #{record.productprice,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER},
+      productCoverImg = #{record.productcoverimg,jdbcType=VARCHAR},
+      mallType = #{record.malltype,jdbcType=VARCHAR},
+      plusMoney = #{record.plusMoney,jdbcType=INTEGER}.
+    giftBuyType = #{record.giftBuyType,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.cart.bean.Cart" >
+    update mr_shopping_cart
+    <set >
+      <if test="memberid != null" >
+        memberId = #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        openId = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+        productId = #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null" >
+        productName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="productintroduce != null" >
+        productIntroduce = #{productintroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="productnum != null" >
+        productNum = #{productnum,jdbcType=INTEGER},
+      </if>
+      <if test="productprice != null" >
+        productPrice = #{productprice,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="productcoverimg != null" >
+        productCoverImg = #{productcoverimg,jdbcType=VARCHAR},
+      </if>
+      <if test="malltype != null" >
+        mallType = #{malltype,jdbcType=VARCHAR},
+      </if>
+      <if test="plusMoney != null" >
+        plusMoney = #{plusMoney,jdbcType=INTEGER},
+      </if>
+      <if test="giftBuyType != null" >
+        giftBuyType = #{giftBuyType,jdbcType=INTEGER}
+      </if>
+    </set>
+    where cartId = #{cartid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.cart.bean.Cart" >
+    update mr_shopping_cart
+    set memberId = #{memberid,jdbcType=INTEGER},
+      openId = #{openid,jdbcType=VARCHAR},
+      productId = #{productid,jdbcType=INTEGER},
+      productName = #{productname,jdbcType=VARCHAR},
+      productIntroduce = #{productintroduce,jdbcType=VARCHAR},
+      productNum = #{productnum,jdbcType=INTEGER},
+      productPrice = #{productprice,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      productCoverImg = #{productcoverimg,jdbcType=VARCHAR},
+      mallType = #{malltype,jdbcType=VARCHAR},
+      plusMoney = #{plusMoney,jdbcType=INTEGER},
+      giftBuyType = #{giftBuyType,jdbcType=INTEGER}
+    where cartId = #{cartid,jdbcType=INTEGER}
+  </update>
+</mapper>

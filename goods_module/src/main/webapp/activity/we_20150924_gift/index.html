@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" src="workspace.js"></script>
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script type="text/javascript">
+		</script>
+	</head>
+
+	<body class="bui_at_noline">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<form id="gameform">
+					<!--页头-->
+					<div class="bui_mo_h bui_media bui_vm bui_tc_white bui_atc_white bui_fac_white">
+						<div class="bui_media_l bui_p_0">
+							<!-- <a href="../game_public/game_list.html" class="bui_btn_32 bui_btnsq bui_m_8 bui_bgc_black_64 bui_round"><i class="fa fa-angle-left "></i></a> -->
+						</div>
+						<div class="bui_media_b"></div>
+						<div class="bui_media_r bui_p_0">
+							<a href="javascript:;" class="bui_btn_32 bui_m_8 bui_bgc_black_64 bui_round bui_ts_12" id="game_help">活动说明</a>
+						</div>
+					</div>
+					<!--页头-->
+
+					<!--主体-->
+					<div class="bui_mo_b bui_mo_b_f">
+						<!--用户面板-->
+						<div class="bui_bgc_black bui_pt_48 bui_pb_24 bui_ta_c bui_inline" style="background-image: url(pic/banner.jpg); background-size: 100% auto;">
+							<div class="bui_bds_4 bui_bdc_white bui_round" data-bui_img='' style="width: 96px; height: 96px;" id="wx_face">
+
+							</div>
+							<br />
+							<h2 class="bui_ts_14 bui_tc_white" id="wx_fullname">...</h2>
+						</div>
+						<!--用户面板-->
+						<div class="bui_p_24 bui_ta_c" id='game_loading'>
+							<i class="fa fa-circle-o-notch fa-spin bui_fas_24 bui_tc_o12"></i>
+						</div>
+						<!--表单-->
+						<div class="bui_p_24 bui_row_p_12" id='game_input' style="display: none;">
+							<!--姓名-->
+							<li>
+								<div class="bui_ipg_48 bui_block">
+									<i class="fa fa-user bui_fas_16 bui_tc_o12 bui_fr"></i>
+									<input type="text" value="" placeholder="姓名" name="name" class="bui_ipt_48 bui_ipc_lgray bui_radius bui_ts_16" />
+								</div>
+							</li>
+							<!--姓名-->
+							<!--手机号-->
+							<li>
+								<div class="bui_ipg_48 bui_block">
+									<i class="fa fa-phone bui_fas_16 bui_tc_o12 bui_fr"></i>
+									<input type="tel" value="" placeholder="手机号" name="mobile" class="bui_ipt_48 bui_ipc_lgray bui_radius bui_ts_16" maxlength="11" />
+								</div>
+							</li>
+							<!--手机号-->
+							<!--手机号-->
+							<li>
+								<div class="bui_ipg bui_block">
+									<textarea name="address" placeholder="填写省市县/区" class="bui_ipt_32 bui_ipc_lgray bui_radius bui_ts_16 bui_ptb_12" rows="3"></textarea>
+								</div>
+							</li>
+							<li>
+								<div class="bui_ipg bui_block">
+								抽奖时间：
+									本次押宝活动参与时间截止10月8日，“幸运奖”中奖名单将在10月9日公布，“眼光独到奖”中奖名单将在10月14日公布。Gym粉们可回复“中奖名单”或在菜单“COOLGUY”中查看！</br>
+									
+									注意事项：</br>
+									1、请准确填写联系方式及所在地区，获得幸运大奖的用户，将以填写地区为准提供机票。</br>
+									2、地址填写省市即可（如广东省广州市）</br>
+								</div>
+							</li>
+							<!--手机号-->
+						</div>
+						<!--表单-->
+
+						<!--显示结果-->
+						<div class="bui_p_24 bui_row_p_12" id='game_view' style="display: none;">
+							<p class="bui_ts_12 bui_tc_o48 bui_ta_c">您已填写过资料...</p>
+							<hr class="bui_mt_12" />
+							<!--姓名-->
+							<li class="bui_media bui_vm">
+								<div class="bui_media_l bui_ts_12 bui_tc_lgray">
+									姓名：
+								</div>
+								<div class="bui_media_b">
+									<p id="game_fullname"></p>
+								</div>
+							</li>
+							<!--姓名-->
+							<hr />
+							<!--手机号-->
+							<li class="bui_media bui_vm">
+								<div class="bui_media_l bui_ts_12 bui_tc_lgray">
+									电话：
+								</div>
+								<div class="bui_media_b">
+									<p id="game_tel"></p>
+								</div>
+							</li>
+							<!--手机号-->
+							<hr />
+							<!--地址-->
+							<li class="bui_media bui_vm">
+								<div class="bui_media_l bui_ts_12 bui_tc_lgray">
+									地址：
+								</div>
+								<div class="bui_media_b">
+									<p id="game_address"></p>
+								</div>
+							</li>
+							<!--地址-->
+							<hr />
+						</div>
+						<!--显示结果-->
+					</div>
+					<!--主体-->
+					<!--页脚-->
+					<div class="bui_mo_f" id="game_btn" style="display: none;">
+						<button class="bui_btn_64 bui_bgc_gray bui_tc_white bui_block  bui_fas_24 bui_ts_16">
+							确认提交<i class="fa fa-check-circle fa-fw"></i>
+						</button>
+					</div>
+					<!--页脚-->
+				</form>
+			</div>
+
+		</div>
+	</body>
+
+</html>

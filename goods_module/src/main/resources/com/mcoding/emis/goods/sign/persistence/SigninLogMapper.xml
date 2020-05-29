@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.sign.persistence.SigninLogMapper" >
+  <select id="selectByPrimaryKey"  resultType="com.mcoding.emis.goods.sign.bean.SigninLog" parameterType="java.lang.Integer" >
+    select *
+    from signin_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getLatelyRecodeByOpenid"  resultType="com.mcoding.emis.goods.sign.bean.SigninLog" parameterType="string" >
+     SELECT * from signin_log
+     where openid = #{openid,jdbcType=VARCHAR}  order by id desc LIMIT 0,1
+  </select>
+  <select id="querySigninLogDataByPage"  resultType="com.mcoding.emis.goods.sign.bean.SigninLog" parameterType="map">
+    select *
+    from signin_log where openid = '${openid}' order by id desc
+  </select>
+  <select id="selectByOpenidAndDate"  resultType="com.mcoding.emis.goods.sign.bean.SigninLog" parameterType="map" >
+    select *
+    from signin_log
+    where openid=#{param1} and signTime = #{param2}
+  </select>
+  <delete id="deleteByDate" parameterType="map" >
+    delete from signin_log
+    where openid = '${openid}' and signTime BETWEEN  '${starttime}' AND  '${endtime}'
+  </delete>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from signin_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+    insert into signin_log (id, openid, memberName,
+    memberId, signIntegral, signTime,
+    brandCode)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+        (#{item.id,jdbcType=INTEGER}, #{item.openid,jdbcType=VARCHAR}, #{item.membername,jdbcType=VARCHAR},
+        #{item.memberid,jdbcType=INTEGER}, #{item.signintegral,jdbcType=INTEGER}, #{item.signtime,jdbcType=DATE},
+        #{item.brandcode,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insert" parameterType="com.mcoding.emis.goods.sign.bean.SigninLog" useGeneratedKeys="true" keyProperty="id">
+    insert into signin_log (id, openid, memberName, 
+      memberId, signIntegral, signTime, 
+      brandCode)
+    values (#{id,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{membername,jdbcType=VARCHAR}, 
+      #{memberid,jdbcType=INTEGER}, #{signintegral,jdbcType=INTEGER}, #{signtime,jdbcType=DATE}, 
+      #{brandcode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.goods.sign.bean.SigninLog"  useGeneratedKeys="true" keyProperty="id">
+    insert into signin_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="membername != null" >
+        memberName,
+      </if>
+      <if test="memberid != null" >
+        memberId,
+      </if>
+      <if test="signintegral != null" >
+        signIntegral,
+      </if>
+      <if test="signtime != null" >
+        signTime,
+      </if>
+      <if test="brandcode != null" >
+        brandCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="membername != null" >
+        #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="signintegral != null" >
+        #{signintegral,jdbcType=INTEGER},
+      </if>
+      <if test="signtime != null" >
+        #{signtime,jdbcType=DATE},
+      </if>
+      <if test="brandcode != null" >
+        #{brandcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.goods.sign.bean.SigninLog" >
+    update signin_log
+    <set >
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="membername != null" >
+        memberName = #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        memberId = #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="signintegral != null" >
+        signIntegral = #{signintegral,jdbcType=INTEGER},
+      </if>
+      <if test="signtime != null" >
+        signTime = #{signtime,jdbcType=DATE},
+      </if>
+      <if test="brandcode != null" >
+        brandCode = #{brandcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.goods.sign.bean.SigninLog" >
+    update signin_log
+    set openid = #{openid,jdbcType=VARCHAR},
+      memberName = #{membername,jdbcType=VARCHAR},
+      memberId = #{memberid,jdbcType=INTEGER},
+      signIntegral = #{signintegral,jdbcType=INTEGER},
+      signTime = #{signtime,jdbcType=DATE},
+      brandCode = #{brandcode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

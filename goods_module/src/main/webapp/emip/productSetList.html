@@ -1,0 +1,167 @@
+<section class="bui_p_32 bui_row_p_24">
+	<div>
+		<com-title title="套餐管理"></com-title>
+	</div>
+	<div>
+		<div class="bui_bds_1 bui_p_24 bui_fs_12">
+			<form onsubmit="tablePublic.search();" onreset="tablePublic.reset();">
+				<div class="bui_row_p_24">
+					<div class="bui_col_4_sm">
+						<p class="bui_fc_black_l">搜索</p>
+						<div class="bui_ipt bui_block bui_m_6_t">
+							<input type="text" placeholder="订单编号" :value="hash.sSearch" name='sSearch' />
+						</div>
+					</div>
+					<div class="bui_col_4_sm">
+						<p class="bui_fc_black_l">创建时间</p>
+						<div class="bui_avg_2 bui_ta_c bui_row_p_12">
+							<div>
+								<div class="bui_ipt bui_block bui_m_6_t">
+									<input type="text" placeholder="开始时间" name="beginTime" :value="hash.beginTime" buijs-datetimepicker />
+								</div>
+							</div>
+							<div>
+								<div class="bui_ipt bui_block bui_m_6_t">
+									<input type="text" placeholder="结束时间" name="endTime" :value="hash.endTime" buijs-datetimepicker />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="bui_col_4_sm">
+						<p class="bui_fc_black_l">品牌</p>
+						<div class="bui_ipt bui_block bui_m_6_t">
+							<select name="brandCode">
+								<option :value="null">全部</option>
+								<option value="JLD">BIG生活</option>
+								<option value="MRMJ">极智构</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="bui_col_12_sm bui_ta_c">
+						<button type="reset" class="bui_btn bui_btn_32 bui_bgc_silver"><i class="fa fa-refresh fa-fw"></i>重置</button>
+						<button type="submit" class="bui_btn bui_btn_32 bui_bgc_turquoise"><i class="fa fa-search fa-fw"></i>查询</button>
+					</div>
+				</div>
+			</form>
+
+		</div>
+	</div>
+	<div>
+		<div class="bui_media bui_fs_12">
+			<div class="bui_media_b">
+				<div class="bui_inline bui_vm">
+					每页显示
+					<com-pagesize></com-pagesize>
+					条记录 {{tablePage.size}}
+				</div>
+			</div>
+			<div class="bui_media_r">
+				
+			</div>
+		</div>
+		<!--表格-->
+		<table class="bui_table bui_fs_12 bui_m_12_t bui_table_hover  bui_table_zebra bui_fc_turquoise_a">
+			<thead>
+				<tr>
+					<td>id</td>
+					<th>封面</th>
+					<th>产品名称</th>
+					<td>原价</td>
+					<td>折扣价</td>
+					<td>品牌</td>
+					<td>套餐子产品</td>
+					<td>操作</td>
+				</tr>
+			</thead>
+			<template v-if="!tableData">
+				<tbody>
+					<tr>
+						<td colspan="999">
+							<com-loadingbar></com-loadingbar>
+						</td>
+					</tr>
+				</tbody>
+			</template>
+			<template v-else>
+				<template v-if="tableData.queryResult.length==0">
+					<tbody>
+						<tr>
+							<td colspan="999">
+								<p class="bui_p_24 bui_ta_c bui_fs_16 bui_fc_silver">没有找到符合条件的记录</p>
+							</td>
+						</tr>
+					</tbody>
+				</template>
+				<template v-else>
+					<tbody>
+						<template v-for="data in tableData.queryResult">
+							<tr>
+								<td>{{data.productId}}</td>
+								<td>
+									<com-img :src="data.productAdImg" height="4rem"></com-img>
+								</td>
+								<td>{{data.productName}}</td>
+								<td>￥{{data.originalPrice/100}}</td>
+								<td>￥{{data.discountPrice/100}}</td>
+								<td>{{data.brandCode}}</td>
+								<td> {{{data.productContent}}} </td>
+								<td>
+									<a href="javascript:;" class="bui_btn bui_btn_24 bui_bgc_turquoise bui_vm"><i class="bi bi_mode_edit"></i> 编辑</a>
+									<a href="javascript:tablePublic.removeItem('abc',{{data.id}});" class="bui_btn bui_btn_24 bui_bgc_red bui_vm"><i class="bi bi_close"></i> 删除</a>
+
+								</td>
+							</tr>
+						</template>
+
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="999">
+								<div class="bui_media bui_vm">
+									<div class="bui_media_b">
+										<div class="bui_inline bui_row_p_12">
+											<div>
+												页码：<span class="bui_fs_16 bui_fc_turquoise">{{tableData.pageNo}}/</span>{{tableData.pageCount}}
+											</div>
+											<div>
+												合计： <span class="bui_fs_16 bui_fc_turquoise">{{tableData.rowCount}}</span> 条记录
+											</div>
+										</div>
+									</div>
+									<div class="bui_media_r">
+										<com-page :pageno='tableData.pageNo' :pagecount='tableData.pageCount' :pageshow='3'></com-page>
+									</div>
+								</div>
+
+							</td>
+						</tr>
+					</tfoot>
+				</template>
+			</template>
+		</table>
+		<!--表格-->
+	</div>
+	
+
+</section>
+<!--快速查看订单详情-->
+<!--快速查看订单详情-->
+<script type="text/javascript">
+	//清理列表数据
+
+	//获取数据插入表格
+	tableDataGet();
+	//获取信息
+	function tableDataGet() {
+		global_vueGetJson({
+			url: workSpace.jsonUrl + '/querySetData',
+			vueName: 'tableData',
+			data: {
+				pageNo: vueData.hash.pageNo || 1,
+				pageSize: window.localStorage.getItem('tableSize.' + vueData.hash.menuURL) || 10,
+				sSearch: vueData.hash.sSearch || null,
+			}
+		});
+	};
+</script>

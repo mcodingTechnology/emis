@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>移动商城 - BIG生活</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/member_sign.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body id="vueBox" class="gym-body bui_at_noline">
+		<!--主体-->
+		<div class="bui_wrap bui_bgc_white_d12">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h">
+					<!--提示关注公众号-->
+					<template v-if="isWechatUserFocused.code==1">
+						<tp-isfollow></tp-isfollow>
+					</template>
+					<!--提示关注公众号-->
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="https://h5.youzan.com/v2/home/zt5mvapt" title="每日签到"></tp-header>
+
+				</div>
+				<!--页头-->
+				<template v-if="!memberDetail">
+					<div class="bui_mo_b bui_mo_b_h" style="{{isWechatUserFocused.code==1?'top:6rem':''}}">
+						<!--loadingbar-->
+						<tp-loadingbar type="loading"></tp-loadingbar>
+						<!--loadingbar-->
+				</template>
+				<template v-else>
+					<!--页面-->
+					<div class="bui_mo_b bui_mo_b_h gym_mo_b" style="{{isWechatUserFocused.code==1?'top:6rem':''}}">
+						<div class="bui_p_12">
+							<div class="bui_row_p_12">
+								<!--个人信息-->
+								<div>
+									<div class="bui_media bui_vm bui_bgc_red bui_radius bui_tc_white bui_p_12">
+										<div class="bui_media_l">
+											<tp-img :src="memberDetail.data.headimgurl" class="bui_fr bui_radius bui_shadow_6" width="4rem" height="4rem"></tp-img>
+										</div>
+										<div class="bui_media_b">
+											<p class="bui_ts_20">{{memberDetail.data.fullName}}</p>
+											<div class="bui_ts_12 bui_inline bui_vm bui_row_p_12">
+												<div>积分： <span class="bui_tc_yellow bui_ts_14">{{memberDetail.data.pointSum}}</span> </div>
+												<div>已连续签到 <span class="bui_tc_yellow bui_ts_14">{{getWxuserInfo.data&&getWxuserInfo.data.allSignnum?getWxuserInfo.data.allSignnum:0}}</span> 天</div>
+											</div>
+										</div>
+										<div class="bui_media_r">
+											<a href="./../activity/game_public/game_help.html?type=signin_Gymmaxer" class="bui_btn_48 bui_bgc_white bui_tc_red bui_round bui_btn_sq"><i class="fa fa-question fa-fw"></i></a>
+										</div>
+									</div>
+								</div>
+								<!--个人信息-->
+
+								<!--动画-->
+								<div>
+									<div class="bui_radius" style="overflow: hidden;">
+										<!--动画-->
+										<div class="sign_am_box">
+											<div class="sign_bg_move" id="bg_move_1">
+												<tp-img src="./images/sign_bg_1.png"></tp-img>
+											</div>
+											<div class="sign_bg_move" id="bg_move_2">
+												<tp-img src="./images/sign_bg_2.png"></tp-img>
+											</div>
+											<div class="sign_item_move" id="bg_move_3">
+												<tp-img src="./images/sign_bg_3.png"></tp-img>
+											</div>
+											<div class="sign_run"></div>
+										</div>
+										<!--动画-->
+									</div>
+								</div>
+								<!--动画-->
+								<!--签到按钮-->
+								<div>
+									<a :href="!memberDetail.data.mobilePhone?'javascript:global_checkMemberPhoneFinish();':'javascript:sign_action();'" class="bui_ta_c bui_btn bui_btn_64 bui_block bui_bgc_red bui_radius bui_ts_24">立即签到 <i class="fa fa-hand-pointer-o fa-fw"></i></a>
+								</div>
+								<!--签到按钮-->
+								<!--签到按钮-->
+								<div>
+									<a class="bui_btn bui_btn_48 bui_block bui_bgc_white bui_radius bui_ta_c bui_ts_16" :href="!memberDetail.data.mobilePhone?'javascript:global_checkMemberPhoneFinish();':'javascript:sign_giftQueryResult();'">查看中奖记录 <i class="fa fa-angle-right fa-fw"></i></a>
+								</div>
+								<!--签到按钮-->
+								<!--活动说明-->
+								<div>
+									<p class="bui_ta_c bui_plr_24 bui_tc_white_d64 bui_ts_12">活动最终解释权归{{global.brandName}}所有</p>
+								</div>
+								<!--活动说明-->
+
+							</div>
+						</div>
+					</div>
+					<!--页面-->
+				</template>
+				</div>
+			</div>
+			<!--主体-->
+
+			<div id="sign_giftHistory" buijs_modal_isRemove="false">
+				<div class="bui_bds_1_b">
+					<div v-for="data in getMemberResultList.data" class="bui_media bui_vm bui_p_12" :class="$index!=0?'bui_bds_1_t':''">
+						<div class="bui_media_l">
+							<div class="bui_btn bui_btn_48 bui_btn_sq bui_radius" :class="data.prizetype==1?'bui_bgc_green':data.prizetype==2?'bui_bgc_red':data.prizetype==3?'bui_bgc_orange':''">
+								<i class="fa fa-fw bui_fas_24" :class="data.prizetype==1?'fa-gift':data.prizetype==2?'fa-database':data.prizetype==3?'fa-money':''"></i>
+							</div>
+						</div>
+						<div class="bui_media_b">
+							<p class="bui_ts_14">{{data.prizename}}</p>
+							<p class="bui_ts_12 bui_tc_white_d64">{{unixTimeChange(data.createtime)}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+	</body>
+
+</html>

@@ -1,0 +1,82 @@
+.list_property{
+	font-size: 12px;
+	display: inline-block;
+	color: gray;
+	opacity: 0.78;
+}
+
+.position-r-25 {
+	position: absolute;
+	right: 24px;
+}
+.w50 {
+	width: 50%;
+}
+.title p {
+    height: 30px;
+    text-indent: 15px;
+}
+.video {
+	font-size: 55px;
+	margin-bottom: 10px;
+}
+.video video {
+
+}
+
+#more {
+	margin:10px 10px 0px 10px;
+	height:40px;
+	text-align: center;
+	line-height: 30px;
+	background-color: white;
+}
+
+/*#agree{
+	height:30px;
+	width:30px;
+	position: absolute;
+	right:10px;
+	top:9px;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+.noAgree{
+	background-image: url("pic/hand-1.png");
+}
+.agree{
+	background-image: url("pic/hand.png");
+}*/
+
+/* .recommendList_img{
+	margin:0px 10px;
+	height:40px;
+	width:40px;
+	float: left;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+#recommendList li{
+	width:100%;
+	margin-bottom:10px;
+}
+#recommendList li a{
+	display: block;
+	text-decoration: none;
+	color:#698989;
+	margin-left:50px;
+	height:40px;
+	line-height: 40px;
+}
+.recommendList_title{
+	padding:10px;
+} */
+/*.noAgree{
+	background-image: url('pic/handGray.png');
+	padding-left: 7px;
+	background-size: 18px 18px;
+	background-repeat: no-repeat;
+}
+.agree{
+	background-image: url('pic/hand-2.png');
+}*/

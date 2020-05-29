@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.goods.sales.persistence.MemberSalesLogMapper" >
+	<resultMap type="com.mcoding.emis.goods.sales.bean.MemberSalesLog" id="BaseResultMap">
+		<id column="sale_log_id" property="saleLogId" jdbcType="INTEGER" />
+		<result column="sale_id" property="saleId" jdbcType="INTEGER" />
+	    <result column="sale_send_msg_type" property="saleSendMsgType" jdbcType="VARCHAR" />
+	    <result column="member_id" property="memberId" jdbcType="INTEGER" />
+	    <result column="member_phone_number" property="memberPhoneNumber" jdbcType="VARCHAR" />
+	    <result column="member_openid" property="memberOpenid" jdbcType="VARCHAR" />
+	    <result column="is_into_act" property="isIntoAct" jdbcType="VARCHAR" />
+	    <result column="sale_name" property="saleName" jdbcType="VARCHAR" />
+	    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="querySalesLogDataByPage" resultMap="BaseResultMap" parameterType="com.mcoding.emis.goods.sales.bean.MemberSalesLogExample" >
+	  select
+		<if test="distinct" >
+			distinct
+		</if>
+			'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from t_sales_log tsl,t_sales_info ts
+		<if test="_parameter != null" >
+		  <include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null" >
+		  order by ${orderByClause}
+		</if>
+	</select>
+	<sql id="Base_Column_List">
+		tsl.sale_log_id,tsl.sale_id,tsl.sale_send_msg_type,tsl.member_id,tsl.member_phone_number,
+		tsl.member_openid,tsl.is_into_act,tsl.create_time,tsl.last_update_time,ts.sale_name
+	</sql>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or" >
+		        <if test="criteria.valid" >
+		          <trim prefix="(" suffix=")" prefixOverrides="and" >
+		            <foreach collection="criteria.criteria" item="criterion" >
+		              <choose >
+		                <when test="criterion.noValue" >
+		                  and ${criterion.condition}
+		                </when>
+		                <when test="criterion.singleValue" >
+		                  and ${criterion.condition} #{criterion.value}
+		                </when>
+		                <when test="criterion.betweenValue" >
+		                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+		                </when>
+		                <when test="criterion.listValue" >
+		                  and ${criterion.condition}
+		                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+		                    #{listItem}
+		                  </foreach>
+		                </when>
+		              </choose>
+		            </foreach>
+		          </trim>
+		        </if>
+			</foreach>
+			and tsl.sale_id = ts.sale_id
+		</where>
+	</sql>
+	<insert id="inserSaleLog" parameterType="java.util.List">
+		insert into t_sales_log(
+	        sale_id,
+	        sale_send_msg_type,
+	        member_id,
+	        member_phone_number,
+	        member_openid,
+	        is_into_act,
+	        create_time,
+	        last_update_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.saleId},#{item.saleSendMsgType},#{item.memberId},
+            #{item.memberPhoneNumber},#{item.memberOpenid},#{item.isIntoAct},#{item.createTime},#{item.lastUpdateTime}
+            )
+        </foreach>
+	</insert>
+</mapper>

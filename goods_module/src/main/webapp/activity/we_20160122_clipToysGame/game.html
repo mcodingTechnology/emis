@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>猴运抢先抓</title>
+    <link rel="icon" type="image/GIF" href="res/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="full-screen" content="yes"/>
+    <meta name="screen-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="360-fullscreen" content="true"/>
+    <style>
+        body, canvas, div {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -khtml-user-select: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+    </style>
+</head>
+<body style="padding:0; margin: 0; background: #000;">
+<canvas id="gameCanvas" width="640" height="960"></canvas>
+<script type="text/javascript" src="./workspace.js"></script>
+<script type="text/javascript">
+    (function () {
+        var nav = window.navigator;
+        var ua = nav.userAgent.toLowerCase();
+        var uaResult = /android (\d+(?:\.\d+)+)/i.exec(ua) || /android (\d+(?:\.\d+)+)/i.exec(nav.platform);
+        if (uaResult) {
+            var osVersion = parseInt(uaResult[1]) || 0;
+            var browserCheck = ua.match(/(qzone|micromessenger|qqbrowser)/i);
+            if (browserCheck) {
+                var gameCanvas = document.getElementById("gameCanvas");
+                var ctx = gameCanvas.getContext('2d');
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, 1, 1);
+            }
+        }
+    })();
+    //游戏结束后调用
+    var gameComplete = function(score)
+    {
+        console.log('on gameComplete: ' + score );
+        fromOpenId= window.sessionStorage.getItem('fromOpenId');
+        if (fromOpenId) {
+            $.ajax({
+                type: 'get',
+                url: _url + '/front/clip/makeHelpRecord.html?toOpenid='+fromOpenId+'&scord='+score,
+                dataType: 'json',
+                success: function(data){
+                    if (data.code == 0) {
+                         setTimeout(function(){
+                            window.location.href= 'helpFriend.html?fromOpenId='+fromOpenId+'&score='+score;
+                         },2000);
+                     }else {
+                        js_msg({
+                            msg:data.msg,
+                            time:4000,
+                            href: 'index.html'
+                        })
+                     }
+                }
+            })
+            return  
+        }else {
+            $.ajax({
+                type: 'get',
+                url: _url +'/front/clip/makeGameRecord.html?scord='+score,
+                dataType: 'json',
+                success: function(data){
+                    if (data.code == 0) {
+                        setTimeout(function(){
+                            window.location.href= 'selfChallenge.html?score='+score;
+                        },2000)
+                    }else {
+                        js_msg({
+                            msg: data.msg,
+                            time:4000,
+                            href: 'index.html'
+                        })
+                    }
+                },
+                error: function(){
+                   js_msg({
+                            msg:'记录分失败',
+                            time:2000,
+                            url: 'index.html'
+                        })
+                }
+            })
+        }
+    };
+
+    //游戏时间(秒)
+    //默认为30(秒)
+    var gameSecond = 30;
+    //添加的时间(秒)
+    var addTime = 3;
+
+    //夹子加速的时间
+    var clipSpeedUpTime = 2;
+    //物品移动的速度,默认为1，值越小，速度越快
+    var beltSpeed = 1;
+    //创建物品的时间间隔(秒)
+    var createPropDelayTime = 1;
+
+    //***********安卓机时，下面的数值在游戏内翻倍，使游戏效果与PC和IOS同步*************
+
+    //夹子每帧的移动速度(px）
+    var clipMoveSpeed = 4;
+    //夹子加速时每帧的移动速度(px）
+    var clipMoveSpeedUp = 8;
+    //夹下落的速度（秒）
+    var clipFallSpeed = 5;
+
+    //加载js后，自动开始游戏（包括在loading之前）
+    //默认为true,false时不开始游戏，画面为黑屏
+    var isAutoRunGame = true;
+</script>
+
+<script cocos src="game.min.js"></script>
+</body>
+</html>

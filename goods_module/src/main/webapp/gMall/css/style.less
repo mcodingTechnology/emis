@@ -1,0 +1,284 @@
+/*全局变量——颜色*/
+@black: rgba(0, 0, 0, 1);
+@white: rgba(255, 255, 255, 1);
+@red: rgba(221, 81, 76, 1);
+@orange: rgba(243, 123, 29, 1);
+@yellow: rgba(255, 201, 38, 1);
+@green: #5eb95e;
+@blue: rgba(14, 144, 210, 1);
+@purple: rgba(141, 108, 255, 1);
+body.gym-body {
+    background-color: lighten(@black,6);
+}
+.gym_mo_b {
+    transition: top 0.3s;
+    -webkit-transition: top 0.3s;
+    -moz-transition: top 0.3s;
+}
+.gym-type {
+    @size: 8;
+    background-size: 100% auto;
+    position: relative;
+    overflow: hidden;
+    &:before {
+        content: '';
+        position: absolute;
+        width: 1px*@size;
+        height: 1px*@size;
+        margin-left: -1px*@size/2;
+        left: 50%;
+        background-color: @red;
+        bottom: -1px*@size/2;
+        transform: rotate(45deg);
+    }
+}
+//公用隐藏
+.gym-hide {
+    display: none !important;
+}
+//商品详情
+[buijs_tab_box=productDetailTabBox] img {
+    display: block;
+    max-width: 100%;
+}
+//签到页面
+.sign_am_box {
+    width: 100%;
+    height: 312px;
+    position: relative;
+    -webkit-animation: bg_color 12s linear infinite;
+    -moz-animation: bg_color 12s linear infinite;
+    animation: bg_color 12s linear infinite;
+}
+@-webkit-keyframes bg_color {
+    0% {
+        background-color: fade(@black,64);
+    }
+    25% {
+        background-color: lighten(@blue,24);
+    }
+    50% {
+        background-color: @yellow;
+    }
+    75% {
+        background-color: @blue;
+    }
+    100% {
+        background-color: fade(@black,64);
+    }
+}
+@-moz-keyframes bg_color {
+    0% {
+        background-color: fade(@black,64);
+    }
+    25% {
+        background-color: lighten(@blue,24);
+    }
+    50% {
+        background-color: @yellow;
+    }
+    75% {
+        background-color: @blue;
+    }
+    100% {
+        background-color: fade(@black,64);
+    }
+}
+@keyframes bg_color {
+    0% {
+        background-color: fade(@black,64);
+    }
+    25% {
+        background-color: lighten(@blue,24);
+    }
+    50% {
+        background-color: @yellow;
+    }
+    75% {
+        background-color: @blue;
+    }
+    100% {
+        background-color: fade(@black,64);
+    }
+}
+.sign_bg_move {
+    width: 100%;
+    height: 240px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.sign_item_move {
+    width: 100%;
+    height: 72px;
+    position: absolute;
+    top: 240px;
+    left: 0;
+}
+.sign_bg_move img,
+.sign_item_move img {
+    height: 100%;
+    width: auto;
+}
+.sign_run {
+    background-image: url('../images/run.png');
+    background-size: auto 100%;
+    position: absolute;
+    left: 50%;
+    bottom: 32px;
+    width: 128px;
+    height: 128px;
+    margin-left: -64px;
+}
+#bg_move_1 {
+    -webkit-animation: bg_move_1 36s linear infinite;
+    -moz-animation: bg_move_1 36s linear infinite;
+    animation: bg_move_1 36s linear infinite;
+}
+@-webkit-keyframes bg_move_1 {
+    from {
+        -webkit-transform: translateX(0);
+    }
+    to {
+        -webkit-transform: translateX(-1112px);
+    }
+}
+@-moz-keyframes bg_move_1 {
+    from {
+        -moz-transform: translateX(0);
+    }
+    to {
+        -moz-transform: translateX(-1112px);
+    }
+}
+@keyframes bg_move_1 {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-1112px);
+    }
+}
+#bg_move_2 {
+    -webkit-animation: bg_move_2 12s linear infinite;
+    -moz-animation: bg_move_2 12s linear infinite;
+    animation: bg_move_2 12s linear infinite;
+}
+@-webkit-keyframes bg_move_2 {
+    from {
+        -webkit-transform: translateX(0);
+    }
+    to {
+        -webkit-transform: translateX(-967px);
+    }
+}
+@-moz-keyframes bg_move_2 {
+    from {
+        -moz-transform: translateX(0);
+    }
+    to {
+        -moz-transform: translateX(-967px);
+    }
+}
+@keyframes bg_move_2 {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-967px);
+    }
+}
+#bg_move_3 {
+    -webkit-animation: bg_move_3 2s linear infinite;
+    -moz-animation: bg_move_3 2s linear infinite;
+    animation: bg_move_3 2s linear infinite;
+}
+@-webkit-keyframes bg_move_3 {
+    from {
+        -webkit-transform: translateX(0);
+    }
+    to {
+        -webkit-transform: translateX(-489px);
+    }
+}
+@-moz-keyframes bg_move_3 {
+    from {
+        -moz-transform: translateX(0);
+    }
+    to {
+        -moz-transform: translateX(-489px);
+    }
+}
+@keyframes bg_move_3 {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-489px);
+    }
+}
+.sign_run {
+    -webkit-animation: bg_run 0.5s steps(1) infinite;
+    -moz-animation: bg_run 0.5s steps(1) infinite;
+    animation: bg_run 0.5s steps(1) infinite;
+}
+@-webkit-keyframes bg_run {
+    0% {
+        background-position: 0 0;
+    }
+    15% {
+        background-position: 20% 0;
+    }
+    30% {
+        background-position: 40% 0;
+    }
+    45% {
+        background-position: 60% 0;
+    }
+    60% {
+        background-position: 80% 0;
+    }
+    75% {
+        background-position: 100% 0;
+    }
+}
+@-moz-keyframes bg_run {
+    0% {
+        background-position: 0 0;
+    }
+    15% {
+        background-position: 20% 0;
+    }
+    30% {
+        background-position: 40% 0;
+    }
+    45% {
+        background-position: 60% 0;
+    }
+    60% {
+        background-position: 80% 0;
+    }
+    75% {
+        background-position: 100% 0;
+    }
+}
+@keyframes bg_run {
+    0% {
+        background-position: 0 0;
+    }
+    15% {
+        background-position: 20% 0;
+    }
+    30% {
+        background-position: 40% 0;
+    }
+    45% {
+        background-position: 60% 0;
+    }
+    60% {
+        background-position: 80% 0;
+    }
+    75% {
+        background-position: 100% 0;
+    }
+}

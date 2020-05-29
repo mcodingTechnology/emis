@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>BIG生活《猴运抢先抓》</title>
+	<script type="text/javascript" src="./workspace.js"></script>
+	<script type="text/javascript" src="./js/index.js"></script>
+	<!-- 引入微信JSJDK -->
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+<body>
+	<div class="indexBg content">
+		<div class="index_Bt">
+			<p class="startBt">开始游戏</p>
+			<p class="ruleBt">游戏规则</p>
+			<p class="rankBt" onclick="javascript:window.location.href='./ranking.html'">查看排名</p>
+			<p class="ruleBt_my" onclick="javascript:window.location.href='./myScore.html'">我的成绩</p>
+		</div>
+		<div id="ruleContent" style="width: 90%;margin: 0 auto;display: none">
+			<div class="headBg" style="padding-top: 35px;">
+				<img style="width:100%;display: block" src="./images/wrap_01.png">
+			</div>
+			<div class="scoreContent_info" id="isAward" style="font-size: 15">
+				<p class="bui_tc_white" style="text-align: left;padding: 0 20px"><span style="font-weight: bold">活动时间：</span>2月8日~2月12日<br />
+				<span style="font-weight: bold;padding-top: 5px">游戏规则：</span ><br />
+				1、	每人游戏次数不限（未完成游戏即退出算1次），以分数最高的一次作为个人成绩；<br />
+				2、	途中有运动补剂/红包/时钟/炸弹出现，触发不同效果；<br />
+				3、	可邀请好友助力增加里程，不限助力人数，好友只可为同一用户助力一次。<br />
+				</p>
+				<p class="bui_tc_white" style="text-align: left;padding: 0 20px"><span style="font-weight: bold">奖品及发放：</span><br />1、	排行榜前200名的用户，还可获得相应奖品：</p>
+				<div style="width: 90%;margin:10px auto">
+					<img style="width: 100%" src="./images/awardList.png">
+				</div>
+				<p class="bui_tc_white" style="text-align: left;padding: 0 20px">2、	中奖信息将于2月14日，在【BIG生活GymMax】微信公众号公布，回复“猴运”可查看中奖名单。中奖者可于2月19日前可填写收货地址，逾期或不关注【BIG生活Gym】公众号视为放弃奖品。<br />
+				<span style="font-weight: bold">其他事项：</span><br />
+				1、	关注【BIG生活Gym】公众号才可获得奖品，若视为如发现作弊行为，我们有权取消其活动资格；<br />
+				2、	实物奖品将在领取后的15个工作日统一寄出，相关产品款式以最终实物为准；<br />
+				3、	代金券发放后即可领取，有效期以代金券上显示的时间为准。<br />
+				4、	本活动仅限GymMaxBIG生活公众号粉丝参与（粉丝福利，汤臣倍健内部员工请勿参加）。
+				</p>
+				<div style="padding-top: 20px;">
+					<img src="./images/qrCode.jpg" style="display: inline-block;border-radius: 0;width: 78px;">
+					<p class="bui_ts_12 bui_tc_white">关注“BIG生活”，惊喜马上领</p>
+				</div>
+				<p class="bg_yellow Bt_helpFriend bui_tc_white bui_ts_16" id="closeBt" style="width: 100px;height: 45px;line-height: 30px;margin: 25px auto 0;color: darkred;">关闭</p>
+				
+			</div>
+			<div class="footBg">
+				<img style="width:100%" src="./images/wrap_03.png">
+			</div>
+		</div>
+	</div>
+</body>
+</html>

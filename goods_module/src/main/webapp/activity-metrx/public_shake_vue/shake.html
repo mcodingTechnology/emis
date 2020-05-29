@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>BIG生活 - 抽奖活动</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script src="workSpace.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var _prizeid = '';
+			var _prizename = '';
+			var _ext = '';
+			$(document).ready(function() {
+				if(vueData.urlData.action == 'on') {
+					shakeAfter();
+				};
+				//摇一摇
+				public_shake();
+				//点屏幕
+				$('.wm_shake_am').click(function() {
+					shakeAfter();
+				});
+			});
+			//抽奖
+			function shakeAfter() {
+				if(_isruning == 0) {
+					buijs.mask.add({
+						type: 'loading'
+					});
+					_isruning = 1;
+					$('#kaca')[0].play();
+					global_vueGetJson({
+						url: workSpace.jsonUrl + 'merriplusApi/shakeAndGetPrize_v2',
+						vueName: 'prizeData',
+						data: {
+							gameid: vueData.urlData.gameid || 0
+						},
+						success: function(data) {
+							vm.$set('time', Date.parse(new Date()));
+							buijs.mask.close();
+							buijs.modal.add({
+								setid: 'prizeData',
+								positions: 'center,center',
+								width: '86%',
+								header: null,
+								isclose: false
+							});
+						}
+					})
+				}
+			};
+		</script>
+	</head>
+
+	<body class="bui_at_noline" style="background-color: #000;">
+		<!--声音-->
+		<audio src="images/kaca.mp3" controls="controls" hidden="true" id="kaca" style="opacity: 0; -webkit-opacity: 0; -moz-opacity: 0;">
+		</audio>
+		<!--声音-->
+
+		<div class="bui_mo">
+			<!--页头-->
+			<!--页头-->
+			<!--页面-->
+			<div class="bui_mo_b">
+				<div style="background-image: url(images/pic-001.png);background-position: center center; background-size: cover; filter: blur(5px); -webkit-filter: blur(5px); position: absolute;left: 0;right: 0;top: 0;bottom: 0; z-index: 0;">
+				</div>
+				<div style="position: absolute;left: 0;right: 0;top: 0;bottom: 0; z-index: 1;" class="bui_inline bui_vm bui_ta_c">
+					<i style="width:0 ;height: 100%;"></i>
+					<div class="bui_p_24 bui_bgc_black_f bui_radius" style="width: 80%;">
+						<div class="bui_ta_c">
+							<img src="{{shakeLogo||'images/logo.png'}}" style="height: 3rem;" />
+						</div>
+						<div class="bui_inline bui_ta_c bui_p_24">
+							<!--摇一摇动画-->
+							<div class="wm_shake_am" style="width: 100%;">
+								<img src="images/shake.png" />
+							</div>
+							<!--摇一摇动画-->
+						</div>
+						<div class="bui_ta_c">
+							<p class="bui_fs_16 bui_fc_white">倾力一甩，大奖出来</p>
+							<p class="bui_fs_12 bui_fc_red">（甩不出来？点击屏幕也能抽奖！）</p>
+						</div>
+					</div>
+					<i style="width:0 ;height: 100%;"></i>
+				</div>
+
+			</div>
+			<!--页面-->
+		</div>
+
+		<div id="prizeData" buijs_modal_isRemove="false" style="display: none;">
+			<div class="bui_p_24">
+				<!--提示-->
+				<p class="bui_ta_c">{{{prizeData.msg}}}</p>
+				<!--提示-->
+				<!--奖品信息-->
+				<template v-if="prizeData.data.prizeid">
+
+					<template v-if="prizeData.data.prizeimg">
+						<div class="bui_ta_c bui_mt_24">
+							<p class="bui_ts_16 bui_fc_black_f48">{{prizeData.data.prizename}}</p>
+							<img src="{{prizeData.data.prizeimg}}" style="width: 60%;" />
+
+						</div>
+					</template>
+					<template v-else>
+						<div class="bui_ta_c bui_inline bui_mt_24">
+							<div class="bui_bgc_red bui_p_12 bui_fc_white bui_ts_20" style="border: 4px #fff dotted;">{{prizeData.data.prizename}}</div>
+						</div>
+					</template>
+
+				</template>
+				<!--奖品信息-->
+				<!--奖品信息-->
+				<template v-if="prizeData.data.ext">
+					<div class="bui_ta_c bui_mt_12">
+						<p>您的领奖编码为</p>
+						<p class="bui_ts_24 bui_fc_red">{{prizeData.data.ext}}</p>
+					</div>
+				</template>
+				<!--奖品信息-->
+
+				<!--中奖-->
+				<!--<template v-if="prizeData.code==0||prizeData.code==4">
+					<a :href="prizeData.data.prizeimg" class="bui_btn bui_btn_48 bui_bgc_red bui_block bui_ts_14 bui_ta_c bui_round bui_mt_24">去领奖<i class="fa fa-angle-right fa-fw"></i></a>
+				</template>-->
+				<!--中奖-->
+				<!--没中还有次数-->
+				<template v-if="prizeData.code==2">
+					<a :href="'shake.html?gameid='+urlData.gameid+'&time='+time" class="bui_btn bui_btn_48 bui_bgc_red bui_block bui_ts_14 bui_ta_c bui_round bui_mt_24">再来一次<i class="fa fa-angle-right fa-fw"></i></a>
+				</template>
+				<!--没中还有次数-->
+
+			</div>
+		</div>
+	</body>
+
+</html>

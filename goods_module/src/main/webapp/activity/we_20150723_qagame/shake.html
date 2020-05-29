@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" type="text/css" href="../baidiui/css/baidiui.css" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script type="text/javascript" src="../baidiui/js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="../baidiui/js/baidiui.js"></script>
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script type="text/javascript" src="public2.js"></script>
+
+		<title>营养冷知识 - 极智构</title>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var _dh = $(document).height();
+				$('.wm_alert').css({'height':_dh+'px'});
+				//按钮
+				$('.wm_modal_btn').on({
+					'touchstart': function(e) {
+						e.preventDefault();
+						$(this).addClass('hit');
+					},
+					'touchend': function(e) {
+						$(this).removeClass('hit');
+						var _url = $(this).attr('href');
+						if (_url) {
+							window.location.href = _url
+						}
+					}
+				});
+				//测试用
+				$('.wm_shake_am').click(function() {
+					_gift();
+				});
+				//表单验证
+				$('#contact input,#contact textarea').keyup(function() {
+					var _btn = $('#contact a')
+					if ($('#name').val().length > 0 && $('#tel').val().length == 11 && $('#add').val().length > 0) {
+						_btn.attr('style', '');
+					} else {
+						_btn.attr('style', 'background: #ccc; color: #999;');
+					}
+				});
+				//表单提交
+				$('#contact a').on({
+					'touchend': function() {
+						var _name = $('#name').val();
+						var _tel = $('#tel').val();
+						var _add = $('#add').val();
+						if ($('#name').val().length > 0 && $('#tel').val().length == 11 && $('#add').val().length > 0) {
+							$.post(url + "merriplusApi/updateMemberAddressInfo.html?" + $("#submitForm").serialize()+"&gameid="+_gameid, function(data) {
+								$('#contact').hide();
+								$('#content').html("<p>提交成功！请继续支持极智构的后续活动！</p><p class='bui_ts_12 bui_tc_o64'>收货人：" + _name + "<br/>电话：" + _tel + "<br/><span class='addspan'>地址：" + _add + "<span></p><a href='index.html?gameid="+_gameid+"' class='wm_modal_btn'>回去再玩</a>").show();
+							});
+						}
+					}
+				});
+			});
+			 //摇一摇
+			var SHAKE_THRESHOLD = 3000;
+			var last_update = 0;
+			var x = y = z = last_x = last_y = last_z = 0;
+			var _isruning = 0
+
+			function init() {
+				if (window.DeviceMotionEvent) {
+					window.addEventListener('devicemotion', deviceMotionHandler, false);
+				} else {
+					alert('换个手机吧，亲，你的手机不支持摇一摇');
+				}
+			};
+
+			function deviceMotionHandler(eventData) {
+				var acceleration = eventData.accelerationIncludingGravity;
+				var curTime = new Date().getTime();
+				if ((curTime - last_update) > 100) {
+					var diffTime = curTime - last_update;
+					last_update = curTime;
+					x = acceleration.x;
+					y = acceleration.y;
+					z = acceleration.z;
+					var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+					if (speed > SHAKE_THRESHOLD && _isruning == 0) {
+						_gift();
+					}
+					last_x = x;
+					last_y = y;
+					last_z = z;
+				}
+			};
+			 //抽奖
+			function _gift() {
+				_isruning = 1
+				//getJson
+				$.getJSON(url + "merriplusApi/shakeDraw.html?gameid="+ + _gameid, function(data) {
+					var _data = data.data;
+					var _code = data.code;
+					var _lotterynum = _data.lotterynum;
+					var _prizeid = _data.prizeid;
+					var _prizename = _data.prizename;
+					var _membername = _data.membername
+					var _memberphone = _data.memberphone
+					var _memberaddress = _data.memberaddress
+					if ($('.wm_alert').hasClass('active')) {} else {
+						//声音
+						$('#kaca')[0].play();
+						//抽奖成功
+						if (_code == 0) {
+							//不中
+							if (_prizeid == null) {
+								//抽奖判断_抽过3次
+								if (_lotterynum == 3) {
+									$('#content').html("<p>你的运气一定是留给了更重要的事！</p><a href='index.html?gameid="+_gameid+"' class='wm_modal_btn'>回去再玩</a>").show();
+								}
+								//抽奖判断_抽过2次
+								if (_lotterynum == 2) {
+									$('#content').html("<p>看看地上，是不是你人品掉了？</p><a href='javascript:_alerthide()' class='wm_modal_btn'>继续摇<span class='bui_ts_12 bui_tc_red bui_plr_6'>剩" + [3 - _lotterynum] + "次</span></a>").show();
+								}
+								//抽奖判断_抽过2次
+								if (_lotterynum == 1) {
+									$('#content').html("<p>人生在世，抽不中乃兵家常事！</p><a href='javascript:_alerthide()' class='wm_modal_btn'>继续摇<span class='bui_ts_12 bui_tc_red bui_plr_6'>剩" + [3 - _lotterynum] + "次</span></a>").show();
+								}
+							}
+							//中奖
+							else {
+								var _id = _data.id;
+								$('#userid').val(_id);
+								$('#content').html("<p>矮马！你真的中了~！<br/><img src='images/gift_" + _prizeid + ".png' style='width: 96px; margin-top: 12px;' /><br/>" + _prizename + "</p><a href='javascript:_showcontent(" + '"contact"' + ");' class='wm_modal_btn'>填写收货信息</a>").show();
+							}
+						}
+						//抽奖失败
+						if (_code != 0) {
+							if (_code == 1) {
+								$('#content').html("<p>网路非常颠簸，请重试</p><a href='javascript:_alerthide()' class='wm_modal_btn'>继续摇<span class='bui_ts_12 bui_tc_red bui_plr_6'>剩" + [3 - _lotterynum] + "次</span></a>").show();
+							}
+							if (_code == 2) {
+								$('#content').html("<p>" + data.msg + "</p><a href='index.html?gameid="+_gameid+"' class='wm_modal_btn'>回去再玩</a>").show();
+							}
+							if (_code == 3) {
+								if (_prizename == null) {
+									$('#content').html("<p>你的运气一定是留给了更重要的事！请期待极智构后续福利活动！</p><a href='index.html?gameid="+_gameid+"' class='wm_modal_btn'>回去再玩</a>").show();
+								} else {
+									if (_membername == null) {
+										var _id = _data.id;
+										$('#userid').val(_id);
+										$('#content').html("<p>你已经中了" + _prizename + "<br/><img src='images/gift_" + _prizeid + ".png' style='width: 96px; margin-top: 12px;' /><br/>收货信息不完整</p><a href='javascript:_showcontent(" + '"contact"' + ");' class='wm_modal_btn'>填写收货信息</a>").show();
+									} else {
+										$('#content').html("<p>那个谁谁谁，就是你，来抽过奖了吧？学姐认都出你咯！</p><p class='bui_mt_12'>奖品：" + _prizename + "</p><p class='bui_ts_12 bui_tc_o64'>收货人：" + _membername + "<br/>电话：" + _memberphone + "<br/><span class='addspan'>地址：" + _memberaddress + "</span></p><a href='index.html?gameid="+_gameid+"' class='wm_modal_btn'>回去再玩</a>").show();
+									};
+								}
+							}
+							if (_code == 4) {
+								if (_membername == null) {
+									var _id = _data.id;
+									$('#userid').val(_id);
+									$('#content').html("<p>你已经中了" + _prizename + "<br/><img src='images/gift_" + _prizeid + ".png' style='width: 96px; margin-top: 12px;' /><br/>收货信息不完整</p><a href='javascript:_showcontent(" + '"contact"' + ");' class='wm_modal_btn'>填写收货信息</a>").show();
+								} else {
+									$('#content').html("<p>那个谁谁谁，就是你，来抽过奖了吧？学姐认都出你咯！</p><p class='bui_mt_12'>奖品：" + _prizename + "</p><p class='bui_ts_12 bui_tc_o64'>收货人：" + _membername + "<br/>电话：" + _memberphone + "<br/><span class='addspan'>地址：" + _memberaddress + "</span></p><a href='index.html?gameid="+_gameid+"'class='wm_modal_btn'>回去再玩</a>").show();
+								};
+							}
+							if (_code == 5) {
+								$('#content').html("<p>您来晚了，您抽中的奖品都被抢光了！</p><a href='javascript:_alerthide()' class='wm_modal_btn'>继续摇<span class='bui_ts_12 bui_tc_red bui_plr_6'>剩" + [3 - _lotterynum] + "次</span></a>").show();
+							}
+						}
+						//展开弹窗
+						_alertshow();
+					};
+				});
+			};
+			 //展开弹窗
+			function _alertshow() {
+				$('.wm_alert').show(0, function() {
+					$(this).addClass('active');
+				})
+			};
+			 //收起弹窗
+			function _alerthide() {
+				_isruning = 0
+				$('.wm_alert').removeClass('active');
+				setTimeout(function() {
+					$('.wm_alert,.wm_modal_content').hide();
+				}, 300);
+			};
+			 //内容切换
+			function _showcontent(id) {
+				$('.wm_modal_content').hide();
+				$('#' + id).show();
+			};
+			$(window).resize(function() {
+				$('.wm_alert').css({
+					'top': '0px'
+				})
+			});
+		</script>
+	</head>
+
+	<body onload="init();">
+		<div class="wm_inline wm_ta_c" id="bg">
+			<!--logo-->
+			<img src="images/logo.png" style="width: 144px; margin:24px 0;" />
+			<br />
+			<!--logo-->
+			<!--摇一摇动画-->
+			<div class="wm_shake_am" style="width: 256px; height: 256px;">
+				<img src="images/shake.png" />
+			</div>
+			<br />
+			<!--摇一摇动画-->
+			<!--说明-->
+			<div class="wm_content bui_mt_12 bui_plr_24 bui_ta_l">
+				<p class="bui_ts_16" style="font-weight: bold;">你离【永春宝】只有一步之“摇”！</p>
+				<p class="bui_ts_14  bui_mt_12">摇奖次数一共3次，重复参与游戏并不能增加次数，请谨慎使用。</p>
+				<p class="bui_ts_12 bui_tc_o64">（“摇一摇”不好使？直接点击图案也能抽奖哦）</p>
+			</div>
+			<!--说明-->
+		</div>
+		<!--中奖区域-->
+		<div class="wm_alert">
+			<div class="wm_mask">
+				<div class="wm_mask_shake"></div>
+				<div class="wm_modal">
+					<img src="images/hua.png" id="hua" />
+					<img src="images/gebu.png" id="gebu" />
+					<div class="wm_modal_box">
+						<!--填写地址-->
+						<div class="wm_modal_content" id="contact">
+							<form id="submitForm">
+								<p>
+									<input type="hidden" value="" name="id" id="userid" />
+									<input type="text" value="" placeholder="姓名" maxlength="10" class="wm_ipt" name="membername" id="name" />
+									<input type="text" value="" placeholder="11位手机号码" maxlength="11" class="wm_ipt" name="memberphone" id="tel" />
+									<textarea placeholder="省/市/区/地址" class="wm_ipt" maxlength="140" name="memberaddress" id="add"></textarea>
+								</p>
+								<a href="javascript:;" class="wm_modal_btn bui_block" style="background: #ccc; color: #999;">提交信息</a>
+							</form>
+						</div>
+						<!--填写地址-->
+						<!--共用信息栏目-->
+						<div class="wm_modal_content" id="content">
+							<p>
+								您的信息已经成功录入，礼品不日将启程奔赴你家……
+							</p>
+							<a href="index.html?gameid=1" class="wm_modal_btn">重新玩一次</a>
+						</div>
+						<!--共用信息栏目-->
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!--中奖区域-->
+
+		<!--声音-->
+		<audio src="images/kaca.mp3" controls="controls" hidden="true" id="kaca" style="opacity: 0; -webkit-opacity: 0; -moz-opacity: 0;">
+		</audio>
+		<!--声音-->
+	</body>
+
+</html>

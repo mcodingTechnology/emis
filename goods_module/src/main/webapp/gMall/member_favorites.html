@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>移动商城 - BIG生活</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/member_favorites.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body id="vueBox" class="gym-body bui_at_noline">
+		<!--主体-->
+		<div class="bui_wrap bui_bgc_white_d12">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h">
+					<!--提示关注公众号-->
+					<template v-if="isWechatUserFocused.code==1">
+						<tp-isfollow></tp-isfollow>
+					</template>
+					<!--提示关注公众号-->
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="https://h5.youzan.com/v2/home/zt5mvapt" title="我的收藏"></tp-header>
+				</div>
+				<!--页头-->
+
+				<!--页面-->
+				<div class="bui_mo_b bui_mo_b_h gym_mo_b" style="{{isWechatUserFocused.code==1?'top:6rem':''}}">
+					<!--loadingbar-->
+					<tp-loadingbar type="loading" v-if="!memberDetail||!memberDetail.data||!getCollectionProductList||!getCollectionProductList.data"></tp-loadingbar>
+					<!--loadingbar-->
+					<!--收藏列表-->
+					<template v-else>
+						<!--列表为空-->
+						<tp-emptypage v-if="getCollectionProductList.data.length==0"></tp-emptypage>
+						<!--列表为空-->
+						<div v-else class="bui_p_12 bui_tc_black_a">
+							<div class="bui_row_p_6">
+								<div v-for="data in getCollectionProductList.data">
+									<div class="bui_media bui_vt bui_p_12 bui_bds_1 bui_radius bui_bgc_white">
+										<a href="product_detail.html?productId={{data.productid}}" class="bui_media_l">
+											<tp-img :src="data.product.productCoverImg" width="4rem" height="4rem"></tp-img>
+										</a>
+										<a href="product_detail.html?productId={{data.productid}}" class="bui_media_b">
+											<p class="bui_ts_14">{{data.product.productName}}</p>
+											<p class="bui_ts_12 bui_tc_white_d64 bui_mt_6">{{data.product.slogan||'暂无简介'}}</p>
+										</a>
+										<div class="bui_media_r">
+											<button class="bui_btn bui_btn_sq bui_bds_0" onclick="productFavorites_remove({{data.product.productId}})"><i class="fa fa-close bui_tc_white_d24_i"></i></button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</template>
+					<!--收藏列表-->
+				</div>
+				<!--页面-->
+			</div>
+		</div>
+		<!--主体-->
+	</body>
+
+</html>

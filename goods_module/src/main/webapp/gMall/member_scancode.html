@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>移动商城 - BIG生活</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/member_scancode.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body id="vueBox" class="gym-body bui_at_noline">
+		<!--主体-->
+		<div class="bui_wrap bui_tc_black bui_tc_black_a bui_bgc_white_d12">
+			<!--页头-->
+			<div class="bui_mo_h">
+				<tp-header bgc="bui_bgc_red" righticon="fa-home" rightlink="https://h5.youzan.com/v2/home/zt5mvapt" :title="global.brandName+' 防伪查询'"></tp-header>
+			</div>
+			<!--页头-->
+			<!--页面-->
+			<div class="bui_mo_b bui_mo_b_h">
+				<!--提示区域-->
+				<div class="bui_bgc_red bui_p_24 bui_ta_c bui_tc_white bui_ts_14 bui_row_p_12">
+					<div class="bui_inline">
+						<tp-img src="../../resources/images/gxmQrcode_logo.png" width="8rem"></tp-img>
+					</div>
+					<div>
+						<p>刮开瓶盖图层获得产品二维码</p>
+						<p>戳下方按钮进行扫码积分</p>
+					</div>
+				</div>
+				<!--提示区域-->
+
+				<!--操作区域-->
+				<div class="bui_m_24">
+					<div class="bui_row_p_12">
+						<!--查询结果-->
+						<template v-if="checkQrcode&&checkQrcode.msg">
+							<div>
+								<template v-if="checkQrcode.msg=='00'||checkQrcode.msg=='01'||checkQrcode.msg=='07'">
+									<template v-if="checkQrcode.msg=='00'||checkQrcode.msg=='01'">
+										<div class="bui_bgc_green bui_tc_white bui_ta_c bui_p_12 bui_inline bui_ts_14">
+											<i class="fa fa-check fa-fw "></i>
+											<p>您所查询的是正品</p>
+										</div>
+									</template>
+									<template v-if="checkQrcode.msg=='07'">
+										<div class="bui_bgc_red bui_tc_white bui_ta_c bui_p_12 bui_inline bui_ts_14">
+											<i class="fa fa-close fa-fw "></i>
+											<p>您所查询的防伪码有误，谨防假冒</p>
+										</div>
+									</template>
+								</template>
+
+								<template v-else>
+									<div class="bui_bgc_black bui_tc_white bui_ta_c bui_p_12 bui_inline bui_ts_14">
+										<i class="fa fa-unlink fa-fw "></i>
+										<p>数据访问失败，请重试</p>
+									</div>
+								</template>
+							</div>
+						</template>
+						<!--查询结果-->
+
+						<form id="memberScanCodeForm">
+							<div class="bui_row_p_12">
+								<!--二维码-->
+								<div>
+									<div class="bui_ipg_48 bui_block bui_bgc_white " buijs_form_item_type="length" buijs_form_item_length="16,16">
+										<span class="buijs_form_item_tips bui_fr"></span>
+										<i class="fa fa-qrcode bui_fl"></i>
+										<input type="tel" placeholder="请填写 或扫描二维码" :value="urlData.securityQrcode" v-model="memberScanCode.code" class="bui_ipt_48 bui_bds_0 bui_ts_14" />
+									</div>
+								</div>
+								<!--二维码-->
+								<!--按钮-->
+								<div>
+									<div class="bui_row_p_12">
+										<div class="bui_col_5">
+											<button type="button" onclick="memberScanCode_wxScan();" class="bui_btn bui_btn_48 bui_bgc_white bui_ts_16 bui_block"><i class="fa fa-camera fa-fw bui_tc_white_d64_i"></i> 扫描</button>
+										</div>
+										<div class="bui_col_7">
+											<button type="submit" class="bui_btn bui_btn_48 bui_bgc_red bui_ts_16 bui_block">获取积分</button>
+										</div>
+									</div>
+								</div>
+								<!--按钮-->
+								<!--跳转游戏-->
+								<div>
+									<a href="http://v.gymmaxer.com/activity/giftmall_gxm_20151117/index.html?gameid=44" class="bui_btn bui_btn_48 bui_bgc_black_l48 bui_ts_16 bui_block bui_mt_48 bui_tc_white_a bui_ta_c bui_round">【抽奖】 10积分抢GoPro</a>
+								</div>
+								<!--跳转游戏-->
+							</div>
+						</form>
+					</div>
+				</div>
+				<!--操作区域-->
+			</div>
+			<!--页面-->
+		</div>
+		<!--主体-->
+	</body>
+
+</html>

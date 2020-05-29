@@ -1,0 +1,184 @@
+<div id="mp_cartList">
+	<p class="bui_ta_c bui_p_24 bui_tc_white_d48"><i class="fa fa-circle-o-notch fa-spin"></i> 正在处理中...</p>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		//vue
+		new Vue({
+			el: 'html',
+			data: vueObj
+		});
+		//购物车数据重构
+		mp_cartGetList();
+	});
+	//购物车数据重构
+	function mp_cartGetList() {
+		$("#mp_cartList").html('<p class="bui_ta_c bui_p_24 bui_tc_white_d48"><i class="fa fa-circle-o-notch fa-spin"></i> 正在处理中...</p>');
+		$.ajax({
+			type: "get",
+			url: _jsonUrl + "/merriplusApi/getCartList",
+			async: true,
+			cache: false,
+			dataType: "json",
+			data: {
+				malltype: vueObj.mallType
+			},
+			error: function() {},
+			success: function(data) {
+				//判断购物车为空
+				if(data.data.length <= 0) {
+					//删除清空按钮
+					$("#mp_cartPanel .bui_modal_h .bui_media_l").html('');
+					//插入提示
+					$("#mp_cartList").html('<div class="bui_p_24 bui_ta_c"><p><i class="fa fa-frown-o bui_fas_96 bui_fac_white_d64"></i></p>' +
+						'<p class="bui_mt_12 bui_tc_white_d64">空空的，感觉不会再爱了</p>' +
+						'</div>');
+					$("#mp_cartPanel .bui_modal_f").html('<div class="bui_bgc_white bui_bds_1_t bui_p_8"><a href="product_list.html" class="bui_btn_48 bui_block bui_tc_white ' + vueObj.style.btnTrue + '">去塞满TA</a></div>');
+				} else {
+					//添加清空按钮
+					$("#mp_cartPanel .bui_modal_h .bui_media_l").html('<a href="javascript:mp_cartClear();" class="bui_btn_32 bui_btnsq bui_radius bui_m_8"><i class="fa fa-trash-o bui_fas_24 ' + vueObj.style.facTrue + '"></i></a>');
+					//添加底部按钮
+					$("#mp_cartPanel .bui_modal_f").html('<div class="bui_avg_2 bui_bgc_white bui_bds_1_t">' +
+						'<li><div class="bui_p_8 bui_ts_12 bui_ta_c" style="height:64px;line-height: 24px;"><p>共<span id="cartProductNum" class="bui_tc_red">...</span>件产品</p><p>合计<span id="cartPrice"  class="bui_tc_red">...</span>元</p><div><li>' +
+						'<li><p class="bui_p_8"><a href="javascript:mp_cartUpdataBuy();" class="bui_btn_48 bui_block bui_tc_white ' + vueObj.style.btnTrue + '">结算<i class="fa fa-check"></i></a></p><li>' +
+						'</div>');
+					//插入购物车产品
+					var _cartList = ''
+					$.map(data.data, function(data) {
+						var _priceHtml = ''
+						if(vueObj.memberDetail.parentMemberId) {
+							_priceHtml = '<p class="bui_ts_12">内购价：<span class="bui_ts_14 bui_tc_red">￥</span><span class="bui_ts_14 bui_tc_red cartPriceSingle">' + data.productprice / 100 + '</span></p>'
+						} else {
+							_priceHtml = '<p class="bui_ts_12">单价：<span class="bui_ts_14 bui_tc_red">￥</span><span class="bui_ts_14 bui_tc_red cartPriceSingle">' + data.productprice / 100 + '</span></p>'
+						}
+						_cartList += '<li id="cartList' + data.cartid + '" srv="' + data.cartid + '">' +
+							'<div class="bui_media bui_vm bui_p_12 bui_bgc_white">' +
+							'	<div class="bui_media_l"><div data-bui_img="" style="width:64px;height:64px;"><img src="' + data.productcoverimg + '"/></div></div>' +
+							'	<div class="bui_media_b"><p class="bui_ts_14">' + data.productname + '</p>' +
+							_priceHtml +
+							'		<div class="bui_inline">' +
+							'			<a href="javascript:mp_cartListPlusMinus(\'minus\',' + data.cartid + ');" class="bui_btn_24 bui_btnsq bui_bgc_red"><i class="fa fa-minus"></i></a>' +
+							'			<input type="text" name="" id="" value="' + data.productnum + '" class="bui_ipt_24 bui_p_0 bui_ta_c cartProductNumSingle" size="4" />' +
+							'			<a href="javascript:mp_cartListPlusMinus(\'plus\',' + data.cartid + ');" class="bui_btn_24 bui_btnsq bui_bgc_green"><i class="fa fa-plus"></i></a>' +
+							'		</div>' +
+							'	</div>' +
+							'	<div class="bui_media_r">' +
+							'		<a href="javascript:mp_cartClear(' + data.cartid + ');" class="bui_btn_32 bui_btnsq bui_radius bui_bgc_white bui_fac_white_d48"><i class="fa fa-trash-o ' + vueObj.style.facFalse + '"></i></a>' +
+							'	</div>' +
+							'</div>' +
+							'<hr/>' +
+							'</li>'
+					});
+					$("#mp_cartList").html(_cartList).find('[data-bui_img]').buijs_img();
+					//计算数量&价格
+					mp_cartCalculation();
+				};
+			}
+		});
+	};
+	//加减数量
+	function mp_cartListPlusMinus(type, cartid) {
+		//加
+		if(type == 'plus') {
+			$("li#cartList" + cartid).find('.cartProductNumSingle').val([Number($("li#cartList" + cartid).find('.cartProductNumSingle').val()) + 1]);
+		}
+		//减
+		if(type == 'minus') {
+			if($("li#cartList" + cartid).find('.cartProductNumSingle').val() <= 1) {
+				mp_cartClear(cartid);
+			} else {
+				$("li#cartList" + cartid).find('.cartProductNumSingle').val([Number($("li#cartList" + cartid).find('.cartProductNumSingle').val()) - 1]);
+			}
+		}
+		//计算数量&价格
+		mp_cartCalculation()
+	};
+	//删除商品
+	function mp_cartClear(cartid) {
+		var _cartProductid, _tips;
+		//删除单个产品
+		if(cartid) {
+			_cartProductid = cartid;
+			_tips = '<p class="bui_ta_c">是否删除该商品？</p>'
+		}
+		//清空购物车
+		else {
+			_cartProductid = 0;
+			_tips = '<p class="bui_ta_c">是否清空购物车？</p>'
+		}
+		buijs_modal({
+			setid: 'isRemove',
+			content: _tips,
+			height: '50%',
+			footer: '<hr/><div class="bui_avg_2 bui_p_12 bui_row_p_12">' +
+				'<li><a href="javascript:;" class="bui_btn_48 bui_block ' + vueObj.style.btnFalse + '" buijs_modal_close="isRemove">再想想</a></li>' +
+				'<li><a href="javascript:;" class="bui_btn_48 bui_block bui_atc_white ' + vueObj.style.btnTrue + '" buijs_modal_true>是</a></li>' +
+				'</div>',
+			trueAfter: function() {
+				buijs_showloading('bui_bgc_black_f72');
+				$.ajax({
+					type: "get",
+					url: _jsonUrl + "/merriplusApi/delShoppingCart",
+					async: true,
+					global: false,
+					dataType: "json",
+					data: {
+						cartId: _cartProductid
+					},
+					success: function(data) {
+						buijs_closeloading();
+						buijs_modal_close('isRemove');
+						//购物车数据重构
+						mp_cartGetList();
+						//全局购物车提示 by pangxj
+						mp_cartPlug();
+					}
+				});
+			}
+		});
+	}
+	//计算数量&价格
+	function mp_cartCalculation() {
+		var _cartProductNum = 0
+		var _cartPrice = 0
+		$("#mp_cartList li").map(function() {
+			_cartProductNum += Number($(this).find('.cartProductNumSingle').val());
+			_cartPrice += Number($(this).find('.cartPriceSingle').text() * $(this).find('.cartProductNumSingle').val())
+		});
+		$("#cartProductNum").text(_cartProductNum);
+		$("#cartPrice").text(_cartPrice);
+	};
+	//更新并购买购物车内商品
+	function mp_cartUpdataBuy() {
+		buijs_showloading('bui_bgc_black_f72');
+		var productLabel = buijs_geturl('productLabel');
+		var cartArray = new Array();
+		$('#mp_cartList li').map(function() {
+			var cartArrayObject = new Object();
+			cartArrayObject.cartid = Number($(this).attr('srv'));
+			cartArrayObject.productnum = Number($(this).find('.cartProductNumSingle').val());
+			cartArray.push(cartArrayObject);
+		});
+		console.log(cartArray)
+		$.ajax({
+			type: "post",
+			url: _jsonUrl + "/merriplusApi/updateAllProductInCart",
+			async: false,
+			cache: false,
+			contentType: "application/json; charset=utf-8",
+			data: JSON.stringify(cartArray),
+			dataType: "json",
+			success: function(data) {
+				setTimeout(function() {
+					if(productLabel) {
+						window.location.href = 'order.html?orderType=cart&productLabel=' + productLabel;
+					} else {
+						window.location.href = 'order.html?orderType=cart';
+					};
+
+				}, 1000)
+			}
+		});
+	}
+</script>

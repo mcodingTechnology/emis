@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>移动商城 - BIG生活</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/invitation_qrcode.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body id="vueBox" class="gym-body bui_at_noline">
+		<div class="bui_wrap bui_bgc_white_d12">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h">
+					<!--提示关注公众号-->
+					<template v-if="isWechatUserFocused.code==1">
+						<tp-isfollow></tp-isfollow>
+					</template>
+					<!--提示关注公众号-->
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="https://h5.youzan.com/v2/home/zt5mvapt" title="专属二维码"></tp-header>
+				</div>
+				<!--页头-->
+				<!--页面-->
+				<div class="bui_mo_b bui_mo_b_h gym_mo_b" style="{{isWechatUserFocused.code==1?'top:6rem':''}}">
+					<template v-if="memberDetail.data.levelId">
+						<!--主屏幕_页头-->
+						<div class="bui_p_24">
+							<div class="bui_plr_24">
+								<img id="imgQrcode" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" width="100%" class="bui_bsd_12">
+							</div>
+							<div class="bui_ts_12 bui_mt_12">这是您专属的推广二维码，保存并发给微信好友，好友通过此二维码关注BIG生活公众号，可发展成为您的伙伴！</div>
+							<div class="bui_ts_12 bui_mt_12">小贴士：给您的伙伴推广购买BIG生活产品，可获得可观的佣金收入哦！</div>
+
+							<!--我的_主体-->
+						</div>
+
+						<div class="bui_bgc_white bui_bds_1">
+							<p class="bui_ta_c bui_p_12 bui_ts_14"><i class="fa fa-user fa-fw {{style.facTrue}}"></i> 最新加入伙伴</p>
+							<div id="newUser"></div>
+						</div>
+						<template v-if="insetnewUser.length!=0">
+							<div class="bui_p_12 bui_row_p_12">
+								<div v-for="data in insetnewUser" class="bui_media bui_vm bui_bgc_white bui_bds_1 bui_p_12">
+									<div class="bui_media_l">
+										<tp-img :src="data.headimgurl" width="3rem" height="3rem"></tp-img>
+									</div>
+									<div class="bui_media_b">
+										<p class="bui_ts_16">{{data.nickname}}</p>
+										<div class="bui_row_p_6 bui_inline bui_tc_white_d64 bui_ts_12">
+											<p>性别：<span class="bui_tc_red">{{data.sex}}</span></p>
+										</div>
+									</div>
+									<div class="bui_media_r bui_ta_r">
+										<p class="bui_tc_white_d64 bui_ts_12">加入时间</p>
+										<p class="bui_ts_14 bui_tc_red">{{unixTimeChange(data.subscribetime)}}</p>
+									</div>
+								</div>
+							</div>
+						</template>
+						<tp-loadingbar bgc="" :type="!pageLoaded?'loading':'success'"></tp-loadingbar>
+					</template>
+				</div>
+				<!--页面-->
+			</div>
+		</div>
+
+	</body>
+
+</html>

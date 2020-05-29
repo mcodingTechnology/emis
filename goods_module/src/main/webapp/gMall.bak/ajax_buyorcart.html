@@ -1,0 +1,113 @@
+<script type="text/javascript">function getInsetHtml(productId, type) {
+	var productLabel = buijs_geturl('productLabel');
+	var _btn = '';
+	if(type == 'buy') {
+		_btn = '<button class="bui_btn_48 bui_block bui_ts_14 ' + vueObj.style.btnTrue + '" id="buyNow"><i class="fa fa-cart-plus fa-fw"></i> 创建订单</button>';
+	} else {
+		_btn = '<button class="bui_btn_48 bui_block bui_ts_14 ' + vueObj.style.btnTrue + '" id="addToCart"><i class="fa fa-cart-plus fa-fw"></i> 加入</button>';
+	}
+	$.ajax({
+		type: "get",
+		url: _jsonUrl + "/merriplusApi/getProductById",
+		async: true,
+		dataType: 'json',
+		data: {
+			'productId': productId
+		},
+		error: function() {
+			buijs_alert({
+				content: '读取数据失败'
+			})
+		},
+		success: function(data) {
+			var _price = vueObj.memberDetail.parentMemberId ? data.data.microMallPrice : data.data.discountPrice;
+			var _content = '<div class="bui_media bui_vm bui_p_12">' +
+				'	<div class="bui_media_l"><div style="width:96px;height:96px;" data-bui_img=""><img src="' + data.data.microproductrollimg1 + '"/></div></div>' +
+				'	<div class="bui_media_b">' +
+				'	<p>' + data.data.productName + '</p>' +
+				'	<p class="bui_vm"><span class="bui_ts_12 ' + vueObj.style.tcFalse + '">单价:</span> <span class="bui_ts_24 ' + vueObj.style.tcTrue + '">￥' + Number(_price / 100) + '</span></p>' +
+				'	</div>' +
+				'</div>' +
+				'<hr/>' +
+				'<div class="bui_p_12 bui_inline bui_vm bui_ta_c">' +
+				'	<button class="bui_btn_48 bui_btnsq ' + vueObj.style.btnTrue + ' fa fa-minus" onclick="javascript:mp_plusminus($(this),\'minus\',1,' + data.data.ext1 + ');"></button>' +
+				'	<input type="tel" maxlength="4" name="productNum" id="productNum" value="1" size="4" class="bui_ipt_48 bui_ta_c bui_ts_14"/>' +
+				'	<button class="bui_btn_48 bui_btnsq ' + vueObj.style.btnTrue + ' fa fa-plus" onclick="javascript:mp_plusminus($(this),\'plus\',1,' + data.data.ext1 + ');"></button>' +
+				'</div>';
+			$("#mp_buyOrCart .bui_modal_b").html(_content).find('[data-bui_img]').buijs_img();
+			$("#mp_buyOrCart .bui_modal_f").html('<div class="bui_p_8 bui_bgc_white bui_bds_1_t">' +
+				'<div class="bui_avg_2 bui_row_p_12">' +
+				'<li><button class="bui_btn_48 bui_block bui_ts_14 ' + vueObj.style.btnFalse + '" buijs_modal_close="mp_buyOrCart"><i class="fa fa-close fa-fw"></i> 取消</button></li>' +
+				'<li>' + _btn + '</li>' +
+				'</div>' +
+				'</div>');
+
+			//数量限制
+			function productNumMax() {
+				console.log(data.data.ext1)
+				if(Number($("#productNum").val()) >= data.data.ext1) {
+					$("#productNum").val(data.data.ext1);
+				}
+			};
+			$("#productNum").bind('input', function() {
+				productNumMax();
+			});
+
+			//加入购物车动作
+			$("#addToCart").unbind().bind({
+				'click': function() {
+					var addObj = {
+						productid: parseInt(data.data.productId),
+						productname: data.data.productName,
+						productintroduce: data.data.productIntroduce,
+						productcoverimg: data.data.microproductrollimg1,
+						productnum: parseInt($("#mp_buyOrCart [name=productNum]").val()),
+						productprice: data.data.microMallPrice,
+						malltype: vueObj.mallType
+					};
+					$.ajax({
+						type: "post",
+						contentType: "application/json; charset=utf-8",
+						url: _jsonUrl + "/merriplusApi/addProductToCart",
+						async: true,
+						global: false,
+						data: JSON.stringify(addObj),
+						dataType: "json",
+						success: function(data) {
+							if(data.status == "00") {
+								buijs_modal_close('mp_buyOrCart');
+								buijs_alert({
+									content: '已添加到购物车'
+								})
+							} else if(data.status == "02") {
+								buijs_modal_close('mp_buyOrCart');
+								buijs_alert({
+									content: '<p class="bui_ts_12">该商品为限购商品，只允许添加一次购物车，如需要修改数量，请到购物车内修改！</p>'
+								})
+							}
+							//全局购物车提示 by pangxj
+							mp_cartPlug();
+						}
+					});
+				}
+			});
+
+			//立即购买动作
+			$("#buyNow").unbind().bind({
+				'click': function() {
+					buijs_showloading('bui_bgc_black_f72');
+					var _prodcutNum = parseInt($("#mp_buyOrCart [name=productNum]").val());
+					setTimeout(function() {
+						var _linkUrl = ''
+						if(productLabel) {
+							_linkUrl = 'order.html?orderType=single&productId=' + productId + '&productnum=' + _prodcutNum + '&productLabel=' + productLabel;
+						} else {
+							_linkUrl = 'order.html?orderType=single&productId=' + productId + '&productnum=' + _prodcutNum;
+						};
+						window.location.href = _linkUrl
+					}, 1000);
+				}
+			});
+		}
+	});
+};</script>

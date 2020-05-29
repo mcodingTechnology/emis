@@ -1,0 +1,25 @@
+[
+	{
+		"goodsName"    : "每日加加蛋白营养粉",
+		"goodsPict"    : "http://v.merryplus.com/resources/uploads/product/20150916104430_590.jpg",
+		"userIntegral" : "",
+		"totalIntegral": "10000",
+		"goingIntegral": "4000",
+		"gift"         : "1"
+	},
+	{
+		"goodsName"    : "每日加加蛋白营养粉",
+		"goodsPict"    : "http://v.merryplus.com/resources/uploads/product/20150923164710_3131.png",
+		"userIntegral" : "2000",
+		"totalIntegral": "10000",
+		"goingIntegral": "5000",
+		"gift"         : "2"
+	},
+	{
+		"goodsName"    : "每日加加蛋白营养粉",
+		"goodsPict"    : "http://v.merryplus.com/resources/uploads/product/20150923164647_4148.png",
+		"totalIntegral": "10000",
+		"goingIntegral": "2000",
+		"gift"         : "3"
+	}
+]

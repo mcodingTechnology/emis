@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>BIG生活 - 抽奖活动</title>
+		<meta charset="utf-8">
+		<script src="../game_public/workspace_v2.0.3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="public.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script type="text/javascript"></script>
+	</head>
+
+	<body class="bui_at_noline">
+		<div class="bui_wrap bui_bgc_black" style="background-image: url({{shakeBg||'images/bg.jpg'}});background-size: cover;background-position: center center;">
+			<div class="bui_mo">
+				<!--页头-->
+
+				<!--页头-->
+				<!--页面-->
+				<div class="bui_mo_b">
+					<div class="bui_ptb_48 bui_inline bui_ta_c">
+						<img src="{{shakeLogo||'images/logo.png'}}" class="bui_mt_48" style="width: 60%;" />
+					</div>
+					<div class="bui_p_32 bui_ta_c bui_tc_white">
+						<p class="bui_ts_16">Show出臂力，“码”上有礼！</p>
+						<p class="bui_ts_12 bui_tc_red">每人只有一次抽奖机会</p>
+						<p class="bui_mt_24">
+							<a href="shake.html?gameid={{urlData.gameid}}" class="bui_btn bui_btn_64 bui_btn_sq bui_round bui_ts_24 bui_bgc_red">GO!</a>
+						</p>
+						<p class="bui_mt_24 bui_ts_12 bui_tc_white_f64">活动最终解释权归 {{brandName||'佰悦网络科技有限公司'}} 所有</p>
+					</div>
+
+				</div>
+				<!--页面-->
+			</div>
+
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,228 @@
+<form onsubmit="form.post();">
+	<section class="bui_p_32 bui_row_p_24">
+
+		<div>
+			<com-title :title="hash.id?'编辑订单信息':'新增订单'"></com-title>
+		</div>
+		<!--订单基础信息-->
+		<div>
+			<p class="bui_fs_18 bui_p_6_b"><i class="bi bi_menu"></i> 基础信息</p>
+			<div class="bui_bds_1 bui_p_24 bui_fs_12">
+				<div class="bui_row_p_24">
+					<!--订单编号-->
+					<div class="bui_col_12_sm">
+						<p>订单编号：</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+							<input type="text" placeholder="请输入 订单编号" v-model="formData.data.orderInfo.outno" disabled="disabled" />
+						</div>
+					</div>
+					<!--订单编号-->
+					<!--所属品牌-->
+					<div class="bui_col_4_sm">
+						<p>所属品牌</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+							<input type="text" placeholder="请输入 所属品牌" v-model="formData.data.orderInfo.brandCode" disabled="disabled" />
+						</div>
+					</div>
+					<!--所属品牌-->
+					<!--订单来源-->
+					<div class="bui_col_4_sm">
+						<p>订单来源</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+							<input type="text" placeholder="请输入 订单来源" v-model="formData.data.orderInfo.malltype" disabled="disabled" />
+						</div>
+					</div>
+					<!--订单来源-->
+					<!--订单状态-->
+					<div class="bui_col_4_sm">
+						<p>订单状态</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+							<select v-model="formData.data.orderInfo.paystatus">
+								<option v-for="o in ['待支付','待发货','已发货','已完成','已取消']" :value="o">{{o}}</option>
+							</select>
+						</div>
+					</div>
+					<!--订单状态-->
+
+					<!--订单金额-->
+					<div class="bui_col_6_sm">
+						<p>订单金额</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+							<input type="text" placeholder="请输入 订单金额" v-model="formData.data.orderInfo.fee" />
+						</div>
+					</div>
+					<!--订单金额-->
+					<!--加钱购金额-->
+					<div class="bui_col_6_sm">
+						<p>加钱购金额</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+							<input type="text" placeholder="请输入 加钱购金额" v-model="formData.data.orderInfo.plusmoney" />
+						</div>
+					</div>
+					<!--加钱购金额-->
+					<!--订单创建时间-->
+					<div class="bui_col_6_sm">
+						<p>订单创建时间</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+							<input type="text" placeholder="请输入 订单创建时间" buijs-datetimepicker data-vue="formData.data.orderInfo.addtime" v-model="formData.data.orderInfo.addtime" />
+						</div>
+					</div>
+					<!--订单创建时间-->
+					<!--订单支付时间-->
+					<div class="bui_col_6_sm">
+						<p>支付时间</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+							<input type="text" placeholder="请输入 订单支付时间" buijs-datetimepicker data-vue="formData.data.orderInfo.paytime" v-model="formData.data.orderInfo.paytime" />
+						</div>
+					</div>
+					<!--订单支付时间-->
+				</div>
+			</div>
+		</div>
+		<!--订单基础信息-->
+		<!--购买人信息-->
+		<div>
+			<p class="bui_fs_18 bui_p_6_b"><i class="bi bi_menu"></i> 购买人信息</p>
+			<div class="bui_bds_1 bui_p_24 bui_fs_12">
+				<div class="bui_media bui_vm">
+					<div class="bui_media_l">
+						<com-img :src="formData.data.weixinUser.headimgurl" width="6rem" height="6rem" class="bui_round"></com-img>
+					</div>
+					<div class="bui_media_b">
+						<p class="bui_fs_24">{{formData.data.orderInfo.membername}}</p>
+						<p class="bui_fc_silver_d bui_fs_14">{{formData.data.orderInfo.regson}}</p>
+						<p class="bui_fc_silver_d bui_fs_14">{{formData.data.orderInfo.mobilephone}}</p>
+					</div>
+					<div class="bui_media_r">
+						<a href="javascript:tablePublic.quickDetail({ajaxload:'modal-detail-member.html?id={{formData.data.orderInfo.memberid}}'});" type="button" class="bui_btn  bui_bds_1 bui_bdc_turquoise">快速查看 <i class="bi bi_search"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--购买人信息-->
+
+		<!--收货信息-->
+		<div>
+			<p class="bui_fs_18 bui_p_6_b"><i class="bi bi_menu"></i> 收货信息</p>
+			<div class="bui_bds_1 bui_p_24 bui_fs_12">
+				<div class="bui_row_p_24">
+					<!--收货人-->
+					<div class="bui_col_6_sm">
+						<p>收货人：</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+							<input type="text" placeholder="请输入 收货人" v-model="formData.data.addressInfo.name" />
+						</div>
+					</div>
+					<!--收货人-->
+					<!--联系电话-->
+					<div class="bui_col_6_sm">
+						<p>联系电话：</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+							<input type="text" placeholder="请输入 联系电话" v-model="formData.data.addressInfo.phone" />
+						</div>
+					</div>
+					<!--联系电话-->
+					<!--区域-->
+					<div class="bui_col_12_sm">
+						<p>区域：</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+							<input type="text" placeholder="请输入 区域" v-model="formData.data.addressInfo.regson" />
+						</div>
+					</div>
+					<!--区域-->
+					<!--详细地址-->
+					<div class="bui_col_12_sm">
+						<p>详细地址：</p>
+						<div class="bui_ipt bui_ipt_48 bui_m_6_t bui_block">
+
+							<textarea placeholder="请输入 详细地址" rows="4" v-model="formData.data.addressInfo.address"></textarea>
+						</div>
+					</div>
+					<!--详细地址-->
+				</div>
+			</div>
+		</div>
+		<!--收货信息-->
+
+		<!--订单产品信息-->
+		<div>
+			<p class="bui_fs_18 bui_p_6_b"><i class="bi bi_menu"></i> 订单产品信息</p>
+			<div class="bui_bds_1 bui_p_24 bui_fs_12">
+				<template v-for="data in formData.data.orderProductsInfo">
+					<div class="bui_media bui_vm">
+						<div class="bui_media_l">
+							<a href="javascript:tablePublic.quickDetail({ajaxload:'modal-detail-product.html?id={{data.productid}}'});">
+								<com-img :src="data.productcoverimg" height="4rem"></com-img>
+							</a>
+
+						</div>
+						<div class="bui_media_b">
+							<div class="bui_media bui_vm">
+								<div class="bui_media_b">
+									<p class="bui_fs_20">{{data.productname}}</p>
+									<p class="bui_fc_red bui_fs_20">￥{{data.price/100}}</p>
+								</div>
+								<div class="bui_media_r">
+									<p class="bui_fc_red bui_fs_20">X {{data.nums}}</p>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="bui_media_r">
+							<div class="bui_inline bui_vm">
+
+								<a href="javascript:tablePublic.quickDetail({ajaxload:'modal-detail-product.html?id={{data.productid}}'});" type="button" class="bui_btn  bui_bds_1 bui_bdc_turquoise">快速查看 <i class="bi bi_search"></i></a>
+							</div>
+
+						</div>
+					</div>
+
+				</template>
+
+			</div>
+		</div>
+		<!--订单产品信息-->
+
+		<!--button-->
+		<div>
+			<div class="bui_inline bui_vm bui_ta_c">
+				<a href="javascript:window.history.go(-1);" class="bui_btn bui_btn_48 bui_bgc_silver"><i class="bi bi_navigate_before"></i>返回</a>
+				<button type="submit" class="bui_btn bui_btn_48 bui_bgc_turquoise"><i class="bi bi_save"></i> 保存</button>
+			</div>
+		</div>
+		<!--button-->
+
+	</section>
+</form>
+
+<script type="text/javascript">
+	vm.$set('formData', null);
+	if(vueData.hash.id) {
+		global_vueGetJson({
+			url: workSpace.jsonUrl + 'merriplusApi/getOrderInfoByOrderId',
+			data: {
+				orderId: vueData.hash.id
+			},
+			vueName: 'formData'
+		});
+	} else {
+		vm.$set('formData', null);
+	};
+
+	var form = {
+		post: function() {
+			event.preventDefault();
+			buijs.mask.add({
+				type: 'loading'
+			});
+			setTimeout(function() {
+				buijs.mask.remove();
+				buijs.alert.add({
+					boxClass: 'bui_bgc_turquoise bui_fc_white',
+					content: '信息保存成功！'
+				})
+			}, 1000)
+		}
+	}
+</script>

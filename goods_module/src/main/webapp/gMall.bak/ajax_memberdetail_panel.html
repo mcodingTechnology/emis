@@ -1,0 +1,420 @@
+<div class="bui_bgc_white">
+	<li>
+		<div class="bui_plr_12">
+			<div class="bui_ipg_48 bui_block">
+				<i class="fa fa-mobile bui_fas_24 bui_fl {{style.facFalse}}"></i>
+				<input type="tel" name="memberDetail_mobilePhone" id="memberDetail_mobilePhone" placeholder="手机号码" maxlength="11" value="" class="bui_ipt_48 bui_bds_0 bui_ts_14" />
+			</div>
+		</div>
+		<hr/>
+	</li>
+
+	<li id="memberDetail_CodeInput" style="display: none;">
+		<div class="bui_plr_12 bui_media bui_vm">
+			<div class="bui_media_b">
+				<div class="bui_ipg_48 bui_block">
+					<i class="fa fa-copy bui_fl {{style.facFalse}}"></i>
+					<input type="tel" name="memberDetail_Code" id="memberDetail_Code" placeholder="验证码" maxlength="6" value="" class="bui_ipt_48 bui_bds_0 bui_ts_14" />
+				</div>
+			</div>
+			<div class="bui_media_r">
+				<button onclick="javascript:getSmsCode();" id="memberDetail_CodeBtn" class="bui_btn_24 bui_ts_12 bui_radius {{style.btnTrue}}">获取</button>
+			</div>
+		</div>
+		<hr/>
+	</li>
+
+	<li>
+		<div class="bui_plr_12">
+			<div class="bui_ipg_48 bui_block">
+				<i class="fa fa-user bui_fl {{style.facFalse}}"></i>
+				<input type="text" name="memberDetail_fullname" id="memberDetail_fullname" placeholder="姓名" maxlength="20" value="" class="bui_ipt_48 bui_bds_0 bui_ts_14" />
+			</div>
+		</div>
+		<hr/>
+	</li>
+
+	<li>
+		<div class="bui_plr_12">
+			<div class="bui_ipg_48 bui_block">
+				<i class="fa fa-intersex bui_fl {{style.facFalse}}"></i>
+				<select name="memberDetail_gender" id="memberDetail_gender" class="bui_ipt_48 bui_bds_0 bui_ts_14">
+					<option>男</option>
+					<option>女</option>
+				</select>
+			</div>
+		</div>
+		<hr/>
+	</li>
+
+	<li>
+		<div class="bui_plr_12">
+			<div class="bui_ipg_48 bui_block">
+				<i class="fa fa-birthday-cake bui_fl {{style.facFalse}}"></i>
+				<input type="text" name="memberDetail_birthday" id="memberDetail_birthday" placeholder="生日" value="" class="bui_ipt_48 bui_bds_0 bui_ts_14" readonly="readonly" />
+			</div>
+		</div>
+		<hr/>
+	</li>
+
+	<li>
+		<div class="bui_plr_12">
+			<div class="bui_ipg_48 bui_block">
+				<i class="fa fa-male bui_fl {{style.facFalse}}"></i>
+				<select name="memberDetail_height" id="memberDetail_height" class="bui_ipt_48 bui_bds_0 bui_ts_14">
+					<option>请设置您的身高</option>
+				</select>
+			</div>
+		</div>
+		<hr/>
+	</li>
+
+	<li>
+		<div class="bui_plr_12">
+			<div class="bui_ipg_48 bui_block">
+				<i class="fa fa-balance-scale bui_fl {{style.facFalse}}"></i>
+				<select name="memberDetail_weight" id="memberDetail_weight" class="bui_ipt_48 bui_bds_0 bui_ts_14">
+					<option>请设置您的体重</option>
+				</select>
+			</div>
+		</div>
+		<hr/>
+	</li>
+
+	<li>
+		<div class="bui_plr_12">
+			<div class="bui_ipg_48 bui_block">
+				<i class="fa fa-file-text-o bui_fl {{style.facFalse}}"></i>
+				<p class="bui_ipt_48 bui_bds_0 bui_ts_14" onclick="updataMemberDetail_mp_showAnswerPanel()">
+					个人资料完成度
+					<span id="percent" class="bui_tc_red">0%</span>
+					<span class="bui_ts_12" style="position: absolute;right: 5px;"><i class="fa fa-chevron-right"></i></span>
+				</p>
+				<p class="bui_pl_48 bui_ts_12 {{style.tcTrue}} {{style.facFalse}}">首次完善资料，获取100积分</p>
+			</div>
+		</div>
+		<hr/>
+	</li>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		//vue
+		new Vue({
+			el: 'html',
+			data: vueObj
+		});
+		//插入个人信息
+		insetMemberDetail();
+		//按钮跟随滚动
+		buijs_ipt_scroll();
+		//引用第三方日历插件
+		$("#memberDetail_birthday").buijs_date({
+			positions: 'bottom',
+			start: 4,
+			min: 2
+		});
+
+		$.ajax({
+			type: "get",
+			url: _jsonUrl + "front/getMemberInfoPercent",
+			dataType: "json",
+			success: function(data){
+				$("#percent").html(data.data)
+			}
+		})
+	});
+	//全局变量
+	var _isNewUser; //是否新用户
+	var _smsCode; //验证短信
+	var _smsCode_iphone;   //获取验证码的手机
+	//插入个人信息
+	function insetMemberDetail() {
+		//插入页脚按钮
+		$("#mp_memberDetailPanel .bui_modal_f").html('<div class="bui_p_8 bui_bds_1_t">' +
+				'<a href="javascript:updataMemberDetail();" class="bui_btn_48 bui_block bui_radius bui_tc_white ' + vueObj.style.btnTrue + '">保存个人信息</a>' +
+				'</div>')
+			//未绑定手机
+		if (buijs_formcheck_mobile(vueObj.memberDetail.mobilePhone) == false) {
+			_isNewUser = true;
+			$("#memberDetail_CodeInput").show();
+			$("#memberDetail_mobilePhone").val('').prop('disabled', false);
+		}
+		//已绑定手机
+		else {
+			_isNewUser = false;
+			$("#memberDetail_CodeInput").hide();
+			$("#memberDetail_mobilePhone").val(vueObj.memberDetail.mobilePhone).prop('readonly', true).addClass('bui_tc_white_d48');
+		};
+		//昵称
+		$("#memberDetail_fullname").val(vueObj.memberDetail.fullName);
+		//性别
+		$("#memberDetail_gender option").map(function() {
+			if ($(this).text().indexOf(vueObj.memberDetail.gender) > -1) {
+				$(this).prop('selected', true).siblings('option').prop('selected', false);
+			}
+		});
+		//生日
+		$("#memberDetail_birthday").val(vueObj.memberDetail.birthday);
+		//身高
+		var _demoHeight = '175';
+		var _heightList = ''
+		for (_height_i = 140; _height_i <= 230; _height_i++) {
+			_heightList += '<option>' + _height_i + 'cm</option>'
+		};
+		$("#memberDetail_height").html('<option>请设置您的身高</option><option>140cm以下</option>' + _heightList + '<option>230cm以上</option>');
+		if (_demoHeight) {
+			$("#memberDetail_height option").map(function() {
+				if (parseInt($(this).val()) == _demoHeight) {
+					$(this).prop('selected', true).siblings('option').prop('selected', false);
+				}
+			});
+		} else {
+			$("#memberDetail_height option:first").prop('selected', true).siblings('option').prop('selected', false);
+		}
+		//体重
+		var _demoWeight = '65kg';
+		var _weightList = ''
+		for (_weight_i = 30; _weight_i <= 200; _weight_i++) {
+			_weightList += '<option>' + _weight_i + 'kg</option>'
+		};
+		$("#memberDetail_weight").html('<option>请设置您的体重</option><option>30kg以下</option>' + _weightList + '<option>200kg以上</option>');
+		if (_demoWeight) {
+			$("#memberDetail_weight option").map(function() {
+				if (parseInt($(this).val()) == _demoWeight) {
+					$(this).prop('selected', true).siblings('option').prop('selected', false);
+				}
+			});
+		} else {
+			$("#memberDetail_weight option:first").prop('selected', true).siblings('option').prop('selected', false);
+		};
+		if (vueObj.memberDetail.ext1) {
+			$("#memberDetail_height").val(vueObj.memberDetail.ext1);
+		}
+		if (vueObj.memberDetail.ext2) {
+			$("#memberDetail_weight").val(vueObj.memberDetail.ext2);
+		}
+	};
+	//获取验证码
+	function getSmsCode() {
+		if (buijs_formcheck_mobile($("#memberDetail_mobilePhone").val()) == false) {
+			buijs_alert({
+				content: '手机格式不正确'
+			});
+			return false;
+		} else {
+			$("#memberDetail_CodeBtn").prop('disabled', true).html('<i class="fa fa-circle-o-notch fa-spin"></i>');
+			//倒计时
+			var i = 60;
+			var int = setInterval(smsCodecountDown, 1000);
+
+			function smsCodecountDown() {
+				i = i - 1;
+				if (i >= 0) {
+					$("#memberDetail_CodeBtn").html(i + 's');
+				} else {
+					$("#memberDetail_CodeBtn").prop('disabled', false).html('获取');
+					window.clearInterval(int);
+				}
+			};
+			_smsCode_iphone = $("#memberDetail_mobilePhone").val();
+			$.ajax({
+				type: "get",
+				url: _jsonUrl + "/merriplusApi/getUpdateSMSCode",
+				async: true,
+				cache: false,
+				dataType: 'json',
+				data: {
+					phone: $("#memberDetail_mobilePhone").val(),
+					brandCode: vueObj.brandCode
+				},
+				error: function(data) {},
+				success: function(data) {
+					_smsCode = data.data
+				}
+			});
+		};
+	};
+	//更新个人信息
+	function updataMemberDetail() {
+		//前端校验
+		if (buijs_formcheck_mobile($("#memberDetail_mobilePhone").val()) == false) {
+			buijs_alert({
+				content: '手机格式不正确'
+			});
+			return false;
+		} else if (_isNewUser == true && buijs_formcheck_length($("#memberDetail_Code").val(), 6, 6) == false) {
+			buijs_alert({
+				content: '验证码格式不正确'
+			});
+			return false;
+		}else if (_isNewUser == true && $("#memberDetail_mobilePhone").val() != _smsCode_iphone) {
+			buijs_alert({
+				content: '验证码错误'
+			});
+			return false;
+		}else if (_isNewUser == true && $("#memberDetail_Code").val() != _smsCode) {
+			buijs_alert({
+				content: '验证码错误'
+			});
+			return false;
+		} else if (buijs_formcheck_length($("#memberDetail_fullname").val(), 20, 2) == false) {
+			buijs_alert({
+				content: '昵称格式不正确'
+			});
+			return false;
+		} else if (buijs_formcheck_length($("#memberDetail_birthday").val(), 20, 1) == false) {
+			buijs_alert({
+				content: '请设置您的生日'
+			});
+			return false;
+		} else if ($("#memberDetail_height").val() == "请设置您的身高") {
+			buijs_alert({
+				content: "请设置您的身高"
+			});
+			return false;
+		} else if ($('#memberDetail_weight').val() == "请设置您的体重") {
+			buijs_alert({
+				content: '请设置您的体重'
+			});
+			return false;
+		}
+		//后端校验
+		else {
+			buijs_showloading('bui_bgc_black_f72');
+			var updataMemberDetailData = {
+				brandCode: vueObj.brandCode,
+				mobilePhone: $('#memberDetail_mobilePhone').val(),
+				smsCode: _smsCode,
+				gender: $("#memberDetail_gender option:selected").text(),
+				fullName: $('#memberDetail_fullname').val(),
+				birthday: $('#memberDetail_birthday').val(),
+				ext1: $("#memberDetail_height").val(),
+				ext2: $("#memberDetail_weight").val()
+			};
+			$.ajax({
+				type: "post",
+				url: _jsonUrl + "/merriplusApi/updateMemberWithSMSCode",
+				async: true,
+				cache: false,
+				dataType: "json",
+				data: updataMemberDetailData,
+				error: function() {},
+				success: function(data) {
+					buijs_alert({
+						content: data.msg
+					});
+
+					if (data.code == 0) {
+						window.sessionStorage.removeItem('memberDetail');
+						//同步获取个人资料
+						global_checkMemberDetail();
+						//插入个人信息
+						insetMemberDetail();
+						buijs_modal_close('mp_memberDetailPanel');
+						setTimeout(function() {
+							//使用环境——个人中心
+							if (window.location.pathname.indexOf('personal_center.html') >= 1) {
+								//更新头像区域信息
+								window.location.reload();
+							} else if (window.location.pathname.indexOf('sign.html') >= 1) {
+								//刷新
+								window.location.reload();
+							} else if (window.location.pathname.indexOf('integration.html') >= 1) {
+								window.location.reload();
+							}
+						}, 1000);
+					}
+					buijs_closeloading();
+				}
+			});
+		};
+	};
+
+	//更新个人信息 ---> 完善资料获取积分
+	function updataMemberDetail_mp_showAnswerPanel() {
+		//前端校验
+		if (buijs_formcheck_mobile($("#memberDetail_mobilePhone").val()) == false) {
+			buijs_alert({
+				content: '手机格式不正确'
+			});
+			return false;
+		} else if (_isNewUser == true && buijs_formcheck_length($("#memberDetail_Code").val(), 6, 6) == false) {
+			buijs_alert({
+				content: '验证码格式不正确'
+			});
+			return false;
+		} else if (_isNewUser == true && $("#memberDetail_mobilePhone").val() != _smsCode_iphone) {
+			buijs_alert({
+				content: '验证码错误'
+			});
+			return false;
+		} else if (_isNewUser == true && $("#memberDetail_Code").val() != _smsCode) {
+			buijs_alert({
+				content: '验证码错误'
+			});
+			return false;
+		} else if (buijs_formcheck_length($("#memberDetail_fullname").val(), 20, 2) == false) {
+			buijs_alert({
+				content: '昵称格式不正确'
+			});
+			return false;
+		} else if (buijs_formcheck_length($("#memberDetail_birthday").val(), 20, 1) == false) {
+			buijs_alert({
+				content: '请设置您的生日'
+			});
+			return false;
+		} else if ($("#memberDetail_height").val() == "请设置您的身高") {
+			buijs_alert({
+				content: "请设置您的身高"
+			});
+			return false;
+		} else if ($('#memberDetail_weight').val() == "请设置您的体重") {
+			buijs_alert({
+				content: '请设置您的体重'
+			});
+			return false;
+		}
+		//后端校验
+		else {
+			buijs_showloading('bui_bgc_black_f72');
+			var updataMemberDetailData = {
+				brandCode: vueObj.brandCode,
+				mobilePhone: $('#memberDetail_mobilePhone').val(),
+				smsCode: _smsCode,
+				gender: $("#memberDetail_gender option:selected").text(),
+				fullName: $('#memberDetail_fullname').val(),
+				birthday: $('#memberDetail_birthday').val(),
+				ext1: $("#memberDetail_height").val(),
+				ext2: $("#memberDetail_weight").val()
+			};
+			$.ajax({
+				type: "post",
+				url: _jsonUrl + "/merriplusApi/updateMemberWithSMSCode",
+				async: true,
+				cache: false,
+				dataType: "json",
+				data: updataMemberDetailData,
+				error: function() {},
+				success: function(data) {
+					buijs_alert({
+						content: data.msg
+					});
+
+					if (data.code == 0) {
+						buijs_closeloading();
+						window.sessionStorage.removeItem('memberDetail');
+						//同步获取个人资料
+						global_checkMemberDetail();
+						//插入个人信息
+						insetMemberDetail();
+						mp_showAnswerPanel();
+
+					}
+					
+				}
+			});
+		};
+	};
+
+</script>

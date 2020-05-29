@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>移动商城 - BIG生活</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/order_detail.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/order_public.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body id="vueBox" class="gym-body bui_at_noline">
+
+		<!--主体-->
+		<div class="bui_wrap bui_bgc_white_d12 bui_tc_black bui_tc_black_a">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h">
+					<!--提示关注公众号-->
+					<template v-if="isWechatUserFocused.code==1">
+						<tp-isfollow></tp-isfollow>
+					</template>
+					<!--提示关注公众号-->
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="https://h5.youzan.com/v2/home/zt5mvapt" title="订单详情"></tp-header>
+
+				</div>
+				<!--页头-->
+				<template v-if="!memberDetail||!memberDetail.data||!getOrderInfoByOrderId||!getOrderInfoByOrderId.data">
+					<div class="bui_mo_b bui_mo_b_h" style="{{isWechatUserFocused.code==1?'top:6rem':''}}">
+						<!--loadingbar-->
+						<tp-loadingbar type="loading"></tp-loadingbar>
+						<!--loadingbar-->
+				</template>
+				<template v-else>
+					<!--页面-->
+					<div class="bui_mo_b bui_mo_b_h bui_mo_b_f gym_mo_b" style="{{isWechatUserFocused.code==1?'top:6rem':''}}">
+						<div class="bui_p_12 bui_ts_14">
+							<div class="bui_row_p_12">
+								<!--订单状态信息-->
+								<div>
+									<!--待支付-->
+									<template v-if="getOrderInfoByOrderId.data.orderInfo.paystatus=='待支付'">
+										<div class="bui_bgc_red bui_tc_white bui_p_24 bui_radius bui_ta_c">
+											<div class="bui_inline bui_ta_c bui_mt_12">
+												<div class="bui_round bui_bds_4 bui_bdc_white" style="width: 4rem;height: 4rem;"><i class="fa fa-rmb bui_ts_32_i" style="line-height: 4rem;"></i></div>
+											</div>
+											<p><span class="bui_ts_16">{{getOrderInfoByOrderId.data.orderInfo.paystatus}}</span></p>
+											<p class="bui_tc_white_f72">编号:{{getOrderInfoByOrderId.data.orderInfo.outno}}</p>
+										</div>
+									</template>
+									<!--待支付-->
+									<!--待发货-->
+									<template v-if="getOrderInfoByOrderId.data.orderInfo.paystatus=='待发货'">
+										<!--等待接受-->
+										<template v-if="getOrderInfoByOrderId.data.orderInfo.presentstatus">
+											<div class="bui_bgc_green bui_tc_white bui_p_24 bui_radius bui_ta_c">
+												<div class="bui_inline bui_ta_c bui_mt_12">
+													<div class="bui_round bui_bds_4 bui_bdc_white" style="width: 4rem;height: 4rem;"><i class="fa fa-hourglass-half bui_ts_32_i" style="line-height: 4rem;"></i></div>
+												</div>
+												<p><span class="bui_ts_16">{{getOrderInfoByOrderId.data.orderInfo.presentstatus}}</span></p>
+												<p class="bui_tc_white_f72">编号:{{getOrderInfoByOrderId.data.orderInfo.outno}}</p>
+											</div>
+										</template>
+										<template v-else>
+											<div class="bui_bgc_green bui_tc_white bui_p_24 bui_radius bui_ta_c">
+												<div class="bui_inline bui_ta_c bui_mt_12">
+													<div class="bui_round bui_bds_4 bui_bdc_white" style="width: 4rem;height: 4rem;"><i class="fa fa-hourglass-half bui_ts_32_i" style="line-height: 4rem;"></i></div>
+												</div>
+												<p><span class="bui_ts_16">{{getOrderInfoByOrderId.data.orderInfo.paystatus}}</span></p>
+												<p class="bui_tc_white_f72">编号:{{getOrderInfoByOrderId.data.orderInfo.outno}}</p>
+											</div>
+										</template>
+										<!--等待接受-->
+
+									</template>
+									<!--待发货-->
+									<!--已发货-->
+									<template v-if="getOrderInfoByOrderId.data.orderInfo.paystatus=='已发货'">
+										<div class="bui_bgc_green bui_tc_white bui_p_24 bui_radius bui_ta_c">
+											<div class="bui_inline bui_ta_c bui_mt_12">
+												<div class="bui_round bui_bds_4 bui_bdc_white" style="width: 4rem;height: 4rem;"><i class="fa fa-truck bui_ts_32_i" style="line-height: 4rem;"></i></div>
+											</div>
+											<p><span class="bui_ts_16">{{getOrderInfoByOrderId.data.orderInfo.paystatus}}</span></p>
+											<p class="bui_tc_white_f72">编号:{{getOrderInfoByOrderId.data.orderInfo.outno}}</p>
+										</div>
+									</template>
+									<!--已发货-->
+									<!--已完成-->
+									<template v-if="getOrderInfoByOrderId.data.orderInfo.paystatus=='已完成'">
+										<div class="bui_bgc_purple bui_tc_white bui_p_24 bui_radius bui_ta_c">
+											<div class="bui_inline bui_ta_c bui_mt_12">
+												<div class="bui_round bui_bds_4 bui_bdc_white" style="width: 4rem;height: 4rem;"><i class="fa fa-check bui_ts_32_i" style="line-height: 4rem;"></i></div>
+											</div>
+											<p><span class="bui_ts_16">{{getOrderInfoByOrderId.data.orderInfo.paystatus}}</span></p>
+											<p class="bui_tc_white_f72">编号:{{getOrderInfoByOrderId.data.orderInfo.outno}}</p>
+										</div>
+									</template>
+									<!--已完成-->
+								</div>
+								<!--订单状态信息-->
+
+								<!--收货信息-->
+								<div>
+									<div class="bui_bgc_white bui_bds_1 bui_radius">
+										<tp-titleitem title="收货人信息"></tp-titleitem>
+										<!--无收货人信息-->
+										<template v-if="!getOrderInfoByOrderId.data.addressInfo.name||!getOrderInfoByOrderId.data.addressInfo.phone||!getOrderInfoByOrderId.data.addressInfo.regson||!getOrderInfoByOrderId.data.addressInfo.address">
+											<div class="bui_bds_1_t bui_p_12 bui_ts_14 bui_tc_red_i">
+												<p class="bui_tc_white_d64 bui_ta_c">暂无收获人信息...</p>
+											</div>
+										</template>
+										<!--无收货人信息-->
+										<!--有收货人信息-->
+										<template v-else>
+											<div class="bui_bds_1_t bui_p_12 bui_ts_14 bui_tc_red_i">
+												<div class="bui_inline bui_vm bui_row_p_12">
+													<li><i class="fa fa-user fa-fw"></i> {{getOrderInfoByOrderId.data.addressInfo.name}}</li>
+													<li><i class="fa fa-phone fa-fw"></i> {{getOrderInfoByOrderId.data.addressInfo.phone}}</li>
+												</div>
+												<div>
+													<i class="fa fa-map-marker fa-fw"></i> {{getOrderInfoByOrderId.data.addressInfo.regson}} {{getOrderInfoByOrderId.data.addressInfo.address}}
+												</div>
+											</div>
+										</template>
+										<!--有收货人信息-->
+
+										<!--有物流信息-->
+										<template v-if="!getOrderInfoByOrderId.data.orderInfo.deliveryname||!getOrderInfoByOrderId.data.orderInfo.deliveryorderno">
+											<div class="bui_bds_1_t bui_p_12 bui_tc_green bui_ta_c">正在紧张配货中，暂无物流信息</div>
+										</template>
+										<!--有物流信息-->
+										<template v-else>
+											<a href="http://m.kuaidi100.com/result.jsp?nu={{getOrderInfoByOrderId.data.orderInfo.deliveryorderno}}" class="bui_media bui_vm bui_bds_1_t bui_p_12">
+												<div class="bui_media_b">
+													<div class="bui_inline bui_ts_12">
+														<p>物流公司：<span class="bui_tc_green bui_ts_14">{{getOrderInfoByOrderId.data.orderInfo.deliveryname}}</span></p>
+														<p>单号：<span class="bui_tc_green bui_ts_14">{{getOrderInfoByOrderId.data.orderInfo.deliveryorderno}}</span></p>
+													</div>
+												</div>
+												<div class="bui_media_r">
+													<button class="bui_btn bui_btn_24 bui_btn_sq bui_round bui_bgc_red"><i class="fa fa-angle-right"></i></button>
+												</div>
+											</a>
+										</template>
+									</div>
+
+								</div>
+								<!--收货信息-->
+
+								<!--商品&赠品-->
+								<div>
+									<div class="bui_bgc_white bui_bds_1 bui_radius" v-if="getOrderInfoByOrderId.data.orderProductsInfo.length!=0">
+										<tp-titleitem title="商品&赠品"></tp-titleitem>
+										<tp-productitem v-for="data in getOrderInfoByOrderId.data.orderProductsInfo" v-if="showAllProducts?$index >= 0:$index < 3" :title="data.productname" :price="data.price/100" :nums="data.nums" :imgurl="data.productcoverimg"></tp-productitem>
+										<label class="bui_p_12 bui_block bui_bds_1_t" v-if="getOrderInfoByOrderId.data.orderProductsInfo.length>3">
+											<p class="bui_ta_c bui_ts_14 bui_tc_white_d64" v-if="!showAllProducts">查看全部商品 <i class="fa fa-angle-down fa-fw"></i></p>
+											<p class="bui_ta_c bui_ts_14 bui_tc_white_d64" v-else>收起 <i class="fa fa-angle-up fa-fw"></i></p>
+											<input type="checkbox" name="" id="" value="" v-model="showAllProducts" style="display: none;" />
+										</label>
+									</div>
+								</div>
+								<!--商品&赠品-->
+								<!--价格信息-->
+								<div>
+									<div class="bui_bds_1 bui_radius bui_bgc_white">
+										<tp-titleitem title="价格信息" v-else></tp-titleitem>
+										<!--订单总价-->
+										<tp-priceitem title="订单总价" tc="bui_tc_red" :payprice="getOrderInfoByOrderId.data.orderInfo.fee/100"></tp-priceitem>
+										<!--订单总价-->
+										<!--运费-->
+										<tp-priceitem title="运费" :payprice="getOrderInfoByOrderId.data.orderInfo.freight/100"></tp-priceitem>
+										<!--运费-->
+										<!--礼品总价-->
+										<tp-priceitem v-if="!memberDetail.data.parentMemberId&&urlData.productLabel&&getOrderInfoByOrderId.data.orderInfo.giftPrice!=0" title="礼品总价" :payprice="getOrderInfoByOrderId.data.orderInfo.giftPrice/100"></tp-priceitem>
+										<!--礼品总价-->
+										<!--卡券优惠-->
+										<tp-priceitem v-if="!memberDetail.data.parentMemberId" title="卡券优惠" :payprice=""></tp-priceitem>
+										<!--卡券优惠-->
+										<!--活动优惠-->
+										<tp-priceitem v-if="!memberDetail.data.parentMemberId&&urlData.productLabel&&getOrderInfoByOrderId.data.orderInfo.preferentialPrice!=0" title="活动优惠" :payprice="getOrderInfoByOrderId.data.orderInfo.preferentialPrice/100"></tp-priceitem>
+										<!--活动优惠-->
+									</div>
+								</div>
+								<!--价格信息-->
+							</div>
+						</div>
+					</div>
+					<!--页面-->
+					<!--页脚-->
+					<div class="bui_mo_f bui_bgc_white bui_bds_1_t">
+						<!--待支付-->
+						<template v-if="getOrderInfoByOrderId.data.orderInfo.paystatus=='待支付'">
+							<div class="bui_p_8">
+								<div class="bui_avg_2 bui_row_p_12">
+									<li>
+										<a href="javascript:orderPublic_action({{urlData.orderId}},'取消');" class="bui_btn bui_btn_48 bui_block bui_bgc_white_d64 bui_ts_16 bui_vm bui_ta_c bui_tc_white_a">
+											<i class="fa fa-close fa-fw"></i> 取消订单
+										</a>
+									</li>
+									<li>
+										<a href="javascript:;" class="bui_btn bui_btn_48 bui_block bui_bgc_red bui_ts_16 bui_vm bui_ta_c bui_tc_white_a">
+											<i class="fa fa-rmb fa-fw"></i> 去支付 <i class="fa fa-angle-right fa-fw"></i>
+										</a>
+									</li>
+								</div>
+
+							</div>
+						</template>
+						<!--待支付-->
+						<!--待发货-->
+						<template v-if="getOrderInfoByOrderId.data.orderInfo.paystatus=='待发货'">
+							<template v-if="getOrderInfoByOrderId.data.orderInfo.presentstatus=='待接受'">
+								<div class="bui_p_8">
+									<button onclick="window.location.href='order_pay.html?orderId={{urlData.orderId}}'" class="bui_btn bui_btn_48 bui_block bui_bgc_red bui_ts_16 bui_vm bui_ta_c bui_tc_white_a"><i class="fa fa-rmb fa-fw"></i> 继续赠送 <i class="fa fa-angle-right fa-fw"></i>
+								</button>
+								</div>
+							</template>
+							<template v-else>
+								<div class="bui_p_8">
+									<button class="bui_btn bui_btn_48 bui_block bui_bgc_white_d64 bui_ts_16 bui_vm bui_ta_c bui_tc_white">宝贝在路上！</button>
+								</div>
+							</template>
+						</template>
+						<!--待发货-->
+						<!--已发货-->
+						<template v-if="getOrderInfoByOrderId.data.orderInfo.paystatus=='已发货'">
+							<div class="bui_p_8">
+								<button class="bui_btn bui_btn_48 bui_block bui_bgc_red bui_ts_16 bui_vm bui_ta_c" onclick="orderPublic_action({{urlData.orderId}},'收货')">确认收货</button>
+							</div>
+						</template>
+						<!--已发货-->
+						<!--已完成-->
+						<template v-if="getOrderInfoByOrderId.data.orderInfo.paystatus=='已完成'">
+							<div class="bui_p_8">
+								<button class="bui_btn bui_btn_48 bui_block bui_bgc_red bui_ts_16 bui_vm bui_ta_c" onclick="orderPublic_return({{urlData.orderId}})">退换货</button>
+							</div>
+						</template>
+						<!--已完成-->
+					</div>
+					</div>
+					<!--页脚-->
+				</template>
+			</div>
+		</div>
+		<!--主体-->
+	</body>
+
+</html>

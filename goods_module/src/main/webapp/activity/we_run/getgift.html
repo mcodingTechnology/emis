@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>广马大作战</title>
+		<script type="text/javascript" src="./../game_public/workspace.js"></script>
+		<script type="text/javascript">
+			var _giftid = buijs_geturl('giftid');
+			var _run_giftInfo = "",
+				_run_userInfo = "",
+				_run_btn = "";
+			//展示
+			function _runShowSection() {
+				$(".run_section").html('<div class="run_panel bui_p_12 bui_radius bui_row_p_12">' +
+					'<div class="bui_inline bui_ta_c">' + _run_giftInfo + '</div>' +
+					'<div class="bui_row_p_12" id="run_userInfo">' + _run_userInfo + '</div>' +
+					'</div>' +
+					'<div class="bui_ta_c bui_mt_12" id="run_btn">' + _run_btn + '</div>');
+				run_closeLoading();
+				$(".run_section").addClass('active');
+				$(".run_section [data-bui_img]").buijs_img();
+			};
+			$(document).ready(function() {
+				run_showLoading();
+				//获取奖品状态
+				$.ajax({
+					type: "get",
+					url: _jsonUrl + "/front/getAwardInfo.html",
+					async: true,
+					cache: false,
+					dataType: 'json',
+					data: {
+						id: _giftid
+					},
+					error: function(data) {
+						run_jsonError();
+					},
+					success: function(data) {
+						//读取失败
+						if (data.code == 2) {
+							run_jsonError();
+						};
+						//读取成功
+						if (data.code == 0) {
+							//实物
+							if (data.data.type == 1) {
+								_run_giftInfo = '<div class="" style="width: 128px;height: 128px;" data-bui_img=""><img src="' + data.data.awardimgurl + '" /></div><br /><p>' + data.data.awardname + '</p>';
+								//未领取
+								if (data.data.status == 0) {
+									_run_userInfo = '<li class="bui_ts_12">请准确填写一下信息，一经填写，不可修改，奖品将在活动结束后的15个工作日内寄出，奖品款式以最终实物为准。</li><li><div class="bui_ipg_48 bui_block"><i class="fa fa-user bui_fl"></i><input type="text" name="userName" id="userName" placeholder="收货人" maxlength="20"  value="" class="bui_ipt_ bui_bgc_white bui_radius " /></div></li><li><div class="bui_ipg_48 bui_block"><i class="fa fa-mobile bui_fas_24 bui_fl"></i><input type="text" name="userPhone" id="userPhone" placeholder="手机号码" maxlength="11" value="" class="bui_ipt_ bui_bgc_white bui_radius " /></div></li><li><textarea type="text" name="userContact" id="userContact" rows="4" placeholder="详细地址" maxlength="255"  value="" class="bui_ipt_48 bui_block bui_bgc_white bui_radius bui_ptb_12"></textarea></li>';
+									_run_btn = '<button class="run_btn_b_orange">提交</button>';
+									$("#formGetGift").submit(function(e) {
+										e.preventDefault();
+										var _form = $(this);
+										var _userName = _form.find('[name=userName]');
+										var _userPhone = _form.find('[name=userPhone]');
+										var _userContact = _form.find('[name=userContact]');
+										var _formBtn = _form.find('button');
+										var _checkName, _checkPhone, _checkContact;
+										if (CheckLength(_userName.val(), 20, 2) == false) {
+											buijs_alert({
+												content: "请认真填写您的姓名~"
+											});
+											_checkName = false;
+											return false;
+										} else {
+											_checkName = true;
+										};
+										if (CheckPhone(_userPhone.val()) == false) {
+											buijs_alert({
+												content: "请认真填写您的手机号码~"
+											});
+											_checkPhone = false;
+											return false;
+										} else {
+											_checkPhone = true
+										};
+										if (CheckLength(_userContact.val(), 255, 1) == false) {
+											buijs_alert({
+												content: "请认真填写您的联系地址~"
+											});
+											_checkContact = false;
+											return false;
+										} else {
+											_checkContact = true;
+										};
+										if (_checkName == true && _checkPhone == true && _checkContact == true) {
+											_formBtn.addClass('run_btn_b_red').text('处理中...');
+											//提交获奖人信息
+											$.ajax({
+												type: "post",
+												url: _jsonUrl + "/front/makeAddressRecord.html",
+												async: true,
+												cache: false,
+												dataType: 'json',
+												data: {
+													awardId: _giftid,
+													name: _userName.val(),
+													phone: _userPhone.val(),
+													address: _userContact.val()
+												},
+												error: function(data) {
+													run_jsonError();
+												},
+												success: function(data) {
+													buijs_alert({
+														content: '提交成功！感谢您的参与'
+													});
+													setTimeout(function() {
+														window.location.reload();
+													}, 2000);
+												}
+											});
+										};
+									});
+								};
+								//已领取
+								if (data.data.status == 1) {
+									_run_userInfo = '<hr style="border-color: rgba(0,0,0,0.12);" /><div class="bui_row_p_12 bui_plr_24 bui_ta_c"><p class="bui_ts_12">奖品已经领取，以下为收货人信息...</p><li class="bui_ts_12">收货人<p class="run_bold bui_ts_12">' + data.data.name + '</p></li><li class="bui_ts_12">手机号<p class="run_bold bui_ts_12">' + data.data.phonenum + '</p></li><li class="bui_ts_12">收货地址<p class="run_bold bui_ts_12">' + data.data.address + '</p></li></div>';
+									_run_btn = '<a href="mygift.html" class="run_btn_b_orange">返回</a>';
+								};
+							};
+							//优惠券
+							if (data.data.type == 2) {
+								_run_giftInfo = '<img src="./images/gmx_logo.png" style="width:50%;"/><hr style="border-color: rgba(0,0,0,0.12);" /><br/><p>' + data.data.awardname + '</p><br/><div class="bui_bsd_12 bui_mt_12 bui_radius" style="width: 192px;height: 192px;" data-bui_img=""><img src="' + data.data.awardimgurl + '" /></div><br /><p class="bui_ts_14 bui_mt_12">长按上方二维码领取BIG生活微商城30元无门槛优惠券</p>';
+								_run_btn = '<a href="mygift.html" class="run_btn_b_orange">返回</a>';
+							};
+							_runShowSection();
+						};
+					}
+				});
+			});
+		</script>
+	</head>
+
+	<body class="run_body">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<div class="bui_mo_h" id="run_healder"></div>
+				<div class="bui_mo_b">
+					<form id="formGetGift">
+						<div class="bui_ptb_48 bui_plr_24 run_section">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

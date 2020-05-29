@@ -1,0 +1,843 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mcoding.emis.member.persistence.member.MemberFromEmisMapper" >
+  <resultMap id="BaseResultMap" type="com.mcoding.emis.member.bean.member.Member" >
+    <id column="memberId" property="memberId" jdbcType="INTEGER" />
+    <result column="parentMemberId" property="parentMemberId" jdbcType="INTEGER" />
+    <result column="levelName" property="levelName" jdbcType="VARCHAR" />
+    <result column="levelId" property="levelId" jdbcType="INTEGER" />
+    <result column="mobilePhone" property="mobilePhone" jdbcType="VARCHAR" />
+    <result column="fullName" property="fullName" jdbcType="VARCHAR" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="channelsId" property="channelsId" jdbcType="INTEGER" />
+    <result column="memberType" property="memberType" jdbcType="VARCHAR" />
+    <result column="regionProvince" property="regionProvince" jdbcType="VARCHAR" />
+    <result column="regionCity" property="regionCity" jdbcType="VARCHAR" />
+    <result column="regionArea" property="regionArea" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="enrollChannel" property="enrollChannel" jdbcType="VARCHAR" />
+    <result column="governmentId" property="governmentId" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="deliveryAddress" property="deliveryAddress" jdbcType="VARCHAR" />
+    <result column="zipCode" property="zipCode" jdbcType="VARCHAR" />
+    <result column="brandCode" property="brandCode" jdbcType="VARCHAR" />
+    <result column="access_token" property="accessToken" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="concerns" property="concerns" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="concernsPerson" property="concernsPerson" jdbcType="VARCHAR" />
+    <result column="healthProblem" property="healthProblem" jdbcType="VARCHAR" />
+    <result column="activitySymptom" property="activitySymptom" jdbcType="VARCHAR" />
+    <result column="ext1" property="ext1" jdbcType="VARCHAR" />
+    <result column="ext2" property="ext2" jdbcType="VARCHAR" />
+    <result column="ext3" property="ext3" jdbcType="VARCHAR" />
+    <result column="pointSum" property="pointSum" jdbcType="INTEGER" />
+    <result column="companyId" property="companyId" jdbcType="INTEGER" />
+    <result column="isHealthCheck" property="isHealthCheck" jdbcType="INTEGER" />
+    <result column="isReferralNotice" property="isReferralNotice" jdbcType="INTEGER" />
+    <result column="exerciseType" property="exerciseType" jdbcType="INTEGER" />
+    <result column="nickName" property="nickName" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />
+    <result column="tags" property="tags" jdbcType="VARCHAR" />
+    <result column="sum" property="orderSumPrice" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="WithParentMemberResultMap" type="com.mcoding.emis.member.bean.member.Member" extends="BaseResultMap">
+    <association property="parentMember" column="parentMemberId" javaType="com.mcoding.emis.member.bean.member.Member"
+                 select="com.mcoding.emis.member.persistence.member.MemberFromEmisMapper.selectByPrimaryKey">
+    </association>
+  </resultMap>
+
+<!--  <resultMap id="WithParentsAndCountResultMap" type="com.mcoding.emis.member.bean.member.Member" extends="WithParentMemberResultMap">
+    <association property="parentMember" column="parentMemberId" javaType="map"
+                 select="com.mcoding.emis.member.persistence.member.MemberFromEmisMapper.countByParentId">
+    </association>
+  </resultMap>-->
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    memberId, parentMemberId, levelName, levelId, mobilePhone, fullName, openid, channelsId,
+    memberType, regionProvince, regionCity, regionArea, birthday, email, enrollChannel,
+    governmentId, gender, deliveryAddress, zipCode, brandCode, access_token, createTime,
+    updateTime, concerns, position, concernsPerson, healthProblem, activitySymptom, ext1,
+    ext2, ext3, pointSum, companyId, isHealthCheck, isReferralNotice, exerciseType, nickName,
+    headimgurl,tags
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mcoding.emis.member.bean.member.MemberExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from mr_member
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from mr_member
+    where memberId = #{memberId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mr_member
+    where memberId = #{memberId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mcoding.emis.member.bean.member.MemberExample" >
+    delete from mr_member
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mcoding.emis.member.bean.member.Member" useGeneratedKeys="true" keyProperty="memberId" >
+    insert into mr_member (parentMemberId, levelName, levelId,
+      mobilePhone, fullName, openid,
+      channelsId, memberType, regionProvince,
+      regionCity, regionArea, birthday,
+      email, enrollChannel, governmentId,
+      gender, deliveryAddress, zipCode,
+      brandCode, access_token, createTime,
+      updateTime, concerns, position,
+      concernsPerson, healthProblem, activitySymptom,
+      ext1, ext2, ext3,
+      pointSum, companyId, isHealthCheck,
+      isReferralNotice, exerciseType, nickName,
+      headimgurl,tags)
+    values (#{parentMemberId,jdbcType=INTEGER}, #{levelName,jdbcType=VARCHAR }, #{levelId,jdbcType=INTEGER},
+      #{mobilePhone,jdbcType=VARCHAR }, #{fullName,jdbcType=VARCHAR }, #{openid,jdbcType=VARCHAR },
+      #{channelsId,jdbcType=INTEGER}, #{memberType,jdbcType=VARCHAR }, #{regionProvince,jdbcType=VARCHAR },
+      #{regionCity,jdbcType=VARCHAR }, #{regionArea,jdbcType=VARCHAR }, #{birthday,jdbcType=VARCHAR },
+      #{email,jdbcType=VARCHAR }, #{enrollChannel,jdbcType=VARCHAR }, #{governmentId,jdbcType=VARCHAR },
+      #{gender,jdbcType=VARCHAR }, #{deliveryAddress,jdbcType=VARCHAR }, #{zipCode,jdbcType=VARCHAR },
+      #{brandCode,jdbcType=VARCHAR }, #{accessToken,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP}, #{concerns,jdbcType=VARCHAR }, #{position,jdbcType=VARCHAR },
+      #{concernsPerson,jdbcType=VARCHAR }, #{healthProblem,jdbcType=VARCHAR }, #{activitySymptom,jdbcType=VARCHAR },
+      #{ext1,jdbcType=VARCHAR }, #{ext2,jdbcType=VARCHAR }, #{ext3,jdbcType=VARCHAR },
+      #{pointSum,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{isHealthCheck,jdbcType=INTEGER},
+      #{isReferralNotice,jdbcType=INTEGER}, #{exerciseType,jdbcType=INTEGER}, #{nickName,jdbcType=VARCHAR },
+      #{headimgurl,jdbcType=VARCHAR },#{tags,jdbcType=VARCHAR })
+  </insert>
+  <insert id="insertSelective" parameterType="com.mcoding.emis.member.bean.member.Member" useGeneratedKeys="true" keyProperty="memberId" >
+    insert into mr_member
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="parentMemberId != null" >
+        parentMemberId,
+      </if>
+      <if test="levelName != null" >
+        levelName,
+      </if>
+      <if test="levelId != null" >
+        levelId,
+      </if>
+      <if test="mobilePhone != null" >
+        mobilePhone,
+      </if>
+      <if test="fullName != null" >
+        fullName,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="channelsId != null" >
+        channelsId,
+      </if>
+      <if test="memberType != null" >
+        memberType,
+      </if>
+      <if test="regionProvince != null" >
+        regionProvince,
+      </if>
+      <if test="regionCity != null" >
+        regionCity,
+      </if>
+      <if test="regionArea != null" >
+        regionArea,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="enrollChannel != null" >
+        enrollChannel,
+      </if>
+      <if test="governmentId != null" >
+        governmentId,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="deliveryAddress != null" >
+        deliveryAddress,
+      </if>
+      <if test="zipCode != null" >
+        zipCode,
+      </if>
+      <if test="brandCode != null" >
+        brandCode,
+      </if>
+      <if test="accessToken != null" >
+        access_token,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+      <if test="concerns != null" >
+        concerns,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="concernsPerson != null" >
+        concernsPerson,
+      </if>
+      <if test="healthProblem != null" >
+        healthProblem,
+      </if>
+      <if test="activitySymptom != null" >
+        activitySymptom,
+      </if>
+      <if test="ext1 != null" >
+        ext1,
+      </if>
+      <if test="ext2 != null" >
+        ext2,
+      </if>
+      <if test="ext3 != null" >
+        ext3,
+      </if>
+      <if test="pointSum != null" >
+        pointSum,
+      </if>
+      <if test="companyId != null" >
+        companyId,
+      </if>
+      <if test="isHealthCheck != null" >
+        isHealthCheck,
+      </if>
+      <if test="isReferralNotice != null" >
+        isReferralNotice,
+      </if>
+      <if test="exerciseType != null" >
+        exerciseType,
+      </if>
+      <if test="nickName != null" >
+        nickName,
+      </if>
+      <if test="headimgurl != null" >
+        headimgurl,
+      </if>
+      <if test="tags != null" >
+        tags
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="parentMemberId != null" >
+        #{parentMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="levelName != null" >
+        #{levelName,jdbcType=VARCHAR },
+      </if>
+      <if test="levelId != null" >
+        #{levelId,jdbcType=INTEGER},
+      </if>
+      <if test="mobilePhone != null" >
+        #{mobilePhone,jdbcType=VARCHAR },
+      </if>
+      <if test="fullName != null" >
+        #{fullName,jdbcType=VARCHAR },
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR },
+      </if>
+      <if test="channelsId != null" >
+        #{channelsId,jdbcType=INTEGER},
+      </if>
+      <if test="memberType != null" >
+        #{memberType,jdbcType=VARCHAR },
+      </if>
+      <if test="regionProvince != null" >
+        #{regionProvince,jdbcType=VARCHAR },
+      </if>
+      <if test="regionCity != null" >
+        #{regionCity,jdbcType=VARCHAR },
+      </if>
+      <if test="regionArea != null" >
+        #{regionArea,jdbcType=VARCHAR },
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=VARCHAR },
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR },
+      </if>
+      <if test="enrollChannel != null" >
+        #{enrollChannel,jdbcType=VARCHAR },
+      </if>
+      <if test="governmentId != null" >
+        #{governmentId,jdbcType=VARCHAR },
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR },
+      </if>
+      <if test="deliveryAddress != null" >
+        #{deliveryAddress,jdbcType=VARCHAR },
+      </if>
+      <if test="zipCode != null" >
+        #{zipCode,jdbcType=VARCHAR },
+      </if>
+      <if test="brandCode != null" >
+        #{brandCode,jdbcType=VARCHAR },
+      </if>
+      <if test="accessToken != null" >
+        #{accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="concerns != null" >
+        #{concerns,jdbcType=VARCHAR },
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR },
+      </if>
+      <if test="concernsPerson != null" >
+        #{concernsPerson,jdbcType=VARCHAR },
+      </if>
+      <if test="healthProblem != null" >
+        #{healthProblem,jdbcType=VARCHAR },
+      </if>
+      <if test="activitySymptom != null" >
+        #{activitySymptom,jdbcType=VARCHAR },
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR },
+      </if>
+      <if test="ext2 != null" >
+        #{ext2,jdbcType=VARCHAR },
+      </if>
+      <if test="ext3 != null" >
+        #{ext3,jdbcType=VARCHAR },
+      </if>
+      <if test="pointSum != null" >
+        #{pointSum,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="isHealthCheck != null" >
+        #{isHealthCheck,jdbcType=INTEGER},
+      </if>
+      <if test="isReferralNotice != null" >
+        #{isReferralNotice,jdbcType=INTEGER},
+      </if>
+      <if test="exerciseType != null" >
+        #{exerciseType,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR },
+      </if>
+      <if test="headimgurl != null" >
+        #{headimgurl,jdbcType=VARCHAR },
+      </if>
+      <if test="tags != null" >
+        #{tags,jdbcType=VARCHAR }
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mcoding.emis.member.bean.member.MemberExample" resultType="java.lang.Integer" >
+    select count(*) from mr_member
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update mr_member
+    <set >
+      <if test="record.memberId != null" >
+        memberId = #{record.memberId,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentMemberId != null" >
+        parentMemberId = #{record.parentMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="record.levelName != null" >
+        levelName = #{record.levelName,jdbcType=VARCHAR },
+      </if>
+      <if test="record.levelId != null" >
+        levelId = #{record.levelId,jdbcType=INTEGER},
+      </if>
+      <if test="record.mobilePhone != null" >
+        mobilePhone = #{record.mobilePhone,jdbcType=VARCHAR },
+      </if>
+      <if test="record.fullName != null" >
+        fullName = #{record.fullName,jdbcType=VARCHAR },
+      </if>
+      <if test="record.openid != null" >
+        openid = #{record.openid,jdbcType=VARCHAR },
+      </if>
+      <if test="record.channelsId != null" >
+        channelsId = #{record.channelsId,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberType != null" >
+        memberType = #{record.memberType,jdbcType=VARCHAR },
+      </if>
+      <if test="record.regionProvince != null" >
+        regionProvince = #{record.regionProvince,jdbcType=VARCHAR },
+      </if>
+      <if test="record.regionCity != null" >
+        regionCity = #{record.regionCity,jdbcType=VARCHAR },
+      </if>
+      <if test="record.regionArea != null" >
+        regionArea = #{record.regionArea,jdbcType=VARCHAR },
+      </if>
+      <if test="record.birthday != null" >
+        birthday = #{record.birthday,jdbcType=VARCHAR },
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR },
+      </if>
+      <if test="record.enrollChannel != null" >
+        enrollChannel = #{record.enrollChannel,jdbcType=VARCHAR },
+      </if>
+      <if test="record.governmentId != null" >
+        governmentId = #{record.governmentId,jdbcType=VARCHAR },
+      </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=VARCHAR },
+      </if>
+      <if test="record.deliveryAddress != null" >
+        deliveryAddress = #{record.deliveryAddress,jdbcType=VARCHAR },
+      </if>
+      <if test="record.zipCode != null" >
+        zipCode = #{record.zipCode,jdbcType=VARCHAR },
+      </if>
+      <if test="record.brandCode != null" >
+        brandCode = #{record.brandCode,jdbcType=VARCHAR },
+      </if>
+      <if test="record.accessToken != null" >
+        access_token = #{record.accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.concerns != null" >
+        concerns = #{record.concerns,jdbcType=VARCHAR },
+      </if>
+      <if test="record.position != null" >
+        position = #{record.position,jdbcType=VARCHAR },
+      </if>
+      <if test="record.concernsPerson != null" >
+        concernsPerson = #{record.concernsPerson,jdbcType=VARCHAR },
+      </if>
+      <if test="record.healthProblem != null" >
+        healthProblem = #{record.healthProblem,jdbcType=VARCHAR },
+      </if>
+      <if test="record.activitySymptom != null" >
+        activitySymptom = #{record.activitySymptom,jdbcType=VARCHAR },
+      </if>
+      <if test="record.ext1 != null" >
+        ext1 = #{record.ext1,jdbcType=VARCHAR },
+      </if>
+      <if test="record.ext2 != null" >
+        ext2 = #{record.ext2,jdbcType=VARCHAR },
+      </if>
+      <if test="record.ext3 != null" >
+        ext3 = #{record.ext3,jdbcType=VARCHAR },
+      </if>
+      <if test="record.pointSum != null" >
+        pointSum = #{record.pointSum,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyId != null" >
+        companyId = #{record.companyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isHealthCheck != null" >
+        isHealthCheck = #{record.isHealthCheck,jdbcType=INTEGER},
+      </if>
+      <if test="record.isReferralNotice != null" >
+        isReferralNotice = #{record.isReferralNotice,jdbcType=INTEGER},
+      </if>
+      <if test="record.exerciseType != null" >
+        exerciseType = #{record.exerciseType,jdbcType=INTEGER},
+      </if>
+      <if test="record.nickName != null" >
+        nickName = #{record.nickName,jdbcType=VARCHAR },
+      </if>
+      <if test="record.headimgurl != null" >
+        headimgurl = #{record.headimgurl,jdbcType=VARCHAR },
+      </if>
+      <if test="record.tags != null" >
+        tags = #{record.tags,jdbcType=VARCHAR }
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update mr_member
+    set memberId = #{record.memberId,jdbcType=INTEGER},
+      parentMemberId = #{record.parentMemberId,jdbcType=INTEGER},
+      levelName = #{record.levelName,jdbcType=VARCHAR },
+      levelId = #{record.levelId,jdbcType=INTEGER},
+      mobilePhone = #{record.mobilePhone,jdbcType=VARCHAR },
+      fullName = #{record.fullName,jdbcType=VARCHAR },
+      openid = #{record.openid,jdbcType=VARCHAR },
+      channelsId = #{record.channelsId,jdbcType=INTEGER},
+      memberType = #{record.memberType,jdbcType=VARCHAR },
+      regionProvince = #{record.regionProvince,jdbcType=VARCHAR },
+      regionCity = #{record.regionCity,jdbcType=VARCHAR },
+      regionArea = #{record.regionArea,jdbcType=VARCHAR },
+      birthday = #{record.birthday,jdbcType=VARCHAR },
+      email = #{record.email,jdbcType=VARCHAR },
+      enrollChannel = #{record.enrollChannel,jdbcType=VARCHAR },
+      governmentId = #{record.governmentId,jdbcType=VARCHAR },
+      gender = #{record.gender,jdbcType=VARCHAR },
+      deliveryAddress = #{record.deliveryAddress,jdbcType=VARCHAR },
+      zipCode = #{record.zipCode,jdbcType=VARCHAR },
+      brandCode = #{record.brandCode,jdbcType=VARCHAR },
+      access_token = #{record.accessToken,jdbcType=VARCHAR},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      concerns = #{record.concerns,jdbcType=VARCHAR },
+      position = #{record.position,jdbcType=VARCHAR },
+      concernsPerson = #{record.concernsPerson,jdbcType=VARCHAR },
+      healthProblem = #{record.healthProblem,jdbcType=VARCHAR },
+      activitySymptom = #{record.activitySymptom,jdbcType=VARCHAR },
+      ext1 = #{record.ext1,jdbcType=VARCHAR },
+      ext2 = #{record.ext2,jdbcType=VARCHAR },
+      ext3 = #{record.ext3,jdbcType=VARCHAR },
+      pointSum = #{record.pointSum,jdbcType=INTEGER},
+      companyId = #{record.companyId,jdbcType=INTEGER},
+      isHealthCheck = #{record.isHealthCheck,jdbcType=INTEGER},
+      isReferralNotice = #{record.isReferralNotice,jdbcType=INTEGER},
+      exerciseType = #{record.exerciseType,jdbcType=INTEGER},
+      nickName = #{record.nickName,jdbcType=VARCHAR },
+      headimgurl = #{record.headimgurl,jdbcType=VARCHAR },
+      tags = #{record.tags,jdbcType=VARCHAR }
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mcoding.emis.member.bean.member.Member" >
+    update mr_member
+    <set >
+      <if test="parentMemberId != null" >
+        parentMemberId = #{parentMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="levelName != null" >
+        levelName = #{levelName,jdbcType=VARCHAR },
+      </if>
+      <if test="levelId != null" >
+        levelId = #{levelId,jdbcType=INTEGER},
+      </if>
+      <if test="mobilePhone != null" >
+        mobilePhone = #{mobilePhone,jdbcType=VARCHAR },
+      </if>
+      <if test="fullName != null" >
+        fullName = #{fullName,jdbcType=VARCHAR },
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR },
+      </if>
+      <if test="channelsId != null" >
+        channelsId = #{channelsId,jdbcType=INTEGER},
+      </if>
+      <if test="memberType != null" >
+        memberType = #{memberType,jdbcType=VARCHAR },
+      </if>
+      <if test="regionProvince != null" >
+        regionProvince = #{regionProvince,jdbcType=VARCHAR },
+      </if>
+      <if test="regionCity != null" >
+        regionCity = #{regionCity,jdbcType=VARCHAR },
+      </if>
+      <if test="regionArea != null" >
+        regionArea = #{regionArea,jdbcType=VARCHAR },
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=VARCHAR },
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR },
+      </if>
+      <if test="enrollChannel != null" >
+        enrollChannel = #{enrollChannel,jdbcType=VARCHAR },
+      </if>
+      <if test="governmentId != null" >
+        governmentId = #{governmentId,jdbcType=VARCHAR },
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=VARCHAR },
+      </if>
+      <if test="deliveryAddress != null" >
+        deliveryAddress = #{deliveryAddress,jdbcType=VARCHAR },
+      </if>
+      <if test="zipCode != null" >
+        zipCode = #{zipCode,jdbcType=VARCHAR },
+      </if>
+      <if test="brandCode != null" >
+        brandCode = #{brandCode,jdbcType=VARCHAR },
+      </if>
+      <if test="accessToken != null" >
+        access_token = #{accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="concerns != null" >
+        concerns = #{concerns,jdbcType=VARCHAR },
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR },
+      </if>
+      <if test="concernsPerson != null" >
+        concernsPerson = #{concernsPerson,jdbcType=VARCHAR },
+      </if>
+      <if test="healthProblem != null" >
+        healthProblem = #{healthProblem,jdbcType=VARCHAR },
+      </if>
+      <if test="activitySymptom != null" >
+        activitySymptom = #{activitySymptom,jdbcType=VARCHAR },
+      </if>
+      <if test="ext1 != null" >
+        ext1 = #{ext1,jdbcType=VARCHAR },
+      </if>
+      <if test="ext2 != null" >
+        ext2 = #{ext2,jdbcType=VARCHAR },
+      </if>
+      <if test="ext3 != null" >
+        ext3 = #{ext3,jdbcType=VARCHAR },
+      </if>
+      <if test="pointSum != null" >
+        pointSum = #{pointSum,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        companyId = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="isHealthCheck != null" >
+        isHealthCheck = #{isHealthCheck,jdbcType=INTEGER},
+      </if>
+      <if test="isReferralNotice != null" >
+        isReferralNotice = #{isReferralNotice,jdbcType=INTEGER},
+      </if>
+      <if test="exerciseType != null" >
+        exerciseType = #{exerciseType,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null" >
+        nickName = #{nickName,jdbcType=VARCHAR },
+      </if>
+      <if test="headimgurl != null" >
+        headimgurl = #{headimgurl,jdbcType=VARCHAR },
+      </if>
+      <if test="tags != null" >
+        tags = #{tags,jdbcType=VARCHAR }
+      </if>
+    </set>
+    where memberId = #{memberId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mcoding.emis.member.bean.member.Member" >
+    update mr_member
+    set parentMemberId = #{parentMemberId,jdbcType=INTEGER},
+      levelName = #{levelName,jdbcType=VARCHAR },
+      levelId = #{levelId,jdbcType=INTEGER},
+      mobilePhone = #{mobilePhone,jdbcType=VARCHAR },
+      fullName = #{fullName,jdbcType=VARCHAR },
+      openid = #{openid,jdbcType=VARCHAR },
+      channelsId = #{channelsId,jdbcType=INTEGER},
+      memberType = #{memberType,jdbcType=VARCHAR },
+      regionProvince = #{regionProvince,jdbcType=VARCHAR },
+      regionCity = #{regionCity,jdbcType=VARCHAR },
+      regionArea = #{regionArea,jdbcType=VARCHAR },
+      birthday = #{birthday,jdbcType=VARCHAR },
+      email = #{email,jdbcType=VARCHAR },
+      enrollChannel = #{enrollChannel,jdbcType=VARCHAR },
+      governmentId = #{governmentId,jdbcType=VARCHAR },
+      gender = #{gender,jdbcType=VARCHAR },
+      deliveryAddress = #{deliveryAddress,jdbcType=VARCHAR },
+      zipCode = #{zipCode,jdbcType=VARCHAR },
+      brandCode = #{brandCode,jdbcType=VARCHAR },
+      access_token = #{accessToken,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      concerns = #{concerns,jdbcType=VARCHAR },
+      position = #{position,jdbcType=VARCHAR },
+      concernsPerson = #{concernsPerson,jdbcType=VARCHAR },
+      healthProblem = #{healthProblem,jdbcType=VARCHAR },
+      activitySymptom = #{activitySymptom,jdbcType=VARCHAR },
+      ext1 = #{ext1,jdbcType=VARCHAR },
+      ext2 = #{ext2,jdbcType=VARCHAR },
+      ext3 = #{ext3,jdbcType=VARCHAR },
+      pointSum = #{pointSum,jdbcType=INTEGER},
+      companyId = #{companyId,jdbcType=INTEGER},
+      isHealthCheck = #{isHealthCheck,jdbcType=INTEGER},
+      isReferralNotice = #{isReferralNotice,jdbcType=INTEGER},
+      exerciseType = #{exerciseType,jdbcType=INTEGER},
+      nickName = #{nickName,jdbcType=VARCHAR },
+      headimgurl = #{headimgurl,jdbcType=VARCHAR },
+      tags = #{tags,jdbcType=VARCHAR }
+    where memberId = #{memberId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleByPage" resultMap="BaseResultMap" parameterType="com.mcoding.emis.member.bean.member.MemberExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from mr_member
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <update id="addMemberPointsum"  parameterType="map">
+    update mr_member set pointSum=pointSum + #{point,jdbcType=INTEGER} where memberId = #{memberId,jdbcType=INTEGER}
+  </update>
+  <select id="queryMemberByPhoneOrOpenidAndBrandCode" parameterType="map" resultMap="BaseResultMap">
+    select *
+    from mr_member m
+    where (m.mobilePhone = #{phone,jdbcType=VARCHAR} or m.openid=#{openid,jdbcType=VARCHAR }) and m.brandCode = #{brandCode,jdbcType=VARCHAR}
+  </select>
+
+  <select id="countByParentId"  parameterType="java.lang.Integer" resultType="map">
+        SELECT
+            s1.c childrenMember,
+            s2.c childrenDealer
+        FROM
+        (SELECT count(*) c from mr_member where levelId is null and parentMemberId = #{parentMemberId,jdbcType=INTEGER}) s1,
+        (SELECT COUNT(*) c from mr_member where levelId is not null and parentMemberId = #{parentMemberId,jdbcType=INTEGER}) s2
+  </select>
+
+  <select id="queryDealerDataByPage" parameterType="map" resultMap="BaseResultMap">
+    select m.*,
+    (SELECT COUNT(*) c from mr_member where levelId is null and parentMemberId = m.memberId LIMIT 1) childrenMember,
+    (SELECT COUNT(*) c from mr_member where levelId is not null and parentMemberId = m.memberId LIMIT 1) childrenDealer,
+    (SELECT fullName from mr_member where memberId = m.parentMemberId) parentName
+    FROM (
+    SELECT * FROM mr_member
+    <trim prefix="where " suffix=" " suffixOverrides="and">
+        levelId is not NULL and
+      <if test="brandCode !=null and brandCode!=''">
+        brandCode = #{brandCode,jdbcType=VARCHAR} and
+      </if>
+      <if test="channelsId !=null and channelsId!=''">
+        channelsId = #{channelsId,jdbcType=VARCHAR} and
+      </if>
+      <if test="fullName !=null and fullName!=''">
+        fullName like "%"#{fullName}"%"
+      </if>
+    </trim>
+    ) m
+    ORDER BY childrenMember DESC
+  </select>
+
+  <select id="selectOrderSumPriceByExampleByPage" resultMap="BaseResultMap" parameterType="com.mcoding.emis.member.bean.member.MemberExample" >
+    select sum(mo.fee) as sum,acc.* from
+    (
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from mr_member
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    ) acc
+    left join mr_order mo
+    on acc.memberId=mo.memberId
+    group by acc.memberId
+    order by acc.memberId desc
+
+
+
+  </select>
+
+  <update id="updateRealName" parameterType="map" >
+     update mr_member set realName=#{realName,jdbcType=VARCHAR} where openid=#{openId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectRealNameByOpenId" parameterType="map" resultType="String">
+    SELECT realName from mr_member where openid=#{openId,jdbcType=VARCHAR}
+  </select>
+</mapper>

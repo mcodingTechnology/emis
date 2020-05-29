@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>移动商城 - BIG生活</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/staff-register.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body id="vueBox" class="gym-body bui_at_noline">
+		<div class="bui_mo">
+			<!--页头-->
+			<div class="bui_mo_h">
+				<!--提示关注公众号-->
+				<template v-if="isWechatUserFocused.code==1">
+					<tp-isfollow></tp-isfollow>
+				</template>
+				<!--提示关注公众号-->
+				<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="https://h5.youzan.com/v2/home/zt5mvapt" title="员工等级入口" iscart='false' :cartnum="cartData.size"></tp-header>
+			</div>
+			<!--页头-->
+			<!--页面-->
+			<div class="bui_mo_b bui_mo_b_h gym_mo_b" style="{{isWechatUserFocused.code==1?'top:6rem':''}}">
+				<!--用户摘要信息-->
+				<div class="bui_bgc_black bui_tc_white bui_ta_c" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
+					<div class="bui_blur" style="background-image: url({{memberDetail.data.headimgurl}});background-size: cover;background-position: center center;position: absolute;left:-1rem;top:-1rem;right:-1rem;bottom:-1rem;opacity: 0.48;"></div>
+					<div class="bui_inline bui_vm" style="position: absolute;left:0;top:0;right:0;bottom:0;">
+						<i style="width: 0;height: 100%;"></i>
+						<form buijs_formcheck style="width: 80%;" class="bui_row_p_12">
+							<div class="bui_inline bui_ta_c">
+								<tp-img :src="memberDetail.data.headimgurl" class="bui_bds_4 bui_bdc_red bui_round bui_bgc_white_d12" width="8rem" height="8rem"></tp-img>
+							</div>
+							<div>
+								<p class="bui_ts_20">您好！{{memberDetail.data.fullName||'MR·G'}}</p>
+							</div>
+							<div>
+								<div buijs_form_item_type="cn">
+									<div class="bui_ipt_48 bui_bgc_white bui_round bui_bdc_red">
+										<input type="text" placeholder="请输入您的真实姓名" class="bui_ts_16" v-model="staff.realName" />
+									</div>
+								</div>
+
+							</div>
+							<div>
+								<button class="bui_btn_48 bui_bgc_red bui_round bui_block bui_ts_16 bui_tc_white">提交 <i class="fa fa-angle-right fa-fw"></i></button>
+							</div>
+							<div class="bui_ts_12 bui_tc_white">
+								此处为员工微商城等级渠道，只做记录作用，无其他附带功能，请不要将此链接外泄
+							</div>
+
+						</form>
+						<i style="width: 0;height: 100%;"></i>
+					</div>
+				</div>
+				<!--用户摘要信息-->
+			</div>
+			<!--页面-->
+		</div>
+
+	</body>
+
+</html>

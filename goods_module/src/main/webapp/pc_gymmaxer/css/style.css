@@ -1,0 +1,21 @@
+.gym-body {}
+
+
+/*首页*/
+
+.index-section1 {
+	background-image: url(../pic/section1-bg.png);
+	background-size: cover;
+	background-position: center center;
+}
+
+.index-section2 {
+	background-image: url(../pic/section2-bg.png);
+	background-size: cover;
+	background-position: center center;
+}
+
+.index-section2-pic {
+	background-size: cover;
+	background-position: center center;
+}

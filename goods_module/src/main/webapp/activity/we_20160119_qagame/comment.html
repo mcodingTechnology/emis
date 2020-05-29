@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../baidiui/css/baidiui.css" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script type="text/javascript" src="../baidiui/js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="public.js"></script>
+		<script type="text/javascript" src="../baidiui/js/baidiui.js"></script>
+		<title>你的私人营养专家</title>
+		<!-- 引入微信JSJDK -->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js">
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				//考官头像
+				var _askface = 'images/index_pic_02.png';
+				//考官名称
+				var _askname = '营养超人';
+				//间隔时间
+				var _delay = 1000;
+				
+				var _scroll = function() {
+					var _t = $('.wm_comment:last-child');
+					var _b = _t.offset().top;
+					$('body,html').animate({
+						scrollTop: _b
+					})
+					_t.addClass('on');
+				}
+
+				function ask(_c, _q) {
+					$('.content').append('<div class="wm_comment wm_comment_left"><div class="wm_comment_face"><h2><span><img src="' + _askface + '" /></span></h2><h5>' + _askname + '</h5></div><div class="wm_comment_content"><div class="wm_comment_content_box"><p>' + _c + '</p></div></div></div>');
+					_scroll();
+				};
+
+				function answer(_c) {
+					$('.content').append('<div class="wm_comment wm_comment_right"><div class="wm_comment_content"><div class="wm_comment_content_box">' + _c + '</div></div><div class="wm_comment_face"><h2><span><img src="' + headimgurl + '" /></span></h2><h5>' + nickname + '</h5></div></div>');
+					_scroll();
+				};
+
+				/*推荐产品对话框输出*/
+				function productRc(data) {
+					var htmlList= '<p>根据回答，小超为你推荐几款产品：</p>';
+					data.map(function(data){
+						htmlList += '<div class="product" select="0">'
+							+	'<div class="productPict">'
+							+		'<img src="'+data.img+'">'
+							+   '</div>'
+							+   '<div class="introduction">'
+							+		'<p class="name">'+data.name+'</p>'
+							+		'<p class="info">'+data.info+'</p>'
+							+		'<div class="Bt">'
+							+			'<img src="./images/selectbox.png">'
+							+		'</div>'
+							+	'</div>'
+							+'</div>';
+					})
+					htmlList += '<div class="allChoise" select="0">'
+							+	'<p>全选</p>'
+							+	'<div class="Bt">'
+							+		'<img src="./images/selectbox.png">'
+							+	'</div>'
+							+'</div>'
+							+'<div class="productBtWarp">'
+							+	'<a class="productBt mrr20" href="javascript:;">再挑战一次</a>'
+							+	'<a class="productBt" href="javascript:;">立即购买</a>'
+							+	'<p class="moreBt">更多推荐>></p>'
+							+'</div>'
+
+					htmlList = '<div class="wm_comment_select">'+htmlList+'</div>'
+					ask(htmlList);
+					_scroll();
+
+					/*单一产品选择*/
+					$('.product').on({
+						"click":function(){
+							var _t= $(this);
+							if (_t.attr('select')==1) {
+								_t.attr('select','0');
+								_t.find('.Bt img').attr('src','./images/selectbox.png');
+
+								//当全选的时候取消一个产品选择 则同时取消全选选择 
+								if (_t.siblings('.allChoise').attr('select')=='1') {
+									_t.siblings('.allChoise').attr('select','0');
+									_t.siblings('.allChoise').find('.Bt img').attr('src','./images/selectbox.png');
+								}
+							}else {
+								_t.attr('select','1');
+								_t.find('.Bt img').attr('src','./images/selected.png');
+							}
+						}
+					});
+
+					/*全选按钮选择*/
+					$('.allChoise').on({
+						'click':function(){
+							var _t= $(this);
+							if (_t.attr('select') == '0') {
+								_t.attr('select','1');
+								_t.find('.Bt img').attr('src','./images/selected.png');
+
+								// 全选后需要把所有的产品选上
+								_t.siblings('.product').attr('select','1');
+								_t.siblings('.product').find('.Bt img').attr('src','./images/selected.png');
+							}else {
+								_t.attr('select','0');
+								_t.find('.Bt img').attr('src','./images/selectbox.png');
+
+								// 取消全选后需要把所有的产品去掉
+								_t.siblings('.product').attr('select','0');
+								_t.siblings('.product').find('.Bt img').attr('src','./images/selectbox.png');
+							}
+						}
+					})
+				}
+
+				//问题对话框输出
+				function question(data) {
+					if (data != null) {
+						var HTML_a= "";
+
+						/*判断题目类型：0：单选，1：多选*/
+						var questiontype= data.question.questiontype;    
+						
+						if (questiontype ==1){
+							data.options.map(function(data,index){
+								HTML_a += '<div class="selectMore"><div class="Bt"><img optionId="'+data.id+'" src="./images/selectbox.png"></div><p class="optionMore" mark="'+data.mark+'" questionid="'+data.questionid+'" selectStatus="0" optionId="'+data.id+'">'+data.optioncontent+'</p></div >'
+							});
+							HTML_a +='<a class="selectMoreBt" href="javascript:;">确定</a>'
+						}else {
+							data.options.map(function(data,index){
+								HTML_a += '<a questionid="'+data.questionid+'" mark="'+data.mark+'" optionId="'+data.id+'" childquestionstatus="'+data.childquestionstatus+'" href="javascript:;">'+data.optioncontent + '</a>'
+							});
+						}
+						
+
+						$('.content').append('<div class="wm_comment wm_comment_left" id="question_' + i + '" style="position:relative"><div class="wm_comment_face"><h2><span><img src="' + _askface + '" /></span></h2><h5>' + _askname + '</h5></div><div class="wm_comment_content"><div class="wm_comment_content_box"><p>' + data.question.question + '</p><div class="wm_comment_select">'+HTML_a+'</div></div></div></div>');
+
+						/*隐藏掉没意义的选项*/
+						$('.wm_comment:last-child a').each(function() {
+							var _t = $(this)
+							if (_t.html() != '' && _t.html() != 'undefined' && _t.html() != null) {
+								_t.css({
+									'display': 'block'
+								});
+							}
+						});
+						_scroll();
+
+						/*判断题目类型：0：单选，1：多选*/
+						if (questiontype == 1) {
+							//多选答案
+							$('.selectMore').on({
+								'click':function(){
+									var _t= $(this).children('p')
+									var _text= _t.text();
+									var _optionId= _t.attr('optionId');
+									var _selectStatus= _t.attr('selectStatus');
+
+									/*选择了以上都不是等类型答案的时候 把其他所选的答案去掉*/
+									if (/以上均/.test(_text) || /以上都/.test(_text)) {
+										var selectedDom= $(this).parent().find(".optionMore[selectstatus='1']");
+										for (var i=0;i<selectedDom.length;i++) {
+											selectedDom.eq(i).attr("selectStatus","0");
+											selectedDom.eq(i).siblings().children('img').attr('src','./images/selectbox.png')
+										}
+									}
+
+									if (_selectStatus == "0") {
+										var lastDom= $(this).parent().find('p').eq(-1);
+										if (/以上/.test(lastDom.text()) && lastDom.attr('selectStatus') == '1') {
+											lastDom.attr('selectStatus','0');
+											lastDom.siblings().children('img').attr('src','./images/selectbox.png')
+										}
+										_t.attr("selectStatus","1");
+										$('img[optionId="'+_optionId+'"]').attr("src","./images/selected.png")
+
+									}else {
+										_t.attr("selectStatus","0");
+										$('img[optionId="'+_optionId+'"]').attr("src","./images/selectbox.png")
+									}
+								}
+							});
+							//点击多选题确定按钮
+							$('.selectMoreBt').on({
+								'click':function(){
+									var qa ='';
+									var parentDOM= $(this).parent();
+									var optionList= parentDOM.find('.optionMore[selectstatus="1"]');
+
+									//把所选的答案用“#”相隔拼接到 qa 以及把mark记入marks
+									for (var i= 0;i< optionList.length; i++) {
+										if (i!=0) qa+="#";
+										
+										qa+=optionList.eq(i).text();
+
+										var markUser= optionList.eq(i).attr("mark");
+										if ( markUser && (markUser !='undefined') && (markUser != 'null') ){
+											marks.push(markUser)
+										}
+									}
+									//把问题id和答案放进去 qaList
+									qaList.push({
+										'questionId':optionList.eq(0).attr('questionid'),
+										'answers':qa
+									})
+									$(this).addClass('active');
+									setTimeout(function() {
+										rightnum++;
+										setTimeout(function() {
+											i++;
+											question(qArr[i]);
+										}, _delay);
+									}, _delay);
+								}
+							})
+						}else {
+							$('.wm_comment a').on({
+								'touchend':function(){
+									var _t = $(this);
+									var _text = $(this).text();
+									var _url = $(this).attr('href');
+									var markUser= $(this).attr('mark');
+									qaList.push({"questionId":$(this).attr('questionId'),
+										"answers":_text
+									});
+									if ( markUser && (markUser !='undefined') && (markUser != 'null') ){
+										marks.push(markUser);
+									}
+									answer(_text);
+									$(this).addClass('active');
+
+									//判断是否有子问题
+									if (_t.attr("childquestionstatus")=="1") {
+										$.getJSON(url+"investApi/queryQuestionAndOptionsByOptionId.html",'optionId='+_t.attr("optionId"),function(data){
+											question(data.data);
+										});
+										return;
+									}
+									setTimeout(function() {
+										rightnum++;
+										setTimeout(function() {
+											i++;
+											question(qArr[i]);
+										}, _delay);
+									}, _delay);
+								}
+							});
+						}
+					} else {
+						end(productRc);
+						// ask('恭喜您！答完所有题。<div class="wm_comment_select"><a href="index.html?gameid=' + _gameid + '" style="display:block;">查看成绩？ &gt;</a></div>');
+					}
+				};
+
+				ask('准备好挑战营养知识了吗？小加豪礼已备好！');
+				/*流程-调接口获取用户信息成功后获取问题开始问答*/
+				getUserInfo(function(){
+					answer('准备好了！');
+
+					setTimeout(function() {
+						getQuestion(function(){
+							question(qArr[i]);
+						});
+					}, _delay);
+
+
+					// end(productRc)
+				});
+
+			});
+			var qArr = [];           //存放问题
+			var i = 0;
+			var qaList= [];          //答案搜集
+			var marks= [];           //特殊人群登记
+			var rightnum = 0;
+			var gaintitle = '3';
+			var headimgurl = '';
+			var nickname = '';
+			var _self= this;
+
+			function getUserInfo(func) {
+				$.getJSON(url + "merriplusApi/getWxuserInfo.html","",function(data){
+					if (data.data) {
+						nickname= data.data.nickname;
+						headimgurl= data.data.headimgurl;
+						func();
+					}else {
+						alert(data.msg)
+					}
+					
+				})
+			}
+
+			function getQuestion(func) {
+				$.getJSON(url + "investApi/queryQuestionAndOptionsByPage.html","pageNo=1&pageSize=100", function(data) {
+					qArr = data.queryResult;
+					func();
+				});
+			}
+
+			function end(callBack) {
+				$.ajax({
+					type: "post",
+					url: url + "investApi/saveQuestionAnswers.html",
+					dateType: 'json',
+					contentType: 'application/json',
+					data: JSON.stringify({
+						qaList: qaList,
+						marks: marks
+					}),
+					success: function(data) {
+						//输出产品推荐对话框
+						callBack(data)
+					}
+				});
+			}
+		</script>
+	</head>
+
+	<body class="we_index_bg" style="overflow: auto;">
+		<div class="headPart">
+			<div class="backBt" onclick="javascript:history.go(-1)">
+				<span class="backPict"></span>
+			</div>
+			<p>健康状态</p>
+		</div>
+		<div class="content we_index_bg" style="overflow: auto;padding-bottom: 60px"></div>
+		<div class="foot"></div>
+		<input type="hidden" value="0" id="wm_score" />
+	</body>
+	<script type="text/javascript">
+	$(function(){
+		/*添加头部需要的修改*/
+			$('.wm_comment').eq(0).css('padding-top',45)
+	})
+	</script>
+</html>

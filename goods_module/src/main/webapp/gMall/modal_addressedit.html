@@ -1,0 +1,85 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		global_vue({
+			el: '#vueBox',
+			data: vueData
+		});
+		setTimeout(function() {
+			global_getJsonSetVue(workSpace.jsonUrl + '/merriplusApi/getAddressInfo', 'getAddressInfoEdit'); //读取收货信息
+			//提交数据
+			$("form#formAddress").unbind('submit').buijs_form_check({
+				texterror: '<i class="fa fa-close fa-fw bui_tc_red_i"></i>',
+				textsuccess: '<i class="fa fa-check fa-fw bui_tc_green_i"></i>',
+				error: function() {
+					buijs_alert({
+						content: '填写未完成'
+					})
+				},
+				success: function() {
+					buijs_mask({
+						type: 'loading'
+					});
+					global_getVueSetJson(!vueData.getAddressInfoEdit.data || !vueData.getAddressInfoEdit.data.id ?
+						workSpace.jsonUrl + '/merriplusApi/addNewAddress' : workSpace.jsonUrl + '/merriplusApi/modifyAddress', JSON.stringify(vueData.getAddressInfoEdit.data), ['name', 'phone', 'regson', 'address'],
+						function(data) {
+							buijs_mask_close();
+							buijs_alert({
+								content: data.msg
+							});
+							if(data.status == '00') {
+								global_getJsonSetVue(workSpace.jsonUrl + '/merriplusApi/getAddressInfo', 'getAddressInfo'); //读取收货信息
+								setTimeout(function() {
+									buijs_modal_close('modal_addressedit'); //关闭弹窗
+								}, 300);
+							}
+						}); //测试
+				}
+			});
+		}, 300)
+
+	});
+</script>
+<div class="bui_wrap bui_tc_black bui_tc_black_a">
+	<!--页头-->
+	<div class="bui_mo_h">
+		<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:buijs_modal_close('modal_addressedit');" title="我的收货信息"></tp-header>
+	</div>
+	<!--页头-->
+	<!--收货信息-->
+	<form id="formAddress">
+
+		<!--页面-->
+		<div class="bui_mo_b bui_mo_b_h bui_mo_b_f">
+
+			<div class="bui_tc_red_i">
+				<div class="bui_ipg_48 bui_block bui_bgc_white bui_bds_1_b" buijs_form_item_type="length" buijs_form_item_length="2,10">
+					<span class="buijs_form_item_tips bui_fr"></span>
+					<i class="fa fa-user bui_fl"></i>
+					<input type="text" placeholder="请输入收货人姓名" v-model="getAddressInfoEdit.data.name" class="bui_ipt_48 bui_bds_0 bui_ts_14" />
+				</div>
+				<div class="bui_ipg_48 bui_block bui_bgc_white bui_bds_1_b" buijs_form_item_type="mobile">
+					<span class="buijs_form_item_tips bui_fr"></span>
+					<i class="fa fa-phone bui_fl"></i>
+					<input type="tel" placeholder="请输入收货人手机" v-model="getAddressInfoEdit.data.phone" class="bui_ipt_48 bui_bds_0 bui_ts_14" />
+				</div>
+				<div class="bui_ipg_48 bui_block bui_bgc_white bui_bds_1_b" buijs_form_item_type="length" buijs_form_item_length="1,255" onclick="global_showPanelRegin('getAddressInfoEdit.data.regson');">
+					<span class="buijs_form_item_tips bui_fr"></span>
+					<i class="fa fa-map-marker bui_fl"></i>
+					<input type="text" placeholder="请选择区域" v-model="getAddressInfoEdit.data.regson" class="bui_ipt_48 bui_bds_0 bui_ts_14" readonly="readonly" />
+				</div>
+				<div class="bui_ipg_48 bui_block bui_bgc_white bui_bds_1_b" buijs_form_item_type="length" buijs_form_item_length="1,255">
+					<span class="buijs_form_item_tips bui_fr"></span>
+					<i class="fa fa-truck bui_fl"></i>
+					<textarea placeholder="请输入收货人详细地址" v-model="getAddressInfoEdit.data.address" rows="8" class="bui_ipt_48 bui_bds_0 bui_ts_14 bui_mtb_6" />
+				</div>
+			</div>
+		</div>
+		<!--页面-->
+		<!--页脚-->
+		<div class="bui_mo_f bui_bgc_white bui_bds_1_t">
+			<div class="bui_p_8"><button class="bui_btn bui_btn_48 bui_block bui_bgc_red bui_ts_16">保存收货信息</button></div>
+		</div>
+		<!--页脚-->
+	</form>
+	<!--收货信息-->
+</div>

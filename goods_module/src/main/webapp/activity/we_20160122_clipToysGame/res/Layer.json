@@ -1,0 +1,791 @@
+{
+  "ID": "f29713c3-25a7-43a9-8dc8-627eed151cc7",
+  "Version": "3.10.0.0",
+  "Name": "Layer",
+  "Content": {
+    "Content": {
+      "Animation": {
+        "Duration": 0,
+        "Speed": 1.0,
+        "Timelines": [],
+        "ctype": "TimelineActionData"
+      },
+      "AnimationList": [],
+      "ObjectData": {
+        "Children": [
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "texture/bg.png",
+              "Plist": "plist/bgPlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 320.0,
+              "Y": 479.9999
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5,
+              "Y": 0.5
+            },
+            "PreSize": {
+              "X": 1.0,
+              "Y": 1.0
+            },
+            "TopMargin": 0.0001,
+            "BottomMargin": -0.0001,
+            "Tag": 2,
+            "ActionTag": -1280412025,
+            "Size": {
+              "X": 640.0,
+              "Y": 960.0
+            },
+            "Name": "bg_1",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "ani/aniBelt0.png",
+              "Plist": "plist/aniPlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 320.0,
+              "Y": 367.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5,
+              "Y": 0.3823
+            },
+            "PreSize": {
+              "X": 0.9063,
+              "Y": 0.2625
+            },
+            "LeftMargin": 30.0,
+            "RightMargin": 30.0,
+            "TopMargin": 467.0,
+            "BottomMargin": 241.0,
+            "Tag": 3,
+            "ActionTag": 42808549,
+            "Size": {
+              "X": 580.0,
+              "Y": 252.0
+            },
+            "Alpha": 197,
+            "Name": "aniBelt0_2",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "texture/btnGo.png",
+              "Plist": "plist/texturePlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 320.0,
+              "Y": 90.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5,
+              "Y": 0.0938
+            },
+            "PreSize": {
+              "X": 0.2188,
+              "Y": 0.1458
+            },
+            "LeftMargin": 250.0,
+            "RightMargin": 250.0,
+            "TopMargin": 800.0,
+            "BottomMargin": 20.0,
+            "Tag": 4,
+            "ActionTag": 131721851,
+            "Size": {
+              "X": 140.0,
+              "Y": 140.0
+            },
+            "Name": "btnGo_3",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "texture/manNormal.png",
+              "Plist": "plist/texturePlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5
+            },
+            "Position": {
+              "X": 320.0,
+              "Y": 440.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5,
+              "Y": 0.4583
+            },
+            "PreSize": {
+              "X": 0.2688,
+              "Y": 0.7937
+            },
+            "LeftMargin": 234.0,
+            "RightMargin": 234.0,
+            "TopMargin": -242.0,
+            "BottomMargin": 440.0,
+            "Tag": 6,
+            "ActionTag": -1316037540,
+            "Size": {
+              "X": 172.0,
+              "Y": 762.0
+            },
+            "Name": "manNormal_5",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "ani/aniManPull0.png",
+              "Plist": "plist/aniPlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5
+            },
+            "Position": {
+              "X": 320.0,
+              "Y": 440.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5,
+              "Y": 0.4583
+            },
+            "PreSize": {
+              "X": 0.2328,
+              "Y": 0.7854
+            },
+            "LeftMargin": 245.5,
+            "RightMargin": 245.5,
+            "TopMargin": -234.0,
+            "BottomMargin": 440.0,
+            "Tag": 7,
+            "ActionTag": -469869816,
+            "Size": {
+              "X": 149.0,
+              "Y": 754.0
+            },
+            "Name": "aniManPull0_6",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "ani/aniManPullBomb0.png",
+              "Plist": "plist/aniPlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5
+            },
+            "Position": {
+              "X": 320.0,
+              "Y": 440.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5,
+              "Y": 0.4583
+            },
+            "PreSize": {
+              "X": 0.3187,
+              "Y": 0.7604
+            },
+            "LeftMargin": 218.0,
+            "RightMargin": 218.0,
+            "TopMargin": -210.0,
+            "BottomMargin": 440.0,
+            "Tag": 8,
+            "ActionTag": -1435378506,
+            "Size": {
+              "X": 204.0,
+              "Y": 730.0
+            },
+            "Name": "aniManPullBomb0_7",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "ani/aniManPullBomb1.png",
+              "Plist": "plist/aniPlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5
+            },
+            "Position": {
+              "X": 320.0,
+              "Y": 440.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5,
+              "Y": 0.4583
+            },
+            "PreSize": {
+              "X": 0.3359,
+              "Y": 0.7635
+            },
+            "LeftMargin": 212.5,
+            "RightMargin": 212.5,
+            "TopMargin": -213.0,
+            "BottomMargin": 440.0,
+            "Tag": 9,
+            "ActionTag": -1707696798,
+            "Size": {
+              "X": 215.0,
+              "Y": 733.0
+            },
+            "Name": "aniManPullBomb1_8",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "texture/hookEnd.png",
+              "Plist": "plist/texturePlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 320.0,
+              "Y": 440.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5,
+              "Y": 0.4583
+            },
+            "PreSize": {
+              "X": 0.1469,
+              "Y": 0.051
+            },
+            "LeftMargin": 273.0,
+            "RightMargin": 273.0,
+            "TopMargin": 495.5,
+            "BottomMargin": 415.5,
+            "Tag": 5,
+            "ActionTag": -1759108091,
+            "Size": {
+              "X": 94.0,
+              "Y": 49.0
+            },
+            "Name": "hookEnd_4",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "ani/aniClipping0.png",
+              "Plist": "plist/aniPlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 484.4757,
+              "Y": 709.8121
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.757,
+              "Y": 0.7394
+            },
+            "PreSize": {
+              "X": 0.1672,
+              "Y": 0.7708
+            },
+            "LeftMargin": 430.9757,
+            "RightMargin": 102.0243,
+            "TopMargin": -119.812,
+            "BottomMargin": 339.8121,
+            "Tag": 10,
+            "ActionTag": 1987145943,
+            "Size": {
+              "X": 107.0,
+              "Y": 740.0
+            },
+            "Name": "aniClipping0_9",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "texture/propClock.png",
+              "Plist": "plist/texturePlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5
+            },
+            "Position": {
+              "X": 161.3042,
+              "Y": 265.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.252,
+              "Y": 0.276
+            },
+            "PreSize": {
+              "X": 0.1219,
+              "Y": 0.1042
+            },
+            "LeftMargin": 122.3042,
+            "RightMargin": 439.6958,
+            "TopMargin": 595.0,
+            "BottomMargin": 265.0,
+            "Tag": 34,
+            "ActionTag": -1524238715,
+            "Size": {
+              "X": 78.0,
+              "Y": 100.0
+            },
+            "Name": "propClock_26",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "texture/propBomb.png",
+              "Plist": "plist/texturePlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5
+            },
+            "Position": {
+              "X": 90.0,
+              "Y": 295.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.1406,
+              "Y": 0.3073
+            },
+            "PreSize": {
+              "X": 0.0875,
+              "Y": 0.1375
+            },
+            "LeftMargin": 62.0,
+            "RightMargin": 522.0,
+            "TopMargin": 533.0,
+            "BottomMargin": 295.0,
+            "Tag": 35,
+            "ActionTag": 653584674,
+            "Size": {
+              "X": 56.0,
+              "Y": 132.0
+            },
+            "Name": "propBomb_27",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "texture/propHeavyMuscleEnergy.png",
+              "Plist": "plist/texturePlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5
+            },
+            "Position": {
+              "X": 62.0,
+              "Y": 451.8756
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.0969,
+              "Y": 0.4707
+            },
+            "PreSize": {
+              "X": 0.1031,
+              "Y": 0.1177
+            },
+            "LeftMargin": 29.0,
+            "RightMargin": 545.0,
+            "TopMargin": 395.1244,
+            "BottomMargin": 451.8756,
+            "Tag": 36,
+            "ActionTag": 18970485,
+            "Size": {
+              "X": 66.0,
+              "Y": 113.0
+            },
+            "Name": "propHeavyMuscleEnergy_28",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "texture/propKeyEnergy.png",
+              "Plist": "plist/texturePlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 585.0,
+              "Y": 471.3756
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.9141,
+              "Y": 0.491
+            },
+            "PreSize": {
+              "X": 0.1344,
+              "Y": 0.0479
+            },
+            "LeftMargin": 542.0,
+            "RightMargin": 12.0,
+            "TopMargin": 465.6244,
+            "BottomMargin": 448.3756,
+            "Tag": 37,
+            "ActionTag": -715182586,
+            "Size": {
+              "X": 86.0,
+              "Y": 46.0
+            },
+            "Name": "propKeyEnergy_29",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "texture/propPositiveMuscleEnergy.png",
+              "Plist": "plist/texturePlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5
+            },
+            "Position": {
+              "X": 556.0,
+              "Y": 295.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.8687,
+              "Y": 0.3073
+            },
+            "PreSize": {
+              "X": 0.1031,
+              "Y": 0.1177
+            },
+            "LeftMargin": 523.0,
+            "RightMargin": 51.0,
+            "TopMargin": 552.0,
+            "BottomMargin": 295.0,
+            "Tag": 38,
+            "ActionTag": -1187450537,
+            "Size": {
+              "X": 66.0,
+              "Y": 113.0
+            },
+            "Name": "propPositiveMuscleEnergy_30",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "texture/propProteinBar.png",
+              "Plist": "plist/texturePlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 492.3042,
+              "Y": 275.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.7692,
+              "Y": 0.2865
+            },
+            "PreSize": {
+              "X": 0.1312,
+              "Y": 0.0479
+            },
+            "LeftMargin": 450.3042,
+            "RightMargin": 105.6958,
+            "TopMargin": 662.0,
+            "BottomMargin": 252.0,
+            "Tag": 39,
+            "ActionTag": 1367140783,
+            "Size": {
+              "X": 84.0,
+              "Y": 46.0
+            },
+            "Name": "propProteinBar_31",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "texture/propRedPackage.png",
+              "Plist": "plist/texturePlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5
+            },
+            "Position": {
+              "X": 356.3042,
+              "Y": 265.0
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5567,
+              "Y": 0.276
+            },
+            "PreSize": {
+              "X": 0.1266,
+              "Y": 0.1094
+            },
+            "LeftMargin": 315.8042,
+            "RightMargin": 243.1958,
+            "TopMargin": 590.0,
+            "BottomMargin": 265.0,
+            "Tag": 40,
+            "ActionTag": 1561099363,
+            "Size": {
+              "X": 81.0,
+              "Y": 105.0
+            },
+            "Name": "propRedPackage_32",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "MarkedSubImage",
+              "Path": "texture/propWheyProtein.png",
+              "Plist": "plist/texturePlist.plist"
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 585.3042,
+              "Y": 425.3756
+            },
+            "Scale": {
+              "ScaleX": 1.0,
+              "ScaleY": 1.0
+            },
+            "CColor": {},
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.9145,
+              "Y": 0.4431
+            },
+            "PreSize": {
+              "X": 0.1031,
+              "Y": 0.1167
+            },
+            "LeftMargin": 552.3042,
+            "RightMargin": 21.6958,
+            "TopMargin": 478.6244,
+            "BottomMargin": 369.3756,
+            "Tag": 41,
+            "ActionTag": 841303083,
+            "Size": {
+              "X": 66.0,
+              "Y": 112.0
+            },
+            "Name": "propWheyProtein_33",
+            "ctype": "SpriteObjectData"
+          }
+        ],
+        "Size": {
+          "X": 640.0,
+          "Y": 960.0
+        },
+        "Name": "Layer",
+        "ctype": "LayerObjectData"
+      },
+      "UsedResources": [
+        "plist/aniPlist.plist",
+        "plist/aniPlist.png",
+        "plist/bgPlist.plist",
+        "plist/bgPlist.png",
+        "plist/texturePlist.plist",
+        "plist/texturePlist.png"
+      ],
+      "ctype": "GameFileData"
+    }
+  },
+  "Type": "Layer"
+}

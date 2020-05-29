@@ -1,0 +1,69 @@
+<form id="searchForm" class="bui_m_12">
+	<div class="bui_ipg_48 bui_block bui_bgc_white bui_radius bui_panel">
+		<button class="fa fa-search fa-fw bui_fr {{style.facTrue}}"></button>
+		<input id="searchButton" type="text" value="" placeholder="牛奶" class="bui_ipt_32 bui_bds_0 bui_block bui_ts_16" />
+	</div>
+</form>
+<div id="history" class="bui_atc_black"></div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		//vue
+		new Vue({
+			el: 'html',
+			data: vueObj
+		});
+		setTimeout(function() {
+			$("#searchButton").focus()
+		}, 400);
+		getHistotyList();
+	});
+
+	function getHistotyList() {
+		//搜索历史加载
+		var content = '';
+		if(window.localStorage.getItem("searchHistory")) {
+			var searchHistory = window.localStorage.getItem("searchHistory").split(",");
+			searchHistory.forEach(function(ele, index) {
+				content += '<a href="product_list.html?productName=' + escape(ele) + '" class="bui_bgc_white bui_block bui_ptb_12 bui_plr_24 bui_media bui_vm">' +
+					'<div class="bui_media_b">' + ele + '</div>' +
+					'<div class="bui_media_r"><i class="fa fa-angle-right ' + vueObj.style.facFalse + '"></i>' +
+					'</div>' +
+					'</a>' +
+					'<hr />';
+			});
+			$('#history').html('<hr /><div class="bui_block bui_ptb_12 bui_plr_24 bui_ts_12 bui_tc_white_d48">最近搜索</div><hr />' + content + '<div class="bui_m_12"><button class="bui_btn_48 bui_block bui_ts_16 ' + vueObj.style.btnFalse + '" onclick="javascript:clearHistory();"><i class="fa fa-close fa-fw"></i>清空搜索历史</button></div>');
+		} else {
+			$('#history').html('');
+		}
+	}
+
+	function clearHistory() {
+		window.localStorage.removeItem("searchHistory");
+		getHistotyList();
+		buijs_alert({
+			content: '记录已清除...'
+		})
+	}
+	$('#searchForm').submit(function(e) {
+		e.preventDefault();
+		var searchButton = escape($('#searchButton').val());
+		var searchHistory;
+		if(window.localStorage.getItem("searchHistory")) {
+			searchHistory = window.localStorage.getItem("searchHistory").split(",");
+		} else {
+			searchHistory = new Array();
+		}
+		var flag = true;
+		searchHistory.forEach(function(ele, index) {
+			if(ele == $('#searchButton').val()) {
+				flag = false;
+			}
+		});
+		if(flag) {
+			searchHistory.push($('#searchButton').val());
+		}
+		window.localStorage.setItem("searchHistory", searchHistory);
+		window.location.href = 'product_list.html?productName=' + searchButton;
+	});
+</script>

@@ -1,0 +1,168 @@
+<div class="bui_wrap bui_tc_black bui_tc_black_a">
+	<!--基本信息-->
+	<form id="memberDetailBasic">
+		<!--页头-->
+		<div class="bui_mo_h">
+			<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:buijs_modal_close('modal_memberdetailedit_basic');" title="我的个人资料"></tp-header>
+		</div>
+		<!--页头-->
+		<!--页面-->
+		<div class="bui_mo_b bui_mo_b_h bui_mo_b_f">
+
+			<div class="bui_tc_red_i">
+				<!--手机号-->
+				<div class="bui_ipg_48 bui_block bui_bgc_white bui_bds_1_b" buijs_form_item_type="mobile">
+					<span class="buijs_form_item_tips bui_fr"></span>
+					<i class="fa fa-phone bui_fl"></i>
+					<input type="tel" placeholder="手机号" v-model="memberDetailEditBasic.data.mobilephone" class="bui_ipt_48 bui_bds_0 bui_ts_14" :disabled="isNewUser?false:true" />
+				</div>
+				<!--手机号-->
+				<!--验证码-->
+				<div class="bui_media bui_vm bui_bgc_white bui_bds_1_b" v-if="isNewUser">
+					<div class="bui_media_b">
+						<div class="bui_ipg_48 bui_block " buijs_form_item_type="length" buijs_form_item_length="1,99">
+							<span class="buijs_form_item_tips bui_fr"></span>
+							<i class="fa fa-copy bui_fl"></i>
+							<input type="tel" placeholder="验证码" v-model="verifyCode" class="bui_ipt_48 bui_bds_0 bui_ts_14" />
+						</div>
+					</div>
+					<div class="bui_media_r bui_plr_12">
+						<button type="button" class="bui_btn bui_btn_24 bui_bgc_red" :disabled="smsCodecountDown?true:false" onclick="smsGetCode()"> {{smsCodecountDown?smsCodecountDown:'点击获取'}}</button>
+					</div>
+				</div>
+				<!--验证码-->
+				<!--姓名-->
+				<div v-if="!onlyPhone" class="bui_ipg_48 bui_block bui_bgc_white bui_bds_1_b" buijs_form_item_type="length" buijs_form_item_length="1,999">
+					<span class="buijs_form_item_tips bui_fr"></span>
+					<i class="fa fa-user bui_fl"></i>
+					<input type="text" placeholder="姓名" v-model="memberDetailEditBasic.data.name" class="bui_ipt_48 bui_bds_0 bui_ts_14" />
+				</div>
+				<!--姓名-->
+				<!--性别-->
+				<div v-if="!onlyPhone" class="bui_ipg_48 bui_block bui_bgc_white bui_bds_1_b" buijs_form_item_type="select">
+					<span class="buijs_form_item_tips bui_fr"></span>
+					<i class="fa fa-intersex bui_fl"></i>
+					<select v-model="memberDetailEditBasic.data.gender" class="bui_ipt_48 bui_bds_0 bui_ts_14">
+						<option value="1">男</option>
+						<option value="2">女</option>
+					</select>
+				</div>
+				<!--性别-->
+				<!--生日-->
+				<div v-if="!onlyPhone" class="bui_ipg_48 bui_block bui_bgc_white bui_bds_1_b" buijs_form_item_type="select">
+					<span class="buijs_form_item_tips bui_fr"></span>
+					<i class="fa fa-birthday-cake bui_fl"></i>
+					<input type="tel" placeholder="生日" v-model="memberDetailEditBasic.data.birthday" class="bui_ipt_48 bui_bds_0 bui_ts_14" data-buijs_date readonly="readonly" />
+				</div>
+				<!--生日-->
+
+			</div>
+		</div>
+		<!--页面-->
+		<!--页脚-->
+		<div class="bui_mo_f bui_bgc_white bui_bds_1_t">
+			<div class="bui_p_8"><button class="bui_btn bui_btn_48 bui_block bui_bgc_red bui_ts_16" id="submit">保存基础信息</button></div>
+		</div>
+		<!--页脚-->
+	</form>
+	<!--基本信息-->
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		global_vue({
+			data: vueData
+		});
+		modalMemberDetailEdit_getData_basic(); //更新资料
+
+		vm.$set('onlyPhone', $("#modal_memberdetailedit_basic").attr('prop') == 'onlyPhone' ? true : false);
+	});
+	//更新资料
+	function modalMemberDetailEdit_getData_basic() {
+		window.localStorage.removeItem('memberDetail');
+		//获取用户信息
+		global_getJsonSetVue(workSpace.jsonUrl + '/member/front/findCurrentMember', 'memberDetailEditBasic', null, function() {
+			//判断是否新用户
+			vm.$set('isNewUser', !vueData.memberDetailEditBasic.data.mobilephone || vueData.memberDetailEditBasic.data.mobilephone == '' ? true : false);
+			//引用第三方时间插件
+			$("[data-buijs_date]").buijs_date({
+				positions: 'bottom',
+				start: 4,
+				min: 2
+			});
+			//详细资料数组处理
+			vm.$set('memberDetailAdv.array1', vueData.memberDetailEditBasic.data.concernsPerson ? vueData.memberDetailEditBasic.data.concernsPerson.split(',') : []);
+			vm.$set('memberDetailAdv.array2', vueData.memberDetailEditBasic.data.concerns ? vueData.memberDetailEditBasic.data.concerns.split(',') : []);
+
+			//提交基本数据
+			$("form#memberDetailBasic").unbind('submit').buijs_form_check({
+				texterror: '<i class="fa fa-close fa-fw bui_tc_red_i"></i>',
+				textsuccess: '<i class="fa fa-check fa-fw bui_tc_green_i"></i>',
+				error: function() {
+					buijs_alert({
+						content: '填写未完成'
+					})
+				},
+				success: function() {
+					var postData = {
+						mobilephone: vueData.memberDetailEditBasic.data.mobilephone,
+						name: vueData.memberDetailEditBasic.data.name,
+						gender: vueData.memberDetailEditBasic.data.gender,
+						birthday: vueData.memberDetailEditBasic.data.birthday
+					};
+					delete postData.memberExtInfoMap;
+					global_vuePostJson({
+						url: workSpace.jsonUrl + '/member/front/editCurrentMember?verifyCode=' + vueData.verifyCode,
+						data: postData,
+						success: function(data) {
+							buijs_alert({
+								content: data.msg
+							});
+							if(data.status == '00') {
+								buijs_modal_close();
+								//更新全局缓存
+								global_vueGetJson({
+									url: workSpace.jsonUrl + '/member/front/findCurrentMember',
+									vueName: 'memberDetail'
+								});
+							}
+						}
+					});
+				}
+			});
+
+		}); //获取个人资料
+	};
+
+	//获取验证码
+	function smsGetCode() {
+		//校验手机号
+		if($("[buijs_form_item_type=mobile]").hasClass('buijs_form_item_success')) {
+			$("[buijs_form_item_type=mobile] input").prop('disabled', true);
+			//倒计时
+			vm.$set('smsCodecountDown', null);
+			var i = 60;
+			var int = setInterval(smsCodecountDown, 1000);
+
+			function smsCodecountDown() {
+				if(i > 0) {
+					i--;
+					vueData.smsCodecountDown = i;
+				} else {
+					window.clearInterval(int);
+				};
+				return false;
+			};
+			global_getJsonSetVue(workSpace.jsonUrl + '/member/front/sendVerifyCode', 'getUpdateSMSCode', {
+				phoneNum: vueData.memberDetailEditBasic.data.mobilephone,
+			}, function() {
+				buijs_alert({
+					content: '验证码已经发送<br/>请注意查看手机信息'
+				})
+			})
+		} else {
+			buijs_alert({
+				content: '手机格式不正确'
+			})
+		};
+	};
+</script>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>积分商城</title>
+		<script type="text/javascript" src="workspace.js"></script>
+		<script src="mp_js/order_detail.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		</script>
+	</head>
+
+	<body>
+		<div class="bui_wrap">
+			<!--框架-->
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_bgc_white bui_bsd_6">
+					<div class="bui_media bui_vm">
+						<div class="bui_media_l bui_p_0 bui_atc_black">
+							<a href="order_list.html" class="goback bui_btn_48 bui_btnsq"><i class="fa fa-angle-left"></i></a>
+						</div>
+						<div class="bui_media_b">
+							<p>订单详情</p>
+						</div>
+					</div>
+				</div>
+				<!--页头-->
+				<!--页面-->
+				<div class="bui_mo_b bui_mo_b_h bui_mo_b_f bui_bgc_white_d6">
+					<div class="bui_mtb_24">
+						<div class="bui_row_p_12 bui_ts_14">
+							<!--订单详情-->
+							<div>
+								<div class="bui_bds_1_b bui_bgc_white">
+									<div class="bui_p_12 bui_bds_1">
+										<i class="fa fa-bars fa-fw {{style.facTrue}}"></i> <span> 订单详情</span>
+									</div>
+									<div id="orderInfos">{{{listLoading}}}</div>
+								</div>
+							</div>
+							<!--订单详情-->
+							<!--收货信息-->
+							<div>
+								<div class="bui_bds_1_b bui_bgc_white">
+									<div class="bui_p_12 bui_bds_1">
+										<i class="fa fa-map-marker fa-fw {{style.facTrue}}"></i> <span> 收货信息</span>
+									</div>
+									<div id="addressInfo">{{{listLoading}}}</div>
+								</div>
+							</div>
+							<!--收货信息-->
+							<!--物流信息-->
+							<div>
+								<div class="bui_bds_1_b bui_bgc_white">
+									<div class="bui_p_12 bui_bds_1">
+										<i class="fa fa-truck fa-fw {{style.facTrue}}"></i> <span> 物流信息</span>
+									</div>
+									<div id="expressInfo">{{{listLoading}}}</div>
+								</div>
+							</div>
+							<!--物流信息-->
+							<!--礼品清单-->
+							<div>
+								<div class="bui_bds_1_b bui_bgc_white">
+									<div class="bui_p_12 bui_bds_1">
+										<i class="fa fa-gift fa-fw {{style.facTrue}}"></i> <span> 礼品清单</span>
+									</div>
+									<div id="giftInfo">{{{listLoading}}}</div>
+								</div>
+							</div>
+							<!--礼品清单-->
+							<!--金额统计-->
+							<div>
+								<div class="bui_bds_1_b bui_bgc_white">
+									<div class="bui_p_12 bui_bds_1">
+										<i class="fa fa-rmb fa-fw {{style.facTrue}}"></i> <span> 金额统计</span>
+									</div>
+									<div id="priceInfo">{{{listLoading}}}</div>
+								</div>
+							</div>
+							<!--金额统计-->
+						</div>
+					</div>
+				</div>
+				<!--页面-->
+
+				<!--页脚-->
+				<div class="bui_mo_f" id="orderDetailBtn">
+					<hr /> {{{listLoading}}}
+				</div>
+				<!--页脚-->
+
+			</div>
+			<!--框架-->
+		</div>
+
+	</body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>{{global.brandName}}</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/member_scancode.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body class="gym-body bui_at_noline">
+		<div class="bui_wrap">
+			<!--主体-->
+			<div class="bui_mo bui_bgc_black bui_tc_white bui_tc_white_a" style="background-image: url(images/member_scancode_bg.jpg); background-size: cover; background-position: top center;">
+				<template v-if="checkFakeCode">
+					<!--页面-->
+					<div class="bui_mo_b bui_mo_b_f">
+						<!--banner-->
+						<tp-img src="images/member_scancode_logo.png" class="bui_block bui_mt_32"></tp-img>
+						<!--banner-->
+						<!--展示区域-->
+						<div class="bui_block" style="position: relative;">
+							<img src="images/member_scancode_box.png" class="bui_block" />
+							<img :src="checkFakeCode.status=='00'?'images/member_scancode_text_true.png':'images/member_scancode_text_false.png'" class="bui_block" style="position: absolute;left: 0;top: 0;width: 100%; z-index: 1;" />
+						</div>
+
+						<template v-if="checkFakeCode.status=='00'">
+							<div class="bui_ta_c bui_mt_12">
+								<button class="bui_btn bui_btn_48 bui_ts_16 bui_plr_48 bui_radius bui_bgc_red" onclick="memberScanCode_addPoint();">获取积分</button>
+								<p class="bui_mt_12">感谢您！</p>
+								<p class="bui_ts_14">购买美瑞克斯正品</p>
+							</div>
+						</template>
+						<template v-else>
+							<div class="bui_ta_c bui_mt_12">
+								<p class="bui_ts_14">请到美瑞克斯官方商城<br/>购买正品</p>
+							</div>
+						</template>
+
+						<!--展示区域-->
+					</div>
+					<!--页面-->
+					<!--页脚-->
+					<div class="bui_mo_f">
+						<div class="bui_ta_c bui_tc_white_d48 bui_ts_12">
+							<p>更多详情，请访问美瑞克斯官网</p>
+							<p>www.metrx.com.cn</p>
+						</div>
+					</div>
+					<!--页脚-->
+				</template>
+			</div>
+			<!--主体-->
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>广马大作战</title>
+		<script type="text/javascript" src="./../game_public/workspace.js"></script>
+		<script type="text/javascript">
+			//帮他上榜
+			function runAction() {
+				run_showLoading();
+				$.ajax({
+					type: "get",
+					url: _jsonUrl + "/front/makeHelpRecord.html",
+					async: true,
+					cache: false,
+					dataType: 'json',
+					data: {
+						toOpenid: _toOpenid
+					},
+					error: function(data) {
+						run_jsonError();
+					},
+					success: function(data) {
+						console.log(data)
+						run_closeLoading();
+						if (data.code == 500) {
+							buijs_alert({
+								content: '您的网络不安全，操作失败'
+							});
+							setTimeout(function() {
+								window.location.href = 'index.html';
+							}, 2000);
+						};
+						if (data.code == 0) {
+							$("#run_default").removeClass('active');
+							$(".run_helpScore").text(data.data);
+							if (data.data >= _giftScore) {
+								$("#run_hasgift").show(function() {
+									$(this).addClass('active');
+								});
+							} else {
+								$("#run_nogift").show(function() {
+									$(this).addClass('active');
+								});
+							};
+						};
+					}
+				});
+			};
+			$(document).ready(function() {
+				window.location.href = 'index.html';
+				//温馨提示
+				/* buijs_modal({
+					width: '280px',
+					positions: 'center',
+					content: '<div class="bui_row_p_12 bui_plr_12"><p class="bui_ts_14">在大家疯<span class="bui_ts_12 bui_tc_orange">(gan)</span>狂<span class="bui_ts_12 bui_tc_orange">(de)</span>轰<span class="bui_ts_12 bui_tc_orange">(piao)</span>炸<span class="bui_ts_12 bui_tc_orange">(liang)</span>下，系统已被热晕！助力技能需要冷却一天，明天继续！运动也是需要休息的对不...</p>' +
+						'<p class="bui_ts_12 bui_tc_orange">分享和游戏功能不受影响，好友助力功能暂不可用，攻城狮已经写血书保证明天恢复...</p>' +
+						'<li><hr/></li>' +
+						'<div><a href="index.html" class="bui_btn_48 bui_ts_12 bui_bgc_orange bui_block bui_radius bui_modal_close">知道了，朕原谅你</a></div></div>'
+				}); */
+				//run_showLoading
+				run_showLoading();
+				//获得我的成绩和次数
+				$.ajax({
+					type: "get",
+					url: _jsonUrl + "/front/isHelped.html",
+					async: true,
+					cache: false,
+					dataType: 'json',
+					data: {
+						toOpenid: _toOpenid
+					},
+					error: function(data) {
+						run_jsonError();
+					},
+					success: function(data) {
+						console.log(data.code);
+						//未助跑
+						if (data.code == 0) {
+							$("#run_default").addClass('active');
+							$("#run_default .run_panel").html('<div class="bui_inline bui_vm"><div class="bui_round bui_bds_2 bui_bdc_white" style="width: 32px;height: 32px;" data-bui_img=""><img src="' + data.data.otherHeadImgUrl + '" /></div> <span>' + data.data.otherNickName + '</span><span>跑了</span></div><p class="run_score bui_tc_white bui_ts_32">' + data.data.otherDistance + 'm</p><p class="bui_ts_12">快来帮TA加里程，让TA</p><p>上榜单，拿大奖！</p>');
+						};
+						//已助跑
+						if (data.code == 1) {
+							$(".run_helpScore").text(data.data.helpDistance + 'm');
+							if (data.data.helpDistance >= _giftScore) {
+								$("#run_hasgift").show(function() {
+									$(this).addClass('active');
+								});
+							} else {
+								$("#run_nogift").show(function() {
+									$(this).addClass('active');
+								});
+							};
+						};
+						//自己进来
+						if (data.code == 2 || data.code == 404 || _canPlay == false) {
+							window.location.href = 'index.html';
+						};
+						//run_closeLoading
+						run_closeLoading();
+						$(".run_panel [data-bui_img]").buijs_img();
+					}
+				});
+			});
+		</script>
+	</head>
+
+	<body class="run_body">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<div class="bui_mo_h" id="run_healder"></div>
+				<div class="bui_mo_b">
+					<!--default-->
+					<div class="bui_ptb_48 bui_plr_12 run_section" id="run_default">
+						<!--图片-->
+						<div class="bui_inline bui_ta_c"><img src="./images/gmx_logo.png" style="width: 30%;" /></div>
+						<img src="./images/guest_default.png" style="width: 100%; float: left;" />
+						<!--图片-->
+						<!--内容-->
+						<div class="run_panel bui_p_12 bui_radius bui_ta_c">
+							<p class="bui_p_48"><i class="fa fa-circle-o-notch fa-spin bui_fas_24"></i></p>
+						</div>
+						<!--内容-->
+						<!--按钮-->
+						<div class="bui_row_p_12 bui_ta_c bui_mt_12">
+							<li class="bui_col_sm_6"><a href="javascript:runAction();" class="run_btn_s_red">帮他上榜</a></li>
+							<li class="bui_col_sm_6"><a href="index.html" class="run_btn_s_orange">我也要玩</a></li>
+						</div>
+						<!--按钮-->
+					</div>
+					<!--default-->
+					<!--hasgift-->
+					<div class="bui_ptb_48 bui_plr_12 run_section" id="run_hasgift">
+						<!--图片-->
+						<div class="bui_inline bui_ta_c"><img src="./images/gmx_logo.png" style="width: 30%;" /></div>
+						<img src="./images/guest_hasgift.png" style="width: 100%; float: left;" />
+						<!--图片-->
+						<!--内容-->
+						<div class="run_panel bui_p_12 bui_radius bui_ta_c">
+							<p>身材好的人，运气爆棚！</p>
+							<p>你为他加里程</p>
+							<p class="run_score bui_tc_white bui_ts_32 run_helpScore">...</p>
+							<p class="bui_ts_12">关键时刻不掉链，我决定送你</p>
+							<p class="bui_mt_12"><span class="bui_bgc_red bui_tc_white bui_ptb_6 bui_plr_12 bui_round">一盒关键能</span></p>
+						</div>
+						<!--内容-->
+						<!--按钮-->
+						<div class="bui_row_p_12 bui_ta_c bui_mt_12 ">
+							<li class="bui_col_sm_6"><a href="mygift.html" class="run_btn_s_orange">马上领取</a></li>
+							<li class="bui_col_sm_6"><a href="index.html" class="run_btn_s_green">我也要玩</a></li>
+						</div>
+						<!--按钮-->
+					</div>
+					<!--hasgift-->
+					<!--nogift-->
+					<div class="bui_ptb_48 bui_plr_12 run_section" id="run_nogift">
+						<!--图片-->
+						<div class="bui_inline bui_ta_c"><img src="./images/gmx_logo.png" style="width: 30%;" /></div>
+						<img src="./images/guset_nogift.png" style="width: 100%; float: left;" />
+						<!--图片-->
+						<!--内容-->
+						<div class="run_panel bui_p_12 bui_radius bui_ta_c">
+							<p>你的助攻，为他加里程</p>
+							<p class="run_score bui_tc_white bui_ts_32 run_helpScore">...</p>
+							<p class="bui_ts_12">天生能跑的你</p>
+							<p>也来参加作战吧！</p>
+						</div>
+						<!--内容-->
+						<!--按钮-->
+						<div class="bui_row_p_12 bui_ta_c bui_mt_12 ">
+							<li class="bui_col_sm_12"><a href="index.html" class="run_btn_b_green">我也要玩</a></li>
+						</div>
+						<!--按钮-->
+					</div>
+					<!--nogift-->
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

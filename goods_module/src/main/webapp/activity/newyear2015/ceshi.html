@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>新年大战七大姑八大婆QA</title>
+        <script src="workspace_v2.0.1.js" type="text/javascript"></script>
+        <script src="public.js" type="text/javascript" charset="utf-8"></script>
+        <script src="qa.js" type="text/javascript" charset="utf-8"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+    </head>
+
+    <body class="year-bg">
+        <div class="bui_wrap">
+            <!--主页面-->
+            <div class="bui_mo bui_mo_b">
+                <!-- 红包结果页-->
+                <div id="envelope-results" style="display:none">
+                    <div class="year-section product-envelope">
+                    <div class="year-section-content">
+                    <p style="margin-top:18%;"><img src="images/en-resultbg.png" /></p>
+                    <p class="titletu" style="margin-top:-140%;"><img src="images/havetitle.png" /></p>
+                    <p style="margin-top:-4%;"><img src="images/productname.png" /></p>
+                    <div class="product">
+                    <div style="width:100%; height:auto; position: absolute; top:0; left:-24%;"><img src="images/chanpin.jpg" style="width: 50%;" alt="" /></div>
+                    <div style="width:50%; height:auto; position:absolute; top:0; left:56%;"><p style="font-size:1.4rem"><span style="font-size:1.6rem">获得：</span><span style="color:#000;">日系牛津布可折叠便当包</span></p></div>
+                    </div>
+                    <form action="javascript:;" style="margin-top:-6%;">
+                    <p><img src="images/username.png" /></p>
+                    <li><div><input type="text" name="userName" id="userName" value="" placeholder="填写你的姓名" maxlength="20" class="informlist namelist" /></div></li>
+                    <p style="margin-top:-2%;"><img src="images/userphone.png" /></p>
+                    <li><div><input type="tel" name="userMobile" id="userMobile" value="" placeholder="填写你的手机号" maxlength="11" class="informlist namelist" /></div></li>
+                    <p style="margin-top:-2%;"><img src="images/useradress.png" /></p>
+                    <li><div ><textarea  rows="2" class="bui_ipt_48 informlist namelist" placeholder="填写你的地址" maxlength="255" name="userContact"></textarea></div></li>
+                    </form>
+                    <p class="getgift"><a href="javascript:year_form('+data.data.id+');"><img src="images/getgift.png" /></a></p>
+                    </div>
+                    </div>
+                </div>
+                <!-- 红包结果页-->
+                <!-- 请求拆红包页面-->
+                <div id="help-open" style="display:none">
+                    <div class="year-section help-open">
+                        <div class="year-section-content">
+                            <p class="helpTitle"><span>拆红包页</span>请你帮他<span style="color:#ff0000;">拆红包</span>啦!</p>
+                            <p class="helpZi"><img src="images/helpzi.png" /></p>
+                            <p style="margin-top:-1%;"><img src="images/giftbox.png" /></p>
+                            <p class="getgift"><a href="javascript:;"><img src="images/help-button.png" /></a></p>
+                            <p class="getgift"><a href="javascript:PlayGameHint();"><img src="images/also-button.png" /></a></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 请求拆红包页面,即点击我也要玩的提示-->
+                <div class="bui_mo homeInform" style="display: none;" id="playHint">
+                    <p><img src="images/playbg.png" style="width: 100%; height: auto; margin-top:50px;" class="bui_block" /></p>
+                    <p id="openhint" style="position: absolute; margin-top: -38%;margin-left:19%;">
+                        <a href="index.html">
+                            <img src="images/startPlay.png" style="max-width:180px;max-height:320px;" />
+                        </a>
+                    </p>
+                </div>
+                <!-- 红包结果页-->
+                <div id="envelope-results" style="display:none">
+                    <div class="year-section product-envelope">
+                    <div class="year-section-content">
+                    <p style="margin-top:18%;"><img src="images/en-resultbg.png" /></p>
+                    <p class="titletu" style="margin-top:-140%;"><img src="images/havetitle.png" /></p>
+                    <p style="margin-top:-4%;"><img src="images/productname.png" /></p>
+                    <p class="product"></p>
+                    <form action="javascript:;" style="margin-top:-6%;">
+                    <p><img src="images/username.png" /></p>
+                    <li><div><input type="text" name="userName" id="userName" value="" placeholder="填写你的姓名" maxlength="20" class="informlist namelist" /></div></li>
+                    <p style="margin-top:-2%;"><img src="images/userphone.png" /></p>
+                    <li><div><input type="tel" name="userMobile" id="userMobile" value="" placeholder="填写你的手机号" maxlength="20" class="informlist namelist" /></div></li>
+                    <p style="margin-top:-2%;"><img src="images/useradress.png" /></p>
+                    <li><div ><textarea  rows="2" class="bui_ipt_48 informlist namelist" placeholder="填写你的地址" maxlength="255" name="userContact"></textarea></div></li>
+                    </form>
+                    <p class="getgift"><a href="javascript:year_form('+data.data.id+');"><img src="images/getgift.png" /></a></p>
+                    </div>
+                    </div>
+                </div>                    
+            </div>
+            <!-- 大红包不可拆页面 -->
+            <div id="big-envelope-no" style="display:none">
+                <div class="year-section ji-envelope">
+                    <div class="year-section-content">
+                        <p class="lookTest"><a href="javascript:getCurrentDayOpenList();"><img src="images/look.png" /></a></p>
+                        <p><img src="images/bigNo.png" /></p>
+                    </div>
+                </div>
+            </div>
+            <!-- 大红包不可拆页面 -->
+            <!-- 大红包可拆页面 -->
+            <div id="big-envelope-no">
+                <div class="year-section product-envelope"  style="display:none;">
+                    <div class="year-section-content">
+                        <p class="lookTest"><a href="javascript:getCurrentDayOpenList();"><img src="images/look.png" /></a></p>
+                        <p><img src="images/bigYes.png" /></p>
+                        <p class="bigopentest"><a href="javascript:;"><img src="images/opentest.png" /></a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- 大红包可拆页面 -->
+            <!-- 大红包可拆页面 -->
+            <div id="big-product" style="display:none">
+                <div class="year-section product-envelope">
+                    <div class="year-section-content">
+                        <p style="margin-top:18%;"><img src="images/en-resultbg.png" /></p>
+                        <p class="titletu" style="margin-top:-140%;"><img src="images/havetitle.png" /></p>
+                        <p class="big-coupon"></p>
+                        <p class="getgift" style="margin-top:80%;"><a href="javascript:;"><img src="images/getgift.png" /></a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- 大红包可拆页面 -->
+            <!-- 码上拆扫码页 -->
+            <div id="big-envelope-no">
+                <div class="year-section product-envelope"  style="display:none;">
+                    <div class="year-section-content">
+                        <p style="margin-top:18%;"><img src="images/en-resultbg.png" /></p>
+                        <p class="titletu" style="margin-top:-140%;"><img src="images/mashang-open.png" /></p>
+                        <p><img src="images/mashang-hint.png" /></p>
+                        <p><img src="images/erweima.png" /></p>
+                    </div>
+                </div>
+            </div>
+            <!-- 码上拆扫码页 -->
+            <!-- 红包数目-->
+            <div id="big-envelope-no">
+                <div class="year-section open-envelope">
+                    <div class="year-section-content" >
+                    <div class="year-section product-envelope">
+                <p style="margin-top:18%;"><img src="images/en-resultbg.png" /></p>
+                <p class="titletu" style="margin-top:-140%;"><img src="images/havetitle.png" /></p>
+                <p class="coupon"><span class="couponGet">中了：</span>5元无门栏带代金券</p>
+                <p style="width:55%;margin:10px auto 0;"><img src="images/erwei.jpg" /></p>
+                <p style="line-height:40px; text-align:center;">长按二维码领取奖品</p>
+                <p class="getgift"><a href=""><img src="images/return.png" /></a></p>
+                </div>
+                </div>
+            </div>
+            <!-- 红包数目-->
+            <!-- 主页面 -->                      
+        </div>
+    </body>
+</html>

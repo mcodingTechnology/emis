@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>积分商城</title>
+
+		<script type="text/javascript" src="workspace.js"></script>
+
+		<script src="mp_js/gift_list.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<!--礼品车插件-->
+		<div id="cartPlug"></div>
+		<!--礼品车插件-->
+		<div class="bui_wrap">
+			<!--框架-->
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_bsd_6">
+					<div class="bui_media bui_vm">
+						<div class="bui_media_l bui_p_0 bui_atc_black">
+							<a href="javascript:history.go(-1);" class="bui_btn_48 bui_btnsq"><i class="fa fa-angle-left"></i></a>
+						</div>
+						<div class="bui_media_b">
+							<p>礼品列表</p>
+						</div>
+						<div class="bui_media_r bui_plr_8">
+
+							<a href="{{MallPath}}member_index.html?malltype={{mallType}}" class="bui_btn_32 bui_btnsq fa fa-user {{style.facFalse}}"></a>
+							<button class="bui_btn_32 bui_btnsq fa fa-search {{style.facFalse}}" onclick="gm_showSearchPanel();"></button>
+
+						</div>
+					</div>
+				</div>
+				<!--页头-->
+				<!--主体-->
+				<div class="bui_mo_b bui_mo_b_h bui_bgc_white">
+					<div class="bui_ta_c bui_atc_black bui_at_noline">
+						<div class="bui_avg_2" id="gm_gift_list"></div>
+					</div>
+					<div id="listTips" class="active">
+						{{{listLoading}}}
+					</div>
+				</div>
+				<!--主体-->
+			</div>
+			<!--框架-->
+		</div>
+
+	</body>
+
+</html>

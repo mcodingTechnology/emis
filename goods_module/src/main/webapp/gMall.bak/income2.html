@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+
+		<head>
+			<meta charset="utf-8">
+			<!--工作空间-->
+			<script type="text/javascript" src="workspace_v2.0.1.js"></script>
+			<!--工作空间-->
+			<script src="js/echarts.js" type="text/javascript" charset="utf-8"></script>
+			<script src="mp_js/income.js" type="text/javascript" charset="utf-8"></script>
+			<title></title>
+			<style>
+				.chartHeader>li.active,
+				.chartHeader>li.active>a>p {
+					background-color: rgba(255, 255, 255, 0);
+				}
+
+				.chartHeader>li,
+				.chartHeader>li>a>p {
+					background-color: rgba(255, 255, 255, 0.2);
+				}
+
+				#incomeDetail>div>div {
+					background-image: url(images/bgc.png);
+					background-size: 0% 100%;
+				}
+			</style>
+		</head>
+	</head>
+
+	<body class="bui_at_noline bui_bgc_white_d12">
+		<div class="bui_wrap">
+			<div class="bui_mo">
+				<!--页头-->
+				<div class="bui_mo_h bui_bgc_white bui_tc_black bui_fac_black bui_ahtc_black bui_bsd_6">
+					<div class="bui_media bui_vm">
+						<div class="bui_media_l bui_p_0">
+							<button class="bui_btn_32 bui_btnsq fa fa-angle-left bui_m_8 {{style.facFalse}}" onclick="javascript:window.location.href='personal_center.html';"></button>
+						</div>
+						<div class="bui_media_b">销量/收入</div>
+						<div class="bui_media_r bui_pr_12"></div>
+					</div>
+				</div>
+				<!--页头-->
+				<!--主屏幕_主体-->
+				<div class="bui_mo_b bui_mo_b_h">
+					<div class="bui_tc_white {{style.bgc}}">
+						<div class="bui_ta_c">
+							<ul class="bui_avg_3 chartHeader">
+								<li class="active">
+									<a href="javascript:getCharts('week',null);">
+										<p style="height: 48px; " class="bui_pt_12 bui_tc_white">本周</p>
+									</a>
+								</li>
+								<li>
+									<a href="javascript:getCharts('month',null);">
+										<p style="height: 48px;" class="bui_pt_12 bui_tc_white">当月</p>
+									</a>
+								</li>
+								<li>
+									<input type="hidden" id="choose_date" />
+									<a href="javascript:chooseDate()">
+										<p style="height: 48px;" class="bui_pt_12 bui_tc_white ">
+											<span class=" choose_text">选择
+									</span>
+											<i class="fa fa-angle-down fa-fw"></i>
+										</p>
+									</a>
+
+								</li>
+							</ul>
+						</div>
+						<div id="charts" class="" style="height:240px;display: none;"></div>
+						<div class="bui_ptb_12" style="background-color: rgba(255,255,255,0.24);">
+							<div class="bui_avg_3 bui_ta_c">
+								<li>
+									<p class="bui_ts_12 ">总销售额</p>
+									<p>￥{{sumOrderFee/100}}</p>
+								</li>
+								<li>
+									<p class="bui_ts_12">总收入</p>
+									<p>￥{{sumCommission/100}}</p>
+								</li>
+								<li>
+									<p class="bui_ts_12">最高收入</p>
+									<p>￥{{maxCommission/100}}</p>
+								</li>
+							</div>
+						</div>
+					</div>
+
+					<div onclick="javascript:$('#charts').slideToggle(100,function(){myChart.resize();myChart.restore()});" class="bui_bgc_black bui_tc_white bui_p_12 bui_block">
+						<div class="bui_avg_2 bui_ta_c">
+							<div class="bui_bds_1_r bui_bdc_white_f24">
+								<div class="bui_ptb_12">
+									<p class="bui_ts_12 bui_tc_white_f48 salesText">销售</p>
+									<p>
+										<i class="fa fa-rmb fa-fw bui_fas_16 {{style.facTrue}}"></i>
+										<span class="bui_ts_24 salesVal">0</span>
+									</p>
+								</div>
+							</div>
+							<div>
+								<div class="bui_ptb_12">
+									<p class="bui_ts_12 bui_tc_white_f48 incomeText">收入</p>
+									<p>
+										<i class="fa fa-rmb fa-fw bui_fas_16 {{style.facTrue}}"></i>
+										<span class="bui_ts_24 incomeVal">0</span>
+									</p>
+								</div>
+							</div>
+						</div>
+						<!--<div class="bui_ta_c">
+							<i class="fa fa-angle-down bui_fac_white_f48"></i>
+						</div>-->
+					</div>
+					<div id="incomeDetail" class="bui_mb_24 ">
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+</html>

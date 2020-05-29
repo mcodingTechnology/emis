@@ -1,0 +1,61 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		global_vue({
+			el: '#vueBox',
+			data: vueData
+		});
+		setTimeout(function() {
+			$("#search input").focus();
+			vm.$set('searchHistory', window.localStorage.getItem("searchHistory") ? window.localStorage.getItem("searchHistory").split(",") : []);
+			$("#search").submit(function(e) {
+				e.preventDefault();
+				//页面跳转
+				search_pageJump('product_list.html?productName=', vueData.keyWord);
+				if(vueData.keyWord) {
+					//插入搜索历史
+					vueData.searchHistory.push(vueData.keyWord);
+					window.localStorage.setItem("searchHistory", vueData.searchHistory);
+				};
+			})
+		}, 300);
+	});
+
+	//页面跳转
+	function search_pageJump(url, keyWord) {
+		window.location.href = url + escape(keyWord)
+	}
+</script>
+<div class="bui_wrap bui_tc_black bui_tc_black_a">
+	<!--页头-->
+	<div class="bui_mo_h">
+		<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:buijs_modal_close('modal_search')" title="搜索"></tp-header>
+	</div>
+	<!--页头-->
+	<!--页面-->
+	<div class="bui_mo_b bui_mo_b_h">
+		<!--搜索框-->
+		<div class="bui_p_12 bui_bds_1_b">
+			<form id="search" class="bui_media bui_vm">
+				<div class="bui_media_b">
+					<input type="text" value="" placeholder="请输入关键词" class="bui_btn bui_btn_48 bui_ts_14 bui_bgc_white bui_block" v-model="keyWord" />
+				</div>
+				<div class="bui_media_r">
+					<button class="bui_btn bui_btn_48 bui_bgc_red bui_ts_14 bui_plr_12"><i class="fa fa-search fa-fw"></i> 搜索</button>
+				</div>
+
+			</form>
+		</div>
+		<!--搜索框-->
+		<!--搜索历史-->
+		<div v-if="searchHistory.length!=0">
+			<p class="bui_ts_14 bui_ta_c bui_p_12 bui_bgc_white bui_bds_1_b">搜索历史</p>
+			<div v-for="(index,data) in searchHistory | orderBy 'data' -1" v-if="$index < 5" class="bui_block bui_media bui_vm bui_p_12 bui_bgc_white bui_bds_1_b" onclick="search_pageJump('product_list.html?productName=', '{{data}}');">
+				<div class="bui_media_b">{{data}}</div>
+				<div class="bui_media_r"><i class="fa fa-angle-right bui_tc_white_d48"></i></div>
+			</div>
+			<div class="bui_p_12 bui_ta_r"><button class="bui_btn bui_btn_48 bui_bgc_red bui_block bui_ts_14" onclick="window.localStorage.removeItem('searchHistory');vm.$set('searchHistory',[]);">清空记录</button></div>
+		</div>
+		<!--搜索历史-->
+	</div>
+	<!--页面-->
+</div>

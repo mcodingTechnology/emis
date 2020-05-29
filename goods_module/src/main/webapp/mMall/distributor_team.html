@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>{{global.brandName}}</title>
+		<script src="./js/workspace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/pageScript/distributor_team.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body class="gym-body bui_at_noline">
+		<!--主体-->
+		<div class="bui_wrap bui_bgc_white_d12">
+			<!--提示关注公众号-->
+			<tp-plug-follow v-if="isSubscribe.data==0"></tp-plug-follow>
+			<!--提示关注公众号-->
+			<div class="bui_mo" style="top:{{isSubscribe.data==0?'48px':'0'}}">
+				<!--页头-->
+				<div class="bui_mo_h">
+
+					<tp-header bgc="bui_bgc_red" lefticon="fa-angle-left" leftlink="javascript:history.go(-1);" righticon="fa-home" rightlink="index.html" title="我的下线"></tp-header>
+				</div>
+				<!--页头-->
+				<!--页面-->
+				<template v-if="!memberDetail||!memberDetail.data">
+					<div class="bui_mo_b bui_mo_b_h gym_mo_b">
+						<tp-loadingbar type="loading"></tp-loadingbar>
+					</div>
+				</template>
+				<template v-else>
+					<div class="bui_mo_b bui_mo_b_h gym_mo_b">
+
+						<div class="bui_p_12">
+							<div class="bui_row_p_12 bui_ts_12">
+								<!--查看下线-->
+								<div>
+									<a href="distributor_wallet.html" class="bui_btn bui_btn_48 bui_block bui_bgc_white bui_ts_14 bui_ta_c bui_radius">查看我的钱包 <i class="fa fa-angle-right fa-fw"></i></a>
+								</div>
+								<!--查看下线-->
+								<div v-for="data in getWxMemberAllysArray">
+
+									<div class="bui_media bui_vm bui_bgc_white bui_p_12 bui_radius bui_bds_1">
+										<div class="bui_media_l">
+											<tp-img :src="data.headimgurl" width="3rem" height="3rem" class="bui_radius bui_fl"></tp-img>
+										</div>
+										<div class="bui_media_b">
+											<p class="bui_ts_14">{{data.nickname}}</p>
+											<div class="bui_row_p_6 bui_inline ">
+												<li><span class="bui_tc_black">{{data.city}}</span></li>
+												<li></li>
+												<li><span class="bui_tc_white_d64">{{unixTimeChange(data.createtime)}}</span></li>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<tp-loadingbar bgc="" type="loading" v-if="!pageLoaded"></tp-loadingbar>
+							<tp-loadingbar bgc="" type="success" v-else></tp-loadingbar>
+						</div>
+
+					</div>
+				</template>
+				<!--页面-->
+
+			</div>
+
+		</div>
+		<!--主体-->
+	</body>
+
+</html>
